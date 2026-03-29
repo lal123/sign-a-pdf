@@ -21,5 +21,6 @@ include "inc/content/{$page}.php";
 
 ?>
 
+    <script><?php echo $js_cmd; ?></script>
 </body>
 </html>
