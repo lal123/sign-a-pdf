@@ -13,10 +13,11 @@ switch($action) {
     <input type="hidden" name="lang" value="<?php echo $lang; ?>" />
     <input type="hidden" name="action" value="step2" />
     <div class="notice" id="notice2">
-        <span class="tooltips"><span></span></span>
+        <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
     </div>
     <input type="submit" />
 </form>
+
 <?php
 
 }

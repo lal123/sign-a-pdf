@@ -63,8 +63,9 @@ if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
 	$page = 'home';
 }
 
+$err_msg = '';
+
 if (is_array($_FILES) && isset($_FILES['upload_file'])) {
-    $err_msg = '';
     $pdf_id = '';
     $tmp_name = $_FILES['upload_file']['tmp_name'];
     $size = $_FILES['upload_file']['size'];
