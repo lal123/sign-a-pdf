@@ -38,6 +38,8 @@ if(isset($_GET['page']) && ($_GET['page'] != '')) {
 
 }
 
+$action = '';
+
 if(isset($_POST['action']) && ($_POST['action'] != '')) {
 
 	$action = $_POST['action'];
@@ -45,6 +47,10 @@ if(isset($_POST['action']) && ($_POST['action'] != '')) {
 
 require_once 'lang.php';
 require_once 'constant.php';
+require_once 'get_ip.php';
+require_once 'write_log.php';
+
+write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}]");
 
 if(array_key_exists($page, $page_role)) {
 
@@ -108,9 +114,7 @@ if (is_array($_FILES) && isset($_FILES['upload_file'])) {
 	}
     if($err_msg != '') {
         
-        $js_cmd = "alert(decodeURIComponent('" . rawurlencode($err_msg) . "'));";
-
         $action = '';
-        $page = 'home';
+
     }
 }
