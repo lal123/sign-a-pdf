@@ -70,9 +70,11 @@ if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
 }
 
 $err_msg = '';
+$pdf_id = '';
+$output = [];
+$return_var = 0;
 
 if (is_array($_FILES) && isset($_FILES['upload_file'])) {
-    $pdf_id = '';
     $tmp_name = $_FILES['upload_file']['tmp_name'];
     $size = $_FILES['upload_file']['size'];
     $type = $_FILES['upload_file']['type'];
@@ -99,8 +101,6 @@ if (is_array($_FILES) && isset($_FILES['upload_file'])) {
 					chmod($img_dir, 0777);
 				}
 				$command = '/usr/bin/pdftoppm -rx 300 -ry 300 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
-				$output = [];
-			    $return_var = 0;
 			    exec($command, $output, $return_var);
 			    if($return_var != 0) {
 			        $err_msg = "{$command} exited with return_var {$return_var}\n";
