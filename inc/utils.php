@@ -5,7 +5,7 @@ $lang = '';
 if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
 	
 	$lang = $_GET['lang'];
-
+    
 } else {
 	
 	if(array_key_exists('lang', $_COOKIE)) {

@@ -1,3 +1,4 @@
+Options -Indexes
 RewriteEngine On
 
 RewriteCond %{HTTP_HOST} ^sign-a-pdf\.test$ [NC]
@@ -5,4 +6,4 @@ RewriteRule ^(.*)$ http://www.sign-a-pdf.test/$1 [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule "^(en|fr)/(.*)$" index.php?lang=$1&page=$2&%{QUERY_STRING} [L]
+RewriteRule "^(en|fr)/(.*)" index.php?lang=$1&page=$2&%{QUERY_STRING} [L]

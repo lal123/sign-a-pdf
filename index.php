@@ -14,6 +14,12 @@ require_once 'inc/utils.php';
     <meta name="revisit-after" content="2 days" />
 </head>
 <body oncontextmenu="return false;">
-	<?php echo $_SERVER['QUERY_STRING'] . '<br />' . $page; ?>
+
+<?php
+
+include "inc/content/{$page}.php";
+
+?>
+
 </body>
 </html>
