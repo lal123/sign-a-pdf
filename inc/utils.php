@@ -61,7 +61,7 @@ if($action == 'step2') {
 	$pdf_id = pdf_convert_to_png($action);
 	if($err_msg == '') {
 		$page = 'step2';
-		//pdf_convert_from_png($pdf_id);
+		pdf_convert_from_png($pdf_id);
 	}
 }
 
