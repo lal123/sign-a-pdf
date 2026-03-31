@@ -35,7 +35,8 @@ function pdf_convert_to_png(&$action) {
 						mkdir($img_dir);
 						chmod($img_dir, 0777);
 					}
-					$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
+					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
+					$command = '/usr/bin/convert -density 300 ' . $pdf_file . ' -resize 25% ' . $img_dir . '/' . $pdf_id . '.png';
 					write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
 				    if($return_var != 0) {
