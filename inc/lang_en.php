@@ -11,3 +11,7 @@ $page_title_suffix = [
 	'step2'		=> 'Votre document',
 	'account'	=> 'Your account',
 ];
+
+$tr =[
+	'SITE_NAME'		=> 'Sign a PDF',
+];
