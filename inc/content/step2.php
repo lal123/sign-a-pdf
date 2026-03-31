@@ -7,7 +7,7 @@ $bs_dir = 12 / $nb_cols;
 <?php
 $img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
 if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
-        echo '<img style="max-width: 500px;" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '.png' . '" alt="" border= "0" />';
+        echo '<img style="max-width: 100%;" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '.png' . '" alt="" border= "0" />';
 } else {
     $img_numb = 0;
     $col = 1;
