@@ -107,6 +107,14 @@ if (is_array($_FILES) && isset($_FILES['upload_file'])) {
 			    } else {
 			        //$err_msg = "{$command} has suceeded\n";
 			    }
+				$command = '/usr/bin/convert ' . $img_dir . '/' . $pdf_id . '* ' . $pdf_dir . '/' . $pdf_id . '-2.pdf';
+			    exec($command, $output, $return_var);
+			    if($return_var != 0) {
+			        $err_msg = "{$command} exited with return_var {$return_var}\n";
+			    } else {
+			        //$err_msg = "{$command} has suceeded\n";
+			    }
+				write_log('command2', $command2);
 	        }
 	    } else {
 	        $err_msg = 'No data received!';
