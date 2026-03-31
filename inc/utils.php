@@ -1,5 +1,7 @@
 <?php
 
+$version_suffix = '1.00';
+
 $lang = '';
 
 if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
@@ -49,8 +51,19 @@ require_once 'lang.php';
 require_once 'constant.php';
 require_once 'get_ip.php';
 require_once 'write_log.php';
+require_once 'pdf.php';
 
 write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}]");
+
+$err_msg = '';
+
+if($action == 'step2') {
+	$pdf_id = pdf_convert_to_png($action);
+	if($err_msg == '') {
+		$page = 'step2';
+		//pdf_convert_from_png($pdf_id);
+	}
+}
 
 if(array_key_exists($page, $page_role)) {
 
@@ -69,60 +82,3 @@ if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
 	$page = 'home';
 }
 
-$err_msg = '';
-$pdf_id = '';
-$output = [];
-$return_var = 0;
-
-if (is_array($_FILES) && isset($_FILES['upload_file'])) {
-    $tmp_name = $_FILES['upload_file']['tmp_name'];
-    $size = $_FILES['upload_file']['size'];
-    $type = $_FILES['upload_file']['type'];
-    if($type != 'application/pdf') {
-    	$err_msg = 'not a pdf';
-    }
-    if($err_msg == '') {
-	    if ((isset($tmp_name)) && ($size != 0)) {
-	        srand((float) microtime() * 1000000);
-	        if ($err_msg == '') {
-	        	$pdf_dir = getcwd() . '/' . UPLOAD_DIR . '/pdf';
-				if(!file_exists($pdf_dir)){
-					mkdir($pdf_dir);
-					chmod($pdf_dir, 0777);
-				}
-	            do {
-	                $pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
-	                $pdf_file = $pdf_dir . '/' . $pdf_id . '.pdf';
-	            } while (file_exists($pdf_file));
-	            move_uploaded_file($tmp_name, $pdf_file);
-	        	$img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
-				if(!file_exists($img_dir)){
-					mkdir($img_dir);
-					chmod($img_dir, 0777);
-				}
-				$command = '/usr/bin/pdftoppm -rx 300 -ry 300 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
-			    exec($command, $output, $return_var);
-			    if($return_var != 0) {
-			        $err_msg = "{$command} exited with return_var {$return_var}\n";
-			    } else {
-			        //$err_msg = "{$command} has suceeded\n";
-			    }
-				$command = '/usr/bin/convert ' . $img_dir . '/' . $pdf_id . '* ' . $pdf_dir . '/' . $pdf_id . '-2.pdf';
-			    exec($command, $output, $return_var);
-			    if($return_var != 0) {
-			        $err_msg = "{$command} exited with return_var {$return_var}\n";
-			    } else {
-			        //$err_msg = "{$command} has suceeded\n";
-			    }
-				write_log('command2', $command2);
-	        }
-	    } else {
-	        $err_msg = 'No data received!';
-	    }
-	}
-    if($err_msg != '') {
-        
-        $action = '';
-
-    }
-}

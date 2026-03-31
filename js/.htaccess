@@ -1,0 +1,11 @@
+Options -Indexes
+
+ExpiresActive On
+ExpiresDefault "now plus 3 months"
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([\-A-Za-z]+)-([a-z]{2})\.([0-9]+)\.([0-9]+).js$ $1.php?lang=$2&version=$3&sub_version=$4 [L]
+RewriteRule ^([\-A-Za-z]+)\.([0-9]+)\.([0-9]+).js$ $1.php?version=$2&sub_version=$3 [L]
