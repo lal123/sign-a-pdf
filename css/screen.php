@@ -4,7 +4,6 @@ header('Content-Type: text/css');
 
 ?>
 
-
 .navbar a.navbar-brand {
 	min-width: 175px;
 }

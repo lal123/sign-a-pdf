@@ -18,7 +18,8 @@ require_once 'inc/utils.php';
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="stylesheet" href="/css/screen.<?php echo $version_suffix; ?>.css" />
-    <link href="/css/bootstrap-5.3.8.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/bootstrap-5.3.8.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <script src="/js/jquery-4.0.0.min.js"></script>
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
@@ -26,7 +27,7 @@ require_once 'inc/utils.php';
 <body>
 
 <div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body" style="background-color: #204040;" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,19 +67,15 @@ require_once 'inc/utils.php';
                 </ul>
 
                 <ul class="navbar-nav me-0">
-<?php
-    $langs = ['en' => 'English', 'fr' => 'Français'];
-    foreach($langs as $code => $text) {
-        echo '                    <li class="nav-item">' . "\n";
-        if($code != $lang) {
-            echo '                        <a class="nav-link active" aria-current="page" href="/' . $code . '/">' . $text . '</a>';
-        } else {
-            echo '                        <a class="nav-link disabled" aria-disabled="true" href="/' . $code . '/">' . $text . '</a>';
-
-        }
-        echo '                    </li>' . "\n";
-    }
-?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-globe2"></i>&nbsp; <?php echo $tr['EXPLICT_LANG']; ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/en/">English</a></li>
+                            <li><a class="dropdown-item" href="/fr/">Français</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -94,7 +91,7 @@ include "inc/content/{$page}.php";
 </div>
 
 <div class="container">
-    <nav class="navbar navbar-expand fixed-bottom bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand fixed-bottom border-top border-body" style="background-color: #204040;" data-bs-theme="dark">
       <div class="container-fluid justify-content-center">
         <div class="flex-grow-0">
           <ul class="navbar-nav flex-row text-center">
