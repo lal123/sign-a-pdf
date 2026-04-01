@@ -36,36 +36,20 @@ require_once 'inc/utils.php';
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="./">Envoyer un document</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        <a<?php if ($page == 'step2') { echo ' class="nav-link active" aria-current="page" href="#"'; } else {echo ' class="nav-link disabled" aria-disabled="true"'; } ?>>Vos documents</a>
                     </li>
                 </ul>
-
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home2</a>
+                        <a class="nav-link" aria-current="page" href="#">Créer un compte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Se connecter</a>
                     </li>
                 </ul>
-
                 <ul class="navbar-nav me-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

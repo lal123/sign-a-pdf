@@ -24,7 +24,7 @@ switch($action) {
 		$pdf_id = pdf_convert_to_png($action);
 		if($err_msg == '') {
 			$page = 'step2';
-			pdf_convert_from_png($pdf_id);
+			//pdf_convert_from_png($pdf_id);
 		}
 		echo json_encode(['pdf_id' => $pdf_id, 'action' => $action], JSON_UNESCAPED_UNICODE);
 		break;

@@ -38,21 +38,26 @@ if(isset($_GET['page']) && ($_GET['page'] != '')) {
 	$page = $_GET['page'];
 }
 
+require_once 'lang.php';
+require_once 'constant.php';
+require_once 'get_ip.php';
+require_once 'write_log.php';
+require_once 'pdf.php';
+
 $pdf_id = '';
 
 if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 	$pdf_id = $_GET['pdf_id'];
 }
 
-if(($page == 'home') && ($pdf_id != '')) {
-	$page = 'step2';
+if($pdf_id != '') {
+	if(!file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/' . $pdf_id . '.pdf')) {
+		header('Location: ./');
+		exit();
+	} else {
+		$page = 'step2';
+	}
 }
-
-require_once 'lang.php';
-require_once 'constant.php';
-require_once 'get_ip.php';
-require_once 'write_log.php';
-require_once 'pdf.php';
 
 session_start();
 
