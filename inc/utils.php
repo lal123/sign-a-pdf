@@ -35,16 +35,17 @@ if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
 $page = 'home';
 
 if(isset($_GET['page']) && ($_GET['page'] != '')) {
-	
 	$page = $_GET['page'];
-
 }
 
-$action = '';
+$pdf_id = '';
 
-if(isset($_POST['action']) && ($_POST['action'] != '')) {
+if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
+	$pdf_id = $_GET['pdf_id'];
+}
 
-	$action = $_POST['action'];
+if(($page == 'home') && ($pdf_id != '')) {
+	$page = 'step2';
 }
 
 require_once 'lang.php';
@@ -53,17 +54,13 @@ require_once 'get_ip.php';
 require_once 'write_log.php';
 require_once 'pdf.php';
 
+session_start();
+
 write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}]");
 
 $err_msg = '';
 
-if($action == 'step2') {
-	$pdf_id = pdf_convert_to_png($action);
-	if($err_msg == '') {
-		$page = 'step2';
-		pdf_convert_from_png($pdf_id);
-	}
-}
+$js_content = '';
 
 if(array_key_exists($page, $page_role)) {
 

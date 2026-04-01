@@ -1,6 +1,10 @@
 <?php
+
 $nb_cols = 1;
 $bs_dir = 12 / $nb_cols;
+
+$pdf_id = $_GET['pdf_id'];
+
 ?>
 <center>
     <div class="container">
@@ -15,7 +19,7 @@ if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         if($col == 1) {
             echo '<div class="row">';
         }
-        echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . '"><img style="max-width: 100%;" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '-' . $img_numb . '.png' . '" alt="" border= "0" /></div>';
+        echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . '"><img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '-' . $img_numb . '.png' . '" alt="" border= "0" /></div>';
         $col++;
         if($col > $nb_cols) {
             echo '</div>';
@@ -27,7 +31,10 @@ if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         echo '</div>';
     }
 }
-
+$js_content = "upload.dispose('{$pdf_id}');\n";
 ?>
+        <div>
+            <a href="./"class="btn btn-primary btn-lg dark-cyan">&laquo; <?php echo $tr['BACK']; ?></a>
+        </div>
     </div>
 </center>

@@ -15,4 +15,5 @@ $page_title_suffix = [
 $tr =[
 	'SITE_NAME'		=> 'Sign a PDF',
 	'EXPLICT_LANG'	=> 'English',
+	'BACK'			=> 'Back',
 ];

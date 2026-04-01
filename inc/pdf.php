@@ -20,23 +20,23 @@ function pdf_convert_to_png(&$action) {
 		    if ((isset($tmp_name)) && ($size != 0)) {
 		        srand((float) microtime() * 1000000);
 		        if ($err_msg == '') {
-		        	$pdf_dir = getcwd() . '/' . UPLOAD_DIR . '/pdf';
+		        	$pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf';
 					if(!file_exists($pdf_dir)){
 						mkdir($pdf_dir);
 						chmod($pdf_dir, 0777);
 					}
 		            do {
-		                $pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
+		                $pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
 		                $pdf_file = $pdf_dir . '/' . $pdf_id . '.pdf';
 		            } while (file_exists($pdf_file));
 		            move_uploaded_file($tmp_name, $pdf_file);
-		        	$img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
+		        	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 					if(!file_exists($img_dir)){
 						mkdir($img_dir);
 						chmod($img_dir, 0777);
 					}
 					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
-					$command = '/usr/bin/convert -density 300 ' . $pdf_file . ' -resize 50% ' . $img_dir . '/' . $pdf_id . '.png';
+					$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -density 300  -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
 					write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
 				    if($return_var != 0) {

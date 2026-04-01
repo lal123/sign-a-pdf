@@ -27,7 +27,7 @@ require_once 'inc/utils.php';
 <body>
 
 <div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body" style="background-color: #204040;" data-bs-theme="dark">
+    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@ include "inc/content/{$page}.php";
 </div>
 
 <div class="container">
-    <nav class="navbar navbar-expand fixed-bottom border-top border-body" style="background-color: #204040;" data-bs-theme="dark">
+    <nav class="navbar navbar-expand fixed-bottom border-top border-body dark-cyan" data-bs-theme="dark">
       <div class="container-fluid justify-content-center">
         <div class="flex-grow-0">
           <ul class="navbar-nav flex-row text-center">
@@ -112,8 +112,7 @@ include "inc/content/{$page}.php";
 
 <script>
 $(document).ready(function(){
-    //$('#lang-select-menu').css({'right': '220px'});
-    console.log($('#lang-select-menu').position());
+    <?php echo $js_content; ?>
 });
 </script>
 </body>

@@ -4,33 +4,36 @@ header('Content-Type: text/css');
 
 ?>
 
+body {
+	background-color: #c0c0c0 !important;
+}
+
+.navbar.dark-cyan {
+ 	background-color: #183034;	
+}
 .navbar a.navbar-brand {
 	min-width: 175px;
 }
 
-.lang-select #lang-select-menu {
-    white-space: nowrap;
-    padding: 0px 8px 4px 0px;
+.btn.dark-cyan {
+    box-shadow: 2px 2px 6px #6f7f7f;
+    margin: 10px;
 }
 
-.lang-select .flag {
-	padding: 0;
-	margin: 0px 4px 2px 8px;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	cursor: pointer;
-  	vertical-align: bottom;
-}
-.lang-select .flag.flag-en {
-	background: url(/img/uk.png) 0px 0px no-repeat;
-	background-size: 20px 20px;
-}
-.lang-select .flag.flag-fr {
-	background: url(/img/fr.png) 0px 0px no-repeat;
-	background-size: 20px 20px;
+.btn.dark-cyan, .btn.dark-cyan:visited {
+	background-color: #204444;
+	border-color: #204444;
 }
 
+.btn.dark-cyan:hover, .btn.dark-cyan:active:focus {
+	background-color: #284c4c;
+	border-color: #284c4c;
+}
+
+.page-preview {
+	max-width: 100%;
+	margin: 4px;
+}
 
 @media screen and (min-width: 991px) {
 }
