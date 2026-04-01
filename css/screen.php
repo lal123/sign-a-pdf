@@ -4,17 +4,19 @@ header('Content-Type: text/css');
 
 ?>
 
-.lang-select #lang-select-menu {
-//    position: absolute;
-//    right: 8px;
-    top: 36px;
-    width: 180px;
-    height: 98px;
+
+.navbar a.navbar-brand {
+	min-width: 175px;
 }
 
-.lang-select .flag{
+.lang-select #lang-select-menu {
+    white-space: nowrap;
+    padding: 0px 8px 4px 0px;
+}
+
+.lang-select .flag {
 	padding: 0;
-	margin: 1px 2px 2px 1px;
+	margin: 0px 4px 2px 8px;
 	display: inline-block;
 	width: 20px;
 	height: 20px;
@@ -24,17 +26,12 @@ header('Content-Type: text/css');
 .lang-select .flag.flag-en {
 	background: url(/img/uk.png) 0px 0px no-repeat;
 	background-size: 20px 20px;
-	top: 0px;
 }
 .lang-select .flag.flag-fr {
 	background: url(/img/fr.png) 0px 0px no-repeat;
 	background-size: 20px 20px;
-	top: 0px;
 }
 
 
 @media screen and (min-width: 991px) {
-	#menu-right {
-		//position: absolute; right: 0px;
-	}
 }

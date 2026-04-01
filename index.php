@@ -26,57 +26,61 @@ require_once 'inc/utils.php';
 <body>
 
 <div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <nav class="navbar fixed-top navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="./"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+                  <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="myMenu" style="">
-              <div id="menu-left">
-                  <ul class="navbar-nav" style="text-align: right;">
+                <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Link</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                  </ul>
-              </div>  
-              <div id="menu-right">
-                <ul class="navbar-nav" style="text-align: right;">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Home2</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown lang-select" id="lang-select-dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="flag flag-<?php echo $lang; ?>"></span>
-                      </a>
-                      <ul id="lang-select-menu" class="dropdown-menu">
-                        <li><a class="nav-link" href="/en/" title="English version"><span class="flag flag-en"></span> English version</a></li>
-                        <li><a class="nav-link" href="/fr/" title="Version française"><span class="flag flag-fr"></span> Version française</a></li>
-                      </ul>
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav me-0">
+<?php
+    $langs = ['en' => 'English', 'fr' => 'Français'];
+    foreach($langs as $code => $text) {
+        echo '                    <li class="nav-item">' . "\n";
+        if($code != $lang) {
+            echo '                        <a class="nav-link active" aria-current="page" href="/' . $code . '/">' . $text . '</a>';
+        } else {
+            echo '                        <a class="nav-link disabled" aria-disabled="true" href="/' . $code . '/">' . $text . '</a>';
+
+        }
+        echo '                    </li>' . "\n";
+    }
+?>
+                </ul>
             </div>
-          </div>
         </div>
     </nav>
 </div>
