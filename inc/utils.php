@@ -55,13 +55,13 @@ if($pdf_id != '') {
 		header('Location: ./');
 		exit();
 	} else {
-		$page = 'step2';
+		$page = 'docs';
 	}
 }
 
 session_start();
 
-write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}]");
+write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
 
 $err_msg = '';
 

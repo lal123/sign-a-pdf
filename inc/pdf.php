@@ -1,11 +1,10 @@
 <?php
 
-function pdf_convert_to_png(&$action) {
-
-	global $err_msg;
+function pdf_convert_to_png() {
 
 	$err_msg = '';
 	$pdf_id = '';
+	$name = '';
 	$output = [];
 	$return_var = 0;
 
@@ -13,7 +12,10 @@ function pdf_convert_to_png(&$action) {
 	    $tmp_name = $_FILES['upload_file']['tmp_name'];
 	    $size = $_FILES['upload_file']['size'];
 	    $type = $_FILES['upload_file']['type'];
-	    if($type != 'application/pdf') {
+	    $name = $_FILES['upload_file']['name'];
+	    if($size > 20 * 1024 * 1024) {
+	    	$err_msg = 'file is too big';
+	    } else if($type != 'application/pdf') {
 	    	$err_msg = 'not a pdf';
 	    }
 	    if($err_msg == '') {
@@ -43,19 +45,17 @@ function pdf_convert_to_png(&$action) {
 				        $err_msg = "{$command} exited with return_var {$return_var}\n";
 						write_log(__METHOD__, "*** ERROR *** {$err_msg}");
 				    }
+					$_SESSION['docs'][$pdf_id]['size'] = $size;
+					$_SESSION['docs'][$pdf_id]['name'] = $name;
+					$_SESSION['docs'][$pdf_id]['time'] = time();
 		        }
 		    } else {
 		        $err_msg = 'No data received!';
 		    }
-		}
-	    if($err_msg != '') {
-	        
-	        $action = '';
-
 	    }
 	}
-
-	return $pdf_id;
+	$ret = json_encode(['pdf_id' => $pdf_id, 'err_msg' => $err_msg, 'name' => $name], JSON_UNESCAPED_UNICODE);
+	return $ret;
 }
 
 function pdf_convert_from_png($pdf_id) {

@@ -20,12 +20,14 @@ if(isset($_POST['action'])) {
 $err_msg = '';
 
 switch($action) {
-	case 'step2':
-		$pdf_id = pdf_convert_to_png($action);
+	case 'docs':
+		$res = pdf_convert_to_png();
+		/*
 		if($err_msg == '') {
-			$page = 'step2';
+			$page = 'docs';
 			//pdf_convert_from_png($pdf_id);
 		}
-		echo json_encode(['pdf_id' => $pdf_id, 'action' => $action], JSON_UNESCAPED_UNICODE);
+		*/
+		echo $res;
 		break;
 }

@@ -29,25 +29,33 @@ require_once 'inc/utils.php';
 <div class="container">
     <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
+            <a class="navbar-brand" href="/<?php echo $lang; ?>/"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="./">Envoyer un document</a>
+                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="/<?php echo $lang; ?>/">Envoyer un document</a>
                     </li>
                     <li class="nav-item">
-                        <a<?php if ($page == 'step2') { echo ' class="nav-link active" aria-current="page" href="#"'; } else {echo ' class="nav-link disabled" aria-disabled="true"'; } ?>>Vos documents</a>
+                        <a<?php
+                        if ($page == 'docs') {
+                            echo ' class="nav-link active" aria-current="page" href="/' . $lang . '/docs"';
+                        } else if(!isset($_SESSION['docs']) || (sizeof($_SESSION['docs']) == 0)) {
+                            echo ' class="nav-link disabled" aria-disabled="true"';
+                        } else { 
+                            echo ' class="nav-link" href="/' . $lang . '/docs"';
+                        }
+                        ?>>Vos documents<?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo ' (' . sizeof($_SESSION['docs']) . ')'; } ?></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Créer un compte</a>
+                        <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person-fill"></i>&nbsp; Créer un compte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Se connecter</a>
+                        <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i>&nbsp; Se connecter</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-0">
@@ -76,27 +84,44 @@ include "inc/content/{$page}.php";
 
 <div class="container">
     <nav class="navbar navbar-expand fixed-bottom border-top border-body dark-cyan" data-bs-theme="dark">
-      <div class="container-fluid justify-content-center">
-        <div class="flex-grow-0">
-          <ul class="navbar-nav flex-row text-center">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
+        <div class="container-fluid justify-content-center">
+            <div class="flex-grow-0">
+                <ul class="navbar-nav flex-row text-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Conditions générales d'utilisation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Mentions légales</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
+</div>
+
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Envoi de votre document</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-info"><br /></div>
+                <div><br /></div>
+                <div id="modal-progress" class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
+                    <div id="modal-progress-bar" class="progress-bar text-bg-success" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
 $(document).ready(function(){
-    <?php echo $js_content; ?>
 });
 </script>
 </body>

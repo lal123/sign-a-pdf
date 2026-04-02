@@ -33,6 +33,11 @@ body {
 .page-preview {
 	max-width: 100%;
 	margin: 4px;
+    box-shadow: 2px 2px 6px #6f7f7f;
+}
+
+.modal-body {
+	min-height: 120px;
 }
 
 @media screen and (min-width: 991px) {
