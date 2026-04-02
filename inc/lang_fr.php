@@ -8,7 +8,7 @@ $page_role = [
 $page_title_prefix = 'Signez un PDF gratuitement';
 
 $page_title_suffix = [
-	'step2'		=> 'Vos documents',
+	'docs'		=> 'Vos documents',
 	'account'	=> 'Votre compte',
 ];
 
