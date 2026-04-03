@@ -13,10 +13,13 @@ $page_title_suffix = [
 ];
 
 $tr =[
-	'SITE_NAME'		=> 'Signer un PDF',
-	'EXPLICT_LANG'	=> 'Français',
-	'BACK'			=> 'Retour',
-	'DATE_FORMAT'	=> "d/m/Y H:i:s",
+	'SITE_NAME'				=> 'Signer un PDF',
+	'EXPLICT_LANG'			=> 'Français',
+	'BACK'					=> 'Retour',
+	'CONFIRMATION'			=> 'Confirmation',
+	'CANCEL'				=> 'Annuler',
+	'CONFIRM'				=> 'Confirmer',
+	'DATE_FORMAT'			=> "d/m/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Envoyer un document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Vos documents',
 	'MENU.CREATE_ACCOUNT'	=> 'Créer un compte',
@@ -33,4 +36,5 @@ $tr =[
 	'DOCS.SEE_ALL_DOCS'		=> 'Voir tous mes documents',
 	'DOCS.YOUR_DOCUMENT'	=> 'Votre document',
 	'DOCS.SIGN_THIS_DOC'	=> 'Signer ce document',
+	'DOCS.DELETE.CONFIRM'	=> 'Etes-vous sûr de vouloir supprimer ce document ?',
 ];

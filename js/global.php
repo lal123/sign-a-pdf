@@ -122,11 +122,20 @@ var upload = {
 
 var docs = {
 
+	confirm: function(pdf_id) {
+    	$('#confirmModal #actionConfirm').on('click', event => {
+			$('#confirmModal').modal('hide');
+    		docs.delete(pdf_id);
+		});
+		$('#confirmModal').modal('show');
+		return false;
+	},
+
 	delete: function(pdf_id) {
 		$.ajax({
 	        url: '/inc/service.php',
 	        type: 'POST',
-	        data: {'action': 'delete_doc', 'pdf_id': pdf_id}
+	        data: {'action': 'delete_doc', 'pdf_id': pdf_id, 'lang': '<?php echo $lang; ?>'}
 	    }).done(function(data) {
             eval(data);
         });

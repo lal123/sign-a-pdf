@@ -73,7 +73,7 @@ if($pdf_id != '') {
     echo '<div class="row">';
     foreach($docs as $pdf_id => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.delete(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn">x</a></div>';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn">x</a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id . '/" class="common">' . $details['name'] . '</a></div>';
         if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
@@ -89,3 +89,21 @@ if($pdf_id != '') {
 ?>
     </div>
 </center>
+
+<div class="modal" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?php echo $tr['CONFIRMATION']; ?></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><?php echo $tr['DOCS.DELETE.CONFIRM']; ?></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+        <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
+      </div>
+    </div>
+  </div>
+</div>

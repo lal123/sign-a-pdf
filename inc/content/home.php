@@ -11,9 +11,31 @@
             <input type="hidden" name="action" value="upload_doc" />
             <input type="submit" />
         </form>
-        <a href="javascript:void(0)" onclick="this.blur(); return upload.dialog(); return false;" title="Ajouter un PDF" class="option-holder"><img src="/img/upload.png" alt="" border="0" /></a>
+        <a href="javascript:void(0)" onclick="this.blur(); return upload.dialog(); return false;" title="<?php echo $tr['HOME.ADD_PDF']; ?>" class="option-holder"><img src="/img/upload.png" alt="" border="0" /></a>
         <div class="notice" id="notice2">
             <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
         </div>
     </div>
 </center>
+
+<div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="uploadModalLabel"><?php echo $tr['UPLOAD.SENDING_DOC']; ?></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-info"><br /></div>
+                <div><br /></div>
+                <div id="modal-progress" class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
+                    <div id="modal-progress-bar" class="progress-bar text-bg-success" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+

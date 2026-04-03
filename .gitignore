@@ -1,2 +1,4 @@
 *.log
 uploads
+inc/mysql.php
+inc/private.php

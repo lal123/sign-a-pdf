@@ -17,7 +17,7 @@ body {
 }
 
 .btn.dark-cyan {
-    box-shadow: 2px 2px 6px #6f7f7f;
+//    box-shadow: 2px 2px 6px #6f7f7f;
     margin: 10px;
 }
 
@@ -43,6 +43,10 @@ body {
 
 #uploadModal .modal-body {
 	min-height: 120px;
+}
+
+#confirmModal .modal-content {
+	background-color: #c0c0c0 !important;	
 }
 
 a.common {
@@ -74,6 +78,11 @@ a.common:hover {
 	position: absolute;
 	right: 4px;
 	top: 0px;
+	opacity: 0.75
+}
+
+.doc-small-preview:hover > .doc-suppr {
+	opacity: 1.0;
 }
 
 .doc-small-preview > .doc-suppr > .doc-suppr-btn {

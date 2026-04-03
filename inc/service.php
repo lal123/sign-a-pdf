@@ -31,8 +31,15 @@ switch($action) {
 		echo $res;
 		break;
 	case 'delete_doc':
+		$lang = $_POST['lang'];
 		$pdf_id = $_POST['pdf_id'];
 		unset($_SESSION['docs'][$pdf_id]);
-		echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
+		$docs_numb = sizeof($_SESSION['docs']);
+		if($docs_numb > 0) {
+			echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
+			echo "$('#docs_numb').html('({$docs_numb})');\n";
+		} else {
+			echo "document.location.href = '/{$lang}/';\n";
+		}
 		break;
 }

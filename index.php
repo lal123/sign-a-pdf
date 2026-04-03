@@ -51,7 +51,9 @@ require_once 'inc/utils.php';
                         }
                         ?>>
                             <i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>
+                            <span id="docs_numb">
                             <?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo ' (' . sizeof($_SESSION['docs']) . ')'; } ?>
+                            </span>
                         </a>
                     </li>
                 </ul>
@@ -102,27 +104,6 @@ include "inc/content/{$page}.php";
             </div>
         </div>
     </nav>
-</div>
-
-<div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="uploadModalLabel"><?php echo $tr['UPLOAD.SENDING_DOC']; ?></h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="modal-info"><br /></div>
-                <div><br /></div>
-                <div id="modal-progress" class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
-                    <div id="modal-progress-bar" class="progress-bar text-bg-success" style="width: 0%"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>

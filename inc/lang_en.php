@@ -13,10 +13,13 @@ $page_title_suffix = [
 ];
 
 $tr =[
-	'SITE_NAME'		=> 'Sign a PDF',
-	'EXPLICT_LANG'	=> 'English',
-	'BACK'			=> 'Back',
-	'DATE_FORMAT'	=> "m/d/Y H:i:s",
+	'SITE_NAME'				=> 'Sign a PDF',
+	'EXPLICT_LANG'			=> 'English',
+	'BACK'					=> 'Back',
+	'CONFIRMATION'			=> 'Confirmation',
+	'CANCEL'				=> 'Cancel',
+	'CONFIRM'				=> 'Confirm',
+	'DATE_FORMAT'			=> "m/d/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Send a document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Your documents',
 	'MENU.CREATE_ACCOUNT'	=> 'Create an account',
@@ -33,4 +36,5 @@ $tr =[
 	'DOCS.SEE_ALL_DOCS'		=> 'See all my documents',
 	'DOCS.YOUR_DOCUMENT'	=> 'Your document',
 	'DOCS.SIGN_THIS_DOC'	=> 'Sign this document',
+	'DOCS.DELETE.CONFIRM'	=> 'Are you sure you want to remove this document ?',
 ];
