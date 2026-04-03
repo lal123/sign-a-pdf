@@ -20,7 +20,7 @@ if(isset($_POST['action'])) {
 $err_msg = '';
 
 switch($action) {
-	case 'docs':
+	case 'upload_doc':
 		$res = pdf_convert_to_png();
 		/*
 		if($err_msg == '') {
@@ -29,5 +29,10 @@ switch($action) {
 		}
 		*/
 		echo $res;
+		break;
+	case 'delete_doc':
+		$pdf_id = $_POST['pdf_id'];
+		unset($_SESSION['docs'][$pdf_id]);
+		echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
 		break;
 }

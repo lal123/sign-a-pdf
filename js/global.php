@@ -4,9 +4,14 @@ require_once '../inc/utils.php';
 
 header('Content-Type: text/javascript');
 
+$cache_expire = 60 * 60 * 24 * 30 *3;
+header("Pragma: public");
+header("Cache-Control: max-age=" . $cache_expire);
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
+
 ?>
 
-const units = ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+const units = <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>;
    
 function niceBytes(x){
 
@@ -29,8 +34,7 @@ var upload = {
     },
     
     prepare: function(file_obj) {
-    	$('#exampleModal').on('hidden.bs.modal', event => {
-    		console.log('modal event', event);
+    	$('#uploadModal').on('hidden.bs.modal', event => {
     		if(upload.req != null) {
     			upload.req.abort();
     			file_obj.value = '';
@@ -38,19 +42,15 @@ var upload = {
     		}
 		});
 		$('#modal-info').html('');
-    	$('#exampleModal').modal('show');
+    	$('#uploadModal').modal('show');
 
     	if(file_obj.files[0].type != 'application/pdf'){
-    		console.log('not a pdf');
-			$('#modal-progress').hide();
-        	$('#modal-info').html('not a pdf');
+    		upload.warn('<?php echo $tr['UPLOAD.NOT_A_PDF']; ?>', true);
     		file_obj.value = "";
     		return false;
     	}
     	if(file_obj.files[0].size > 20 * 1024 * 1024){
-    		console.log('file too big');
-			$('#modal-progress').hide();
-        	$('#modal-info').html('file too big');
+    		upload.warn('<?php echo $tr['UPLOAD.FILE_TOO_BIG']; ?>', true);
     		file_obj.value = "";
     		return false;
     	}
@@ -81,14 +81,13 @@ var upload = {
 	            if (myXhr.upload) {
 	                myXhr.upload.addEventListener('progress', function(e) {
                 		var percent = parseInt(e.loaded / e.total * 100);
-	                	console.log('upload', percent + '%');
-                		$('#modal-info').html('Received: ' + niceBytes(e.loaded) + ' / ' +  niceBytes(e.total) + ' (' + percent + '%)');
+	                	//console.log('upload', percent + '%');
+                		$('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + niceBytes(e.loaded) + ' / ' +  niceBytes(e.total) + ' (' + percent + '%)');
 						$('#modal-progress').show();
                 		$('#modal-progress-bar').css({'width': percent + '%'});
                 		//$('#modal-progress-bar').html(percent + '%');
 	                	if(e.loaded >= e.total) {
-	                		$('#modal-progress').hide();
-	                		$('#modal-info').html('Preparing your document...');
+	                		upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>', false);
 	                	}
 	                });
 	            }
@@ -108,7 +107,12 @@ var upload = {
     share: function() {
     },
     
-    warn: function(text) {
+    warn: function(message_text, hide_progress) {
+    	console.log(message_text);
+        $('#modal-info').html(message_text);
+		if(hide_progress) {
+			$('#modal-progress').hide();
+		}
     },
     
     info: function(text) {
@@ -116,3 +120,16 @@ var upload = {
     
 }
 
+var docs = {
+
+	delete: function(pdf_id) {
+		$.ajax({
+	        url: '/inc/service.php',
+	        type: 'POST',
+	        data: {'action': 'delete_doc', 'pdf_id': pdf_id}
+	    }).done(function(data) {
+            eval(data);
+        });
+	    return false;
+	}
+}

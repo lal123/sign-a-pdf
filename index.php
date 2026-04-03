@@ -36,7 +36,9 @@ require_once 'inc/utils.php';
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="/<?php echo $lang; ?>/">Envoyer un document</a>
+                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="/<?php echo $lang; ?>/">
+                            <i class="bi bi-upload"></i>&nbsp; <?php echo $tr['MENU.SEND_DOCUMENT']; ?>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a<?php
@@ -47,15 +49,18 @@ require_once 'inc/utils.php';
                         } else { 
                             echo ' class="nav-link" href="/' . $lang . '/docs"';
                         }
-                        ?>>Vos documents<?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo ' (' . sizeof($_SESSION['docs']) . ')'; } ?></a>
+                        ?>>
+                            <i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>
+                            <?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo ' (' . sizeof($_SESSION['docs']) . ')'; } ?>
+                        </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person-fill"></i>&nbsp; Créer un compte</a>
+                        <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i>&nbsp; Se connecter</a>
+                        <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-0">
@@ -88,10 +93,10 @@ include "inc/content/{$page}.php";
             <div class="flex-grow-0">
                 <ul class="navbar-nav flex-row text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Conditions générales d'utilisation</a>
+                        <a class="nav-link" href="#"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Mentions légales</a>
+                        <a class="nav-link" href="#"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
                     </li>
                 </ul>
             </div>
@@ -99,11 +104,11 @@ include "inc/content/{$page}.php";
     </nav>
 </div>
 
-<div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Envoi de votre document</h1>
+                <h1 class="modal-title fs-5" id="uploadModalLabel"><?php echo $tr['UPLOAD.SENDING_DOC']; ?></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
