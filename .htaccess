@@ -1,6 +1,12 @@
 Options -Indexes
 RewriteEngine On
 
+RewriteCond %{HTTP_HOST} ^sign-a-pdf\.com$ [NC]
+RewriteRule ^(.*)$ http://www.sign-a-pdf.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^signer-un-pdf\.fr$ [NC]
+RewriteRule ^(.*)$ http://www.signer-un-pdf.fr/$1 [R=301,L]
+
 RewriteCond %{HTTP_HOST} ^sign-a-pdf\.test$ [NC]
 RewriteRule ^(.*)$ http://www.sign-a-pdf.test/$1 [R=301,L]
 
