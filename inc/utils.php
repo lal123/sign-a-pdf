@@ -38,12 +38,15 @@ if(isset($_GET['page']) && ($_GET['page'] != '')) {
 	$page = $_GET['page'];
 }
 
+session_start();
+
 require_once 'lang.php';
 require_once 'constant.php';
 require_once 'get_ip.php';
 require_once 'write_log.php';
 require_once 'private.php';
 require_once 'mysql.php';
+require_once 'model.php';
 require_once 'pdf.php';
 require_once 'mailer.php';
 
@@ -62,7 +65,7 @@ if($pdf_id != '') {
 	}
 }
 
-session_start();
+db_connect();
 
 write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
 
