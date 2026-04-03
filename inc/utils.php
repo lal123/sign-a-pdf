@@ -58,7 +58,7 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 
 if($pdf_id != '') {
 	if(!file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/' . $pdf_id . '.pdf')) {
-		header('Location: ./');
+		header("Location: /{$lang}/");
 		exit();
 	} else {
 		$page = 'docs';
@@ -67,16 +67,23 @@ if($pdf_id != '') {
 
 db_connect();
 
-write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
+//write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
 
 $err_msg = '';
 
 $js_content = '';
 
-if(array_key_exists($page, $page_role)) {
 
-	$page = $page_role[$page];
+$pages = array_flip($page_role);
 
+if(array_key_exists($page, $pages)) {
+
+	$page = $pages[$page];
+
+}
+
+if(($page == 'docs') && (!isset($_SESSION['docs']) || (sizeof($_SESSION['docs']) == 0))) {
+	header("Location: /{$lang}/");
 }
 
 $page_title = $page_title_prefix;

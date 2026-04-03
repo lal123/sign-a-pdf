@@ -67,7 +67,7 @@ var upload = {
 	        	if(data != '') {
 			        var result = JSON.parse(data);
 			        if(result.err_msg == '') {
-			        	document.location.href = '/<?php echo $lang; ?>/docs/' + result.pdf_id;
+			        	document.location.href = '/<?php echo $lang; ?>/docs/' + result.pdf_id + '/';
 			        } else {
                 		$('#modal-progress').hide();
 			        	$('#modal-info').html(result.err_msg);
@@ -81,9 +81,8 @@ var upload = {
 	            if (myXhr.upload) {
 	                myXhr.upload.addEventListener('progress', function(e) {
                 		var percent = parseInt(e.loaded / e.total * 100);
-	                	//console.log('upload', percent + '%');
                 		$('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + niceBytes(e.loaded) + ' / ' +  niceBytes(e.total) + ' (' + percent + '%)');
-						$('#modal-progress').show();
+										$('#modal-progress').show();
                 		$('#modal-progress-bar').css({'width': percent + '%'});
                 		//$('#modal-progress-bar').html(percent + '%');
 	                	if(e.loaded >= e.total) {

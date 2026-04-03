@@ -1,5 +1,7 @@
 <?php
 
+echo 'Hello, World!';die();
+
 require_once 'inc/utils.php';
 
 ?>
@@ -49,20 +51,27 @@ require_once 'inc/utils.php';
                         } else { 
                             echo ' class="nav-link" href="/' . $lang . '/docs"';
                         }
-                        ?>>
-                            <i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>
-                            <span id="docs_numb">
-                            <?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo ' (' . sizeof($_SESSION['docs']) . ')'; } ?>
-                            </span>
-                        </a>
+                        ?>><i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span id="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
+                        <a<?php
+                        if ($page == 'account') {
+                            echo ' class="nav-link active" aria-current="page"';
+                        } else {
+                            echo ' class="nav-link"';
+                        }
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
+                        <a<?php
+                        if ($page == 'sign-in') {
+                            echo ' class="nav-link active" aria-current="page"';
+                        } else {
+                            echo ' class="nav-link"';
+                        }
+                        ?> href="<?php echo "/{$lang}/{$page_role['sign-in']}"; ?>"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav me-0">

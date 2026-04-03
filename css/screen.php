@@ -18,7 +18,7 @@ body {
 
 .btn.dark-cyan {
 //    box-shadow: 2px 2px 6px #6f7f7f;
-    margin: 10px;
+//    margin: 10px;
 }
 
 .btn.dark-cyan, .btn.dark-cyan:visited {
@@ -78,11 +78,11 @@ a.common:hover {
 	position: absolute;
 	right: 4px;
 	top: 0px;
-	opacity: 0.75
+//	opacity: 0.75
 }
 
 .doc-small-preview:hover > .doc-suppr {
-	opacity: 1.0;
+//	opacity: 1.0;
 }
 
 .doc-small-preview > .doc-suppr > .doc-suppr-btn {

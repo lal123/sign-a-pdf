@@ -2,4 +2,10 @@
 
 $users = model_get_user_list();
 
-var_dump($users);
+?>
+
+<div class="container">
+    <h2><?php echo $tr['MENU.CREATE_ACCOUNT']; ?></h2>
+    <center>
+    </center>
+</div>

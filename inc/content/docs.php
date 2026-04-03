@@ -19,8 +19,18 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 
 ?>
 
-<center>
-    <div class="container">
+<div class="container">
+    <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
+    <div>
+<?php
+if($pdf_id != '') {
+    echo $tr['DOCS.YOUR_DOCUMENT']; ?> :&nbsp; <?php echo $_SESSION['docs'][$pdf_id]['name'];
+} else {
+    echo $tr['DOCS.LIST_DOCUMENTS'] . ' :<br /><br />';
+}
+?>
+    </div>
+    <center>
 
 <?php
 if($pdf_id != '') {
@@ -37,10 +47,6 @@ if($pdf_id != '') {
             </div>
         </div>
     
-    <div>
-        <?php echo $tr['DOCS.YOUR_DOCUMENT']; ?> :&nbsp; <?php echo $_SESSION['docs'][$pdf_id]['name']; ?>
-    </div>
-
 <?php
     if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         echo '<div class="row">';
@@ -73,7 +79,7 @@ if($pdf_id != '') {
     echo '<div class="row">';
     foreach($docs as $pdf_id => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn">x</a></div>';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id . '/" class="common">' . $details['name'] . '</a></div>';
         if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
@@ -87,8 +93,8 @@ if($pdf_id != '') {
     echo '</div>';
 }
 ?>
-    </div>
-</center>
+    </center>
+</div>
 
 <div class="modal" id="confirmModal" tabindex="-1">
   <div class="modal-dialog">

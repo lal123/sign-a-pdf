@@ -1,9 +1,10 @@
 <?php
 
 ?>
-<center>
-    <div class="container">
-        <h3><?php echo $tr['HOME.ADD_PDF']; ?> :</h3>
+<div class="container">
+    <h2><?php echo $tr['MENU.SEND_DOCUMENT']; ?></h2>
+    <center>
+        <h4><?php echo $tr['HOME.ADD_PDF']; ?> :</h4>
         <form method="post" enctype="multipart/form-data" id="upload_form" class="upload-form" style="display: none;">
             <input type="hidden" name="<?php echo ini_get('session.upload_progress.prefix') . ini_get('session.upload_progress.name'); ?>" value="pdf_upload" />
             <input type="file" name="upload_file" id="upload_file" class="upload-file" onchange="return upload.prepare(this); return false;">
@@ -15,8 +16,8 @@
         <div class="notice" id="notice2">
             <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
         </div>
-    </div>
-</center>
+    </center>
+</div>
 
 <div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">

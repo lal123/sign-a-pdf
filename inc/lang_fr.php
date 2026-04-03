@@ -2,7 +2,8 @@
 
 $page_role = [
 	'docs'		=> 'docs',
-	'compte' 	=> 'account',
+	'account' 	=> 'compte',
+	'sign-in'	=> 'se-connecter',
 ];
 
 $page_title_prefix = 'Signez un PDF gratuitement';
@@ -10,6 +11,7 @@ $page_title_prefix = 'Signez un PDF gratuitement';
 $page_title_suffix = [
 	'docs'		=> 'Vos documents',
 	'account'	=> 'Votre compte',
+	'sign-in'	=> 'Se connecter',
 ];
 
 $tr =[
@@ -33,6 +35,7 @@ $tr =[
 	'UPLOAD.BYTES_RECEIVED'	=> 'Reçu',
 	'UPLOAD.PREPARING_DOC'	=> 'Préparation de votre document...',
 	'UPLOAD.BYTE_UNITS'		=> "['octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo']",
+	'DOCS.LIST_DOCUMENTS'	=> 'Ici se trouve la liste de vos documents',
 	'DOCS.SEE_ALL_DOCS'		=> 'Voir tous mes documents',
 	'DOCS.YOUR_DOCUMENT'	=> 'Votre document',
 	'DOCS.SIGN_THIS_DOC'	=> 'Signer ce document',

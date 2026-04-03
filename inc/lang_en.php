@@ -3,13 +3,15 @@
 $page_role = [
 	'docs'		=> 'docs',
 	'account'	=> 'account',
+	'sign-in'	=> 'sign-in',
 ];
 
 $page_title_prefix = 'Sign a PDF for free';
 
 $page_title_suffix = [
-	'docs'		=> 'Vos documents',
+	'docs'		=> 'Your documents',
 	'account'	=> 'Your account',
+	'sign-in'	=> 'Sign in',
 ];
 
 $tr =[
@@ -33,6 +35,7 @@ $tr =[
 	'UPLOAD.BYTES_RECEIVED'	=> 'Received',
 	'UPLOAD.PREPARING_DOC'	=> 'Preparing your document...',
 	'UPLOAD.BYTE_UNITS'		=> "['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']",
+	'DOCS.LIST_DOCUMENTS'	=> 'Here is the list of your documents',
 	'DOCS.SEE_ALL_DOCS'		=> 'See all my documents',
 	'DOCS.YOUR_DOCUMENT'	=> 'Your document',
 	'DOCS.SIGN_THIS_DOC'	=> 'Sign this document',
