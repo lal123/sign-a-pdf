@@ -64,7 +64,7 @@ require_once 'inc/utils.php';
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT'] . ' [' . (utils_is_signed_in() ? '1' : '0') . ']'; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php

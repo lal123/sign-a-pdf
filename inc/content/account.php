@@ -1,51 +1,13 @@
 <?php
 
-//$users = model_get_user_list();
-
-$errors = [];
-$values = [];
-
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $action = $_POST['action'];
-    switch($action) {
-        case 'create':
-            $values['user_name'] = $_POST['user_name'];
-            if((strlen($values['user_name']) < 4) || (strlen($values['user_name']) > 24)) {
-                $errors['user_name'] = $tr['ACCOUNT.USER_NAME.ERROR'];
-            }
-            $values['user_email'] = $_POST['user_email'];
-            if(!utils_is_valid_email_address($values['user_email'])) {
-                $errors['user_email'] = $tr['ACCOUNT.USER_MAIL.ERROR'];
-            }
-            $values['user_pass'] = $_POST['user_pass'];
-            if((strlen($values['user_pass']) < 4) || (strlen($values['user_pass']) > 24)) {
-                $errors['user_pass'] = $tr['ACCOUNT.USER_PASS.ERROR'];
-            }
-            $values['confirm'] = $_POST['confirm'];
-            if($values['confirm'] != $values['user_pass']) {
-                $errors['confirm'] = $tr['ACCOUNT.CONFIRM.ERROR'];
-            }
-            $values['user_optin'] = (isset($_POST['user_optin']) && ($_POST['user_optin'] == 'on') ? 1 : 0);
-            $values['user_accept'] = (isset($_POST['user_accept']) && ($_POST['user_accept'] == 'on') ? 1 : 0);
-            if(!isset($values['user_accept']) || ($values['user_accept'] != 1)) {
-                $errors['user_accept'] =  $tr['ACCOUNT.USER_ACCEPT.ERROR'];
-            }
-            if(utils_create_user($values, $errors)) {
-                $action = 'confirm';
-            }
-            break;
-    }
-}
-
 ?>
 
 <div class="container">
-    <h2><?php echo $tr['MENU.CREATE_ACCOUNT']; ?></h2>
 <?php
 switch($action) {
     case 'create':
-    var_dump($errors);
 ?>    
+    <h2><?php echo $tr['MENU.CREATE_ACCOUNT']; ?></h2>
     <div class="ms-0 mb-2">
         <?php echo $tr['ACCOUNT.CREATE_INTRO']; ?>
     </div>
@@ -97,21 +59,49 @@ switch($action) {
             </div>
             <div class="col-lg-4 ms-0 mb-3">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo (isset($errors['user_accept']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_accept" id="userAccept"<?php if(isset($values['user_accept']) && ($values['user_accept'] == 1)) { echo ' checked="checked"'; } ?> requred="requred" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo (isset($errors['user_accept']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_accept" id="userAccept"<?php if(isset($values['user_accept']) && ($values['user_accept'] == 1)) { echo ' checked="checked"'; } ?> required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <label class="form-check-label" for="userAccept"><?php echo $tr['ACCOUNT.USER_ACCEPT']; ?></label>
                     <?php if(isset($errors['user_accept'])) { echo '<div class="invalid-feedback">' . $errors['user_accept'] . '</div>'; } ?>
                 </div>
             </div>
             <div class="col-lg-2 ms-0 mb-2">
                 <button type="submit" class="btn btn-primary dark-cyan">Submit</button>
+                <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $tr['ACCOUNT.UNEXPECTED_ERROR'] . '</div>'; } ?>
             </div>
     </form>
 <?php
         break;
+    case 'update':
+?>
+    <h2><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></h2>
+    <div class="ms-0 mb-2">
+        Modify your account
+    </div>
+<?php
+        break;
     case 'confirm':
 ?>
+    <h2><?php echo $tr['MENU.CONFIRM_ACCOUNT']; ?></h2>
     <div class="ms-0 mb-2">
-        Welcome!
+        Welcome <b><?php echo $values['user_name']; ?></b><br />
+        <br />
+        An email has been sent to <?php echo $values['user_email']; ?> !
+    </div>
+<?php
+        break;
+    case 'validate':
+?>
+    <h2><?php echo $tr['MENU.VALIDATE_ACCOUNT']; ?></h2>
+    <div class="ms-0 mb-4">
+<?php
+if($errors['general']) {
+    echo $errors['general'];
+} else {
+?>
+        Thank you!
+<?php
+}
+?>
     </div>
 <?php
         break;

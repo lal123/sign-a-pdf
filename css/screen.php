@@ -50,11 +50,17 @@ body {
 }
 
 a.common {
-	color: #284c4c;
+	color: inherit;
+	text-decoration: none;
+	border-bottom: dotted 1px rgb(33, 37, 41);
 }
 
+.form-check-input.is-valid~.form-check-label a.common{
+	border-bottom: dotted 1px #198754;
+}}
+
 a.common:hover {
-	color: #385c5c;
+//	color: #385c5c;
 }
 
 .doc-small-preview {
