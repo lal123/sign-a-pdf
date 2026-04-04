@@ -11,6 +11,8 @@ require_once 'inc/utils.php';
     <title><?php echo $page_title; ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="<?php echo $tr['META.KEYWORDS']; ?>" />
+    <meta name="description" content="<?php echo $tr['META.DESCRIPTION']; ?>" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="robots" content="index,follow,all" />
     <meta name="revisit-after" content="2 days" />
