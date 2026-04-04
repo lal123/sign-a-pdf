@@ -58,6 +58,29 @@ require_once 'inc/utils.php';
                         ?>><i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span id="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a>
                     </li>
                 </ul>
+<?php
+if($is_signed_in) {
+?>
+                <ul class="navbar-nav mx-auto">
+                    <li class="navbar-item navbar-text">
+                         <?php echo $tr['WELCOME'] . ' <b>' . $user['user_name'] . '</b>'; ?>&nbsp;&nbsp;
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['ACCOUNT_YOUR_ACCOUNT']; ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/en/">Modify your account</a></li>
+                            <li><a class="dropdown-item" href="/en/">Your documents</a></li>
+                            <li><a class="dropdown-item" href="/en/">Your signatures</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/en/">Sign out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+<?php
+} else {
+?>
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a<?php
@@ -66,7 +89,7 @@ require_once 'inc/utils.php';
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT'] . ' [' . (utils_is_signed_in() ? '1' : '0') . ']'; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT'] . ' [' . ($is_signed_in ? '1' : '0') . ']'; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
@@ -78,6 +101,9 @@ require_once 'inc/utils.php';
                         ?> href="<?php echo "/{$lang}/{$page_role['sign-in']}"; ?>"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
                     </li>
                 </ul>
+<?php
+}
+?>
                 <ul class="navbar-nav me-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -27,6 +27,7 @@ $tr =[
 	'CONFIRMATION'			=> 'Confirmation',
 	'CANCEL'				=> 'Cancel',
 	'CONFIRM'				=> 'Confirm',
+	'WELCOME'				=> 'Welcome',
 	'DATE_FORMAT'			=> "m/d/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Send a document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Your documents',
@@ -77,4 +78,5 @@ $tr =[
 	'ACCOUNT.ALREADY_VALIDATED'		=> 'Your account has already been validated',
 	'ACCOUNT.SIGN_IN_INTRO'			=> '',
 	'ACCOUNT.LOGIN_ERROR'			=> 'Incorrect identifiers',
+	'ACCOUNT_YOUR_ACCOUNT'			=> 'Your account',
 ];

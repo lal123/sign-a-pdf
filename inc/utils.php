@@ -67,6 +67,9 @@ if($pdf_id != '') {
 
 db_connect();
 
+$user= [];
+$is_signed_in = utils_is_signed_in($user);
+
 //write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
 
 $err_msg = '';
@@ -190,9 +193,8 @@ function utils_user_sign_in($values, &$errors) {
 	return false;
 }
 
-function utils_is_signed_in() {
+function utils_is_signed_in(&$user) {
 
-	$user= [];
 	if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
 		$user_id = $_SESSION['user_id'];
 		$user_key = $_SESSION['user_key'];
