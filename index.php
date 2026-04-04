@@ -59,8 +59,6 @@ require_once 'inc/utils.php';
                     </li>
                 </ul>
 <?php
-$user = [];
-$is_signed_in = utils_is_signed_in($user);
 if($is_signed_in) {
 ?>
                 <ul class="navbar-nav mx-auto">

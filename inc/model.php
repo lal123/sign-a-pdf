@@ -81,7 +81,7 @@ function model_user_exists($filters, $excluded, &$user) {
         }
         $sql.= ")";
     }
-    write_log(__METHOD__, $sql);
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false && (db_num_rows($res) != 0)) {
         $user = db_fetch_assoc($res);
@@ -98,7 +98,7 @@ function model_user_validate($user_id, $user_key) {
             . " where 1"
             . " and user_id = '" . db_escape($user_id) . "'"
             . " and user_key = '" . db_escape($user_key) . "'";
-    write_log(__METHOD__, $sql);
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     return $res;    
 }

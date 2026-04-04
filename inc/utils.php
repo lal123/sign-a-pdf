@@ -159,7 +159,7 @@ switch($page) {
 		        case 'validate':
 		            $user_id = $_GET['user_id'];
 		            $user_key = $_GET['user_key'];
-		            utils_user_validate($user_id, $user_key, $errors);
+		            utils_user_validate($user_id, $user_key, $user, $is_signed_in, $errors);
 		            break;
 		    }
 		}
@@ -359,7 +359,7 @@ function utils_user_update($user_id, $values, &$errors) {
 	return true;
 }
 
-function utils_user_validate($user_id, $user_key, &$errors) {
+function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
 
 	global $lang, $tr, $page_role;
 
@@ -378,6 +378,7 @@ function utils_user_validate($user_id, $user_key, &$errors) {
 				$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
 				return false;
 			}
+			$is_signed_in = true;
 		}
 		$_SESSION['user_id'] = $user_id;
 		$_SESSION['user_key'] = $user_key;
