@@ -47,7 +47,24 @@ function model_user_create($values) {
     return $res;
 }
 
-function model_user_exists($filters, &$user) {
+function model_user_update($user_id, $values) {
+    
+    global $base, $cdb;
+    
+    $sql = "update `{$base}`.`users`"
+        . " set "
+        . "`user_name` = '" . db_escape($values['user_name']) . "', "
+        . "`user_email` = '" . db_escape($values['user_email']) . "', "
+        . "`user_pass` = '" . db_escape($values['user_pass']) . "', "
+        . "`user_optin` = " . $values['user_optin'] . ", "
+        . "`user_modifo` = now()"
+        . " where `user_id` = " . $user_id;
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return true;
+}
+
+function model_user_exists($filters, $excluded, &$user) {
 
     global $base, $cdb;
 
@@ -56,6 +73,13 @@ function model_user_exists($filters, &$user) {
             . " where 1";
     foreach($filters as $name => $value) {
         $sql.= " and {$name} = '" . db_escape($value) . "'";
+    }
+    if(sizeof($excluded) != 0) {
+        $sql .= " and ( 1";
+        foreach($excluded as $name => $value) {
+            $sql.= " and {$name} != '" . db_escape($value) . "'";
+        }
+        $sql.= ")";
     }
     write_log(__METHOD__, $sql);
     $res = db_query($sql);

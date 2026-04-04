@@ -26,9 +26,10 @@ body {
 	border-color: #204444;
 }
 
-.btn.dark-cyan:hover, .btn.dark-cyan:active:focus {
+.btn.dark-cyan:hover, .btn.dark-cyan:active:focus, .btn.dark-cyan:focus {
 	background-color: #284c4c;
 	border-color: #284c4c;
+//	outline: none;	
 }
 
 .page-preview {

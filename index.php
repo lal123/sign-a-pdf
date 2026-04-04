@@ -59,6 +59,8 @@ require_once 'inc/utils.php';
                     </li>
                 </ul>
 <?php
+$user = [];
+$is_signed_in = utils_is_signed_in($user);
 if($is_signed_in) {
 ?>
                 <ul class="navbar-nav mx-auto">
@@ -67,14 +69,14 @@ if($is_signed_in) {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['ACCOUNT_YOUR_ACCOUNT']; ?>
+                        <i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_ACCOUNT']; ?>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/en/">Modify your account</a></li>
+                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a></li>
                             <li><a class="dropdown-item" href="/en/">Your documents</a></li>
                             <li><a class="dropdown-item" href="/en/">Your signatures</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/<?php echo $lang; ?>/sign-out"><?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
+                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
                         </ul>
                     </li>
                 </ul>

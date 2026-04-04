@@ -2,6 +2,8 @@
 
 $version_suffix = '1.01';
 
+session_start();
+
 $lang = '';
 
 if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
@@ -39,8 +41,6 @@ $page = 'home';
 if(isset($_GET['page']) && ($_GET['page'] != '')) {
 	$page = $_GET['page'];
 }
-
-session_start();
 
 require_once 'lang.php';
 require_once 'constant.php';
@@ -105,14 +105,21 @@ if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
 switch($page) {
 	case 'account':
 		$errors = [];
-		$values = [];
-		$action = 'create';
+		if($is_signed_in) {
+			$action = 'update';
+			$values = $user;
+			$values['confirm'] = $values['user_pass'];
+		} else {
+			$action = 'create';					
+			$values = [];
+		}
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		    if(isset($_POST['action']) && ($_POST['action'] != '')) {
 		        $action = $_POST['action'];
 		        switch($action) {
 		            case 'create':
+		            case 'update':
 		                $values['user_name'] = $_POST['user_name'];
 		                if((strlen($values['user_name']) < 4) || (strlen($values['user_name']) > 24)) {
 		                    $errors['user_name'] = $tr['ACCOUNT.USER_NAME.ERROR'];
@@ -134,9 +141,15 @@ switch($page) {
 		                if(!isset($values['user_accept']) || ($values['user_accept'] != 1)) {
 		                    $errors['user_accept'] =  $tr['ACCOUNT.USER_ACCEPT.ERROR'];
 		                }
-		                if(utils_user_create($values, $errors)) {
-		                    $action = 'confirm';
-		                }
+		                if($action == 'create') {
+			                if(utils_user_create($values, $errors)) {
+			                    $action = 'confirm';
+			                }
+			            } else {
+			                if(utils_user_update($user['user_id'], $values, $errors)) {
+			                    $action = 'confirm';
+			                }
+			            }
 		                break;
 		        }
 		    }
@@ -164,7 +177,7 @@ switch($page) {
 		                $values['user_name'] = $_POST['user_name'];
 		                $values['user_pass'] = $_POST['user_pass'];
 		                if(utils_user_sign_in($values, $errors)) {
-		                    header('Location: ./');
+		                    header("Location: /{$lang}/");
 		                    exit();
 		                }
 		                break;
@@ -187,7 +200,7 @@ function utils_user_sign_in($values, &$errors) {
 	$user = [];
 	$user_name = $values['user_name'];
 	$user_pass = $values['user_pass'];
-	$res = model_user_exists(['user_name' => $user_name, 'user_pass' => $user_pass], $user);
+	$res = model_user_exists(['user_name' => $user_name, 'user_pass' => $user_pass], [], $user);
 	if($res != false) {
 		if(sizeof($user) != 0) {
 			$_SESSION['user_id'] = $user['user_id'];
@@ -212,15 +225,15 @@ function utils_user_sign_out() {
 
 function utils_is_signed_in(&$user) {
 
-	if(isset($_COOKIE['user_id']) && isset($_COOKIE['user_key'])) {
-		$user_id = $_COOKIE['user_id'];
-		$user_key = $_COOKIE['user_key'];
-	} else if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
+	if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
 		$user_id = $_SESSION['user_id'];
 		$user_key = $_SESSION['user_key'];
+	} else if(isset($_COOKIE['user_id']) && isset($_COOKIE['user_key'])) {
+		$user_id = $_COOKIE['user_id'];
+		$user_key = $_COOKIE['user_key'];
 	}
 	if(isset($user_id) && isset($user_key)) {
-		$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], $user);
+		$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
 		if($res != false) {
 			if(sizeof($user) != 0) {
 				setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
@@ -248,7 +261,7 @@ function utils_user_create($values, &$errors) {
 	}
 
 	$user = [];
-	$res = model_user_exists(['user_name' => $values['user_name']], $user);
+	$res = model_user_exists(['user_name' => $values['user_name']], [], $user);
 
 	if($res == false) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
@@ -260,7 +273,7 @@ function utils_user_create($values, &$errors) {
 	}
 
 	$user = [];
-	$res = model_user_exists(['user_email' => $values['user_email']], $user);
+	$res = model_user_exists(['user_email' => $values['user_email']], [], $user);
 
 	if($res == false) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
@@ -301,12 +314,57 @@ function utils_user_create($values, &$errors) {
 	return true;
 }
 
+function utils_user_update($user_id, $values, &$errors) {
+
+	global $lang, $tr, $page_role;
+
+	if(sizeof($errors) != 0) {
+		return false;
+	}
+
+	$user = [];
+	$res = model_user_exists(['user_name' => $values['user_name']], ['user_id' => $user_id], $user);
+
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+
+	if(sizeof($user) != 0) {
+		$errors['user_name'] = $tr['ACCOUNT.NAME_ALREADY_EXISTS'];
+	}
+
+	$user = [];
+	$res = model_user_exists(['user_email' => $values['user_email']], ['user_id' => $user_id], $user);
+
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+
+	if(sizeof($user) != 0) {
+		$errors['user_email'] = $tr['ACCOUNT.EMAIL_ALREADY_EXISTS'];
+	}
+
+	if(sizeof($errors) != 0) {
+		return false;
+	}
+
+	$res = model_user_update($user_id, $values);
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+
+	return true;
+}
+
 function utils_user_validate($user_id, $user_key, &$errors) {
 
 	global $lang, $tr, $page_role;
 
 	$user = [];
-	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], $user);
+	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
 	if($res == false) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
 		return false;
@@ -323,6 +381,8 @@ function utils_user_validate($user_id, $user_key, &$errors) {
 		}
 		$_SESSION['user_id'] = $user_id;
 		$_SESSION['user_key'] = $user_key;
+		setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
+		setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
 	} else {
 		$errors['general'] = $tr['ACCOUNT.VALIDATION_ERROR'];
 	}

@@ -1,18 +1,18 @@
 <?php
 
 ?>
-
 <div class="container">
 <?php
 switch($action) {
     case 'create':
+    case 'update':
 ?>    
-    <h2><?php echo $tr['MENU.CREATE_ACCOUNT']; ?></h2>
+    <h2><?php echo ($action == 'create' ? $tr['MENU.CREATE_ACCOUNT']: $tr['MENU.UPDATE_ACCOUNT']); ?></h2>
     <div class="ms-0 mb-2">
-        <?php echo $tr['ACCOUNT.CREATE_INTRO']; ?>
+        <?php echo ($action == 'create' ? $tr['ACCOUNT.CREATE_INTRO'] : $tr['ACCOUNT.UPDATE_INTRO']); ?>
     </div>
     <form method="POST" action="">
-        <input type="hidden" name="action" value="create" />
+        <input type="hidden" name="action" value="<?php echo $action; ?>" />
         <div class="form-row">
             <div class="col-lg-2 ms-0 mb-1">
                 <div class="form-group">
@@ -52,16 +52,15 @@ switch($action) {
                 </div>
             </div>
             <div class="col-lg-4 ms-0 mb-2">
-                <div class="form-chec k">
-                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo ' is-valid'; } ?>" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_optin'])) { echo ' is-valid'; } ?>" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <label class="form-check-label" for="userOptin"><?php echo $tr['ACCOUNT.USER_OPTIN']; ?></label>
                 </div>
             </div>
             <div class="col-lg-4 ms-0 mb-3">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo (isset($errors['user_accept']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_accept" id="userAccept"<?php if(isset($values['user_accept']) && ($values['user_accept'] == 1)) { echo ' checked="checked"'; } ?> required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
-                    <label class="form-check-label" for="userAccept"><?php echo $tr['ACCOUNT.USER_ACCEPT']; ?></label>
-                    <?php if(isset($errors['user_accept'])) { echo '<div class="invalid-feedback">' . $errors['user_accept'] . '</div>'; } ?>
+                    <label class="form-check-label" for="userAccept"><?php echo $tr['ACCOUNT.USER_ACCEPT']; ?></label><?php if(isset($errors['user_accept'])) { echo '<div class="invalid-feedback">' . $errors['user_accept'] . '</div>'; } ?>
                 </div>
             </div>
             <div class="col-lg-2 ms-0 mb-2">
@@ -69,14 +68,6 @@ switch($action) {
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $tr['ACCOUNT.UNEXPECTED_ERROR'] . '</div>'; } ?>
             </div>
     </form>
-<?php
-        break;
-    case 'update':
-?>
-    <h2><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></h2>
-    <div class="ms-0 mb-2">
-        Modify your account
-    </div>
 <?php
         break;
     case 'confirm':
@@ -94,12 +85,13 @@ switch($action) {
     <h2><?php echo $tr['MENU.VALIDATE_ACCOUNT']; ?></h2>
     <div class="ms-0 mb-4">
 <?php
-if($errors['general']) {
+if(isset($errors['general']) && ($errors['general'] != '')) {
     echo $errors['general'];
 } else {
 ?>
         Thank you!
 <?php
+    //var_dump($_SESSION);
 }
 ?>
     </div>
