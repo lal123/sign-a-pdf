@@ -4,6 +4,7 @@ $page_role = [
 	'docs'		=> 'docs',
 	'account'	=> 'account',
 	'sign-in'	=> 'sign-in',
+	'sign-out'	=> 'sign-out',
 	'terms-of-use'	=> 'terms-of-use',
 	'legal-notice'	=> 'legal-notice',
 ];
@@ -14,6 +15,7 @@ $page_title_suffix = [
 	'docs'		=> 'Your documents',
 	'account'	=> 'Your account',
 	'sign-in'	=> 'Sign in',
+	'sign-out'	=> 'Sign out',
 	'terms-of-use'	=> 'Terms of use',
 	'legal-notice'	=> 'Legal notice',
 ];
@@ -36,6 +38,7 @@ $tr =[
 	'MENU.CONFIRM_ACCOUNT'	=> 'Confirm your account',
 	'MENU.VALIDATE_ACCOUNT'	=> 'Validate your account',
 	'MENU.SIGN_IN'			=> 'Sign in',
+	'MENU.SIGN_OUT'			=> 'Sign out',
 	'MENU.TERMS_OF_USE'		=> 'Terms of use',
 	'MENU.LEGAL_NOTICE'		=> 'Legal notice',
 	'HOME.ADD_PDF'			=> 'Add a PDF',

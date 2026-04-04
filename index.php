@@ -74,7 +74,7 @@ if($is_signed_in) {
                             <li><a class="dropdown-item" href="/en/">Your documents</a></li>
                             <li><a class="dropdown-item" href="/en/">Your signatures</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/en/">Sign out</a></li>
+                            <li><a class="dropdown-item" href="/<?php echo $lang; ?>/sign-out"><?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -89,7 +89,7 @@ if($is_signed_in) {
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT'] . ' [' . ($is_signed_in ? '1' : '0') . ']'; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php

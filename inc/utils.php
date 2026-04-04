@@ -7,6 +7,7 @@ $lang = '';
 if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
 	
 	$lang = $_GET['lang'];
+	setcookie('lang', $lang, time() + 2 * 365 * 86400, '/');
     
 } else {
 	
@@ -28,6 +29,7 @@ if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
 		$location .= '?' . $_SERVER['QUERY_STRING'];
 	}
 
+	setcookie('lang', $lang, time() + 2 * 365 * 86400, '/');
 	header("Location: {$location}");
 	exit();
 }
@@ -67,7 +69,7 @@ if($pdf_id != '') {
 
 db_connect();
 
-$user= [];
+$user = [];
 $is_signed_in = utils_is_signed_in($user);
 
 //write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
@@ -162,13 +164,19 @@ switch($page) {
 		                $values['user_name'] = $_POST['user_name'];
 		                $values['user_pass'] = $_POST['user_pass'];
 		                if(utils_user_sign_in($values, $errors)) {
-		                    $action = '';
-		                    $page = 'home';
+		                    header('Location: ./');
+		                    exit();
 		                }
 		                break;
 		        }
 		    }
 		}
+		break;
+	case 'sign-out':
+        if(utils_user_sign_out()) {
+            header('Location: ./');
+            exit();
+        }
 		break;
 }
 
@@ -184,6 +192,8 @@ function utils_user_sign_in($values, &$errors) {
 		if(sizeof($user) != 0) {
 			$_SESSION['user_id'] = $user['user_id'];
 			$_SESSION['user_key'] = $user['user_key'];
+			setcookie('user_id', $user['user_id'], time() + 2 * 365 * 86400, '/');
+			setcookie('user_key', $user['user_key'], time() + 2 * 365 * 86400, '/');
 			return true;
 		} else {
 			$errors['general'] = $tr['ACCOUNT.LOGIN_ERROR'];
@@ -193,14 +203,32 @@ function utils_user_sign_in($values, &$errors) {
 	return false;
 }
 
+function utils_user_sign_out() {
+    session_destroy();
+    setcookie('user_id',"",0,"/","",0);
+    setcookie('user_key',"",0,"/","",0);
+    return true;
+}
+
 function utils_is_signed_in(&$user) {
 
-	if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
+	if(isset($_COOKIE['user_id']) && isset($_COOKIE['user_key'])) {
+		$user_id = $_COOKIE['user_id'];
+		$user_key = $_COOKIE['user_key'];
+	} else if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
 		$user_id = $_SESSION['user_id'];
 		$user_key = $_SESSION['user_key'];
+	}
+	if(isset($user_id) && isset($user_key)) {
 		$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], $user);
 		if($res != false) {
-			return (sizeof($user) != 0);
+			if(sizeof($user) != 0) {
+				setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
+				setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
+				$_SESSION['user_id'] = $user_id;
+				$_SESSION['user_key'] = $user_key;
+				return true;
+			}
 		}
 	}
 	return false;
