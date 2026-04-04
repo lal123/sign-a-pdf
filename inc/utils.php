@@ -147,7 +147,7 @@ switch($page) {
 			                }
 			            } else {
 			                if(utils_user_update($user['user_id'], $values, $errors)) {
-			                    $action = 'confirm';
+			                    $action = 'confirm-update';
 			                }
 			            }
 		                break;
@@ -300,7 +300,7 @@ function utils_user_create($values, &$errors) {
 
 	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
 	$confirm_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role['account'] . '?action=validate&user_id=' . $user_id . '&user_key=' . $values['user_key'];
-	$text_msg = $confirm_url;
+	$text_msg = "Confirmer : " . $confirm_url;
 	$html_msg = '<html><body><a href="' . $confirm_url . '">Confirmer</a></body</html>';
 
 	send_mail(
@@ -355,6 +355,19 @@ function utils_user_update($user_id, $values, &$errors) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
 		return false;
 	}
+
+	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
+	$confirm_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role['account'] . '?action=update&user_id=' . $user_id . '&user_key=' . $values['user_key'];
+	$text_msg = "Modifier votre compte : " . $confirm_url;
+	$html_msg = '<html><body><a href="' . $confirm_url . '">Modifier votre compte</a></body</html>';
+
+	send_mail(
+		['name' => $values['user_name'], 'mail' => $values['user_email']],
+		['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+		'Modification de votre compte',
+		$text_msg,
+		$html_msg
+	);
 
 	return true;
 }

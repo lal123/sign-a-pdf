@@ -73,8 +73,18 @@ switch($action) {
     case 'confirm':
 ?>
     <h2><?php echo $tr['MENU.CONFIRM_ACCOUNT']; ?></h2>
-    <div class="ms-0 mb-2">
+    <div class="ms-0 mt-4 mb-2">
         Welcome <b><?php echo $values['user_name']; ?></b><br />
+        <br />
+        An email has been sent to <?php echo $values['user_email']; ?> !
+    </div>
+<?php
+        break;
+    case 'confirm-update':
+?>
+    <h2><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></h2>
+    <div class="ms-0 mt-4 mb-2">
+        Thanks <b><?php echo $values['user_name']; ?></b><br />
         <br />
         An email has been sent to <?php echo $values['user_email']; ?> !
     </div>
