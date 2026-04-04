@@ -4,6 +4,8 @@ $page_role = [
 	'docs'		=> 'docs',
 	'account'	=> 'account',
 	'sign-in'	=> 'sign-in',
+	'terms-of-use'	=> 'terms-of-use',
+	'legal-notice'	=> 'legal-notice',
 ];
 
 $page_title_prefix = 'Sign a PDF for free';
@@ -12,6 +14,8 @@ $page_title_suffix = [
 	'docs'		=> 'Your documents',
 	'account'	=> 'Your account',
 	'sign-in'	=> 'Sign in',
+	'terms-of-use'	=> 'Terms of use',
+	'legal-notice'	=> 'Legal notice',
 ];
 
 $tr =[
@@ -32,6 +36,7 @@ $tr =[
 	'UPLOAD.SENDING_DOC'	=> 'Sending your document',
 	'UPLOAD.NOT_A_PDF'		=> 'This file is not recognized as a PDF',
 	'UPLOAD.FILE_TOO_BIG'	=> 'This file is over the authorized size limit (20MiB)',
+	'UPLOAD.MAX_DOCS_NUMB'	=> 'This maximum of documents number has been reached',
 	'UPLOAD.BYTES_RECEIVED'	=> 'Received',
 	'UPLOAD.PREPARING_DOC'	=> 'Preparing your document...',
 	'UPLOAD.BYTE_UNITS'		=> "['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']",

@@ -104,10 +104,22 @@ include "inc/content/{$page}.php";
             <div class="flex-grow-0">
                 <ul class="navbar-nav flex-row text-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
+                        <a<?php
+                        if ($page == 'terms-of-use') {
+                            echo ' class="nav-link active" aria-current="page"';
+                        } else {
+                            echo ' class="nav-link"';
+                        }
+                        ?> href="<?php echo "/{$lang}/{$page_role['terms-of-use']}"; ?>"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
+                        <a<?php
+                        if ($page == 'legal-notice') {
+                            echo ' class="nav-link active" aria-current="page"';
+                        } else {
+                            echo ' class="nav-link"';
+                        }
+                        ?> href="<?php echo "/{$lang}/{$page_role['legal-notice']}"; ?>"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
                     </li>
                 </ul>
             </div>

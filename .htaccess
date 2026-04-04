@@ -4,11 +4,16 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^sign-a-pdf\.com$ [NC]
 RewriteRule ^(.*)$ http://www.sign-a-pdf.com/$1 [R=301,L]
 
-RewriteCond %{HTTP_HOST} ^signer-un-pdf\.fr$ [NC]
-RewriteRule ^(.*)$ http://www.signer-un-pdf.fr/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^signer-un-pdf\.fr$ [OR]
+RewriteCond %{HTTP_HOST} ^www.signer-un-pdf\.fr$ [NC]
+RewriteRule ^(.*)$ http://www.sign-a-pdf.com/fr/$1 [R=301,L]
 
 RewriteCond %{HTTP_HOST} ^sign-a-pdf\.test$ [NC]
 RewriteRule ^(.*)$ http://www.sign-a-pdf.test/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^signer-un-pdf\.test [OR]
+RewriteCond %{HTTP_HOST} ^www.signer-un-pdf\.test$ [NC]
+RewriteRule ^(.*)$ http://www.sign-a-pdf.test/fr/$1 [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

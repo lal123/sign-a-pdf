@@ -12,16 +12,26 @@ require_once 'pdf.php';
 session_start();
 
 $action = '';
-
 if(isset($_POST['action'])) {
 	$action = $_POST['action'];
 }
+
+$lang = 'en';
+if(isset($_POST['lang'])) {
+	$lang = $_POST['lang'];
+}
+
+require_once 'lang_' . $lang . '.php';
 
 $err_msg = '';
 
 switch($action) {
 	case 'upload_doc':
-		$res = pdf_convert_to_png();
+		if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) >= MAX_DOCS_NUMB)) {
+			$res = json_encode(['pdf_id' => '', 'err_msg' => $tr['UPLOAD.MAX_DOCS_NUMB'], 'name' => ''], JSON_UNESCAPED_UNICODE);
+		} else { 
+			$res = pdf_convert_to_png();
+		}
 		/*
 		if($err_msg == '') {
 			$page = 'docs';
@@ -31,7 +41,6 @@ switch($action) {
 		echo $res;
 		break;
 	case 'delete_doc':
-		$lang = $_POST['lang'];
 		$pdf_id = $_POST['pdf_id'];
 		unset($_SESSION['docs'][$pdf_id]);
 		$docs_numb = sizeof($_SESSION['docs']);
