@@ -37,9 +37,9 @@ switch($action) {
             <div class="col-lg-2 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userPassword"><?php echo $tr['ACCOUNT.USER_PASS']; ?></label>
-                    <input type="password" class="form-control<?php if(isset($values['user_pass'])) { echo (isset($errors['user_pass']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_pass" id="userPassword" placeholder="<?php echo $tr['ACCOUNT.USER_PASS.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_pass'])) { echo $values['user_pass']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="password" class="form-control<?php if(isset($values['user_pass'])) { echo (isset($errors['user_pass']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_pass" id="userPassword" aria-describedby="passwordHelp" placeholder="<?php echo $tr['ACCOUNT.USER_PASS.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_pass'])) { echo $values['user_pass']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <?php if(isset($errors['user_pass'])) { echo '<div class="invalid-feedback">' . $errors['user_pass'] . '</div>'; } ?>
-                    <div id="nameHelp" class="form-text">
+                    <div id="passwordHelp" class="form-text">
                         <?php echo $tr['ACCOUNT.USER_PASS.HELP']; ?>
                     </div>
                 </div>
@@ -52,7 +52,7 @@ switch($action) {
                 </div>
             </div>
             <div class="col-lg-4 ms-0 mb-2">
-                <div class="form-check">
+                <div class="form-chec k">
                     <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo ' is-valid'; } ?>" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <label class="form-check-label" for="userOptin"><?php echo $tr['ACCOUNT.USER_OPTIN']; ?></label>
                 </div>

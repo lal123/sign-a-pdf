@@ -97,63 +97,109 @@ if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
 	$page = 'home';
 }
 
-if($page == 'account') {
-	$errors = [];
-	$values = [];
-	$action = 'create';
+switch($page) {
+	case 'account':
+		$errors = [];
+		$values = [];
+		$action = 'create';
 
-	if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	    if(isset($_POST['action']) && ($_POST['action'] != '')) {
-	        $action = $_POST['action'];
-	        switch($action) {
-	            case 'create':
-	                $values['user_name'] = $_POST['user_name'];
-	                if((strlen($values['user_name']) < 4) || (strlen($values['user_name']) > 24)) {
-	                    $errors['user_name'] = $tr['ACCOUNT.USER_NAME.ERROR'];
-	                }
-	                $values['user_email'] = $_POST['user_email'];
-	                if(!utils_is_valid_email_address($values['user_email'])) {
-	                    $errors['user_email'] = $tr['ACCOUNT.USER_MAIL.ERROR'];
-	                }
-	                $values['user_pass'] = $_POST['user_pass'];
-	                if((strlen($values['user_pass']) < 4) || (strlen($values['user_pass']) > 24)) {
-	                    $errors['user_pass'] = $tr['ACCOUNT.USER_PASS.ERROR'];
-	                }
-	                $values['confirm'] = $_POST['confirm'];
-	                if($values['confirm'] != $values['user_pass']) {
-	                    $errors['confirm'] = $tr['ACCOUNT.CONFIRM.ERROR'];
-	                }
-	                $values['user_optin'] = (isset($_POST['user_optin']) && ($_POST['user_optin'] == 'on') ? 1 : 0);
-	                $values['user_accept'] = (isset($_POST['user_accept']) && ($_POST['user_accept'] == 'on') ? 1 : 0);
-	                if(!isset($values['user_accept']) || ($values['user_accept'] != 1)) {
-	                    $errors['user_accept'] =  $tr['ACCOUNT.USER_ACCEPT.ERROR'];
-	                }
-	                if(utils_user_create($values, $errors)) {
-	                    $action = 'confirm';
-	                }
-	                break;
-	        }
-	    }
-	} else if(isset($_GET['action']) && ($_GET['action'] != '')) {
-	    $action = $_GET['action'];
-	    switch($action) {
-	        case 'validate':
-	            $user_id = $_GET['user_id'];
-	            $user_key = $_GET['user_key'];
-	            utils_user_validate($user_id, $user_key, $errors);
-	            break;
-	    }
-	}	
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    if(isset($_POST['action']) && ($_POST['action'] != '')) {
+		        $action = $_POST['action'];
+		        switch($action) {
+		            case 'create':
+		                $values['user_name'] = $_POST['user_name'];
+		                if((strlen($values['user_name']) < 4) || (strlen($values['user_name']) > 24)) {
+		                    $errors['user_name'] = $tr['ACCOUNT.USER_NAME.ERROR'];
+		                }
+		                $values['user_email'] = $_POST['user_email'];
+		                if(!utils_is_valid_email_address($values['user_email'])) {
+		                    $errors['user_email'] = $tr['ACCOUNT.USER_MAIL.ERROR'];
+		                }
+		                $values['user_pass'] = $_POST['user_pass'];
+		                if((strlen($values['user_pass']) < 4) || (strlen($values['user_pass']) > 24)) {
+		                    $errors['user_pass'] = $tr['ACCOUNT.USER_PASS.ERROR'];
+		                }
+		                $values['confirm'] = $_POST['confirm'];
+		                if($values['confirm'] != $values['user_pass']) {
+		                    $errors['confirm'] = $tr['ACCOUNT.CONFIRM.ERROR'];
+		                }
+		                $values['user_optin'] = (isset($_POST['user_optin']) && ($_POST['user_optin'] == 'on') ? 1 : 0);
+		                $values['user_accept'] = (isset($_POST['user_accept']) && ($_POST['user_accept'] == 'on') ? 1 : 0);
+		                if(!isset($values['user_accept']) || ($values['user_accept'] != 1)) {
+		                    $errors['user_accept'] =  $tr['ACCOUNT.USER_ACCEPT.ERROR'];
+		                }
+		                if(utils_user_create($values, $errors)) {
+		                    $action = 'confirm';
+		                }
+		                break;
+		        }
+		    }
+		} else if(isset($_GET['action']) && ($_GET['action'] != '')) {
+		    $action = $_GET['action'];
+		    switch($action) {
+		        case 'validate':
+		            $user_id = $_GET['user_id'];
+		            $user_key = $_GET['user_key'];
+		            utils_user_validate($user_id, $user_key, $errors);
+		            break;
+		    }
+		}
+		break;
+	case 'sign-in':
+		$errors = [];
+		$values = [];
+		$action = 'sign-in';
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    if(isset($_POST['action']) && ($_POST['action'] != '')) {
+		        $action = $_POST['action'];
+		        switch($action) {
+		            case 'sign-in':
+		                $values['user_name'] = $_POST['user_name'];
+		                $values['user_pass'] = $_POST['user_pass'];
+		                if(utils_user_sign_in($values, $errors)) {
+		                    $action = '';
+		                    $page = 'home';
+		                }
+		                break;
+		        }
+		    }
+		}
+		break;
+}
+
+function utils_user_sign_in($values, &$errors) {
+
+	global $lang, $tr, $page_role;
+
+	$user = [];
+	$user_name = $values['user_name'];
+	$user_pass = $values['user_pass'];
+	$res = model_user_exists(['user_name' => $user_name, 'user_pass' => $user_pass], $user);
+	if($res != false) {
+		if(sizeof($user) != 0) {
+			$_SESSION['user_id'] = $user['user_id'];
+			$_SESSION['user_key'] = $user['user_key'];
+			return true;
+		} else {
+			$errors['general'] = $tr['ACCOUNT.LOGIN_ERROR'];
+			return false;
+		}
+	}
+	return false;
 }
 
 function utils_is_signed_in() {
 
 	$user= [];
-	$user_id = $_SESSION['user_id'];
-	$user_key = $_SESSION['user_key'];
-	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], $user);
-	if($res != false) {
-		return (sizeof($user) != 0);
+	if(isset($_SESSION['user_id']) && isset($_SESSION['user_key'])) {
+		$user_id = $_SESSION['user_id'];
+		$user_key = $_SESSION['user_key'];
+		$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], $user);
+		if($res != false) {
+			return (sizeof($user) != 0);
+		}
 	}
 	return false;
 }

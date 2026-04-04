@@ -75,4 +75,6 @@ $tr =[
 	'ACCOUNT.NAME_ALREADY_EXISTS'	=> 'This name already exists',
 	'ACCOUNT.VALIDATION_ERROR'		=> 'The parameters are wrong',
 	'ACCOUNT.ALREADY_VALIDATED'		=> 'Your account has already been validated',
+	'ACCOUNT.SIGN_IN_INTRO'			=> '',
+	'ACCOUNT.LOGIN_ERROR'			=> 'Incorrect identifiers',
 ];
