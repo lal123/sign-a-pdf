@@ -64,8 +64,11 @@ switch($action) {
                 </div>
             </div>
             <div class="col-lg-2 ms-0 mb-2">
-                <button type="submit" class="btn btn-primary dark-cyan">Submit</button>
+                <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $tr['ACCOUNT.UNEXPECTED_ERROR'] . '</div>'; } ?>
+            </div>
+            <div class="col-lg-2 ms-0 mt-4 mb-2">
+                <a class="common" href="javascript:void(0)" onclick="return account.confirm('<?php echo $_SESSION['user_id']; ?>'); return false;">Supprimer le compte</a>
             </div>
     </form>
 <?php
@@ -93,7 +96,7 @@ switch($action) {
     case 'validate':
 ?>
     <h2><?php echo $tr['MENU.VALIDATE_ACCOUNT']; ?></h2>
-    <div class="ms-0 mb-4">
+    <div class="ms-0 mt-4 mb-2">
 <?php
 if(isset($errors['general']) && ($errors['general'] != '')) {
     echo $errors['general'];
@@ -109,4 +112,22 @@ if(isset($errors['general']) && ($errors['general'] != '')) {
         break;
 }
 ?>
+</div>
+
+<div class="modal" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><?php echo $tr['CONFIRMATION']; ?></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><?php echo $tr['ACCOUNT.DELETE.CONFIRM']; ?></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+        <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
+      </div>
+    </div>
+  </div>
 </div>

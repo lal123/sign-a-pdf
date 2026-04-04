@@ -137,3 +137,26 @@ var docs = {
         return false;
     }
 }
+
+var account = {
+
+     confirm: function(user_id) {
+        $('#confirmModal #actionConfirm').on('click', event => {
+            $('#confirmModal').modal('hide');
+            account.delete(user_id);
+        });
+        $('#confirmModal').modal('show');
+        return false;
+    },
+
+    delete: function(user_id) {
+        $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: {'action': 'delete_account', 'user_id': user_id, 'lang': '<?php echo $lang; ?>'}
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
+    }
+}

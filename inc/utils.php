@@ -2,11 +2,14 @@
 
 $version_suffix = '1.01';
 
-session_start();
-
 $lang = '';
 
-if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
+if(isset($_POST['lang']) && ($_POST['lang'] != '')) {
+	
+	$lang = $_POST['lang'];
+	setcookie('lang', $lang, time() + 2 * 365 * 86400, '/');
+    
+} else if(isset($_GET['lang']) && ($_GET['lang'] != '')) {
 	
 	$lang = $_GET['lang'];
 	setcookie('lang', $lang, time() + 2 * 365 * 86400, '/');
@@ -51,6 +54,8 @@ require_once 'mysql.php';
 require_once 'model.php';
 require_once 'pdf.php';
 require_once 'mailer.php';
+
+session_start();
 
 $pdf_id = '';
 
@@ -400,5 +405,18 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 	} else {
 		$errors['general'] = $tr['ACCOUNT.VALIDATION_ERROR'];
 	}
+	return true;
+}
+
+function utils_user_delete($user_id, &$errors) {
+
+	global $lang, $tr, $page_role;
+
+	$res = model_user_delete($user_id);
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+
 	return true;
 }

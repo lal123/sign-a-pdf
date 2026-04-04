@@ -103,3 +103,15 @@ function model_user_validate($user_id, $user_key) {
     return $res;    
 }
 
+function model_user_delete($user_id) {
+
+    global $base, $cdb;
+    
+    $sql = "delete  from `{$base}`.`users`"
+            . " where 1"
+            . " and user_id = '" . db_escape($user_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return $res;    
+}
+

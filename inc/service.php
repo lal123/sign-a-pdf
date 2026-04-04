@@ -4,12 +4,16 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
     exit();
 }
 
+/*
 require_once 'constant.php';
 require_once 'get_ip.php';
 require_once 'write_log.php';
 require_once 'pdf.php';
 
 session_start();
+*/
+
+require_once 'utils.php';
 
 $action = '';
 if(isset($_POST['action'])) {
@@ -49,6 +53,15 @@ switch($action) {
 			echo "$('#docs_numb').html('({$docs_numb})');\n";
 		} else {
 			echo "document.location.href = '/{$lang}/';\n";
+		}
+		break;
+	case 'delete_account':
+		$user_id = $_POST['user_id'];
+		$errors = [];
+		if (utils_user_delete($user_id, $errors)) {
+			echo "document.location.href = '/{$lang}/';\n";
+		} else {
+			echo "console.log('errors', " . json_encode($errors, JSON_UNESCAPED_UNICODE) . ");\n";
 		}
 		break;
 }

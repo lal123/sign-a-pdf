@@ -74,7 +74,7 @@ if($is_signed_in) {
                             <li><a class="dropdown-item" href="/en/">Your documents</a></li>
                             <li><a class="dropdown-item" href="/en/">Your signatures</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
+                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
                         </ul>
                     </li>
                 </ul>

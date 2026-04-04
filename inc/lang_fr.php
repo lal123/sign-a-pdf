@@ -30,6 +30,7 @@ $tr =[
 	'CANCEL'				=> 'Annuler',
 	'CONFIRM'				=> 'Confirmer',
 	'WELCOME'				=> 'Bienvenue',
+	'SUBMIT'				=> 'Valider',
 	'DATE_FORMAT'			=> "d/m/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Envoyer un document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Vos documents',
@@ -83,4 +84,5 @@ $tr =[
 	'ACCOUNT.ALREADY_VALIDATED'		=> 'Votre compte a déjà été validé',
 	'ACCOUNT.SIGN_IN_INTRO'			=> '',
 	'ACCOUNT.LOGIN_ERROR'			=> 'Identifiants incorrects',
+	'ACCOUNT.DELETE.CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce compte ?',
 ];

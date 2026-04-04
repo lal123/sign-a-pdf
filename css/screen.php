@@ -19,6 +19,11 @@ body {
 .btn.dark-cyan {
 //    box-shadow: 2px 2px 6px #6f7f7f;
 //    margin: 10px;
+	--bs-btn-focus-shadow-rgb: rgb(128, 192, 192);
+}
+
+.form-group input {
+	//background-color: none;
 }
 
 .btn.dark-cyan, .btn.dark-cyan:visited {
@@ -29,7 +34,7 @@ body {
 .btn.dark-cyan:hover, .btn.dark-cyan:active:focus, .btn.dark-cyan:focus {
 	background-color: #284c4c;
 	border-color: #284c4c;
-//	outline: none;	
+	outline: none;	
 }
 
 .page-preview {

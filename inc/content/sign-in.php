@@ -7,13 +7,13 @@
 switch($action) {
     case 'sign-in':
 ?>    
-    <h2><?php echo $tr['MENU.SIGN_IN']; ?></h2>
-    <div class="ms-0 mb-2">
-        <?php echo $tr['ACCOUNT.SIGN_IN_INTRO']; ?>
-    </div>
     <form method="POST" action="">
         <input type="hidden" name="action" value="sign-in" />
         <div class="form-row">
+            <div class="col-lg-4 ms-0 mb-2">
+                <h2><?php echo $tr['MENU.SIGN_IN']; ?></h2>
+                <?php echo $tr['ACCOUNT.SIGN_IN_INTRO']; ?>
+            </div>
             <div class="col-lg-2 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userName"><?php echo $tr['ACCOUNT.USER_NAME']; ?></label>
@@ -29,7 +29,7 @@ switch($action) {
                 </div>
             </div>
             <div class="col-lg-2 ms-0 mb-2">
-                <button type="submit" class="btn btn-primary dark-cyan">Submit</button>
+                <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $errors['general'] . '</div>'; } ?>
             </div>
     </form>
