@@ -1,0 +1,6 @@
+# welcome!
+User-agent: *
+Disallow: /fr/conditions
+Disallow: /fr/mentions-legales
+Disallow: /en/terms-of-use
+Disallow: /en/legal-notice
