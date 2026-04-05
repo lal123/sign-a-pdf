@@ -87,7 +87,8 @@ $tr =[
 	'ACCOUNT.VALIDATION_ERROR'		=> 'Les paramètres sont erronés',
 	'ACCOUNT.ALREADY_VALIDATED'		=> 'Votre compte a déjà été validé',
 	'ACCOUNT.SIGN_IN_INTRO'			=> 'Entrez votre nom et votre mot de passe ci-dessous.',
-	'ACCOUNT.LOGIN_ERROR'			=> 'Identifiants incorrects',
+	'ACCOUNT.LOGIN_ERROR'			=> 'Identifiants incorrects ou compte non encore validé',
+	'ACCOUNT.NOT_YET_VALIDATED'     => 'Adresse email inconnue ou compte non encore validé',
 	'ACCOUNT.DELETE.CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce compte ?',
 	'ACCOUNT.CONFIRM_TITLE'			=> 'Confirmer votre compte',
 	'ACCOUNT.CONFIRM_WELCOME'		=> "Bienvenue <b>%%user_name%%</b> !<br /><br />Un message vient d'être envoyé à l'adresse <b>%%user_email%%</b> avec un lien de confirmation.",
@@ -98,6 +99,7 @@ $tr =[
 	'ACCOUNT.LOST_IDS_TITLE'		=> 'Identifiants perdus',
 	'ACCOUNT.LOST_IDS_INTRO'		=> 'Entrez votre adresse email et vous recevrez un message vous indiquant comment retrouver votre compte.',
 	'ACCOUNT.LOST_IDS_ERROR'		=> 'Adresse email inconnue',
+	'ACCOUNT.LOST_IDS_MAIL_SENT'	=> 'A message has just been sent to the address <b>%%user_email%%</b> with a link to retrieve your account.',
 	'ACCOUNT.DELETE_ACCOUNT'		=> 'Supprimer le compte',
 	'CONTACT.INTRO'					=> 'Envoyez-nous un message à cette adresse : contact@sign-a-pdf.com',
 ];

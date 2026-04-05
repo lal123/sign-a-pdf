@@ -163,7 +163,9 @@ switch($page) {
 		            utils_user_validate($user_id, $user_key, $user, $is_signed_in, $errors);
 		            break;
 		        case 'update':
-		            utils_user_reconnect($user_id, $user_key, $user, $is_signed_in, $errors);
+		            if(utils_user_reconnect($user_id, $user_key, $user, $is_signed_in, $errors)) {
+        				$values = $user;
+		            }
 		            break;
 		    }
 		}
@@ -270,7 +272,7 @@ function utils_user_lost_ids($values, &$errors) {
 				);
 				return true;
 			} else {
-				$errors['general'] = 'Account not validated';
+				$errors['general'] = $tr['ACCOUNT.NOT_YET_VALIDATED'];
 			}
 		} else {
 			$errors['general'] = $tr['ACCOUNT.LOST_IDS_ERROR'];
@@ -485,10 +487,11 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 		$_SESSION['user_key'] = $user_key;
 		setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
 		setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
+		return true;
 	} else {
 		$errors['general'] = $tr['ACCOUNT.VALIDATION_ERROR'];
 	}
-	return true;
+	return false;
 }
 
 function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
@@ -496,7 +499,7 @@ function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$err
 	global $lang, $tr, $page_role;
 
 	$user = [];
-	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
+	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key, 'user_valid' => 1], [], $user);
 	if($res == false) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
 		return false;
@@ -507,8 +510,9 @@ function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$err
 		setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
 		setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
 		$is_signed_in = true;
+		return true;
 	}
-	return true;
+	return false;
 }
 
 function utils_user_delete($user_id, &$errors) {

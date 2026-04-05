@@ -24,6 +24,8 @@ switch($action) {
             </div>
             <div class="col-lg-2 ms-0 mb-2">
                 <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
+            </div>
+            <div class="col-lg-6 ms-0 mb-2">
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $errors['general'] . '</div>'; } ?>
             </div>
         </div>
@@ -31,7 +33,14 @@ switch($action) {
 <?php
         break;
     case 'mail-sent':
-        echo "OK";
+?>
+    <div class="col-lg-4 ms-0 mb-2">
+        <h2><?php echo $tr['ACCOUNT.LOST_IDS_TITLE']; ?></h2>
+    </div>
+    <div class="col-lg-12 ms-0 mt-3 mb-3">
+        <?php echo strtr($tr['ACCOUNT.LOST_IDS_MAIL_SENT'], ['%%user_email%%' => $values['user_email']]); ?>
+    </div>
+<?php
         break;
 }
 ?>

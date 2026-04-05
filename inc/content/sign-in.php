@@ -29,7 +29,7 @@ switch($action) {
                     <?php if(isset($errors['user_pass'])) { echo '<div class="invalid-feedback">' . $errors['user_pass'] . '</div>'; } ?>
                 </div>
             </div>
-            <div class="col-lg-2 ms-0 mb-2">
+            <div class="col-lg-6 ms-0 mb-2">
                 <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $errors['general'] . '</div>'; } ?>
             </div>
