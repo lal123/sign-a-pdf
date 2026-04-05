@@ -25,7 +25,7 @@ switch($action) {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 ms-0 mb-1">
+            <div class="col-lg-5 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userEmail"><?php echo $tr['ACCOUNT.USER_MAIL']; ?></label>
                     <input type="email" maxlength="256" class="form-control<?php if(isset($values['user_email'])) { echo (isset($errors['user_email']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_email" id="userEmail" aria-describedby="emailHelp" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
@@ -52,7 +52,7 @@ switch($action) {
                     <?php if(isset($errors['confirm'])) { echo '<div class="invalid-feedback">' . $errors['confirm'] . '</div>'; } ?>
                 </div>
             </div>
-            <div class="col-lg-4 ms-0 mb-2">
+            <div class="col-lg-5 ms-0 mb-2">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input<?php if(isset($values['user_optin'])) { echo ' is-valid'; } ?>" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <label class="form-check-label" for="userOptin"><?php echo $tr['ACCOUNT.USER_OPTIN']; ?></label>

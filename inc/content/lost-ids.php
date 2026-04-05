@@ -16,7 +16,7 @@ switch($action) {
             <div class="col-lg-12 ms-0 mt-3 mb-3">
                 <?php echo $tr['ACCOUNT.LOST_IDS_INTRO']; ?>
             </div>
-            <div class="col-lg-4 ms-0 mb-3">
+            <div class="col-lg-5 ms-0 mb-3">
                 <div class="form-group">
                     <label for="userEmail"><?php echo $tr['ACCOUNT.USER_MAIL']; ?></label>
                     <input type="text" maxlength="256" class="form-control" name="user_email" id="userEmail" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" />

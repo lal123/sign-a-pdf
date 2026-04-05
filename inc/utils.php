@@ -283,12 +283,16 @@ function utils_user_lost_ids($values, &$errors) {
 		if(sizeof($user) != 0) {
 			if(!isset($_SESSION['mail_sent']['lost_ids']) || ($_SESSION['mail_sent']['lost_ids'] != 1)) {	
 				$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
-				$text_msg = "Votre compte : " . $confirm_url;
-				$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
+
+				$arr = model_get_mail_model($lang, 'lost-ids');
+				
+				$text_msg = strtr($arr['mail_text'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
+				$html_msg = strtr($arr['mail_html'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
+
 				send_mail(
 					['name' => $user['user_name'], 'mail' => $user['user_email']],
 					['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-					'Votre compte',
+					'[Sign-a-pdf.com] ' . $tr['ACCOUNT.LOST_IDS.MAIL_TITLE'],
 					$text_msg,
 					$html_msg
 				);
@@ -397,7 +401,7 @@ function utils_user_create($values, &$errors) {
 	if(!isset($_SESSION['mail_sent']['create']) || ($_SESSION['mail_sent']['create'] != 1)) {	
 		$confirm_url = utils_create_link('account', 'validate', $user_id, $values['user_key']);
 
-		$arr = model_get_mail_model('fr', 'create');
+		$arr = model_get_mail_model($lang, 'create');
 		
 		$text_msg = strtr($arr['mail_text'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
 		$html_msg = strtr($arr['mail_html'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
@@ -405,7 +409,7 @@ function utils_user_create($values, &$errors) {
 		send_mail(
 			['name' => $values['user_name'], 'mail' => $values['user_email']],
 			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-			'[Sign-a-pdf.com] Création de votre compte',
+			'[Sign-a-pdf.com] ' . $tr['ACCOUNT.CREATE.MAIL_TITLE'],
 			$text_msg,
 			$html_msg
 		);
@@ -458,13 +462,16 @@ function utils_user_update($user_id, $values, &$errors) {
 
 	if(!isset($_SESSION['mail_sent']['update']) || ($_SESSION['mail_sent']['update'] != 1)) {	
 		$confirm_url = utils_create_link('account', 'update', $user_id, $values['user_key']);
-		$text_msg = "Modifier votre compte : " . $confirm_url;
-		$html_msg = '<html><body><a href="' . $confirm_url . '">Modifier votre compte</a></body</html>';
+
+		$arr = model_get_mail_model($lang, 'update');
+		
+		$text_msg = strtr($arr['mail_text'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
+		$html_msg = strtr($arr['mail_html'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
 
 		send_mail(
 			['name' => $values['user_name'], 'mail' => $values['user_email']],
 			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-			'Modification de votre compte',
+			'[Sign-a-pdf.com] ' . $tr['ACCOUNT.UPDATE.MAIL_TITLE'],
 			$text_msg,
 			$html_msg
 		);
