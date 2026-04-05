@@ -20,11 +20,15 @@
             <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
         </div>
     </center>
-
+<?php
+if(!$is_signed_in) {
+?>
      <div class="col-lg-12 ms-0 mt-5 mb-3">
         <font size="+1"><i class="bi bi-info-circle-fill" style="color: green;"></i></font>&nbsp; <?php echo strtr($tr['HOME.INTRO'], ['%%account_link%%' => "/{$lang}/{$page_role['account']}"]); ?>
     </div>
-
+<?php
+}
+?>
 </div>
 
 <div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
