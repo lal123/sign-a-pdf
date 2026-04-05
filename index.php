@@ -151,6 +151,15 @@ include "inc/content/{$page}.php";
                         }
                         ?> href="<?php echo "/{$lang}/{$page_role['legal-notice']}"; ?>"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
                     </li>
+                    <li class="nav-item">
+                        <a<?php
+                        if ($page == 'contact') {
+                            echo ' class="nav-link active" aria-current="page"';
+                        } else {
+                            echo ' class="nav-link"';
+                        }
+                        ?> href="<?php echo "/{$lang}/{$page_role['contact']}"; ?>"><?php echo $tr['MENU.CONTACT']; ?></a>
+                    </li>
                 </ul>
             </div>
         </div>

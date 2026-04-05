@@ -1,7 +1,6 @@
 <?php
 
 ?>
-
 <div class="container">
 <?php
 switch($action) {
@@ -12,6 +11,8 @@ switch($action) {
         <div class="form-row">
             <div class="col-lg-4 ms-0 mb-2">
                 <h2><?php echo $tr['MENU.SIGN_IN']; ?></h2>
+            </div>
+            <div class="col-lg-6 ms-0 mt-3 mb-3">
                 <?php echo $tr['ACCOUNT.SIGN_IN_INTRO']; ?>
             </div>
             <div class="col-lg-2 ms-0 mb-1">
@@ -32,6 +33,10 @@ switch($action) {
                 <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $errors['general'] . '</div>'; } ?>
             </div>
+        </div>
+        <div class="col-lg-2 ms-0 mt-4 mb-2">
+            <a class="common" href="<?php echo '/' . $lang . '/' . $page_role['lost-ids']; ?>"><?php echo $tr['ACCOUNT.LOST_IDENTIFIERS']; ?></a>
+        </div>
     </form>
 <?php
         break;

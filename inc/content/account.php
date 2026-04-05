@@ -68,14 +68,15 @@ switch($action) {
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $tr['ACCOUNT.UNEXPECTED_ERROR'] . '</div>'; } ?>
             </div>
 <?php
-if($action == 'update') {
+if(($action == 'update') && isset($_SESSION['user_id'])) {
 ?>
             <div class="col-lg-2 ms-0 mt-4 mb-2">
-                <a class="common" href="javascript:void(0)" onclick="return account.confirm('<?php echo $_SESSION['user_id']; ?>'); return false;">Supprimer le compte</a>
+                <a class="common" href="javascript:void(0)" onclick="return account.confirm('<?php echo $_SESSION['user_id']; ?>'); return false;"><?php echo $tr['ACCOUNT.DELETE_ACCOUNT']; ?></a>
             </div>
 <?php
 }
 ?>
+        </div>
     </form>
 <?php
         break;

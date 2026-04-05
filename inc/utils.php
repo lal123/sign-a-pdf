@@ -77,12 +77,8 @@ db_connect();
 $user = [];
 $is_signed_in = utils_is_signed_in($user);
 
-//write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
-
 $err_msg = '';
-
-$js_content = '';
-
+$action = '';
 
 $pages = array_flip($page_role);
 
@@ -166,6 +162,9 @@ switch($page) {
 		        case 'validate':
 		            utils_user_validate($user_id, $user_key, $user, $is_signed_in, $errors);
 		            break;
+		        case 'update':
+		            utils_user_reconnect($user_id, $user_key, $user, $is_signed_in, $errors);
+		            break;
 		    }
 		}
 		break;
@@ -196,7 +195,28 @@ switch($page) {
             exit();
         }
 		break;
+	case 'lost-ids':
+		$errors = [];
+		$values = [];
+		$action = 'lost-ids';
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    if(isset($_POST['action']) && ($_POST['action'] != '')) {
+		        $action = $_POST['action'];
+		        switch($action) {
+		            case 'lost-ids':
+		                $values['user_email'] = $_POST['user_email'];
+		                if(utils_user_lost_ids($values, $errors)) {
+		                	$action = 'mail-sent';
+		                }
+		                break;
+		        }
+		    }
+		}
+		break;
 }
+
+//write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
 
 function utils_user_sign_in($values, &$errors) {
 
@@ -205,7 +225,7 @@ function utils_user_sign_in($values, &$errors) {
 	$user = [];
 	$user_name = $values['user_name'];
 	$user_pass = $values['user_pass'];
-	$res = model_user_exists(['user_name' => $user_name, 'user_pass' => $user_pass], [], $user);
+	$res = model_user_exists(['user_name' => $user_name, 'user_pass' => $user_pass, 'user_valid' => 1], [], $user);
 	if($res != false) {
 		if(sizeof($user) != 0) {
 			$_SESSION['user_id'] = $user['user_id'];
@@ -226,6 +246,37 @@ function utils_user_sign_out() {
     setcookie('user_id',"",0,"/","",0);
     setcookie('user_key',"",0,"/","",0);
     return true;
+}
+
+function utils_user_lost_ids($values, &$errors) {
+
+	global $lang, $tr, $page_role;
+
+	$user = [];
+	$user_email = $values['user_email'];
+	$res = model_user_exists(['user_email' => $user_email], [], $user);
+	if($res != false) {
+		if(sizeof($user) != 0) {
+			if($user['user_valid'] == 1) {
+				$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
+				$text_msg = "Votre compte : " . $confirm_url;
+				$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
+				send_mail(
+					['name' => $user['user_name'], 'mail' => $user['user_email']],
+					['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+					'Votre compte',
+					$text_msg,
+					$html_msg
+				);
+				return true;
+			} else {
+				$errors['general'] = 'Account not validated';
+			}
+		} else {
+			$errors['general'] = $tr['ACCOUNT.LOST_IDS_ERROR'];
+		}
+	}
+	return false;
 }
 
 function utils_is_signed_in(&$user) {
@@ -436,6 +487,26 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 		setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
 	} else {
 		$errors['general'] = $tr['ACCOUNT.VALIDATION_ERROR'];
+	}
+	return true;
+}
+
+function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
+
+	global $lang, $tr, $page_role;
+
+	$user = [];
+	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+	if(sizeof($user) != 0) {
+		$_SESSION['user_id'] = $user_id;
+		$_SESSION['user_key'] = $user_key;
+		setcookie('user_id', $user_id, time() + 2 * 365 * 86400, '/');
+		setcookie('user_key', $user_key, time() + 2 * 365 * 86400, '/');
+		$is_signed_in = true;
 	}
 	return true;
 }

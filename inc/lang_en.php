@@ -7,6 +7,8 @@ $page_role = [
 	'sign-out'	=> 'sign-out',
 	'terms-of-use'	=> 'terms-of-use',
 	'legal-notice'	=> 'legal-notice',
+	'contact'		=> 'contact',
+	'lost-ids'		=> 'lost-identifiers',
 ];
 
 $page_title_prefix = 'Sign a PDF for free';
@@ -18,6 +20,8 @@ $page_title_suffix = [
 	'sign-out'	=> 'Sign out',
 	'terms-of-use'	=> 'Terms of use',
 	'legal-notice'	=> 'Legal notice',
+	'contact'		=> 'Contact',
+	'lost-ids'		=> 'Lost identifiers',
 ];
 
 $tr =[
@@ -42,6 +46,7 @@ $tr =[
 	'MENU.YOUR_ACCOUNT'		=> 'Your account',
 	'MENU.TERMS_OF_USE'		=> 'Terms of use',
 	'MENU.LEGAL_NOTICE'		=> 'Legal notice',
+	'MENU.CONTACT'			=> 'Contact',
 	'HOME.ADD_PDF'			=> 'Add a PDF',
 	'UPLOAD.SENDING_DOC'	=> 'Sending your document',
 	'UPLOAD.NOT_A_PDF'		=> 'This file is not recognized as a PDF',
@@ -81,12 +86,18 @@ $tr =[
 	'ACCOUNT.NAME_ALREADY_EXISTS'	=> 'This name already exists',
 	'ACCOUNT.VALIDATION_ERROR'		=> 'The parameters are wrong',
 	'ACCOUNT.ALREADY_VALIDATED'		=> 'Your account has already been validated',
-	'ACCOUNT.SIGN_IN_INTRO'			=> '',
+	'ACCOUNT.SIGN_IN_INTRO'			=> 'Enter your name and password below.',
 	'ACCOUNT.LOGIN_ERROR'			=> 'Incorrect identifiers',
-	'ACCOUNT.DELETE.CONFIRM'		=> 'Are you sure you want to remove this account ?',
+	'ACCOUNT.DELETE.CONFIRM'		=> 'Are you sure you want to delete this account ?',
 	'ACCOUNT.CONFIRM_TITLE'			=> 'Confirm your account',
-	'ACCOUNT.CONFIRM_WELCOME'		=> 'Welcome <b>%%user_name%%</b> ! A message has just been sent to the address <b>%%user_email%%</b>',
+	'ACCOUNT.CONFIRM_WELCOME'		=> 'Welcome <b>%%user_name%%</b> !<br /><br />A message has just been sent to the address <b>%%user_email%%</b> with a confirmation link.',
 	'ACCOUNT.VALIDATION_TITLE'		=> 'Account validatation',
-	'ACCOUNT.VALIDATION_WELCOME'	=> 'Thank you for creating an account ! You are now signed in.',
-	'ACCOUNT.UPDATE_WELCOME'		=> 'Thank you <b>%%user_name%%</b> ! A message has just been sent to the address <b>%%user_email%%</b>',
+	'ACCOUNT.VALIDATION_WELCOME'	=> 'Thank you for creating an account !<br /><br />You are now signed in.',
+	'ACCOUNT.UPDATE_WELCOME'		=> 'Thank you <b>%%user_name%%</b> !<br /><br />A message has just been sent to the address <b>%%user_email%%</b> with a link to retrieve your account.',
+	'ACCOUNT.LOST_IDENTIFIERS'		=> 'Lost identifiers',
+	'ACCOUNT.LOST_IDS_TITLE'		=> 'Lost identifiers',
+	'ACCOUNT.LOST_IDS_INTRO'		=> 'Enter your email address and you will receive a message to indicate how to retrieve your account.',
+	'ACCOUNT.LOST_IDS_ERROR'		=> 'Unknown email address',
+	'ACCOUNT.DELETE_ACCOUNT'		=> 'Delete this account',
+	'CONTACT.INTRO'					=> 'Send a message to us at this address : contact@sign-a-pdf.com',
 ];
