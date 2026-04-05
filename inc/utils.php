@@ -158,12 +158,12 @@ switch($page) {
 		                break;
 		        }
 		    }
-		} else if(isset($_GET['action']) && ($_GET['action'] != '')) {
-		    $action = $_GET['action'];
+		} else if(isset($_GET['s']) && ($_GET['s'] != '')) {
+		    
+		    list($action, $user_id, $user_key) = utils_get_link($_GET['s']);
+
 		    switch($action) {
 		        case 'validate':
-		            $user_id = $_GET['user_id'];
-		            $user_key = $_GET['user_key'];
 		            utils_user_validate($user_id, $user_key, $user, $is_signed_in, $errors);
 		            break;
 		    }
@@ -192,7 +192,7 @@ switch($page) {
 		break;
 	case 'sign-out':
         if(utils_user_sign_out()) {
-            header('Location: ./');
+            header("Location: /{$lang}/");
             exit();
         }
 		break;
@@ -303,8 +303,7 @@ function utils_user_create($values, &$errors) {
 
 	$user_id = db_insert_id();
 
-	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
-	$confirm_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role['account'] . '?action=validate&user_id=' . $user_id . '&user_key=' . $values['user_key'];
+	$confirm_url = utils_create_link('account', 'validate', $user_id, $values['user_key']);
 	$text_msg = "Confirmer : " . $confirm_url;
 	$html_msg = '<html><body><a href="' . $confirm_url . '">Confirmer</a></body</html>';
 
@@ -361,8 +360,7 @@ function utils_user_update($user_id, $values, &$errors) {
 		return false;
 	}
 
-	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
-	$confirm_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role['account'] . '?action=update&user_id=' . $user_id . '&user_key=' . $values['user_key'];
+	$confirm_url = utils_create_link('account', 'update', $user_id, $values['user_key']);
 	$text_msg = "Modifier votre compte : " . $confirm_url;
 	$html_msg = '<html><body><a href="' . $confirm_url . '">Modifier votre compte</a></body</html>';
 
@@ -375,6 +373,40 @@ function utils_user_update($user_id, $values, &$errors) {
 	);
 
 	return true;
+}
+
+function utils_create_link($page, $action, $user_id, $user_key) {
+
+	global $lang, $tr, $page_role;
+
+	switch($action) {
+		case 'update':
+			$act = 2;
+			break;
+		case 'validate':
+		default:
+			$act = 1;
+	}
+	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
+	$link = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role[$page] . '?s=' . $act . $user_key . $user_id;
+	return $link;	
+}
+
+function utils_get_link($secret) {
+
+	$act = substr($secret, 0, 1);
+	switch($act) {
+		case '2':
+			$action = 'update';
+			break;
+		case '1':
+		default:
+			$action = 'validate';
+	}
+	$user_key = substr($secret, 1, 16);
+	$user_id = substr($secret, 17);
+
+	return [$action, $user_id, $user_key];
 }
 
 function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$errors) {

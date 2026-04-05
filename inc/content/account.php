@@ -8,7 +8,7 @@ switch($action) {
     case 'update':
 ?>    
     <h2><?php echo ($action == 'create' ? $tr['MENU.CREATE_ACCOUNT']: $tr['MENU.UPDATE_ACCOUNT']); ?></h2>
-    <div class="ms-0 mb-2">
+    <div class="ms-0 mt-3 mb-3">
         <?php echo ($action == 'create' ? $tr['ACCOUNT.CREATE_INTRO'] : $tr['ACCOUNT.UPDATE_INTRO']); ?>
     </div>
     <form method="POST" action="">
@@ -67,19 +67,25 @@ switch($action) {
                 <button type="submit" class="btn btn-primary dark-cyan"><?php echo $tr['SUBMIT']; ?></button>
                 <?php if(isset($errors['general'])) { echo '<div style="color: red; margin: 10px 0px 10px 0px;">' . $tr['ACCOUNT.UNEXPECTED_ERROR'] . '</div>'; } ?>
             </div>
+<?php
+if($action == 'update') {
+?>
             <div class="col-lg-2 ms-0 mt-4 mb-2">
                 <a class="common" href="javascript:void(0)" onclick="return account.confirm('<?php echo $_SESSION['user_id']; ?>'); return false;">Supprimer le compte</a>
             </div>
+<?php
+}
+?>
     </form>
 <?php
         break;
     case 'confirm':
 ?>
-    <h2><?php echo $tr['MENU.CONFIRM_ACCOUNT']; ?></h2>
+    <h2><?php echo $tr['ACCOUNT.CONFIRM_TITLE']; ?></h2>
     <div class="ms-0 mt-4 mb-2">
-        Welcome <b><?php echo $values['user_name']; ?></b><br />
-        <br />
-        An email has been sent to <?php echo $values['user_email']; ?> !
+<?php
+        echo strtr($tr['ACCOUNT.CONFIRM_WELCOME'], ['%%user_name%%' => $values['user_name'], '%%user_email%%' => $values['user_email']]);
+?>
     </div>
 <?php
         break;
@@ -87,24 +93,21 @@ switch($action) {
 ?>
     <h2><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></h2>
     <div class="ms-0 mt-4 mb-2">
-        Thanks <b><?php echo $values['user_name']; ?></b><br />
-        <br />
-        An email has been sent to <?php echo $values['user_email']; ?> !
+<?php
+        echo strtr($tr['ACCOUNT.UPDATE_WELCOME'], ['%%user_name%%' => $values['user_name'], '%%user_email%%' => $values['user_email']]);
+?>
     </div>
 <?php
         break;
     case 'validate':
 ?>
-    <h2><?php echo $tr['MENU.VALIDATE_ACCOUNT']; ?></h2>
+    <h2><?php echo $tr['ACCOUNT.VALIDATION_TITLE']; ?></h2>
     <div class="ms-0 mt-4 mb-2">
 <?php
 if(isset($errors['general']) && ($errors['general'] != '')) {
     echo $errors['general'];
 } else {
-?>
-        Thank you!
-<?php
-    //var_dump($_SESSION);
+    echo $tr['ACCOUNT.VALIDATION_WELCOME'];
 }
 ?>
     </div>

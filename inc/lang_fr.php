@@ -9,7 +9,7 @@ $page_role = [
 	'legal-notice'	=> 'mentions-legales',
 ];
 
-$page_title_prefix = 'Signez un PDF gratuitement';
+$page_title_prefix = 'Signer un PDF gratuitement';
 
 $page_title_suffix = [
 	'docs'		=> 'Vos documents',
@@ -23,7 +23,7 @@ $page_title_suffix = [
 $tr =[
 	'SITE_NAME'				=> 'Signer un PDF',
 	'EXPLICT_LANG'			=> 'Français',
-	'META.KEYWORDS'			=> 'signer, pdf',
+	'META.KEYWORDS'			=> 'signer, pdf, gratuit',
 	'META.DESCRIPTION'		=> 'Signer un PDF gratuitement',
 	'BACK'					=> 'Retour',
 	'CONFIRMATION'			=> 'Confirmation',
@@ -37,8 +37,6 @@ $tr =[
 	'MENU.YOUR_SIGNATURES'	=> 'Vos signatures',
 	'MENU.CREATE_ACCOUNT'	=> 'Créer un compte',
 	'MENU.UPDATE_ACCOUNT'	=> 'Modifier votre compte',
-	'MENU.CONFIRM_ACCOUNT'	=> 'Confirmer votre compte',
-	'MENU.VALIDATE_ACCOUNT'	=> 'Valider votre compte',
 	'MENU.SIGN_IN'			=> 'Se connecter',
 	'MENU.SIGN_OUT'			=> 'Se déconnecter',
 	'MENU.TERMS_OF_USE'		=> "Conditions générales d'utilisation",
@@ -86,4 +84,9 @@ $tr =[
 	'ACCOUNT.SIGN_IN_INTRO'			=> '',
 	'ACCOUNT.LOGIN_ERROR'			=> 'Identifiants incorrects',
 	'ACCOUNT.DELETE.CONFIRM'		=> 'Êtes-vous sûr de vouloir supprimer ce compte ?',
+	'ACCOUNT.CONFIRM_TITLE'			=> 'Confirmer votre compte',
+	'ACCOUNT.CONFIRM_WELCOME'		=> "Bienvenue <b>%%user_name%%</b> ! Un message vient d'être envoyé à l'adresse <b>%%user_email%%</b>",
+	'ACCOUNT.VALIDATION_TITLE'		=> 'Validation de votre compte',
+	'ACCOUNT.VALIDATION_WELCOME'	=> "Merci d'avoir créé un compte ! Vous êtes maintenant connecté.",
+	'ACCOUNT.UPDATE_WELCOME'		=> "Merci <b>%%user_name%%</b> ! Un message vient d'être envoyé à l'adresse <b>%%user_email%%</b>",
 ];
