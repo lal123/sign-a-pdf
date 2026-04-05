@@ -6,6 +6,7 @@
 switch($action) {
     case 'create':
     case 'update':
+        unset($_SESSION['mail_sent']);
 ?>    
     <h2><?php echo ($action == 'create' ? $tr['MENU.CREATE_ACCOUNT']: $tr['MENU.UPDATE_ACCOUNT']); ?></h2>
     <div class="ms-0 mt-3 mb-3">
@@ -17,7 +18,7 @@ switch($action) {
             <div class="col-lg-2 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userName"><?php echo $tr['ACCOUNT.USER_NAME']; ?></label>
-                    <input type="text" class="form-control<?php if(isset($values['user_name'])) { echo (isset($errors['user_name']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_name" id="userName" aria-describedby="nameHelp" placeholder="<?php echo $tr['ACCOUNT.USER_NAME.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_name'])) { echo $values['user_name']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="text" maxlength="24" class="form-control<?php if(isset($values['user_name'])) { echo (isset($errors['user_name']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_name" id="userName" aria-describedby="nameHelp" placeholder="<?php echo $tr['ACCOUNT.USER_NAME.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_name'])) { echo $values['user_name']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <?php if(isset($errors['user_name'])) { echo '<div class="invalid-feedback">' . $errors['user_name'] . '</div>'; } ?>
                     <div id="nameHelp" class="form-text">
                         <?php echo $tr['ACCOUNT.USER_NAME.HELP']; ?>
@@ -27,7 +28,7 @@ switch($action) {
             <div class="col-lg-4 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userEmail"><?php echo $tr['ACCOUNT.USER_MAIL']; ?></label>
-                    <input type="email" class="form-control<?php if(isset($values['user_email'])) { echo (isset($errors['user_email']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_email" id="userEmail" aria-describedby="emailHelp" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="email" maxlength="256" class="form-control<?php if(isset($values['user_email'])) { echo (isset($errors['user_email']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_email" id="userEmail" aria-describedby="emailHelp" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <?php if(isset($errors['user_email'])) { echo '<div class="invalid-feedback">' . $errors['user_email'] . '</div>'; } ?>
                     <div id="nameHelp" class="form-text">
                         <?php echo $tr['ACCOUNT.USER_MAIL.HELP']; ?>
@@ -37,7 +38,7 @@ switch($action) {
             <div class="col-lg-2 ms-0 mb-1">
                 <div class="form-group">
                     <label for="userPassword"><?php echo $tr['ACCOUNT.USER_PASS']; ?></label>
-                    <input type="password" class="form-control<?php if(isset($values['user_pass'])) { echo (isset($errors['user_pass']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_pass" id="userPassword" aria-describedby="passwordHelp" placeholder="<?php echo $tr['ACCOUNT.USER_PASS.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_pass'])) { echo $values['user_pass']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="password" maxlength="24" class="form-control<?php if(isset($values['user_pass'])) { echo (isset($errors['user_pass']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_pass" id="userPassword" aria-describedby="passwordHelp" placeholder="<?php echo $tr['ACCOUNT.USER_PASS.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_pass'])) { echo $values['user_pass']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <?php if(isset($errors['user_pass'])) { echo '<div class="invalid-feedback">' . $errors['user_pass'] . '</div>'; } ?>
                     <div id="passwordHelp" class="form-text">
                         <?php echo $tr['ACCOUNT.USER_PASS.HELP']; ?>
@@ -47,7 +48,7 @@ switch($action) {
             <div class="col-lg-2 ms-0 mb-3">
                 <div class="form-group">
                     <label for="confirm"><?php echo $tr['ACCOUNT.CONFIRM']; ?></label>
-                    <input type="password" class="form-control<?php if(isset($values['confirm'])) { echo (isset($errors['confirm']) ? ' is-invalid' : (!isset($errors['user_pass']) ? ' is-valid' : '')); } ?>" name="confirm" id="userConfirm" placeholder="<?php echo $tr['ACCOUNT.CONFIRM.PLACEHOLDER']; ?>" value="<?php if(isset($values['confirm'])) { echo $values['confirm']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="password" maxlength="24" class="form-control<?php if(isset($values['confirm'])) { echo (isset($errors['confirm']) ? ' is-invalid' : (!isset($errors['user_pass']) ? ' is-valid' : '')); } ?>" name="confirm" id="userConfirm" placeholder="<?php echo $tr['ACCOUNT.CONFIRM.PLACEHOLDER']; ?>" value="<?php if(isset($values['confirm'])) { echo $values['confirm']; } ?>" required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
                     <?php if(isset($errors['confirm'])) { echo '<div class="invalid-feedback">' . $errors['confirm'] . '</div>'; } ?>
                 </div>
             </div>

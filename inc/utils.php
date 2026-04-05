@@ -260,16 +260,19 @@ function utils_user_lost_ids($values, &$errors) {
 	if($res != false) {
 		if(sizeof($user) != 0) {
 			if($user['user_valid'] == 1) {
-				$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
-				$text_msg = "Votre compte : " . $confirm_url;
-				$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
-				send_mail(
-					['name' => $user['user_name'], 'mail' => $user['user_email']],
-					['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-					'Votre compte',
-					$text_msg,
-					$html_msg
-				);
+				if(!isset($_SESSION['mail_sent']['lost_ids']) || ($_SESSION['mail_sent']['lost_ids'] != 1)) {	
+					$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
+					$text_msg = "Votre compte : " . $confirm_url;
+					$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
+					send_mail(
+						['name' => $user['user_name'], 'mail' => $user['user_email']],
+						['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+						'Votre compte',
+						$text_msg,
+						$html_msg
+					);
+					$_SESSION['mail_sent']['lost_ids'] = 1;
+				}
 				return true;
 			} else {
 				$errors['general'] = $tr['ACCOUNT.NOT_YET_VALIDATED'];
@@ -356,18 +359,20 @@ function utils_user_create($values, &$errors) {
 
 	$user_id = db_insert_id();
 
-	$confirm_url = utils_create_link('account', 'validate', $user_id, $values['user_key']);
-	$text_msg = "Confirmer : " . $confirm_url;
-	$html_msg = '<html><body><a href="' . $confirm_url . '">Confirmer</a></body</html>';
+	if(!isset($_SESSION['mail_sent']['create']) || ($_SESSION['mail_sent']['create'] != 1)) {	
+		$confirm_url = utils_create_link('account', 'validate', $user_id, $values['user_key']);
+		$text_msg = "Confirmer : " . $confirm_url;
+		$html_msg = '<html><body><a href="' . $confirm_url . '">Confirmer</a></body</html>';
 
-	send_mail(
-		['name' => $values['user_name'], 'mail' => $values['user_email']],
-		['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-		'Votre inscription',
-		$text_msg,
-		$html_msg
-	);
-
+		send_mail(
+			['name' => $values['user_name'], 'mail' => $values['user_email']],
+			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+			'Votre inscription',
+			$text_msg,
+			$html_msg
+		);
+		$_SESSION['mail_sent']['create'] = 1;
+	}
 	return true;
 }
 
@@ -413,18 +418,20 @@ function utils_user_update($user_id, $values, &$errors) {
 		return false;
 	}
 
-	$confirm_url = utils_create_link('account', 'update', $user_id, $values['user_key']);
-	$text_msg = "Modifier votre compte : " . $confirm_url;
-	$html_msg = '<html><body><a href="' . $confirm_url . '">Modifier votre compte</a></body</html>';
+	if(!isset($_SESSION['mail_sent']['update']) || ($_SESSION['mail_sent']['update'] != 1)) {	
+		$confirm_url = utils_create_link('account', 'update', $user_id, $values['user_key']);
+		$text_msg = "Modifier votre compte : " . $confirm_url;
+		$html_msg = '<html><body><a href="' . $confirm_url . '">Modifier votre compte</a></body</html>';
 
-	send_mail(
-		['name' => $values['user_name'], 'mail' => $values['user_email']],
-		['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-		'Modification de votre compte',
-		$text_msg,
-		$html_msg
-	);
-
+		send_mail(
+			['name' => $values['user_name'], 'mail' => $values['user_email']],
+			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+			'Modification de votre compte',
+			$text_msg,
+			$html_msg
+		);
+		$_SESSION['mail_sent']['update'] = 1;
+	}
 	return true;
 }
 

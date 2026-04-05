@@ -5,6 +5,7 @@
 <?php
 switch($action) {
     case 'lost-ids':
+        unset($_SESSION['mail_sent']);
 ?>    
     <form method="POST" action="">
         <input type="hidden" name="action" value="lost-ids" />
@@ -18,7 +19,7 @@ switch($action) {
             <div class="col-lg-4 ms-0 mb-3">
                 <div class="form-group">
                     <label for="userEmail"><?php echo $tr['ACCOUNT.USER_MAIL']; ?></label>
-                    <input type="text" class="form-control" name="user_email" id="userEmail" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" />
+                    <input type="text" maxlength="256" class="form-control" name="user_email" id="userEmail" placeholder="<?php echo $tr['ACCOUNT.USER_MAIL.PLACEHOLDER']; ?>" value="<?php if(isset($values['user_email'])) { echo $values['user_email']; } ?>" required="required" />
                     <?php if(isset($errors['user_name'])) { echo '<div class="invalid-feedback">' . $errors['user_email'] . '</div>'; } ?>
                 </div>
             </div>
