@@ -115,3 +115,19 @@ function model_user_delete($user_id) {
     return $res;    
 }
 
+function model_get_mail_model($mail_lang, $mail_role) {
+    
+    global $base, $cdb;
+    
+    $arr = [];
+    $sql = "select * from `{$base}`.`mail_models`"
+            . " where 1"
+            . " and `mail_lang` = '{$mail_lang}'"
+            . " and `mail_role` = '{$mail_role}'";
+    $res = db_query($sql);
+    if($res != false){
+        $arr = db_fetch_assoc($res);
+    }
+    return $arr;
+}
+

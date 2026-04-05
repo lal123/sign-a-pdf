@@ -165,6 +165,7 @@ switch($page) {
 		        case 'update':
 		            if(utils_user_reconnect($user_id, $user_key, $user, $is_signed_in, $errors)) {
         				$values = $user;
+						$values['confirm'] = $values['user_pass'];
 		            }
 		            break;
 		    }
@@ -277,27 +278,23 @@ function utils_user_lost_ids($values, &$errors) {
 
 	$user = [];
 	$user_email = $values['user_email'];
-	$res = model_user_exists(['user_email' => $user_email], [], $user);
+	$res = model_user_exists(['user_email' => $user_email, 'user_valid' => 1], [], $user);
 	if($res != false) {
 		if(sizeof($user) != 0) {
-			if($user['user_valid'] == 1) {
-				if(!isset($_SESSION['mail_sent']['lost_ids']) || ($_SESSION['mail_sent']['lost_ids'] != 1)) {	
-					$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
-					$text_msg = "Votre compte : " . $confirm_url;
-					$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
-					send_mail(
-						['name' => $user['user_name'], 'mail' => $user['user_email']],
-						['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-						'Votre compte',
-						$text_msg,
-						$html_msg
-					);
-					$_SESSION['mail_sent']['lost_ids'] = 1;
-				}
-				return true;
-			} else {
-				$errors['general'] = $tr['ACCOUNT.NOT_YET_VALIDATED'];
+			if(!isset($_SESSION['mail_sent']['lost_ids']) || ($_SESSION['mail_sent']['lost_ids'] != 1)) {	
+				$confirm_url = utils_create_link('account', 'update', $user['user_id'], $user['user_key']);
+				$text_msg = "Votre compte : " . $confirm_url;
+				$html_msg = '<html><body><a href="' . $confirm_url . '">Votre compte</a></body</html>';
+				send_mail(
+					['name' => $user['user_name'], 'mail' => $user['user_email']],
+					['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+					'Votre compte',
+					$text_msg,
+					$html_msg
+				);
+				$_SESSION['mail_sent']['lost_ids'] = 1;
 			}
+			return true;
 		} else {
 			$errors['general'] = $tr['ACCOUNT.LOST_IDS_ERROR'];
 		}
@@ -308,11 +305,11 @@ function utils_user_lost_ids($values, &$errors) {
 function utils_get_contact_msg($values, &$errors) {
 	
 	if(!isset($_SESSION['mail_sent']['contact']) || ($_SESSION['mail_sent']['contact'] != 1)) {	
-		$text_msg = $values['user_name'] . "\n" . $values['user_email'] . "\n\n" . $values['contact_text'];
-		$html_msg = '<html><body><a href="mailto:' . $values['user_email'] . '">' . $values['user_name']. '</a><br /><br />' .$values['contact_text'] . '</body</html>';
+		$text_msg = $values['contact_text'];
+		$html_msg = '<html><body>' . $values['contact_text'] . '</body</html>';
 		send_mail(
 			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-			['name' => $user['user_name'], 'mail' => $user['user_email']],
+			['name' => $values['user_name'], 'mail' => $values['user_email']],
 			'Contact Sign-a-pdf',
 			$text_msg,
 			$html_msg
@@ -399,13 +396,16 @@ function utils_user_create($values, &$errors) {
 
 	if(!isset($_SESSION['mail_sent']['create']) || ($_SESSION['mail_sent']['create'] != 1)) {	
 		$confirm_url = utils_create_link('account', 'validate', $user_id, $values['user_key']);
-		$text_msg = "Confirmer : " . $confirm_url;
-		$html_msg = '<html><body><a href="' . $confirm_url . '">Confirmer</a></body</html>';
+
+		$arr = model_get_mail_model('fr', 'create');
+		
+		$text_msg = strtr($arr['mail_text'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
+		$html_msg = strtr($arr['mail_html'], ['%%confirm_url%%' => $confirm_url, '%%user_name%%' => $values['user_name']]);
 
 		send_mail(
 			['name' => $values['user_name'], 'mail' => $values['user_email']],
 			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
-			'Votre inscription',
+			'[Sign-a-pdf.com] Création de votre compte',
 			$text_msg,
 			$html_msg
 		);
@@ -486,13 +486,15 @@ function utils_create_link($page, $action, $user_id, $user_key) {
 			$act = 1;
 	}
 	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
-	$link = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role[$page] . '?s=' . $act . $user_key . $user_id;
+	$link = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role[$page] . '?s=' . base64_encode(sprintf("%04x", rand(0, 0x0ffff)) . $act . $user_key . $user_id);
 	return $link;	
 }
 
 function utils_get_link($secret) {
 
-	$act = substr($secret, 0, 1);
+	$secret = base64_decode($secret);
+
+	$act = substr($secret, 4, 1);
 	switch($act) {
 		case '2':
 			$action = 'update';
@@ -501,8 +503,8 @@ function utils_get_link($secret) {
 		default:
 			$action = 'validate';
 	}
-	$user_key = substr($secret, 1, 16);
-	$user_id = substr($secret, 17);
+	$user_key = substr($secret, 5, 16);
+	$user_id = substr($secret, 21);
 
 	return [$action, $user_id, $user_key];
 }
@@ -565,6 +567,19 @@ function utils_user_delete($user_id, &$errors) {
 	global $lang, $tr, $page_role;
 
 	$res = model_user_delete($user_id);
+	if($res == false) {
+		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
+		return false;
+	}
+
+	return true;
+}
+
+function utils_get_mail_model($mail_lang, $mail_role) {
+
+	global $lang, $tr, $page_role;
+
+	$res = model_get_mail_model($mail_lang, $mail_role);
 	if($res == false) {
 		$errors['general'] = $tr['ACCOUNT.UNEXPECTED_ERROR'];
 		return false;
