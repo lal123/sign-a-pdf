@@ -1,8 +1,10 @@
 <?php
 
+/*
 if(php_uname("n") != 'alain-520-1080fr') {
     echo 'Hello, World!';die();
 }
+*/
 
 require_once 'inc/utils.php';
 
