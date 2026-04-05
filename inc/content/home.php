@@ -2,7 +2,10 @@
 
 ?>
 <div class="container">
-    <h2><?php echo $tr['MENU.SEND_DOCUMENT']; ?></h2>
+    <div class="col-lg-12 ms-0 mb-4">
+        <h2><?php echo $tr['MENU.SEND_DOCUMENT']; ?></h2>
+    </div>
+
     <center>
         <h4><?php echo $tr['HOME.ADD_PDF']; ?> :</h4>
         <form method="post" enctype="multipart/form-data" id="upload_form" class="upload-form" style="display: none;">
@@ -17,6 +20,11 @@
             <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
         </div>
     </center>
+
+     <div class="col-lg-12 ms-0 mt-5 mb-3">
+        <font size="+1"><i class="bi bi-info-circle-fill" style="color: green;"></i></font>&nbsp; <?php echo strtr($tr['HOME.INTRO'], ['%%account_link%%' => "/{$lang}/{$page_role['account']}"]); ?>
+    </div>
+
 </div>
 
 <div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
