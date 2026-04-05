@@ -101,5 +101,12 @@ $tr =[
 	'ACCOUNT.LOST_IDS_ERROR'		=> 'Unknown email address',
 	'ACCOUNT.LOST_IDS_MAIL_SENT'	=> 'A message has just been sent to the address <b>%%user_email%%</b> with a link to retrieve your account.',
 	'ACCOUNT.DELETE_ACCOUNT'		=> 'Delete this account',
-	'CONTACT.INTRO'					=> 'Send a message to us at this address : contact@sign-a-pdf.com',
+	'CONTACT.INTRO'					=> 'Send a message to us with this form',
+	'CONTACT.NAME.LABEL'			=> 'Name',
+	'CONTACT.NAME.PLACEHOLDER'		=> 'Your name',
+	'CONTACT.MAIL.LABEL'			=> 'Email address',
+	'CONTACT.MAIL.PLACEHOLDER'		=> 'Your email address',
+	'CONTACT.TEXT.LABEL'			=> 'Message',
+	'CONTACT.TEXT.PLACEHOLDER'		=> 'Your message',
+	'CONTACT.THANKS_MSG'			=> 'Thanks for your message. We will respond as soon as possible.',
 ];

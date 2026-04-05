@@ -216,6 +216,27 @@ switch($page) {
 		    }
 		}
 		break;
+	case 'contact':
+		$errors = [];
+		$values = $user;
+		$action = 'contact';
+
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    if(isset($_POST['action']) && ($_POST['action'] != '')) {
+		        $action = $_POST['action'];
+		        switch($action) {
+		            case 'contact':
+		                $values['user_name'] = $_POST['user_name'];
+		                $values['user_email'] = $_POST['user_email'];
+		                $values['contact_text'] = $_POST['contact_text'];
+		                if(utils_get_contact_msg($values, $errors)) {
+		                	$action = 'mail-sent';
+		                }
+		                break;
+		        }
+		    }
+		}
+		break;
 }
 
 //write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
@@ -282,6 +303,23 @@ function utils_user_lost_ids($values, &$errors) {
 		}
 	}
 	return false;
+}
+
+function utils_get_contact_msg($values, &$errors) {
+	
+	if(!isset($_SESSION['mail_sent']['contact']) || ($_SESSION['mail_sent']['contact'] != 1)) {	
+		$text_msg = $values['user_name'] . "\n" . $values['user_email'] . "\n\n" . $values['contact_text'];
+		$html_msg = '<html><body><a href="mailto:' . $values['user_email'] . '">' . $values['user_name']. '</a><br /><br />' .$values['contact_text'] . '</body</html>';
+		send_mail(
+			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
+			['name' => $user['user_name'], 'mail' => $user['user_email']],
+			'Contact Sign-a-pdf',
+			$text_msg,
+			$html_msg
+		);
+		$_SESSION['mail_sent']['contact'] = 1;
+	}
+	return true;
 }
 
 function utils_is_signed_in(&$user) {
