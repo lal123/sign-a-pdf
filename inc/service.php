@@ -50,7 +50,7 @@ switch($action) {
 		$docs_numb = sizeof($_SESSION['docs']);
 		if($docs_numb > 0) {
 			echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
-			echo "$('#docs_numb').html('({$docs_numb})');\n";
+			echo "$('.docs_numb').html('({$docs_numb})');\n";
 		} else {
 			echo "document.location.href = '/{$lang}/';\n";
 		}

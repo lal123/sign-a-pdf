@@ -34,6 +34,7 @@ $tr =[
 	'DATE_FORMAT'			=> "m/d/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Send a document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Your documents',
+	'MENU.YOUR_SIGNATURES'	=> 'Your signatures',
 	'MENU.CREATE_ACCOUNT'	=> 'Create an account',
 	'MENU.UPDATE_ACCOUNT'	=> 'Modify your account',
 	'MENU.CONFIRM_ACCOUNT'	=> 'Confirm your account',

@@ -55,7 +55,7 @@ require_once 'inc/utils.php';
                         } else { 
                             echo ' class="nav-link" href="/' . $lang . '/docs"';
                         }
-                        ?>><i class="bi bi-file-earmark-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span id="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a>
+                        ?>><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a>
                     </li>
                 </ul>
 <?php
@@ -67,12 +67,12 @@ if($is_signed_in) {
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.YOUR_ACCOUNT']; ?>
+                        <i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.YOUR_ACCOUNT']; ?>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a></li>
-                            <li><a class="dropdown-item" href="/en/">Your documents</a></li>
-                            <li><a class="dropdown-item" href="/en/">Your signatures</a></li>
+                            <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-sliders"></i>&nbsp; <?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a></li>
+                            <li><a class="dropdown-item" href="/<?php echo $lang; ?>/docs"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a></li>
+                            <li><a class="dropdown-item" href="/en/"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
                         </ul>
@@ -89,7 +89,7 @@ if($is_signed_in) {
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person-fill"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
