@@ -18,7 +18,13 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
     <div>
 <?php
 if($pdf_id != '') {
-    echo $tr['DOCS.YOUR_DOCUMENT']; ?> :&nbsp; <?php echo $_SESSION['docs'][$pdf_id]['name'];
+    if($is_signed_in) {
+        $doc = model_doc_get_from_pdf_id($pdf_id);
+        $doc_name = $doc['doc_name'];
+    } else {
+        $doc_name = $_SESSION['docs'][$pdf_id]['name'];
+    }
+    echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name;
 } else {
     echo $tr['DOCS.LIST_DOCUMENTS'] . ' :<br /><br />';
 }
@@ -36,8 +42,8 @@ if($pdf_id != '') {
             <div class="btn-group mx-auto" role="group" aria-label="Second group">
                 <a href="/<?php echo $lang; ?>/docs"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SEE_ALL_DOCS']; ?></a>
             </div>-->
-            <div class="btn-group mx-auto" role="group" aria-label="Third group">
-                <a href="/<?php echo $lang; ?>/"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
+                <a href="javascript:void(0)" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
     

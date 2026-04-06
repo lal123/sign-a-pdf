@@ -208,3 +208,21 @@ function model_doc_delete($doc_pdf_id) {
     }
     return $ret;
 }
+
+function model_doc_get_from_pdf_id($doc_pdf_id) {
+
+    global $base, $cdb;
+    
+    $ret = [];
+    $sql = "select * from `{$base}`.`docs`"
+            . " where 1"
+            . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = db_fetch_assoc($res);
+    }
+    write_log(__METHOD__, print_r($ret, true));
+    return $ret;
+}
+

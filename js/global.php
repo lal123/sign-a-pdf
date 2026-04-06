@@ -40,7 +40,6 @@ var upload = {
         });
         $('#modal-info').html('');
         $('#uploadModal').modal('show');
-
         if(file_obj.files[0].type != 'application/pdf'){
             upload.warn(decodeURIComponent('<?php echo rawurlencode($tr['UPLOAD.NOT_A_PDF']); ?>'), true);
             file_obj.value = "";
