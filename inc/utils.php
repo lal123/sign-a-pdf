@@ -1,6 +1,6 @@
 <?php
 
-$version_suffix = '1.01';
+$version_suffix = '1.03';
 
 $lang = '';
 
@@ -53,6 +53,7 @@ require_once 'private.php';
 require_once 'mysql.php';
 require_once 'model.php';
 require_once 'pdf.php';
+require_once 'sign.php';
 require_once 'mailer.php';
 
 session_start();

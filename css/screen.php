@@ -43,15 +43,15 @@ body {
     box-shadow: 2px 2px 6px #6f7f7f;
 }
 
-#uploadModal .modal-content {
+.modal-content {
 	background-color: #c0c0c0 !important;	
 }
 
-#uploadModal .modal-body {
+.modal-body {
 	min-height: 120px;
 }
 
-#confirmModal .modal-content {
+.modal-content {
 	background-color: #c0c0c0 !important;	
 }
 

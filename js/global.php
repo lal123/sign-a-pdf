@@ -116,12 +116,12 @@ var upload = {
 
 var docs = {
 
-    confirm: function(pdf_id) {
-        $('#confirmModal #actionConfirm').on('click', event => {
-            $('#confirmModal').modal('hide');
+    confirmDelete: function(pdf_id) {
+        $('#deleteDocModal #actionConfirm').on('click', event => {
+            $('#deleteDocModal').modal('hide');
             docs.delete(pdf_id);
         });
-        $('#confirmModal').modal('show');
+        $('#deleteDocModal').modal('show');
         return false;
     },
 
@@ -134,17 +134,65 @@ var docs = {
             eval(data);
         });
         return false;
+    },
+
+    sign: function(pdf_id) {
+        $('#signDocModal #actionConfirm').on('click', event => {
+            //$('#signDocModal').modal('hide');
+            //docs.delete(pdf_id);
+        });
+        //$('#signDocModal').modal('show');
+        return docs.getSignStep(pdf_id, 0);
+    },
+
+    sendSignDocForm: function() {
+        var data = $('#signDocForm').serializeArray();  
+        console.log('data', data);
+        var vals = {};
+        var err = false;
+        $.each(data, function(i, field) {
+            vals[field.name] = field.value;
+        });
+        console.log('vals', vals);
+        if(vals['sign_step'] == '1') {
+            if(vals['sign_text'] == '') {
+                $('#signText').addClass('is-invalid');
+                err = true;
+            }
+        }
+        if(err == false) {
+            $.ajax({
+                url: '/inc/service.php',
+                type: 'POST',
+                data: vals
+            }).done(function(data) {
+                eval(data);
+            });
+        }
+        return false;
+    },
+
+    getSignStep: function(pdf_id, sign_step) {
+        var data = {'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': sign_step, 'lang': '<?php echo $lang; ?>'};
+        $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: data
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
     }
 }
 
 var account = {
 
-     confirm: function(user_id) {
-        $('#confirmModal #actionConfirm').on('click', event => {
-            $('#confirmModal').modal('hide');
+     confirmDelete: function(user_id) {
+        $('#deleteAccountModal #actionConfirm').on('click', event => {
+            $('#deleteAccountModal').modal('hide');
             account.delete(user_id);
         });
-        $('#confirmModal').modal('show');
+        $('#deleteAccountModal').modal('show');
         return false;
     },
 

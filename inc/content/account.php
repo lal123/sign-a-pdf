@@ -72,7 +72,7 @@ switch($action) {
 if(($action == 'update') && isset($_SESSION['user_id'])) {
 ?>
             <div class="col-lg-2 ms-0 mt-4 mb-2">
-                <a class="common" href="javascript:void(0)" onclick="return account.confirm('<?php echo $_SESSION['user_id']; ?>'); return false;"><?php echo $tr['ACCOUNT.DELETE_ACCOUNT']; ?></a>
+                <a class="common" href="javascript:void(0)" onclick="return account.confirmDelete('<?php echo $_SESSION['user_id']; ?>'); return false;"><?php echo $tr['ACCOUNT.DELETE_ACCOUNT']; ?></a>
             </div>
 <?php
 }
@@ -119,7 +119,7 @@ if(isset($errors['general']) && ($errors['general'] != '')) {
 ?>
 </div>
 
-<div class="modal" id="confirmModal" tabindex="-1">
+<div class="modal" id="deleteAccountModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

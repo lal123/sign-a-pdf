@@ -45,7 +45,7 @@ if($pdf_id != '') {
                 <a href="/<?php echo $lang; ?>/docs"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SEE_ALL_DOCS']; ?></a>
             </div>-->
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
-                <a href="javascript:void(0)" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+                <a href="javascript:void(0)" onclick="return false; return docs.sign('<?php echo $pdf_id; ?>');" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
     
@@ -86,17 +86,17 @@ if($pdf_id != '') {
         });
     }
     echo '<div class="row">';
-    foreach($docs as $pdf_id => $details) {
-        echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
+    foreach($docs as $pdf_id_key => $details) {
+        echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
-        echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id . '/" class="common">' . $details['name'] . '</a></div>';
-        if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
-            $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id .'.png';
-        } else if(file_exists($img_dir . '/' . $pdf_id . '-0.png')) {
-            $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id .'-0.png';
+        echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
+        if(file_exists($img_dir . '/' . $pdf_id_key .'.png')) {
+            $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id_key .'.png';
+        } else if(file_exists($img_dir . '/' . $pdf_id_key . '-0.png')) {
+            $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id_key .'-0.png';
         }
-        echo '<a href="/' . $lang . '/docs/' . $pdf_id . '/"><img class="page-preview" src="' . $img_src . '" alt="" border= "0" /></a>';
+        echo '<a href="/' . $lang . '/docs/' . $pdf_id_key . '/"><img class="page-preview" src="' . $img_src . '" alt="" border= "0" /></a>';
         echo '</div>';
     }
     echo '</div>';
@@ -105,20 +105,45 @@ if($pdf_id != '') {
     </center>
 </div>
 
-<div class="modal" id="confirmModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><?php echo $tr['CONFIRMATION']; ?></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p><?php echo $tr['DOCS.DELETE.CONFIRM']; ?></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
-        <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
-      </div>
+<?php
+if($pdf_id != '') {
+?>
+<div class="modal" id="signDocModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN.TITLE']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <!--<button onclick="return docs.sendSignDocForm(); return false;" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['BACK']; ?></button>-->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+                <button id="actionConfirm" onclick="return docs.sendSignDocForm(); return false;" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONTINUE']; ?></button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<?php
+} else {
+?>
+<div class="modal" id="deleteDocModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['CONFIRMATION']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p><?php echo $tr['DOCS.DELETE.CONFIRM']; ?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+                <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}
+?>
