@@ -74,7 +74,7 @@ if($is_signed_in) {
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-sliders"></i>&nbsp; <?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a></li>
                             <li><a class="dropdown-item" href="/<?php echo $lang; ?>/docs"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a></li>
-                            <li><a class="dropdown-item" href="/en/"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?></a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a></li>
                         </ul>

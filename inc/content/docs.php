@@ -14,8 +14,10 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 ?>
 
 <div class="container">
-    <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
-    <div>
+    <div class="col-lg-6 ms-0 mt-3 mb-3">
+        <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
+    </div>
+   <div class="col-lg-6 ms-0 mt-3 mb-3">
 <?php
 if($pdf_id != '') {
     if($is_signed_in) {
