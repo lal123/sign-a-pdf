@@ -160,7 +160,7 @@ function model_doc_get_list($doc_user_id) {
     global $base, $cdb;
     
     $ret = [];
-    $sql = "select * from `{$base}`.`docs`"
+    $sql = "select doc_pdf_id, doc_name, UNIX_TIMESTAMP(doc_creato) doc_time from `{$base}`.`docs`"
             . " where 1"
             . " and doc_user_id='" . db_escape($doc_user_id) . "'"
             . " order by doc_creato desc";
@@ -169,7 +169,7 @@ function model_doc_get_list($doc_user_id) {
     if($res != false){
         while($arr = db_fetch_assoc($res)){
             $pdf_id = $arr['doc_pdf_id'];
-            $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_creato']];
+            $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_time']];
         }
     }
     write_log(__METHOD__, print_r($ret, true));

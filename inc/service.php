@@ -34,7 +34,7 @@ switch($action) {
 				} else {
 					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
 					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
-					$_SESSION['docs'][$pdf_id]['time'] = date($tr['DATE_FORMAT'], time());
+					$_SESSION['docs'][$pdf_id]['time'] = time();
 				}
 			}
 		}

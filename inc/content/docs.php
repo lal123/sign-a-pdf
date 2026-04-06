@@ -81,7 +81,7 @@ if($pdf_id != '') {
     foreach($docs as $pdf_id => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
-        echo '<div class="doc-date">' . $details['time'] . '</div>';
+        echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id . '/" class="common">' . $details['name'] . '</a></div>';
         if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
             $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id .'.png';
