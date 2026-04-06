@@ -4,15 +4,6 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
     exit();
 }
 
-/*
-require_once 'constant.php';
-require_once 'get_ip.php';
-require_once 'write_log.php';
-require_once 'pdf.php';
-
-session_start();
-*/
-
 require_once 'utils.php';
 
 $action = '';
@@ -25,16 +16,27 @@ if(isset($_POST['lang'])) {
 	$lang = $_POST['lang'];
 }
 
-require_once 'lang_' . $lang . '.php';
-
 $err_msg = '';
 
 switch($action) {
 	case 'upload_doc':
-		if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) >= MAX_DOCS_NUMB)) {
-			$res = json_encode(['pdf_id' => '', 'err_msg' => $tr['UPLOAD.MAX_DOCS_NUMB'], 'name' => ''], JSON_UNESCAPED_UNICODE);
+		$max_docs_numb = ($is_signed_in ? USER_MAX_DOCS_NUMB : MAX_DOCS_NUMB);
+		if($docs_numb >= $max_docs_numb) {
+			$res = json_encode(['pdf_id' => '', 'err_msg' => strtr($tr['UPLOAD.MAX_DOCS_NUMB'], ['%%max_docs_numb%%' => $max_docs_numb]), 'name' => ''], JSON_UNESCAPED_UNICODE);
 		} else { 
 			$res = pdf_convert_to_png();
+			$arr = json_decode($res, true);
+			if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+				$pdf_id = $arr['pdf_id'];
+				if($is_signed_in) {
+					$user_id = $user['user_id'];
+					model_doc_create(['user_id' => $user_id, 'pdf_id' => $arr['pdf_id'], 'name' => $arr['name'], 'size' => $arr['size']]);
+				} else {
+					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
+					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
+					$_SESSION['docs'][$pdf_id]['time'] = date($tr['DATE_FORMAT'], time());
+				}
+			}
 		}
 		/*
 		if($err_msg == '') {
@@ -46,8 +48,15 @@ switch($action) {
 		break;
 	case 'delete_doc':
 		$pdf_id = $_POST['pdf_id'];
-		unset($_SESSION['docs'][$pdf_id]);
-		$docs_numb = sizeof($_SESSION['docs']);
+		if($is_signed_in) {
+			if(!model_doc_delete($pdf_id)) {
+				//??
+			}
+			$docs_numb = model_doc_get_numb($user['user_id']);
+		} else {
+			unset($_SESSION['docs'][$pdf_id]);
+			$docs_numb = sizeof($_SESSION['docs']);
+		}
 		if($docs_numb > 0) {
 			echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
 			echo "$('.docs_numb').html('({$docs_numb})');\n";

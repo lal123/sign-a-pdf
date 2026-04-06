@@ -88,7 +88,13 @@ if(array_key_exists($page, $pages)) {
 
 }
 
-if(($page == 'docs') && (!isset($_SESSION['docs']) || (sizeof($_SESSION['docs']) == 0))) {
+if($is_signed_in) {
+	$docs_numb = model_doc_get_numb($user['user_id']);
+} else {
+	$docs_numb = (isset($_SESSION['docs']) ? sizeof($_SESSION['docs']) : 0);
+}
+
+if(($page == 'docs') && ($docs_numb == 0)) {
 	header("Location: /{$lang}/");
 }
 

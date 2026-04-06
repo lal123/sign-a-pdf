@@ -52,12 +52,12 @@ require_once 'inc/utils.php';
                         <a<?php
                         if ($page == 'docs') {
                             echo ' class="nav-link active" aria-current="page" href="/' . $lang . '/docs"';
-                        } else if(!isset($_SESSION['docs']) || (sizeof($_SESSION['docs']) == 0)) {
+                        } else if($docs_numb == 0) {
                             echo ' class="nav-link disabled" aria-disabled="true"';
                         } else { 
                             echo ' class="nav-link" href="/' . $lang . '/docs"';
                         }
-                        ?>><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a>
+                        ?>><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a>
                     </li>
                 </ul>
 <?php
@@ -73,7 +73,7 @@ if($is_signed_in) {
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-sliders"></i>&nbsp; <?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a></li>
-                            <li><a class="dropdown-item" href="/<?php echo $lang; ?>/docs"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if(isset($_SESSION['docs']) && (sizeof($_SESSION['docs']) > 0)) { echo '(' . sizeof($_SESSION['docs']) . ')'; } ?></span></a></li>
+                            <li><a class="dropdown-item" href="/<?php echo $lang; ?>/docs"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a></li>
                             <li><a class="dropdown-item" href="/en/"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?></a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a></li>

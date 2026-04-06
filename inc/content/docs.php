@@ -1,11 +1,5 @@
 <?php
 
-function cmp($a, $b)
-{
-    global $docs;
-    return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
-}
-
 $img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
 
 $nb_cols = 1;
@@ -74,13 +68,20 @@ if($pdf_id != '') {
         }
     }
 } else {
-    $docs = $_SESSION['docs'];
-    uksort($docs, "cmp");
+    if($is_signed_in) {
+        $docs = model_doc_get_list($user['user_id']);
+    } else {
+        $docs = $_SESSION['docs'];
+        uksort($docs, function($a, $b) {
+            global $docs;
+            return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
+        });
+    }
     echo '<div class="row">';
     foreach($docs as $pdf_id => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirm(\'' . $pdf_id . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
-        echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
+        echo '<div class="doc-date">' . $details['time'] . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id . '/" class="common">' . $details['name'] . '</a></div>';
         if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
             $img_src = '/' . UPLOAD_DIR . '/img/' . $pdf_id .'.png';

@@ -42,12 +42,12 @@ var upload = {
         $('#uploadModal').modal('show');
 
         if(file_obj.files[0].type != 'application/pdf'){
-            upload.warn('<?php echo $tr['UPLOAD.NOT_A_PDF']; ?>', true);
+            upload.warn(decodeURIComponent('<?php echo rawurlencode($tr['UPLOAD.NOT_A_PDF']); ?>'), true);
             file_obj.value = "";
             return false;
         }
         if(file_obj.files[0].size > 20 * 1024 * 1024){
-            upload.warn('<?php echo $tr['UPLOAD.FILE_TOO_BIG']; ?>', true);
+            upload.warn(decodeURIComponent('<?php echo rawurlencode($tr['UPLOAD.FILE_TOO_BIG']); ?>'), true);
             file_obj.value = "";
             return false;
         }

@@ -131,3 +131,80 @@ function model_get_mail_model($mail_lang, $mail_role) {
     return $arr;
 }
 
+function model_doc_create($values) {
+    
+    global $base, $cdb;
+    
+    $sql = "insert into `{$base}`.`docs` ("
+        . "`doc_user_id`, "
+        . "`doc_name`, "
+        . "`doc_pdf_id`, "
+        . "`doc_size`, "
+        . "`doc_creato`, "
+        . "`doc_modifo`"
+        . ") values ("
+        . "'" . db_escape($values['user_id']) . "', "
+        . "'" . db_escape($values['name']) . "', "
+        . "'" . db_escape($values['pdf_id']) . "', "
+        . "'" . db_escape($values['size']) . "', "
+        . "now(), "
+        . "now()"
+        . ")";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return $res;
+}
+
+function model_doc_get_list($doc_user_id) {
+    
+    global $base, $cdb;
+    
+    $ret = [];
+    $sql = "select * from `{$base}`.`docs`"
+            . " where 1"
+            . " and doc_user_id='" . db_escape($doc_user_id) . "'"
+            . " order by doc_creato desc";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false){
+        while($arr = db_fetch_assoc($res)){
+            $pdf_id = $arr['doc_pdf_id'];
+            $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_creato']];
+        }
+    }
+    write_log(__METHOD__, print_r($ret, true));
+    return $ret;
+}
+
+function model_doc_get_numb($doc_user_id) {
+    
+    global $base, $cdb;
+    
+    $doc_numb = 0;
+    $sql = "select count(*) from `{$base}`.`docs`"
+            . " where 1"
+            . " and doc_user_id='" . db_escape($doc_user_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false){
+        list($doc_numb) = db_fetch_row($res);
+    }
+    write_log(__METHOD__, "[doc_numb][{$doc_numb}]");
+    return $doc_numb;
+}
+
+function model_doc_delete($doc_pdf_id) {
+
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "delete from `{$base}`.`docs`"
+            . " where 1"
+            . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = true;
+    }
+    return $ret;
+}
