@@ -120,17 +120,21 @@ switch($action) {
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
 				$sign_step+= $sign_inc;
 		}
-		ob_start();
-		//write_log('get_sign_step', getcwd() . "/content/sign-doc-step{$sign_step}.php");
-		include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
-		$content = ob_get_contents();
-		ob_end_clean();
-		echo "$('#modalBody').html(decodeURIComponent('" . rawurlencode($content) . "'));\n";
-		if($sign_step == 1) {
-			echo "$('#signDocModal #backButton').hide();\n";
+		if($sign_step >= 4) {
+	        echo "$('#signDocModal').modal('hide');\n";
 		} else {
-			echo "$('#signDocModal #backButton').show();\n";
-		}
-        echo "$('#signDocModal').modal('show');\n";
+			ob_start();
+			//write_log('get_sign_step', getcwd() . "/content/sign-doc-step{$sign_step}.php");
+			include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
+			$content = ob_get_contents();
+			ob_end_clean();
+			echo "$('#modalBody').html(decodeURIComponent('" . rawurlencode($content) . "'));\n";
+			if($sign_step == 1) {
+				echo "$('#signDocModal #backButton').hide();\n";
+			} else {
+				echo "$('#signDocModal #backButton').show();\n";
+			}
+	        echo "$('#signDocModal').modal('show');\n";
+	    }
 		break;
 }

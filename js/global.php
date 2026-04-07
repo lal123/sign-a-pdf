@@ -153,10 +153,9 @@ var docs = {
             if(vals['sign_pages'] == '') {
                 err = true;
             } else {
-                var re = /, ?/gm;
-                var sp = vals['sign_pages'].split(re);
+                var sp = vals['sign_pages'].trim().split(/[ ,]+/)
                 for(var i = 0 ; i< sp.length ; i++) {
-                    if(!sp[i].match(/^([1-9]\d*)$/)) {
+                    if(!sp[i].match(/^([1-9]\d*)(\-[1-9]\d*)?$/)) {
                         err = true;
                     }
                 }
