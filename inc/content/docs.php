@@ -45,7 +45,7 @@ if($pdf_id != '') {
                 <a href="/<?php echo $lang; ?>/docs"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SEE_ALL_DOCS']; ?></a>
             </div>-->
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
-                <a href="javascript:void(0)" onclick="return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': '<?php echo $pdf_id; ?>', 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': '<?php echo $lang; ?>'}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+                <a href="javascript:void(0)" onclick="return false; return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': '<?php echo $pdf_id; ?>', 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': '<?php echo $lang; ?>'}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
 <?php
