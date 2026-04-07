@@ -88,7 +88,9 @@ switch($action) {
 						$res = sign_get_img_from_text($sign_text);
 						$arr = json_decode($res, true);
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-							$img_id = $arr['img_id'];
+							$sign_id = $arr['sign_id'];
+							$sign_width = $arr['sign_width'];
+							$sign_height = $arr['sign_height'];
 							$sign_step+= $sign_inc;
 						} else {
 							//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
@@ -97,12 +99,16 @@ switch($action) {
 				}
 				break;
 			case 2:
-				$img_id = $_POST['img_id'];
+				$sign_id = $_POST['sign_id'];
+				$sign_width = $_POST['sign_width'];
+				$sign_height = $_POST['sign_height'];
 				$sign_step+= $sign_inc;
 				break;
 			case 3:
 				$arr = [];
-				$img_id = $_POST['img_id'];
+				$sign_id = $_POST['sign_id'];
+				$sign_width = $_POST['sign_width'];
+				$sign_height = $_POST['sign_height'];
 				if($sign_inc == 1) {
 					if($page_option == 3) {
 						if(!preg_match('/^([0-9]+)$/', $sign_pages)) {
@@ -122,9 +128,13 @@ switch($action) {
 		}
 		if($sign_step >= 4) {
 	        echo "$('#signDocModal').modal('hide');\n";
+            echo "$('html, body').animate({scrollTop: ($('#docs-container .page-container').last().position().top + $('#docs-container .page-container').last().height())+ 'px'}, 'fast', function(){});\n";
+			echo "$('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/{$sign_id}.png\'', 'width': '{$sign_width}px', 'height': '{$sign_height}px'});\n";
+            echo "makeResizableDiv('#signPreview');\n";
+
+
 		} else {
 			ob_start();
-			//write_log('get_sign_step', getcwd() . "/content/sign-doc-step{$sign_step}.php");
 			include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
 			$content = ob_get_contents();
 			ob_end_clean();

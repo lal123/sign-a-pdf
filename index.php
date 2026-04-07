@@ -169,8 +169,9 @@ include "inc/content/{$page}.php";
 </div>
 
 <script>
-$(document).ready(function(){
-});
+    $('document').ready(function() {
+    });
 </script>
+
 </body>
 </html>

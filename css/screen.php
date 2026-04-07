@@ -49,6 +49,16 @@ body {
 	display: block;
 }
 
+.page-container {
+	position: relative;
+}
+
+.page-content {
+	display: inline-block;
+	position: relative;
+	width: auto;
+}
+
 .page-preview {
 	max-width: 100%;
 	margin: 4px;
@@ -118,4 +128,57 @@ a.common:hover {
 }
 
 @media screen and (min-width: 991px) {
+}
+
+#signPreview {
+	display: none;
+}
+
+.resizable {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
+  background-size: 100% 100%;
+  width: 200px;
+  height: 100px;
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+}
+
+.resizable .resizers{
+  width: 100%;
+  height: 100%;
+  border: 3px solid #4286f4;
+  box-sizing: border-box;
+}
+
+.resizable .resizers .resizer{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%; /*magic to turn square into circle*/
+  background: white;
+  border: 3px solid #4286f4;
+  position: absolute;
+}
+
+.resizable .resizers .resizer.top-left {
+  left: -5px;
+  top: -5px;
+  cursor: nwse-resize; /*resizer cursor*/
+}
+.resizable .resizers .resizer.top-right {
+  right: -5px;
+  top: -5px;
+  cursor: nesw-resize;
+}
+.resizable .resizers .resizer.bottom-left {
+  left: -5px;
+  bottom: -5px;
+  cursor: nesw-resize;
+}
+.resizable .resizers .resizer.bottom-right {
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
 }

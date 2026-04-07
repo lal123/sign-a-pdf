@@ -3,7 +3,7 @@
 chdir('/var/www/sign-a-pdf');
 
 #liste des dossiers à purger
-$dir_list=array('uploads/pdf','uploads/img');
+$dir_list=array('uploads/pdf','uploads/img', 'uploads/sign');
 
 require_once 'inc/mysql.php';
 

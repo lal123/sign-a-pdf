@@ -3,7 +3,7 @@
 function sign_get_img_from_text($sign_text) {
 
 	$err_msg = '';
-	$img_id = '';
+	$sign_id = '';
 
     $font_filename = getcwd() . '/../fonts/saginawbold-webfont.ttf';
     $font_size = 40;
@@ -30,21 +30,21 @@ function sign_get_img_from_text($sign_text) {
 
     $ar = imagettftext($image, $font_size, 0, $text_x, $text_y, $default_color, $font_filename, $sign_text);
 
-	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
-	if(!file_exists($img_dir)){
-		mkdir($img_dir);
-		chmod($img_dir, 0777);
+	$sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
+	if(!file_exists($sign_dir)){
+		mkdir($sign_dir);
+		chmod($sign_dir, 0777);
 	}
 
     do {
-        $img_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
-        $img_file = $img_dir . '/' . $img_id . '.png';
-    } while (file_exists($img_file));
+        $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
+        $sign_file = $sign_dir . '/' . $sign_id . '.png';
+    } while (file_exists($sign_file));
 
-    imagepng($image, $img_file);
+    imagepng($image, $sign_file);
 
     imagedestroy($image);
 
-	$ret = json_encode(['img_id' => $img_id, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+	$ret = json_encode(['sign_id' => $sign_id, 'sign_width' => $image_width, 'sign_height' => $image_height, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
 	return $ret;
 }

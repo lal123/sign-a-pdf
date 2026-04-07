@@ -9,7 +9,9 @@
         <input type="hidden" name="sign_step" id="signStep" value="3" />
         <input type="hidden" name="sign_option" id="signOption" value="<?php echo $sign_option; ?>" />
         <input type="hidden" name="sign_text" id="signText" value="<?php echo $sign_text; ?>" />
-        <input type="hidden" name="img_id" value="<?php echo $img_id; ?>" />
+        <input type="hidden" name="sign_id" value="<?php echo $sign_id; ?>" />
+        <input type="hidden" name="sign_width" value="<?php echo $sign_width; ?>" />
+        <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <div class="form-check mb-2">
             <input class="form-check-input" type="radio" name="page_option" value="1" id="signOption1"<?php if($page_option == 1) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(1); return true;" />
             <label class="form-check-label" for="signOption1">

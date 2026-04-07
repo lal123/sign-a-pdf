@@ -13,7 +13,7 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 
 ?>
 
-<div class="container">
+<div class="container" id="docs-container">
     <div class="col-lg-6 ms-0 mt-3 mb-3">
         <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
     </div>
@@ -38,12 +38,6 @@ if($pdf_id != '') {
 if($pdf_id != '') {
 ?>
         <div class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="Toolbar with button groups">
-            <!--<div class="btn-group ms-0" role="group" aria-label="First group">
-                <a href="/<?php echo $lang; ?>/"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['BACK']; ?></a>
-            </div>
-            <div class="btn-group mx-auto" role="group" aria-label="Second group">
-                <a href="/<?php echo $lang; ?>/docs"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SEE_ALL_DOCS']; ?></a>
-            </div>-->
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
                 <a href="javascript:void(0)" onclick="return false; return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': '<?php echo $pdf_id; ?>', 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': '<?php echo $lang; ?>'}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
@@ -51,18 +45,28 @@ if($pdf_id != '') {
 <?php
     if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         echo '<div class="row">';
-        echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+        echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 page-container" id="pdf-' . $pdf_id . '-1">';
+        echo '<div class="page-content">';
         echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '.png' . '" alt="" border= "0" />';
+        echo '<div id="signPreview" class="resizable"><div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>';
+        echo '</div>';
         echo '</div>';
         echo '</div>';
     } else {
-        $img_numb = 0;
+        $img_numb = 1;
         $col = 1;
-        while(file_exists($img_dir . '/' . $pdf_id . '-' . $img_numb . '.png')) {
+        while(file_exists($img_dir . '/' . $pdf_id . '-' . ($img_numb - 1) . '.png')) {
             if($col == 1) {
                 echo '<div class="row">';
             }
-            echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . '"><img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '-' . $img_numb . '.png' . '" alt="" border= "0" /></div>';
+            echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="pdf-' . $pdf_id . '-' . $img_numb . '">';
+            echo '<div class="page-content">';
+            echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '-' . ($img_numb - 1) . '.png' . '" alt="" border= "0" />';
+            if(!file_exists($img_dir . '/' . $pdf_id . '-' . $img_numb . '.png')) {
+                echo '<div id="signPreview" class="resizable"><div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>';
+            }
+            echo '</div>';
+            echo '</div>';
             $col++;
             if($col > $nb_cols) {
                 echo '</div>';
