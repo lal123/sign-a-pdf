@@ -15,5 +15,5 @@
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
     </form> 
-    <img src="/uploads/sign/<?php echo $sign_id; ?>.png" alt="" border="0" /> 
+    <img src="/uploads/sign/<?php echo $sign_id; ?>.png" alt="" border="0" class="signSetp2Preview" /> 
 </div>

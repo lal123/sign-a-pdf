@@ -6,7 +6,7 @@ function sign_get_img_from_text($sign_text) {
 	$sign_id = '';
 
     $font_filename = getcwd() . '/../fonts/saginawbold-webfont.ttf';
-    $font_size = 40;
+    $font_size = 80;
 
     $dims = imagettfbbox($font_size, 0, $font_filename, $sign_text);
     $ascent = abs($dims[7]);

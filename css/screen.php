@@ -49,6 +49,10 @@ body {
 	display: block;
 }
 
+.signSetp2Preview {
+	max-width: 100%;
+}
+
 .page-container {
 	position: relative;
 }
@@ -149,7 +153,7 @@ a.common:hover {
 .resizable .resizers{
   width: 100%;
   height: 100%;
-  border: 3px solid #4286f4;
+  border: 1px dotted #000000;
   box-sizing: border-box;
 }
 
@@ -158,7 +162,7 @@ a.common:hover {
   height: 10px;
   border-radius: 50%; /*magic to turn square into circle*/
   background: white;
-  border: 3px solid #4286f4;
+  border: 1px solid #000000;
   position: absolute;
 }
 

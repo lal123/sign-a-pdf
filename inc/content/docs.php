@@ -111,7 +111,7 @@ if($pdf_id != '') {
 <?php
 if($pdf_id != '') {
 ?>
-<div class="modal" id="signDocModal" tabindex="-1">
+<div class="modal" data-bs-backdrop="static" id="signDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -134,7 +134,7 @@ if($pdf_id != '') {
 <?php
 } else {
 ?>
-<div class="modal" id="deleteDocModal" tabindex="-1">
+<div class="modal" data-bs-backdrop="static" id="deleteDocModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
