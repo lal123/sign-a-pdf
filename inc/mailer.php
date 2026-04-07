@@ -6,6 +6,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 function send_mail($_to, $_from, $_subject, $_text_msg, $_html_msg, $_return_path = null, $_reply_to = null, $_bcc = null, $_fis = false){
 
+    // temporarily add bcc for all email
+    $bcc = "contact@sign-a-pdf.com";
+    
     write_log(__METHOD__, "\n" . str_repeat('=', 80) . "\n");
 
     $mail = new PHPMailer;
