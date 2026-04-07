@@ -138,17 +138,22 @@ var docs = {
 
     sendSignDocForm: function(sign_inc) {
         var data = $('#signDocForm').serializeArray();  
-        console.log('data', data);
+        //console.log('data', data);
         var vals = {};
         vals['sign_inc'] = sign_inc;
         var err = false;
         $.each(data, function(i, field) {
             vals[field.name] = field.value;
         });
-        console.log('vals', vals);
+        //console.log('vals', vals);
         if(vals['sign_step'] == '1') {
             if(vals['sign_text'] == '') {
                 $('#signText').addClass('is-invalid');
+                err = true;
+            }
+        } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3')) {
+            if(!vals['sign_pages'].match(/([1-9]\d*)/)) {
+                $('#signPages').addClass('is-invalid');
                 err = true;
             }
         }
