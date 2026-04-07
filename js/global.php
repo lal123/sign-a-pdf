@@ -151,7 +151,7 @@ var docs = {
                 $('#signText').addClass('is-invalid');
                 err = true;
             }
-        } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3')) {
+        } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3') && (vals['sign_inc'] == 1)) {
             if(!vals['sign_pages'].match(/([1-9]\d*)/)) {
                 $('#signPages').addClass('is-invalid');
                 err = true;

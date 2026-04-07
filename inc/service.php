@@ -80,6 +80,7 @@ switch($action) {
 		$sign_option = $_POST['sign_option'];
 		$page_option = $_POST['page_option'];
 		$sign_text = $_POST['sign_text'];
+		$sign_pages = $_POST['sign_pages'];
 		switch($sign_step) {
 			case 1:
 				switch($sign_option) {
@@ -103,7 +104,6 @@ switch($action) {
 				$arr = [];
 				$img_id = $_POST['img_id'];
 				if($sign_inc == 1) {
-					$sign_pages = $_POST['sign_pages'];
 					if($page_option == 3) {
 						if(!preg_match('/^([0-9]+)$/', $sign_pages)) {
 							//$arr['err_msg'] = $tr['SIGN.PAGES.CUST.INVALID'];
