@@ -45,10 +45,9 @@ if($pdf_id != '') {
                 <a href="/<?php echo $lang; ?>/docs"class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SEE_ALL_DOCS']; ?></a>
             </div>-->
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
-                <a href="javascript:void(0)" onclick="return false; return docs.sign('<?php echo $pdf_id; ?>');" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+                <a href="javascript:void(0)" onclick="return false; return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': '<?php echo $pdf_id; ?>', 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': '<?php echo $lang; ?>'}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
-    
 <?php
     if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         echo '<div class="row">';
@@ -109,17 +108,21 @@ if($pdf_id != '') {
 if($pdf_id != '') {
 ?>
 <div class="modal" id="signDocModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN.TITLE']; ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="modalBody"></div>
-            <div class="modal-footer">
-                <!--<button onclick="return docs.sendSignDocForm(); return false;" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['BACK']; ?></button>-->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
-                <button id="actionConfirm" onclick="return docs.sendSignDocForm(); return false;" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONTINUE']; ?></button>
+            <div class="modal-footer justify-content-between">
+                <div class="ms-0 mb-0">
+                    <button href="/<?php echo $lang; ?>/" id="backButton" onclick="return docs.sendSignDocForm(-1); return false;" class="btn btn-secondary dark-cyan normalized"><?php echo $tr['BACK']; ?></button>
+                </div>
+                <div class="me-0 mb-0">
+                    <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+                    <button id="actionConfirm" onclick="return docs.sendSignDocForm(1); return false;" class="me-0 btn btn-primary dark-cyan normalized"><?php echo $tr['CONTINUE']; ?></button>
+                </div>
             </div>
         </div>
     </div>

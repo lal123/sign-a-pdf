@@ -32,7 +32,7 @@ if(!$is_signed_in) {
 </div>
 
 <div class="modal fade" id="uploadModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="uploadModalLabel"><?php echo $tr['UPLOAD.SENDING_DOC']; ?></h1>

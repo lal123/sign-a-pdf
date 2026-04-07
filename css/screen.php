@@ -16,6 +16,10 @@ body {
 	min-width: 175px;
 }
 
+.btn.normalized {
+	min-width: 98px;
+
+}
 .btn.dark-cyan {
 //    box-shadow: 2px 2px 6px #6f7f7f;
 //    margin: 10px;
@@ -35,6 +39,14 @@ body {
 	background-color: #284c4c;
 	border-color: #284c4c;
 	outline: none;	
+}
+
+.form-panel {
+	display: none;
+}
+
+.form-panel.showed {
+	display: block;
 }
 
 .page-preview {

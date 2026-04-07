@@ -136,19 +136,11 @@ var docs = {
         return false;
     },
 
-    sign: function(pdf_id) {
-        $('#signDocModal #actionConfirm').on('click', event => {
-            //$('#signDocModal').modal('hide');
-            //docs.delete(pdf_id);
-        });
-        //$('#signDocModal').modal('show');
-        return docs.getSignStep(pdf_id, 0);
-    },
-
-    sendSignDocForm: function() {
+    sendSignDocForm: function(sign_inc) {
         var data = $('#signDocForm').serializeArray();  
         console.log('data', data);
         var vals = {};
+        vals['sign_inc'] = sign_inc;
         var err = false;
         $.each(data, function(i, field) {
             vals[field.name] = field.value;
@@ -161,19 +153,12 @@ var docs = {
             }
         }
         if(err == false) {
-            $.ajax({
-                url: '/inc/service.php',
-                type: 'POST',
-                data: vals
-            }).done(function(data) {
-                eval(data);
-            });
+            return docs.getSignStep(vals);
         }
         return false;
     },
 
-    getSignStep: function(pdf_id, sign_step) {
-        var data = {'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': sign_step, 'lang': '<?php echo $lang; ?>'};
+    getSignStep: function(data) {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
@@ -182,6 +167,12 @@ var docs = {
             eval(data);
         });
         return false;
+    },
+
+    showSignPanel: function(sign_option) {
+        $('.form-panel').hide();
+        $('#formPanel' + sign_option).show();
+        return true;
     }
 }
 

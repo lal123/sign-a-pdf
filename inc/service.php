@@ -76,28 +76,39 @@ switch($action) {
 	case 'get_sign_step':
 		$pdf_id = $_POST['pdf_id'];
 		$sign_step = $_POST['sign_step'];
+		$sign_inc = $_POST['sign_inc'];
+		$sign_option = $_POST['sign_option'];
+		$page_option = $_POST['page_option'];
+		$sign_pages = $_POST['sign_pages'];
+		$sign_text = $_POST['sign_text'];
 		switch($sign_step) {
 			case 1:
-				$sign_option = $_POST['sign_option'];
-				$sign_text = $_POST['sign_text'];
-				$res = sign_get_img_from_text($sign_text);
-				$arr = json_decode($res, true);
-				if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-					$img_id = $arr['img_id'];
-					$sign_step++;
-				} else {
-					//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
+				switch($sign_option) {
+					case 3 :
+						$res = sign_get_img_from_text($sign_text);
+						$arr = json_decode($res, true);
+						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+							$img_id = $arr['img_id'];
+							$sign_step+= $sign_inc;
+						} else {
+							//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
+						}
+						break;
 				}
 				break;
 			case 2:
 				$img_id = $_POST['img_id'];
-				$sign_step++;
+				$sign_step+= $sign_inc;
+				break;
+			case 3:
+				$img_id = $_POST['img_id'];
+				$sign_step+= $sign_inc;
 				break;
 			case 0:
 			default:
 				$arr['err_msg'] = '';
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
-				$sign_step++;
+				$sign_step+= $sign_inc;
 		}
 		ob_start();
 		//write_log('get_sign_step', getcwd() . "/content/sign-doc-step{$sign_step}.php");
@@ -105,10 +116,10 @@ switch($action) {
 		$content = ob_get_contents();
 		ob_end_clean();
 		echo "$('#modalBody').html(decodeURIComponent('" . rawurlencode($content) . "'));\n";
-		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-			//$sign_step++;
+		if($sign_step == 1) {
+			echo "$('#signDocModal #backButton').hide();\n";
 		} else {
-			//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
+			echo "$('#signDocModal #backButton').show();\n";
 		}
         echo "$('#signDocModal').modal('show');\n";
 		break;

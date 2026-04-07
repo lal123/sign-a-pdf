@@ -3,28 +3,32 @@
 function sign_get_img_from_text($sign_text) {
 
 	$err_msg = '';
-
 	$img_id = '';
-	$err_msg = "";
 
     $font_filename = getcwd() . '/../fonts/saginawbold-webfont.ttf';
     $font_size = 40;
 
-    //write_log(__METHOD__, "{$font_size}, 0, {$font_filename}, {$sign_text}");
+    $dims = imagettfbbox($font_size, 0, $font_filename, $sign_text);
+    $ascent = abs($dims[7]);
+    $descent = abs($dims[1]);
+    $text_width = abs($dims[0]) + abs($dims[2]);
+    $text_height = $ascent + $descent;
+    $image_height = $text_height + 20;
+    $text_x = 5;
+    $text_y = (($image_height / 2) - ($text_height / 2)) + $ascent;
 
-    $ar = imagettfbbox($font_size, 0, $font_filename, $sign_text);
-    $text_width		= $ar[4] - $ar[6];
-    $text_height	= $ar[3] - $ar[5];
+    $image_width = $text_width + 20;
+    $image_height = $text_height + 20;
 
-    $image = imagecreatetruecolor($text_width + 20 , $text_height + 20);
+    $image = imagecreatetruecolor($image_width , $image_height);
 
-    $default_color = imagecolorallocate($image, 128, 0, 0);
+    $default_color = imagecolorallocate($image, 0, 0, 0);
     $white = imagecolorallocatealpha($image, 255, 255, 255, 1);
     
     imagefill($image, 0, 0, $white);
     imagecolortransparent($image, $white);
 
-    $ar = imagettftext($image, $font_size, 0, 5, $text_height - 5, $default_color, $font_filename, $sign_text);
+    $ar = imagettftext($image, $font_size, 0, $text_x, $text_y, $default_color, $font_filename, $sign_text);
 
 	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 	if(!file_exists($img_dir)){
@@ -38,6 +42,8 @@ function sign_get_img_from_text($sign_text) {
     } while (file_exists($img_file));
 
     imagepng($image, $img_file);
+
+    imagedestroy($image);
 
 	$ret = json_encode(['img_id' => $img_id, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
 	return $ret;
