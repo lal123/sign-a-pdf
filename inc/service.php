@@ -153,6 +153,10 @@ switch($action) {
 		$sign_x = $_POST['sign_x'];
 		$sign_y = $_POST['sign_y'];
 		$res = sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
-		echo "$('#signPreview').remove();\n";
+		$arr = json_decode($res, true);
+		if($arr['err_msg'] == false) {
+			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$page_id}.png');\n";
+			echo "$('#signPreview').remove();\n";
+		}
 		break;
 }

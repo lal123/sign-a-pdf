@@ -23,10 +23,10 @@ function sign_get_img_from_text($sign_text) {
     $image = imagecreatetruecolor($image_width , $image_height);
 
     $default_color = imagecolorallocate($image, 0, 0, 0);
-    $white = imagecolorallocatealpha($image, 255, 255, 255, 1);
+    $transparent = imagecolorallocatealpha($image, 255, 255, 255, 127);
     
-    imagefill($image, 0, 0, $white);
-    imagecolortransparent($image, $white);
+    imagefill($image, 0, 0, $transparent);
+    imagecolortransparent($image, $transparent);
 
     $ar = imagettftext($image, $font_size, 0, $text_x, $text_y, $default_color, $font_filename, $sign_text);
 
@@ -51,21 +51,29 @@ function sign_get_img_from_text($sign_text) {
 
 function sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
 
+    $err_msg = '';
+
     $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 
     $page_img = imagecreatefrompng($img_dir . '/' . $page_id . '.png');
     $intr_w = imagesx($page_img);
     $intr_h = imagesy($page_img);
-  
+    
+    imagealphablending($page_img, false);
+
+    imagesavealpha($page_img, true);
+
     $sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
     $sign_img = imagecreatefrompng($sign_dir . '/' . $sign_id . '.png');
+    $s_in_w = imagesx($sign_img);
+    $s_in_h = imagesy($sign_img);
 
-    $dst_x = $sign_x / $page_w * $intr_w;
-    $dst_y = $sign_y / $page_h * $intr_h;
-    $dst_w = $sign_w / $page_w * $intr_w;
-    $dst_h = $sign_h / $page_h * $intr_h;
+    $dst_x = intval($sign_x * ($intr_w / $page_w));
+    $dst_y = intval($sign_y * ($intr_h / $page_h));
+    $dst_w = intval($sign_w * ($intr_w / $page_w));
+    $dst_h = intval($sign_h * ($intr_h / $page_h));
 
-    imagecopyresampled($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $dst_w, $dst_h, $sign_w, $sign_h);
+    imagecopyresized($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $dst_w, $dst_h, $s_in_w, $s_in_h);
 
     $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
     if(!file_exists($signed_img_dir)){
@@ -78,4 +86,6 @@ function sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, 
     imagedestroy($page_img);
     imagedestroy($sign_img);
 
+    $ret = json_encode(['err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+    return $ret;
 }
