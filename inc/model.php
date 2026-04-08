@@ -234,7 +234,7 @@ function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id) {
     $sql = "update `{$base}`.`docs`"
             . " set"
             . "     doc_pdf_id = '" . db_escape($doc_signed_pdf_id) . "',"
-            . "     doc_signed = 1"
+            . "     doc_signed = 1,"
             . "     doc_modifo = now()"
             . " where 1"
             . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
