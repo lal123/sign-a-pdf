@@ -11,6 +11,7 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
 
 ?>
 var lang = '<?php echo $lang ?>';
+
 const units = <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>;
    
 function niceBytes(x) {
@@ -194,6 +195,41 @@ var docs = {
     }
 }
 
+var sign = {
+
+    adjust: function(sign_id, page_option, sign_pages, sign_width, sign_height) {
+        var sign_ratio = sign_width / sign_height;
+        if(page_option == 2) {
+            var target_page = $('.page-container').first();    
+        } else if(page_option == 3) {
+            var sp = sign_pages.trim().split(/[ ,]+/)
+            var num_page = parseInt(sp[0]) - 1;
+            var target_page = $('.page-container').eq(num_page);    
+        } else {
+            var target_page = $('.page-container').last();    
+        }
+        var page_width = target_page.width();
+        var page_height = target_page.height();
+        if(sign_width > ((page_width - 100) / 3)) {
+            sign_width = (page_width - 100) / 3;
+            sign_height = parseInt(sign_width / sign_ratio);
+        } else if(sign_height > ((page_height - 100) / 3)) {
+            sign_height = (page_height - 100) / 3;
+            sign_width = parseInt(sign_height * sign_ratio);
+        }
+        var signPreview = $('<div></div')
+            .attr('id', 'signPreview')
+            .attr('class', 'resizable');
+        signPreview.html('<div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>');
+        target_page.find('.page-content').append(signPreview);
+        $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
+        $('#signPreview').resizable();
+        $('#signPreview').draggable();
+        $('html, body').animate({scrollTop: (target_page.position().top + target_page.height() - sign_height - 120)+ 'px'}, 'fast', function(){});
+    }
+
+}
+
 var account = {
 
      confirmDelete: function(user_id) {
@@ -216,82 +252,3 @@ var account = {
         return false;
     }
 }
-
-function makeResizableDiv(div) {
-  const element = document.querySelector(div);
-  const resizers = document.querySelectorAll(div + ' .resizer')
-  const minimum_size = 20;
-  let original_width = 0;
-  let original_height = 0;
-  let original_x = 0;
-  let original_y = 0;
-  let original_mouse_x = 0;
-  let original_mouse_y = 0;
-  for (let i = 0;i < resizers.length; i++) {
-    const currentResizer = resizers[i];
-    currentResizer.addEventListener('mousedown', function(e) {
-      e.preventDefault()
-      original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
-      original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-      original_x = element.getBoundingClientRect().left - $('.page-content').last()[0].getBoundingClientRect().left;
-      original_y = element.getBoundingClientRect().top - $('.page-content').last()[0].getBoundingClientRect().top;
-      original_mouse_x = e.pageX;
-      original_mouse_y = e.pageY;
-      window.addEventListener('mousemove', resize)
-      window.addEventListener('mouseup', stopResize)
-    })
-    
-    function resize(e) {
-      if (currentResizer.classList.contains('bottom-right')) {
-        const width = original_width + (e.pageX - original_mouse_x);
-        const height = original_height + (e.pageY - original_mouse_y)
-        if (width > minimum_size) {
-          element.style.width = width + 'px'
-        }
-        if (height > minimum_size) {
-          element.style.height = height + 'px'
-        }
-      }
-      else if (currentResizer.classList.contains('bottom-left')) {
-        const height = original_height + (e.pageY - original_mouse_y)
-        const width = original_width - (e.pageX - original_mouse_x)
-        if (height > minimum_size) {
-          element.style.height = height + 'px'
-        }
-        if (width > minimum_size) {
-          element.style.width = width + 'px'
-          element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-        }
-      }
-      else if (currentResizer.classList.contains('top-right')) {
-        const width = original_width + (e.pageX - original_mouse_x)
-        const height = original_height - (e.pageY - original_mouse_y)
-        if (width > minimum_size) {
-          element.style.width = width + 'px'
-        }
-        if (height > minimum_size) {
-          element.style.height = height + 'px'
-          element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
-        }
-      }
-      else {
-        const width = original_width - (e.pageX - original_mouse_x)
-        const height = original_height - (e.pageY - original_mouse_y)
-        if (width > minimum_size) {
-          element.style.width = width + 'px'
-          element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
-        }
-        if (height > minimum_size) {
-          element.style.height = height + 'px'
-          element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
-        }
-      }
-    }
-    
-    function stopResize() {
-        console.log('x = ' + element.style.left + ', y = ' + element.style.top + ', w = ' + element.style.width + ', h = ' + element.style.height)
-      window.removeEventListener('mousemove', resize)
-    }
-  }
-}
-

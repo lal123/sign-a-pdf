@@ -136,53 +136,13 @@ a.common:hover {
 
 #signPreview {
 	display: none;
-}
-
-.resizable {
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-position: 0px 0px;
-  background-size: 100% 100%;
-  width: 200px;
-  height: 100px;
-  position: absolute;
-  bottom: 50px;
-  right: 50px;
-}
-
-.resizable .resizers{
-  width: 100%;
-  height: 100%;
-  border: 1px dotted #000000;
-  box-sizing: border-box;
-}
-
-.resizable .resizers .resizer{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%; /*magic to turn square into circle*/
-  background: white;
-  border: 1px solid #000000;
-  position: absolute;
-}
-
-.resizable .resizers .resizer.top-left {
-  left: -5px;
-  top: -5px;
-  cursor: nwse-resize; /*resizer cursor*/
-}
-.resizable .resizers .resizer.top-right {
-  right: -5px;
-  top: -5px;
-  cursor: nesw-resize;
-}
-.resizable .resizers .resizer.bottom-left {
-  left: -5px;
-  bottom: -5px;
-  cursor: nesw-resize;
-}
-.resizable .resizers .resizer.bottom-right {
-  right: -5px;
-  bottom: -5px;
-  cursor: nwse-resize;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	background-size: 100% 100%;
+	width: 200px;
+	height: 50px;
+	position: absolute;
+	bottom: 50px;
+	right: 50px;
 }

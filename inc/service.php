@@ -128,9 +128,7 @@ switch($action) {
 		}
 		if($sign_step >= 4) {
 	        echo "$('#signDocModal').modal('hide');\n";
-            echo "$('html, body').animate({scrollTop: ($('#docs-container .page-container').last().position().top + $('#docs-container .page-container').last().height())+ 'px'}, 'fast', function(){});\n";
-			echo "$('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/{$sign_id}.png\'', 'width': '{$sign_width}px', 'height': '{$sign_height}px'});\n";
-            echo "makeResizableDiv('#signPreview');\n";
+            echo "sign.adjust('{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
 		} else {
 			ob_start();
 			include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
