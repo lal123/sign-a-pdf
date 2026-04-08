@@ -39,7 +39,7 @@ if($pdf_id != '') {
 ?>
         <div class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
-                <a href="javascript:void(0)" onclick="<?php if(php_uname("n") == 'alain-520-1080fr') { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+                <a href="javascript:void(0)" onclick="<?php if(isset($user) && ($user['user_id'] == 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
         <div class="container" id="docs-container">
@@ -72,13 +72,12 @@ if($pdf_id != '') {
             $img_numb++;
         }
         if($col <= $nb_cols) {
-            echo '</div>';
+            echo '</div>' . "\n";
         }
     }
 ?>
     </div>
 <?php    
-    echo '<div id="signPreview" class="resizable"><div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>' . "\n";
 } else {
     if($is_signed_in) {
         $docs = model_doc_get_list($user['user_id']);
