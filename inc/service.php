@@ -170,6 +170,7 @@ switch($action) {
 		$arr = json_decode($res, true);
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 			pdf_convert_from_png($signed_pdf_id);
+			model_doc_sign($pdf_id, $signed_pdf_id);
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
 			echo "$('#signPreview').remove();\n";
 		}

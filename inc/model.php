@@ -160,7 +160,7 @@ function model_doc_get_list($doc_user_id) {
     global $base, $cdb;
     
     $ret = [];
-    $sql = "select doc_pdf_id, doc_name, UNIX_TIMESTAMP(doc_creato) doc_time from `{$base}`.`docs`"
+    $sql = "select doc_pdf_id, doc_name, UNIX_TIMESTAMP(doc_creato) doc_time, doc_signed from `{$base}`.`docs`"
             . " where 1"
             . " and doc_user_id='" . db_escape($doc_user_id) . "'"
             . " order by doc_creato desc";
@@ -169,7 +169,7 @@ function model_doc_get_list($doc_user_id) {
     if($res != false){
         while($arr = db_fetch_assoc($res)){
             $pdf_id = $arr['doc_pdf_id'];
-            $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_time']];
+            $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_time'], 'signed' => $arr['doc_signed']];
         }
     }
     write_log(__METHOD__, print_r($ret, true));
@@ -223,6 +223,26 @@ function model_doc_get_from_pdf_id($doc_pdf_id) {
         $ret = db_fetch_assoc($res);
     }
     write_log(__METHOD__, print_r($ret, true));
+    return $ret;
+}
+
+function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id) {
+
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "update `{$base}`.`docs`"
+            . " set"
+            . "     doc_pdf_id = '" . db_escape($doc_signed_pdf_id) . "',"
+            . "     doc_signed = 1"
+            . "     doc_modifo = now()"
+            . " where 1"
+            . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = true;
+    }
     return $ret;
 }
 

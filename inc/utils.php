@@ -65,7 +65,7 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 }
 
 if($pdf_id != '') {
-	if(!file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/' . $pdf_id . '.pdf')) {
+	if(!file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/' . $pdf_id . '.pdf') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/signed//' . $pdf_id . '.pdf')) {
 		header("Location: /{$lang}/");
 		exit();
 	} else {
