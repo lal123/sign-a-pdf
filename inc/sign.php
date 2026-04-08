@@ -49,7 +49,7 @@ function sign_get_img_from_text($sign_text) {
 	return $ret;
 }
 
-function sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
+function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
 
     $err_msg = '';
 
@@ -81,7 +81,7 @@ function sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, 
         chmod($signed_img_dir, 0777);
     }
 
-    imagepng($page_img, $signed_img_dir . '/' . $page_id . '.png');
+    imagepng($page_img, $signed_img_dir . '/' . $signed_page_id . '.png');
 
     imagedestroy($page_img);
     imagedestroy($sign_img);

@@ -121,7 +121,7 @@ if($pdf_id != '') {
             <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer justify-content-between">
                 <div class="ms-0 mb-0">
-                    <button href="/<?php echo $lang; ?>/" id="backButton" onclick="return docs.sendSignDocForm(-1); return false;" class="btn btn-secondary dark-cyan normalized"><?php echo $tr['BACK']; ?></button>
+                    <button id="backButton" onclick="return docs.sendSignDocForm(-1); return false;" class="btn btn-secondary dark-cyan normalized"><?php echo $tr['BACK']; ?></button>
                 </div>
                 <div class="me-0 mb-0">
                     <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>

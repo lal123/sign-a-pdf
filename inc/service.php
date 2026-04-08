@@ -74,17 +74,19 @@ switch($action) {
 		}
 		break;
 	case 'get_sign_step':
+		$arr = [];
+		$arr['err_msg'] = '';
 		$pdf_id = $_POST['pdf_id'];
 		$sign_step = $_POST['sign_step'];
 		$sign_inc = $_POST['sign_inc'];
 		$sign_option = $_POST['sign_option'];
 		$page_option = $_POST['page_option'];
-		$sign_text = $_POST['sign_text'];
 		$sign_pages = $_POST['sign_pages'];
 		switch($sign_step) {
 			case 1:
 				switch($sign_option) {
 					case 3 :
+						$sign_text = $_POST['sign_text'];
 						$res = sign_get_img_from_text($sign_text);
 						$arr = json_decode($res, true);
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
@@ -99,13 +101,14 @@ switch($action) {
 				}
 				break;
 			case 2:
+				$sign_text = $_POST['sign_text'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
 				$sign_step+= $sign_inc;
 				break;
 			case 3:
-				$arr = [];
+				$sign_text = $_POST['sign_text'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
@@ -122,14 +125,17 @@ switch($action) {
 				break;
 			case 0:
 			default:
-				$arr['err_msg'] = '';
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
-	        pdf_import_unsigned_pages($pdf_id);
-	        echo "$('#signDocModal').modal('hide');\n";
-            echo "sign.adjust('{$pdf_id}', '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
+	        $res = pdf_import_unsigned_pages($pdf_id);
+	        $arr = json_decode($res, true);
+	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+	        	$signed_pdf_id = $arr['signed_pdf_id'];
+		        echo "$('#signDocModal').modal('hide');\n";
+    	        echo "sign.adjust('{$pdf_id}', '{$signed_pdf_id}', '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
+    	    }
 		} else {
 			ob_start();
 			include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
@@ -146,7 +152,13 @@ switch($action) {
 		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
+		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$page_id = $_POST['page_id'];
+		$signed_page_id = $signed_pdf_id;
+		if(preg_match("/^{$pdf_id}(.*)$/", $page_id, $matches)) {
+			list(, $suffix) = $matches;
+			$signed_page_id = $signed_pdf_id . $suffix;
+		}
 		$sign_id = $_POST['sign_id'];
 		$page_w = $_POST['page_w'];
 		$page_h = $_POST['page_h'];
@@ -154,11 +166,11 @@ switch($action) {
 		$sign_h = $_POST['sign_h'];
 		$sign_x = $_POST['sign_x'];
 		$sign_y = $_POST['sign_y'];
-		$res = sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+		$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 		$arr = json_decode($res, true);
-		if($arr['err_msg'] == false) {
-			pdf_convert_from_png($pdf_id);
-			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$page_id}.png');\n";
+        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+			pdf_convert_from_png($signed_pdf_id);
+			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
 			echo "$('#signPreview').remove();\n";
 		}
 		break;
