@@ -170,8 +170,16 @@ switch($action) {
 		$arr = json_decode($res, true);
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 			pdf_convert_from_png($signed_pdf_id);
-			model_doc_sign($pdf_id, $signed_pdf_id);
+			if($is_signed_in) {
+				model_doc_sign($pdf_id, $signed_pdf_id);
+			} else {
+				$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
+				$_SESSION['docs'][$signed_pdf_id]['time'] = $_SESSION['docs'][$pdf_id]['time'];
+				$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
+				unset($_SESSION['docs'][$pdf_id]);
+			}
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
+			echo "$('#sign_toolbar').remove();\n";
 			echo "$('#signPreview').remove();\n";
 		}
 		break;

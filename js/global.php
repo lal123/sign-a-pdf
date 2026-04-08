@@ -178,6 +178,11 @@ var docs = {
         $('.form-panel').hide();
         $('#formPanel' + sign_option).show();
         return true;
+    },
+
+    download: function(file, name) {
+        document.location.href = '/inc/download.php?file=' + file + '&name=' + encodeURIComponent(name);
+        return false;
     }
 }
 

@@ -115,28 +115,35 @@ a.common:hover {
 
 .doc-small-preview > .doc-suppr {
 	position: absolute;
-	right: 4px;
+	right: 0px;
 	top: 0px;
 }
 
 .doc-small-preview:hover > .doc-suppr {
 }
 
-.doc-small-preview > .doc-suppr > .act{
-	font-size: 25px;
-	line-height: 25px;
+.doc-small-preview > .doc-suppr > .act {
+	font-size: 20px;
+	line-height: 20px;
 	color: red;
 	cursor: pointer;
-	width: 25px;
-	height: 25px;
-}
-
-.doc-small-preview > .doc-suppr > .doc-suppr-btn {
 	width: 20px;
 	height: 20px;
-	padding: 0px;
-	line-height: 15px;
-	font-size: 15px;
+}
+
+.doc-small-preview > .doc-down {
+	position: absolute;
+	right: 0px;
+	top: 22px;
+}
+
+.doc-small-preview > .doc-down > .act {
+	font-size: 20px;
+	line-height: 20px;
+	color: green;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
 }
 
 @media screen and (min-width: 991px) {

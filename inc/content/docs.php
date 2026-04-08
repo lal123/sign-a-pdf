@@ -23,8 +23,10 @@ if($pdf_id != '') {
     if($is_signed_in) {
         $doc = model_doc_get_from_pdf_id($pdf_id);
         $doc_name = $doc['doc_name'];
+        $doc_signed = ($doc['doc_signed'] == 1);
     } else {
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
+        $doc_signed = ($_SESSION['docs'][$pdf_id]['signed'] == 1);
     }
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name;
 } else {
@@ -36,32 +38,36 @@ if($pdf_id != '') {
 
 <?php
 if($pdf_id != '') {
+    if($doc_signed == 0) {
 ?>
-        <div class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
+        <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
             <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
                 <a href="javascript:void(0)" onclick="<?php if(isset($user) && ($user['user_id'] == 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
         </div>
+<?php
+}
+?>
         <div class="container" id="docs-container">
 <?php
-    if(file_exists($img_dir . '/' . ($doc['doc_signed'] ? 'signed/' : '') . $pdf_id .'.png')) {
+    if(file_exists($img_dir . '/' . ($doc_signed ? 'signed/' : '') . $pdf_id .'.png')) {
         echo '<div class="row">';
         echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 page-container" id="' . $pdf_id . '">';
         echo '<div class="page-content">';
-        echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc['doc_signed'] ? 'signed/' : '') . $pdf_id . '.png' . '" alt="" border= "0" />';
+        echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '.png' . '" alt="" border= "0" />';
         echo '</div>';
         echo '</div>';
         echo '</div>';
     } else {
         $img_numb = 1;
         $col = 1;
-        while(file_exists($img_dir . '/' . ($doc['doc_signed'] ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png')) {
+        while(file_exists($img_dir . '/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png')) {
             if($col == 1) {
                 echo '<div class="row">';
             }
             echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
             echo '<div class="page-content">';
-            echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc['doc_signed'] ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png' . '" alt="" border= "0" />';
+            echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png' . '" alt="" border= "0" />';
             echo '</div>';
             echo '</div>';
             $col++;
@@ -91,9 +97,11 @@ if($pdf_id != '') {
     echo '<div class="row">';
     foreach($docs as $pdf_id_key => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill"></a></div>';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="Delete"></a></div>';
+        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'/uploads/pdf/' .($details['signed'] ? 'signed/' : '/') . $pdf_id_key . '.pdf\', \'' . rawurlencode($details['name']) . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="Download"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
+        //echo $img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png';
         if(file_exists($img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png')) {
             $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png';
         } else if(file_exists($img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . '-0.png')) {
