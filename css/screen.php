@@ -140,9 +140,19 @@ a.common:hover {
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	background-size: 100% 100%;
+	border: 1px dotted #000000;
 	width: 200px;
-	height: 50px;
+	height: 100px;
 	position: absolute;
 	bottom: 50px;
 	right: 50px;
+	padding: 4px;
+}
+
+.sign_cmd_bar {
+    display: inline-block;
+    position: absolute;
+    padding: 5px;
+    right: -25px;
+    top: -25px;
 }

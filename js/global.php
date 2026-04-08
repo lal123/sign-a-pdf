@@ -218,14 +218,16 @@ var sign = {
             sign_width = parseInt(sign_height * sign_ratio);
         }
         var signPreview = $('<div></div')
-            .attr('id', 'signPreview')
-            .attr('class', 'resizable');
-        signPreview.html('<div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>');
+            .attr('id', 'signPreview');
+        signPreview.html('<span class="sign_cmd_bar"><button class="btn btn-primary">OK</button></span>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
-        $('#signPreview').resizable();
-        $('#signPreview').draggable();
+        $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
         $('html, body').animate({scrollTop: (target_page.position().top + target_page.height() - sign_height - 120)+ 'px'}, 'fast', function(){});
+    },
+
+    moved: function(event, ui) {
+        console.log(event, ui);
     }
 
 }
