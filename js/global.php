@@ -10,6 +10,7 @@ header("Cache-Control: max-age=" . $cache_expire);
 header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
 
 ?>
+var lang = '<?php echo $lang ?>';
 const units = <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>;
    
 function niceBytes(x) {
@@ -182,6 +183,10 @@ var docs = {
         return false;
     },
 
+    initSign: function(pdf_id) {
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+    },
+
     showSignPanel: function(sign_option) {
         $('.form-panel').hide();
         $('#formPanel' + sign_option).show();
@@ -212,7 +217,6 @@ var account = {
     }
 }
 
-/*Make resizable div by Hung Nguyen*/
 function makeResizableDiv(div) {
   const element = document.querySelector(div);
   const resizers = document.querySelectorAll(div + ' .resizer')
