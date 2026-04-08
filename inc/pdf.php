@@ -39,7 +39,8 @@ function pdf_convert_to_png() {
 						chmod($img_dir, 0777);
 					}
 					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
-					$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -density 300  -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
+					//$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
+					$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . $pdf_file . ' -quality 100 -alpha remove ' . $img_dir . '/' . $pdf_id . '.png';
 					write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
 				    if($return_var != 0) {
@@ -104,7 +105,7 @@ function pdf_convert_from_png($pdf_id) {
 		mkdir($signed_pdf_dir);
 		chmod($signed_pdf_dir, 0777);
 	}
-	$command = '/usr/bin/convert ' . $signed_img_dir . '/' . $pdf_id . '* ' . $signed_pdf_dir . '/' . $pdf_id . '.pdf';
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . $signed_img_dir . '/' . $pdf_id . '*.png -quality 100 -alpha remove ' . $signed_pdf_dir . '/' . $pdf_id . '.pdf';
 	write_log(__METHOD__, $command);
     exec($command, $output, $return_var);
     if($return_var != 0) {
