@@ -12,21 +12,11 @@ header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
 ?>
 var lang = '<?php echo $lang ?>';
 
-const units = <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>;
-   
-function niceBytes(x) {
-
-    let l = 0, n = parseInt(x, 10) || 0;
-    while(n >= 1024 && ++l){
-        n = n / 1024;
-    }
-    return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
-}
-
 var upload = {
 
     req: null,
-
+    byte_units: <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>,
+   
     dialog: function() {
         $('#upload_file').click();
         return false;
@@ -71,7 +61,6 @@ var upload = {
                         $('#modal-info').html(result.err_msg);
                     }
                 } else {
-                    console.log('empty result!');
                 }
             },
             xhr: function() {
@@ -79,10 +68,9 @@ var upload = {
                 if (myXhr.upload) {
                     myXhr.upload.addEventListener('progress', function(e) {
                         var percent = parseInt(e.loaded / e.total * 100);
-                        $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + niceBytes(e.loaded) + ' / ' +  niceBytes(e.total) + ' (' + percent + '%)');
+                        $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + ' (' + percent + '%)');
                                         $('#modal-progress').show();
                         $('#modal-progress-bar').css({'width': percent + '%'});
-                        //$('#modal-progress-bar').html(percent + '%');
                         if(e.loaded >= e.total) {
                             upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>', false);
                         }
@@ -94,16 +82,6 @@ var upload = {
         return false;
     },
     
-    dispose: function(pdf_id) {
-        console.log('PDF id : ' + pdf_id);
-    },
-    
-    remove: function() {
-    },
-    
-    share: function() {
-    },
-    
     warn: function(message_text, hide_progress) {
         $('#modal-info').html(message_text);
         if(hide_progress) {
@@ -112,8 +90,16 @@ var upload = {
     },
     
     info: function(text) {
-    }
+    },
     
+    show_bytes: function(x) {
+        let l = 0, n = parseInt(x, 10) || 0;
+        while(n >= 1024 && ++l) {
+            n = n / 1024;
+        }
+        return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + upload.byte_units[l]);
+    }
+
 }
 
 var docs = {
@@ -197,19 +183,25 @@ var docs = {
 
 var sign = {
 
-    adjust: function(sign_id, page_option, sign_pages, sign_width, sign_height) {
-        var sign_ratio = sign_width / sign_height;
+    adjust: function(pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
-            var target_page = $('.page-container').first();    
+            var target_pages = [0];    
         } else if(page_option == 3) {
             var sp = sign_pages.trim().split(/[ ,]+/)
-            var num_page = parseInt(sp[0]) - 1;
-            var target_page = $('.page-container').eq(num_page);    
+            var target_pages = [];
+            for(var i = 0 ; i< sp.length ; i++) {
+                if(sp[i].match(/^([1-9]\d*)(\-[1-9]\d*)?$/)) {
+                    var num_page = parseInt(sp[i]) - 1;
+                    target_pages[i] = num_page;    
+                }
+            }
         } else {
-            var target_page = $('.page-container').last();    
+            var target_pages = [$('.page-container').length - 1];    
         }
+        var target_page = $('.page-container').eq(target_pages[0]);
         var page_width = target_page.width();
         var page_height = target_page.height();
+        var sign_ratio = sign_width / sign_height;
         if(sign_width > ((page_width - 100) / 3)) {
             sign_width = (page_width - 100) / 3;
             sign_height = parseInt(sign_width / sign_ratio);
@@ -220,7 +212,7 @@ var sign = {
         var page_id = target_page.attr('id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
-        signPreview.html('<div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onclick="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onclick="return sign.validate(\'' + page_id + '\', \'' + sign_id + '\'); return false;"></a></span></div>');
+        signPreview.html('<div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onclick="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onclick="return sign.validate(\'' + pdf_id + '\', \'' + page_id + '\', \'' + sign_id + '\'); return false;"></a></span></div>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
@@ -228,17 +220,12 @@ var sign = {
     },
 
     moved: function(event, ui) {
-        console.log(event, ui);
     },
 
-    validate: function(page_id, sign_id) {
-        console.log('page_id', page_id);
-        console.log('sign_id', sign_id);
+    validate: function(pdf_id, page_id, sign_id) {
         var page = $('#' + page_id + ' > .page-content > img');
         var sign = $('#signPreview');
-        console.log('page', 'w = ' + page.width(), ', h = ' + page.height());
-        console.log('sign', 'w = ' + sign.width(), ', h = ' + sign.height() + ', x = ' + sign.position().left, ', y = ' + sign.position().top);
-        var data = {'action': 'sign_page', 'page_id': page_id, 'sign_id': sign_id, 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
+        var data = {'action': 'sign_page', 'pdf_id': pdf_id, 'page_id': page_id, 'sign_id': sign_id, 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',

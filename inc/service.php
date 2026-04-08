@@ -127,8 +127,9 @@ switch($action) {
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
+	        pdf_import_unsigned_pages($pdf_id);
 	        echo "$('#signDocModal').modal('hide');\n";
-            echo "sign.adjust('{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
+            echo "sign.adjust('{$pdf_id}', '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
 		} else {
 			ob_start();
 			include(getcwd() . "/content/sign-doc-step{$sign_step}.php");
@@ -144,6 +145,7 @@ switch($action) {
 	    }
 		break;
 	case 'sign_page':
+		$pdf_id = $_POST['pdf_id'];
 		$page_id = $_POST['page_id'];
 		$sign_id = $_POST['sign_id'];
 		$page_w = $_POST['page_w'];
@@ -155,6 +157,7 @@ switch($action) {
 		$res = sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 		$arr = json_decode($res, true);
 		if($arr['err_msg'] == false) {
+			pdf_convert_from_png($pdf_id);
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$page_id}.png');\n";
 			echo "$('#signPreview').remove();\n";
 		}
