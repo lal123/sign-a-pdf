@@ -48,3 +48,34 @@ function sign_get_img_from_text($sign_text) {
 	$ret = json_encode(['sign_id' => $sign_id, 'sign_width' => $image_width, 'sign_height' => $image_height, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
 	return $ret;
 }
+
+function sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
+
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+
+    $page_img = imagecreatefrompng($img_dir . '/' . $page_id . '.png');
+    $intr_w = imagesx($page_img);
+    $intr_h = imagesy($page_img);
+  
+    $sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
+    $sign_img = imagecreatefrompng($sign_dir . '/' . $sign_id . '.png');
+
+    $dst_x = $sign_x / $page_w * $intr_w;
+    $dst_y = $sign_y / $page_h * $intr_h;
+    $dst_w = $sign_w / $page_w * $intr_w;
+    $dst_h = $sign_h / $page_h * $intr_h;
+
+    imagecopyresampled($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $dst_w, $dst_h, $sign_w, $sign_h);
+
+    $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
+    if(!file_exists($signed_img_dir)){
+        mkdir($signed_img_dir);
+        chmod($signed_img_dir, 0777);
+    }
+
+    imagepng($page_img, $signed_img_dir . '/' . $page_id . '.png');
+
+    imagedestroy($page_img);
+    imagedestroy($sign_img);
+
+}

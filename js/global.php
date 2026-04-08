@@ -217,9 +217,10 @@ var sign = {
             sign_height = (page_height - 100) / 3;
             sign_width = parseInt(sign_height * sign_ratio);
         }
+        var page_id = target_page.attr('id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
-        signPreview.html('<span class="sign_cmd_bar"><button class="btn btn-primary">OK</button></span>');
+        signPreview.html('<div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onclick="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onclick="return sign.validate(\'' + page_id + '\', \'' + sign_id + '\'); return false;"></a></span></div>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
@@ -228,6 +229,24 @@ var sign = {
 
     moved: function(event, ui) {
         console.log(event, ui);
+    },
+
+    validate: function(page_id, sign_id) {
+        console.log('page_id', page_id);
+        console.log('sign_id', sign_id);
+        var page = $('#' + page_id + ' > .page-content > img');
+        var sign = $('#signPreview');
+        console.log('page', 'w = ' + page.width(), ', h = ' + page.height());
+        console.log('sign', 'w = ' + sign.width(), ', h = ' + sign.height() + ', x = ' + sign.position().left, ', y = ' + sign.position().top);
+        var data = {'action': 'sign_page', 'page_id': page_id, 'sign_id': sign_id, 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
+        $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: data
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
     }
 
 }

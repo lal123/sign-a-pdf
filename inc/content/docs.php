@@ -46,7 +46,7 @@ if($pdf_id != '') {
 <?php
     if(file_exists($img_dir . '/' . $pdf_id .'.png')) {
         echo '<div class="row">';
-        echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 page-container" id="pdf-' . $pdf_id . '-1">';
+        echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 page-container" id="' . $pdf_id . '">';
         echo '<div class="page-content">';
         echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '.png' . '" alt="" border= "0" />';
         echo '</div>';
@@ -59,7 +59,7 @@ if($pdf_id != '') {
             if($col == 1) {
                 echo '<div class="row">';
             }
-            echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="pdf-' . $pdf_id . '-' . $img_numb . '">';
+            echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
             echo '<div class="page-content">';
             echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $pdf_id . '-' . ($img_numb - 1) . '.png' . '" alt="" border= "0" />';
             echo '</div>';
@@ -91,7 +91,7 @@ if($pdf_id != '') {
     echo '<div class="row">';
     foreach($docs as $pdf_id_key => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="btn btn-danger btn-sm doc-suppr-btn dark-cyan">x</a></div>';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
         if(file_exists($img_dir . '/' . $pdf_id_key .'.png')) {

@@ -143,4 +143,16 @@ switch($action) {
 	        echo "$('#signDocModal').modal('show');\n";
 	    }
 		break;
+	case 'sign_page':
+		$page_id = $_POST['page_id'];
+		$sign_id = $_POST['sign_id'];
+		$page_w = $_POST['page_w'];
+		$page_h = $_POST['page_h'];
+		$sign_w = $_POST['sign_w'];
+		$sign_h = $_POST['sign_h'];
+		$sign_x = $_POST['sign_x'];
+		$sign_y = $_POST['sign_y'];
+		$res = sign_apply_sign_to_page($page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+		echo "$('#signPreview').remove();\n";
+		break;
 }

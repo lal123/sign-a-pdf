@@ -60,12 +60,13 @@ body {
 .page-content {
 	display: inline-block;
 	position: relative;
+	margin: 4px;
 	width: auto;
 }
 
 .page-preview {
 	max-width: 100%;
-	margin: 4px;
+	//margin: 4px;
     box-shadow: 2px 2px 6px #6f7f7f;
 }
 
@@ -116,11 +117,18 @@ a.common:hover {
 	position: absolute;
 	right: 4px;
 	top: 0px;
-//	opacity: 0.75
 }
 
 .doc-small-preview:hover > .doc-suppr {
-//	opacity: 1.0;
+}
+
+.doc-small-preview > .doc-suppr > .act{
+	font-size: 25px;
+	line-height: 25px;
+	color: red;
+	cursor: pointer;
+	width: 25px;
+	height: 25px;
 }
 
 .doc-small-preview > .doc-suppr > .doc-suppr-btn {
@@ -140,19 +148,53 @@ a.common:hover {
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	background-size: 100% 100%;
-	border: 1px dotted #000000;
+	border: none;
+	outline: 1px dashed #000000;
 	width: 200px;
 	height: 100px;
 	position: absolute;
 	bottom: 50px;
 	right: 50px;
-	padding: 4px;
+	padding: 0px;
 }
 
 .sign_cmd_bar {
-    display: inline-block;
+    display: block;
     position: absolute;
-    padding: 5px;
-    right: -25px;
-    top: -25px;
+    padding: 0px;
+    width: 28px;
+    height: 50px;
+    right: -28px;
+    top: 0px;
+}
+
+.sign_cmd_bar > span {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.sign_cmd_bar .close {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 24px;
+	line-height: 24px;
+	color: red;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+}
+
+.sign_cmd_bar .check {
+	position: absolute;
+	right: 0px;
+	top: 26px;
+	font-size: 24px;
+	line-height: 24px;
+	color: green;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
 }
