@@ -46,17 +46,17 @@ require_once 'inc/utils.php';
 <body>
 
 <div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark" style="height: 91px;">
+    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark" style="height: 101px;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/<?php echo $lang; ?>/"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <div class="collapse navbar-collapse" id="myMenu" style="">
-                <ul class="navbar-nav ms-5">
+                <ul class="navbar-nav ms-0">
                     <li class="navbar-item navbar-text">
-                        <div style="font-family: saginaw_bold; font-size: 50px; line-height: 40px; margin: -5px 0px 0px -8px;">
+                        <div style="font-family: saginaw_bold; font-size: 28px; line-height: 36px; margin: -5px 0px 0px -15px;">
                             <?php if($lang == 'en') {
-                                echo 'Sign them for free !';
+                                echo 'Sign<br />for free !';
                             } else {
-                                echo 'Signez les gratuitement !';
+                                echo 'Signez<br/>gratuitement !';
                             }
                             ?>
                         </div>
@@ -66,6 +66,6 @@ require_once 'inc/utils.php';
         </div>
     </nav>
 </div>
-<!--<div style="position: absolute; top: 0px; left: 0px; width: 728px; height: 90px; border: dotted 1px white; z-index: 1031;"></div>-->
+<!--<div style="position: absolute; top: 0px; left: 0px; width: 320px; height: 100px; border: dotted 1px white; z-index: 1031;"></div>-->
 </body>
 </html>
