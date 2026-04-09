@@ -137,6 +137,7 @@ var docs = {
     sendSignDocForm: function(sign_inc) {
         var data = $('#signDocForm').serializeArray();  
         var vals = {};
+        err = false;
         vals['sign_inc'] = sign_inc;
         var err = false;
         $.each(data, function(i, field) {
@@ -144,13 +145,24 @@ var docs = {
         });
         if(vals['sign_step'] == '1') {
             if(vals['sign_option'] == 2) {
-                data = new FormData($('#signDocForm')[0]);
-                $(data).serializeArray();
-                return docs.getSignStep(data);
+                if($('#signFile').val() == '') {
+                    $('#signFile').addClass('is-invalid');
+                    err = true;
+                } else if($('#signFile').hasClass('is-invalid')){
+                    err = true;
+                } else {
+                    data = new FormData($('#signDocForm')[0]);
+                    $(data).serializeArray();
+                    return docs.getSignStep(data);
+                }
             } else if(vals['sign_option'] == 3) {
                 if(vals['sign_text'] == '') {
                     $('#signText').addClass('is-invalid');
                     err = true;
+                } else {
+                    data = new FormData($('#signDocForm')[0]);
+                    $(data).serializeArray();
+                    return docs.getSignStep(data);
                 }
             }
         } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3') && (vals['sign_inc'] == 1)) {

@@ -85,6 +85,7 @@ switch($action) {
 		$sign_pages = $_POST['sign_pages'];
 		switch($sign_step) {
 			case 1:
+				$sign_text = $_POST['sign_text'];
 				switch($sign_option) {
 					case 2 :
 						$res = sign_get_img_from_file();
@@ -98,7 +99,6 @@ switch($action) {
 						}
 						break;
 					case 3 :
-						$sign_text = $_POST['sign_text'];
 						$res = sign_get_img_from_text($sign_text);
 						$arr = json_decode($res, true);
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {

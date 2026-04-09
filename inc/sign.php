@@ -2,6 +2,8 @@
 
 function sign_get_img_from_file() {
 
+    global $lang, $tr;
+
     $image_width = 0;
     $image_height = 0;
     $err_msg = '';
@@ -11,10 +13,10 @@ function sign_get_img_from_file() {
         $size = $_FILES['sign_file']['size'];
         $type = $_FILES['sign_file']['type'];
         $name = $_FILES['sign_file']['name'];
-        if($size > 1 * 1024 * 1024) {
-            $err_msg = 'file is too big';
-        } else if(!in_array($type, ['image/gif', 'image/png', 'image/jpeg'])) {
-            $err_msg = 'not an image';
+        if(!in_array($type, ['image/gif', 'image/png', 'image/jpeg'])) {
+            $err_msg = $tr['NOT_AN_IMAGE'];
+        } else if($size > 1 * 1024 * 1024) {
+            $err_msg = $tr['SIGN.FILE_TOO_BIG'];
         }
 
         if($err_msg == '') {
@@ -30,7 +32,7 @@ function sign_get_img_from_file() {
                 default:
                     $image = imagecreatefromjpeg($_FILES['sign_file']['tmp_name']);
             }
-            
+
             $image_width = imagesx($image);
             $image_height = imagesy($image);
 

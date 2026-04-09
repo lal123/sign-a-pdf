@@ -27,7 +27,7 @@
                 <div class="col-lg-8 ms-1 mt-1 mb-0">
                     <div class="form-group">
                         <label for="signFile"><?php echo $tr['SIGN.OPTIONS.STOR.LABEL']; ?> :</label>
-                        <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="return docs.prepareSignFile(this); return false;" value="<?php echo $sign_file; ?>" />
+                        <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="$(this).removeClass('is-invalid'); $('#globalError').empty(); return docs.prepareSignFile(this); return false;" onfocus="" value="<?php echo $sign_file; ?>" />
                           <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.STOR.INVALID']; ?></div>
                      </div>
                 </div>
@@ -48,6 +48,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 ms-0 mt-2 mb-0" id="globalError" style="color: red;"><?php echo $arr['err_msg']; ?></div>
+        <div class="lg-8 ms-0 mt-2 mb-0" id="globalError" style="color: red;"><?php echo $arr['err_msg']; ?></div>
     </form>
 </div>
