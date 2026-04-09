@@ -203,6 +203,9 @@ var sign = {
         } else {
             var target_pages = [$('.page-container').length - 1];    
         }
+        if(target_pages[0] >= $('.page-container').length) {
+            target_pages[0] = 0;
+        }
         var target_page = $('.page-container').eq(target_pages[0]);
         var page_width = target_page.width();
         var page_height = target_page.height();

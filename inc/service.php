@@ -155,6 +155,12 @@ switch($action) {
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$page_id = $_POST['page_id'];
+		$page_w = $_POST['page_w'];
+		$page_h = $_POST['page_h'];
+		$sign_w = $_POST['sign_w'];
+		$sign_h = $_POST['sign_h'];
+		$sign_x = $_POST['sign_x'];
+		$sign_y = $_POST['sign_y'];
 		$signed_page_id = $signed_pdf_id;
 		if(preg_match("/^{$pdf_id}(.*)$/", $page_id, $matches)) {
 			list(, $suffix) = $matches;
@@ -163,14 +169,45 @@ switch($action) {
 		$sign_id = $_POST['sign_id'];
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
-		$page_w = $_POST['page_w'];
-		$page_h = $_POST['page_h'];
-		$sign_w = $_POST['sign_w'];
-		$sign_h = $_POST['sign_h'];
-		$sign_x = $_POST['sign_x'];
-		$sign_y = $_POST['sign_y'];
-		$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
-		$arr = json_decode($res, true);
+    	
+    	$pages_arr = [];    
+        $sp = preg_split('/[ ,]+/', $sign_pages);
+        for($i = 0 ; $i < sizeof($sp) ; $i++) {
+        	if(preg_match('/^([0-9]+)\-([0-9]+)$/', $sp[$i], $matches)) {
+        		list(,$first, $last) = $matches;
+		        for($j = $first ; $j <= $last ; $j++) {
+		        	$pages_arr[] = $j;
+		        }
+        	} else {
+	        	$pages_arr[] = $sp[$i];
+        	}
+        }
+        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
+
+		$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+	    $file_list = [];
+	    $fh = opendir($img_dir);
+		while($filename = readdir($fh)) {
+			if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
+				list(, $suffix) = $matches;
+				//$file_list[] = $img_dir . '/' . $pdf_id . $suffix . '.png';
+				$file_list[] = $pdf_id . $suffix;
+			}
+		}
+		//sort($file_list, SORT_NATURAL);
+        write_log("sign_page", 'file_list: ' . print_r($file_list, true));
+
+        for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
+        	$page_id =  $pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
+        	$signed_page_id =  $signed_pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
+        	if(in_array($page_id, $file_list)) {
+        		write_log('sign_page', 'matched: ' .$pages_arr[$i] . ' => ' . $page_id);
+        		write_log('sign_page', "page_id: {$page_id} ; signed_page_id: {$signed_page_id}");
+				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+				$arr = json_decode($res, true);
+        	}
+        }
+
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 			pdf_convert_from_png($signed_pdf_id);
 			if($is_signed_in) {
