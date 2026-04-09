@@ -170,20 +170,6 @@ switch($action) {
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
     	
-    	$pages_arr = [];    
-        $sp = preg_split('/[ ,]+/', $sign_pages);
-        for($i = 0 ; $i < sizeof($sp) ; $i++) {
-        	if(preg_match('/^([0-9]+)\-([0-9]+)$/', $sp[$i], $matches)) {
-        		list(,$first, $last) = $matches;
-		        for($j = $first ; $j <= $last ; $j++) {
-		        	$pages_arr[] = $j;
-		        }
-        	} else {
-	        	$pages_arr[] = $sp[$i];
-        	}
-        }
-        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
-
 		$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 	    $file_list = [];
 	    $fh = opendir($img_dir);
@@ -196,6 +182,35 @@ switch($action) {
 		}
 		//sort($file_list, SORT_NATURAL);
         write_log("sign_page", 'file_list: ' . print_r($file_list, true));
+
+        write_log("sign_page", "page_option: {$page_option}");
+
+    	$pages_arr = [];    
+    	switch($page_option) {
+    		case 2:
+    			for($i = 1 ; $i <= sizeof($file_list) ; $i++) {
+    				$pages_arr[] = $i;
+    			}
+    			break;
+    		case 3:
+		        $sp = preg_split('/[ ,]+/', $sign_pages);
+		        for($i = 0 ; $i < sizeof($sp) ; $i++) {
+		        	if(preg_match('/^([0-9]+)\-([0-9]+)$/', $sp[$i], $matches)) {
+		        		list(,$first, $last) = $matches;
+				        for($j = $first ; $j <= $last ; $j++) {
+				        	$pages_arr[] = $j;
+				        }
+		        	} else {
+			        	$pages_arr[] = $sp[$i];
+		        	}
+		        }
+    			break;
+			case 1:
+    		default:
+    			$pages_arr[] = sizeof($file_list);
+    	}
+    	
+        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
 
         for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
         	$page_id =  $pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
