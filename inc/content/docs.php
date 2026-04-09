@@ -41,7 +41,7 @@ if($pdf_id != '') {
 if($pdf_id != '') {
 ?>
             <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-                <a href="javascript:void(0)" id="signButton" onclick="<?php if(isset($user) && ($user['user_id'] != 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+                <a href="javascript:void(0)" id="signButton" onclick="<?php if(isset($user) && ($user['user_id'] == 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
             </div>
             <div class="btn-group mx-auto mb-2" role="group" aria-label="">
                 <a href="javascript:void(0)" id="downloadButton" onclick="<?php echo "return docs.download('/uploads/pdf/" . ($doc_signed ? 'signed/' : '') . $pdf_id . ".pdf', '" . rawurlencode($doc_name) . "'); "; ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
