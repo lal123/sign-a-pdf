@@ -217,7 +217,7 @@ var sign = {
         var page_id = target_page.attr('id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
-        signPreview.html('<div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onclick="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onclick="return sign.validate(\'' + pdf_id + '\', \'' + signed_pdf_id + '\', \'' + page_id + '\', \'' + sign_id + '\'); return false;"></a></span></div>');
+        signPreview.html('<div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onclick="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onclick="return sign.validate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_option\': \'' + page_option + '\', \'sign_pages\': \'' + sign_pages + '\'}); return false;"></a></span></div>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
@@ -227,11 +227,11 @@ var sign = {
     moved: function(event, ui) {
     },
 
-    validate: function(pdf_id, signed_pdf_id, page_id, sign_id) {
+    validate: function(vals) {
         $("*").css("cursor", "progress");
-        var page = $('#' + page_id + ' > .page-content > img');
+        var page = $('#' + vals['page_id'] + ' > .page-content > img');
         var sign = $('#signPreview');
-        var data = {'action': 'sign_page', 'pdf_id': pdf_id, 'signed_pdf_id': signed_pdf_id, 'page_id': page_id, 'sign_id': sign_id, 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
+        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'page_id': vals['page_id'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',

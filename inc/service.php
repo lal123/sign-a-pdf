@@ -161,6 +161,8 @@ switch($action) {
 			$signed_page_id = $signed_pdf_id . $suffix;
 		}
 		$sign_id = $_POST['sign_id'];
+		$page_option = $_POST['page_option'];
+		$sign_pages = $_POST['sign_pages'];
 		$page_w = $_POST['page_w'];
 		$page_h = $_POST['page_h'];
 		$sign_w = $_POST['sign_w'];
