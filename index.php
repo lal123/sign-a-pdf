@@ -43,7 +43,7 @@ require_once 'inc/utils.php';
         gtag('config', 'G-KCV3E6Q85R');
     </script>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 <div class="container">
     <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
