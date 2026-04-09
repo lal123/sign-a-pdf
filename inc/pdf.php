@@ -131,7 +131,7 @@ function pdf_convert_from_png($signed_pdf_id) {
 	}
 	sort($file_list, SORT_NATURAL);
 
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . implode(' ', $file_list) . ' -quality 100 -alpha remove -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColorAlpha ' . implode(' ', $file_list) . ' -quality 100 -alpha remove -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
 	//write_log(__METHOD__, $command);
     exec($command, $output, $return_var);
     if($return_var != 0) {
