@@ -36,18 +36,21 @@ if($pdf_id != '') {
     </div>
     <center>
 
+        <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
 <?php
 if($pdf_id != '') {
-    if($doc_signed == 0) {
 ?>
-        <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
-            <div class="btn-group mx-auto mb-2" role="group" aria-label="Third group">
-                <a href="javascript:void(0)" onclick="<?php if(isset($user) && ($user['user_id'] == 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            <div class="btn-group mx-auto mb-2" role="group" aria-label="">
+                <a href="javascript:void(0)" id="signButton" onclick="<?php if(isset($user) && ($user['user_id'] == 1)) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            </div>
+            <div class="btn-group mx-auto mb-2" role="group" aria-label="">
+                <a href="javascript:void(0)" id="downloadButton" onclick="<?php echo "return docs.download('/uploads/pdf/" . ($doc_signed ? 'signed/' : '') . $pdf_id . ".pdf', '" . rawurlencode($doc_name) . "'); "; ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
+            </div>
+            <div class="btn-group mx-auto mb-2" role="group" aria-label="">
+                <a href="javascript:void(0)" id="deleteButton" onclick="return docs.confirmDelete('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DELETE']; ?></a>
             </div>
         </div>
-<?php
-}
-?>
+
         <div class="container" id="docs-container">
 <?php
     if(file_exists($img_dir . '/' . ($doc_signed ? 'signed/' : '') . $pdf_id .'.png')) {
@@ -98,7 +101,7 @@ if($pdf_id != '') {
     foreach($docs as $pdf_id_key => $details) {
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
-        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'/uploads/pdf/' .($details['signed'] ? 'signed/' : '/') . $pdf_id_key . '.pdf\', \'' . rawurlencode($details['name']) . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
+        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'/uploads/pdf/' .($details['signed'] ? 'signed/' : '') . $pdf_id_key . '.pdf\', \'' . rawurlencode($details['name']) . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
         //echo $img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png';
@@ -140,7 +143,7 @@ if($pdf_id != '') {
     </div>
 </div>
 <?php
-} else {
+}
 ?>
 <div class="modal" data-bs-backdrop="static" id="deleteDocModal" tabindex="-1">
     <div class="modal-dialog">
@@ -159,6 +162,3 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
-<?php
-}
-?>

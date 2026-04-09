@@ -60,6 +60,7 @@ switch($action) {
 		if($docs_numb > 0) {
 			echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
 			echo "$('.docs_numb').html('({$docs_numb})');\n";
+			echo "document.location.href = '/{$lang}/docs';\n";
 		} else {
 			echo "document.location.href = '/{$lang}/';\n";
 		}
@@ -179,10 +180,10 @@ switch($action) {
 				unset($_SESSION['docs'][$pdf_id]);
 			}
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
-			echo "$('#sign_toolbar').remove();\n";
+			echo "$('#signButton').addClass('disabled');\n";
 			echo "$('#signPreview').remove();\n";
 	        echo '$("*").css("cursor", "default");' . "\n";
-
+			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
 		}
 		break;
 }

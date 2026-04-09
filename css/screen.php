@@ -41,6 +41,11 @@ body {
 	outline: none;	
 }
 
+.btn.dark-cyan.disabled {
+	background-color: rgb(108, 117, 125);
+	border-color: rgb(108, 117, 125);
+}
+
 .form-panel {
 	display: none;
 }
@@ -140,7 +145,7 @@ a.common:hover {
 .doc-small-preview > .doc-down > .act {
 	font-size: 20px;
 	line-height: 20px;
-	color: #339933;
+	color: #208020;
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
@@ -200,8 +205,12 @@ a.common:hover {
 	top: 26px;
 	font-size: 24px;
 	line-height: 24px;
-	color: #339933;
+	color: #208020;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;
+}
+
+#sign_toolbar .btn {
+	min-width: 141px;
 }
