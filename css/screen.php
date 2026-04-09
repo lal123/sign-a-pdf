@@ -3,7 +3,6 @@
 header('Content-Type: text/css');
 
 ?>
-
 body {
 	background-color: #c0c0c0 !important;
 }
@@ -119,7 +118,7 @@ a.common:hover {
 	line-height: 24px;
 	left: 6px;
 	top: 6px;
-	padding: 1px 6px 1px 6px;
+	padding: 1px 8px 1px 8px;
 	border-radius: 10px;
 	background-color: rgba(255, 255, 0, 0.75);
 }

@@ -127,8 +127,15 @@ var docs = {
     prepareSignFile: function(file_obj) {
         $('#signFile').removeClass('is-invalid');
         var file_type = file_obj.files[0].type;
+        var file_size = file_obj.files[0].size;
         if((file_type != 'image/gif') && (file_type != 'image/jpeg') && (file_type != 'image/png')) {
             $('#signFile').addClass('is-invalid');
+            file_obj.value = "";
+            return false;
+        }
+        if(file_size > 1 * 1024 * 1024){
+            $('#signFile').addClass('is-invalid');
+            file_obj.value = "";
             return false;
         }
         return false;

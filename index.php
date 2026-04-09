@@ -25,6 +25,7 @@ require_once 'inc/utils.php';
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="stylesheet" href="/css/fonts.<?php echo $version_suffix; ?>.css" />
     <link rel="stylesheet" href="/css/screen.<?php echo $version_suffix; ?>.css" />
     <link rel="stylesheet" href="/css/bootstrap-5.3.8.min.css" />
     <link rel="stylesheet" href="/css/jquery-ui.1.14.2.min.css" />
@@ -48,7 +49,7 @@ require_once 'inc/utils.php';
     <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/<?php echo $lang; ?>/"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="">
                   <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="myMenu" style="">
