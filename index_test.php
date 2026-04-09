@@ -52,11 +52,11 @@ require_once 'inc/utils.php';
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-5">
                     <li class="navbar-item navbar-text">
-                        <div style="font-family: saginaw_bold; font-size: 50px; line-height: 40px; margin: -5px 0px 0px 10px;">
+                        <div style="font-family: saginaw_bold; font-size: 50px; line-height: 40px; margin: -5px 0px 0px -8px;">
                             <?php if($lang == 'en') {
-                                echo 'Sign all your documents for free !';
+                                echo 'Sign them for free !';
                             } else {
-                                echo 'Signez vos documents gratuitement !';
+                                echo 'Signez les gratuitement !';
                             }
                             ?>
                         </div>
@@ -66,6 +66,6 @@ require_once 'inc/utils.php';
         </div>
     </nav>
 </div>
-<!--<div style="position: absolute; top: 0px; left: 0px; width: 970px; height: 90px; border: dotted 1px white; z-index: 1031;"></div>-->
+<!--<div style="position: absolute; top: 0px; left: 0px; width: 728px; height: 90px; border: dotted 1px white; z-index: 1031;"></div>-->
 </body>
 </html>
