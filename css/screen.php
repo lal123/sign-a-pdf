@@ -115,8 +115,8 @@ a.common:hover {
 
 .doc-small-preview > .doc-suppr {
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: -2px;
+	top: -2px;
 }
 
 .doc-small-preview:hover > .doc-suppr {
@@ -125,7 +125,7 @@ a.common:hover {
 .doc-small-preview > .doc-suppr > .act {
 	font-size: 20px;
 	line-height: 20px;
-	color: red;
+	color: #cc3333;
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
@@ -133,14 +133,14 @@ a.common:hover {
 
 .doc-small-preview > .doc-down {
 	position: absolute;
-	right: 0px;
-	top: 22px;
+	right: -2px;
+	top: 20px;
 }
 
 .doc-small-preview > .doc-down > .act {
 	font-size: 20px;
 	line-height: 20px;
-	color: green;
+	color: #339933;
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
@@ -188,7 +188,7 @@ a.common:hover {
 	top: 0px;
 	font-size: 24px;
 	line-height: 24px;
-	color: red;
+	color: #cc3333;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;
@@ -200,7 +200,7 @@ a.common:hover {
 	top: 26px;
 	font-size: 24px;
 	line-height: 24px;
-	color: green;
+	color: #339933;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;

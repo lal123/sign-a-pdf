@@ -228,6 +228,7 @@ var sign = {
     },
 
     validate: function(pdf_id, signed_pdf_id, page_id, sign_id) {
+        $("*").css("cursor", "progress");
         var page = $('#' + page_id + ' > .page-content > img');
         var sign = $('#signPreview');
         var data = {'action': 'sign_page', 'pdf_id': pdf_id, 'signed_pdf_id': signed_pdf_id, 'page_id': page_id, 'sign_id': sign_id, 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}

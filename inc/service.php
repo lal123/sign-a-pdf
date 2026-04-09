@@ -181,6 +181,8 @@ switch($action) {
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
 			echo "$('#sign_toolbar').remove();\n";
 			echo "$('#signPreview').remove();\n";
+	        echo '$("*").css("cursor", "default");' . "\n";
+
 		}
 		break;
 }

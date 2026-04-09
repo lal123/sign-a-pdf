@@ -101,7 +101,7 @@ function pdf_import_unsigned_pages($pdf_id) {
 	return $ret;
 }
 
-function pdf_convert_from_png($pdf_id) {
+function pdf_convert_from_png($signed_pdf_id) {
 
 	global $err_msg;
 
@@ -121,8 +121,18 @@ function pdf_convert_from_png($pdf_id) {
 		chmod($signed_pdf_dir, 0777);
 	}
 	
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . $signed_img_dir . '/' . $pdf_id . '*.png -quality 100 -alpha remove -resize 100% ' . $signed_pdf_dir . '/' . $pdf_id . '.pdf';
-	write_log(__METHOD__, $command);
+    $file_list = [];
+    $fh = opendir($signed_img_dir);
+	while($filename = readdir($fh)) {
+		if(preg_match("/^{$signed_pdf_id}(.*)\.png$/", $filename, $matches)) {
+			list(, $suffix) = $matches;
+			$file_list[] = $signed_img_dir . '/' . $signed_pdf_id . $suffix . '.png';
+		}
+	}
+	sort($file_list, SORT_NATURAL);
+
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . implode(' ', $file_list) . ' -quality 100 -alpha remove -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	//write_log(__METHOD__, $command);
     exec($command, $output, $return_var);
     if($return_var != 0) {
         $err_msg = "{$command} exited with return_var {$return_var}\n";
