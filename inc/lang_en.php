@@ -38,6 +38,7 @@ $tr =[
 	'SUBMIT'				=> 'Submit',
 	'DELETE'				=> 'Delete',
 	'DOWNLOAD'				=> 'Download',
+	'SIGNED'				=> 'signed',
 	'DATE_FORMAT'			=> "m/d/Y H:i:s",
 	'MENU.SEND_DOCUMENT'	=> 'Send a document',
 	'MENU.YOUR_DOCUMENTS'	=> 'Your documents',

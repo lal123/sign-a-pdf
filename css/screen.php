@@ -106,6 +106,24 @@ a.common:hover {
 	padding: 0px 0px 8px 0px;
 }
 
+.doc-small-preview > .doc-preview {
+	display: inline-block;
+	position: relative;
+	//width: 100%;
+	//height: 100%;
+}
+
+.doc-small-preview > .doc-preview > .signed {
+	position: absolute;
+	font-size: 16px;
+	line-height: 24px;
+	left: 6px;
+	top: 6px;
+	padding: 1px 6px 1px 6px;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 0, 0.75);
+}
+
 .doc-small-preview > .doc-name {
     max-width: 100%;
     height: 24px;
