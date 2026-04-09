@@ -34,6 +34,13 @@ require_once 'inc/utils.php';
     <script src="/js/jquery-ui.1.14.2.min.js"></script>
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCV3E6Q85R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KCV3E6Q85R');
+    </script>
 </head>
 <body>
 
