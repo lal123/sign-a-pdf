@@ -86,6 +86,17 @@ switch($action) {
 		switch($sign_step) {
 			case 1:
 				switch($sign_option) {
+					case 2 :
+						$res = sign_get_img_from_file();
+						$arr = json_decode($res, true);
+						write_log('sign_post_file', print_r($arr, true));
+						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+							$sign_id = $arr['sign_id'];
+							$sign_width = $arr['sign_width'];
+							$sign_height = $arr['sign_height'];
+							$sign_step+= $sign_inc;
+						}
+						break;
 					case 3 :
 						$sign_text = $_POST['sign_text'];
 						$res = sign_get_img_from_text($sign_text);

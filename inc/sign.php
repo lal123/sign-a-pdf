@@ -1,5 +1,62 @@
 <?php
 
+function sign_get_img_from_file() {
+
+    $image_width = 0;
+    $image_height = 0;
+    $err_msg = '';
+
+    if (is_array($_FILES) && isset($_FILES['sign_file'])) {
+        $tmp_name = $_FILES['sign_file']['tmp_name'];
+        $size = $_FILES['sign_file']['size'];
+        $type = $_FILES['sign_file']['type'];
+        $name = $_FILES['sign_file']['name'];
+        if($size > 1 * 1024 * 1024) {
+            $err_msg = 'file is too big';
+        } else if(!in_array($type, ['image/gif', 'image/png', 'image/jpeg'])) {
+            $err_msg = 'not an image';
+        }
+
+        if($err_msg == '') {
+
+            switch($type) {
+                case 'image/png':
+                    $image = imagecreatefrompng($_FILES['sign_file']['tmp_name']);
+                    break;
+                case 'image/gif':
+                    $image = imagecreatefromgif($_FILES['sign_file']['tmp_name']);
+                    break;
+                case 'image/jpeg':
+                default:
+                    $image = imagecreatefromjpeg($_FILES['sign_file']['tmp_name']);
+            }
+            
+            $image_width = imagesx($image);
+            $image_height = imagesy($image);
+
+            $sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
+            if(!file_exists($sign_dir)){
+                mkdir($sign_dir);
+                chmod($sign_dir, 0777);
+            }
+
+            do {
+                $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
+                $sign_file = $sign_dir . '/' . $sign_id . '.png';
+            } while (file_exists($sign_file));
+
+            imagepng($image, $sign_file);
+
+            imagedestroy($image);
+        }
+    }
+
+    $ret = json_encode(['sign_id' => $sign_id, 'sign_width' => $image_width, 'sign_height' => $image_height, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+
+    return $ret;
+}
+
+
 function sign_get_img_from_text($sign_text) {
 
 	$err_msg = '';

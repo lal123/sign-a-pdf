@@ -124,6 +124,16 @@ var docs = {
         return false;
     },
 
+    prepareSignFile: function(file_obj) {
+        $('#signFile').removeClass('is-invalid');
+        var file_type = file_obj.files[0].type;
+        if((file_type != 'image/gif') && (file_type != 'image/jpeg') && (file_type != 'image/png')) {
+            $('#signFile').addClass('is-invalid');
+            return false;
+        }
+        return false;
+    },
+
     sendSignDocForm: function(sign_inc) {
         var data = $('#signDocForm').serializeArray();  
         var vals = {};
@@ -133,9 +143,15 @@ var docs = {
             vals[field.name] = field.value;
         });
         if(vals['sign_step'] == '1') {
-            if(vals['sign_text'] == '') {
-                $('#signText').addClass('is-invalid');
-                err = true;
+            if(vals['sign_option'] == 2) {
+                data = new FormData($('#signDocForm')[0]);
+                $(data).serializeArray();
+                return docs.getSignStep(data);
+            } else if(vals['sign_option'] == 3) {
+                if(vals['sign_text'] == '') {
+                    $('#signText').addClass('is-invalid');
+                    err = true;
+                }
             }
         } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3') && (vals['sign_inc'] == 1)) {
             if(vals['sign_pages'] == '') {
@@ -171,7 +187,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 2, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
     showSignPanel: function(sign_option) {
