@@ -112,17 +112,6 @@ a.common:hover {
 	//height: 100%;
 }
 
-.doc-small-preview > .doc-preview > .signed {
-	position: absolute;
-	font-size: 16px;
-	line-height: 24px;
-	left: 6px;
-	top: 6px;
-	padding: 1px 8px 1px 8px;
-	border-radius: 10px;
-	background-color: rgba(255, 255, 0, 0.75);
-}
-
 .doc-small-preview > .doc-name {
     max-width: 100%;
     height: 24px;

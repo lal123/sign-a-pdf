@@ -140,6 +140,7 @@ function model_doc_create($values) {
         . "`doc_name`, "
         . "`doc_pdf_id`, "
         . "`doc_size`, "
+        . "`doc_signed`, "
         . "`doc_creato`, "
         . "`doc_modifo`"
         . ") values ("
@@ -147,6 +148,7 @@ function model_doc_create($values) {
         . "'" . db_escape($values['name']) . "', "
         . "'" . db_escape($values['pdf_id']) . "', "
         . "'" . db_escape($values['size']) . "', "
+        . "0, "
         . "now(), "
         . "now()"
         . ")";
@@ -162,9 +164,9 @@ function model_doc_get_list($doc_user_id) {
     $ret = [];
     $sql = "select doc_pdf_id, doc_name, UNIX_TIMESTAMP(doc_creato) doc_time, doc_signed from `{$base}`.`docs`"
             . " where 1"
-            . " and doc_user_id='" . db_escape($doc_user_id) . "'"
-            . " order by doc_creato desc";
-    write_log(__METHOD__, $sql);
+            . " and doc_user_id = '" . db_escape($doc_user_id) . "'";
+            $sql.= " order by doc_creato desc";
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false){
         while($arr = db_fetch_assoc($res)){
@@ -172,7 +174,7 @@ function model_doc_get_list($doc_user_id) {
             $ret[$pdf_id] = ['name' => $arr['doc_name'], 'time' => $arr['doc_time'], 'signed' => $arr['doc_signed']];
         }
     }
-    write_log(__METHOD__, print_r($ret, true));
+    //write_log(__METHOD__, print_r($ret, true));
     return $ret;
 }
 
@@ -226,18 +228,30 @@ function model_doc_get_from_pdf_id($doc_pdf_id) {
     return $ret;
 }
 
-function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id) {
+function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id, $signed_doc_size) {
 
     global $base, $cdb;
-    
-    $ret = false;
-    $sql = "update `{$base}`.`docs`"
-            . " set"
-            . "     doc_pdf_id = '" . db_escape($doc_signed_pdf_id) . "',"
-            . "     doc_signed = 1,"
-            . "     doc_modifo = now()"
-            . " where 1"
-            . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
+
+    $ret = false;    
+    $sql = "insert into `{$base}`.`docs` ("
+        . "`doc_user_id`, "
+        . "`doc_name`, "
+        . "`doc_pdf_id`, "
+        . "`doc_size`, "
+        . "`doc_signed`, "
+        . "`doc_creato`, "
+        . "`doc_modifo`"
+        . ") select "
+        . "`doc_user_id`, "
+        . "`doc_name`, "
+        . "'" . db_escape($doc_signed_pdf_id) . "', "
+        . "'" . db_escape($signed_doc_size) . "', "
+        . "1, "
+        . "now(), "
+        . "now()"
+        . " from  `{$base}`.`docs` "
+        . "where 1 "
+        . "and `doc_pdf_id` = '" . db_escape($doc_pdf_id) . "' ";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false) {

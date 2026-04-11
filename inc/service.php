@@ -34,6 +34,7 @@ switch($action) {
 				} else {
 					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
 					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
+					$_SESSION['docs'][$pdf_id]['signed'] = 0;
 					$_SESSION['docs'][$pdf_id]['time'] = time();
 				}
 			}
@@ -192,9 +193,9 @@ switch($action) {
 			}
 		}
 		//sort($file_list, SORT_NATURAL);
-        write_log("sign_page", 'file_list: ' . print_r($file_list, true));
+        //write_log("sign_page", 'file_list: ' . print_r($file_list, true));
 
-        write_log("sign_page", "page_option: {$page_option}");
+        //write_log("sign_page", "page_option: {$page_option}");
 
     	$pages_arr = [];    
     	switch($page_option) {
@@ -221,14 +222,14 @@ switch($action) {
     			$pages_arr[] = sizeof($file_list);
     	}
     	
-        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
+        //write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
 
         for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
         	$page_id =  $pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
         	$signed_page_id =  $signed_pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
         	if(in_array($page_id, $file_list)) {
-        		write_log('sign_page', 'matched: ' .$pages_arr[$i] . ' => ' . $page_id);
-        		write_log('sign_page', "page_id: {$page_id} ; signed_page_id: {$signed_page_id}");
+        		//write_log('sign_page', 'matched: ' .$pages_arr[$i] . ' => ' . $page_id);
+        		//write_log('sign_page', "page_id: {$page_id} ; signed_page_id: {$signed_page_id}");
 				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 				$arr = json_decode($res, true);
         	}
@@ -236,13 +237,16 @@ switch($action) {
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 			pdf_convert_from_png($signed_pdf_id);
+			$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
+			$signed_doc_size = filesize($signed_pdf_dir . '/' . $signed_pdf_id . '.pdf');
 			if($is_signed_in) {
-				model_doc_sign($pdf_id, $signed_pdf_id);
+				model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
 			} else {
 				$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
-				$_SESSION['docs'][$signed_pdf_id]['time'] = $_SESSION['docs'][$pdf_id]['time'];
+				$_SESSION['docs'][$signed_pdf_id]['time'] = time();
+				$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
 				$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
-				unset($_SESSION['docs'][$pdf_id]);
+				//unset($_SESSION['docs'][$pdf_id]);
 			}
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
 			echo "$('#signButton').addClass('disabled');\n";
