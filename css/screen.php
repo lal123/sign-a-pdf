@@ -222,15 +222,14 @@ a.common:hover {
 	margin: 0px 10px 0px 5px;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1060px) and (min-width: 980px) {
 	.nav-link.reduced {
 		max-width: 135px;
 	    text-overflow: ellipsis;
 	    overflow: hidden;
 	    white-space: nowrap;
 	}
-	.navbar-text.welcome {
-		width: 100%;
+	.navbar-item.welcome {
 		max-width: 135px;
 	    text-overflow: ellipsis;
 	    overflow: hidden;
