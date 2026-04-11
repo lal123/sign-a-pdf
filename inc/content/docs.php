@@ -15,17 +15,16 @@ function docs_show_list($docs, $signed) {
 
     global $lang, $tr, $img_dir;
 
-    $first = true;
+    $count = 0;
     foreach($docs as $pdf_id_key => $details) {
 
         if($details['signed'] != $signed) {
             continue;
-        } else if($first) {
+        } else if($count == 0) {
             echo '<div class="col-lg-6 ms-0 mt-3 mb-0">';
-            echo '<h3>' . $tr[$signed ? 'SIGNED' : 'UNSIGNED'] . ' :</h3>';
+            echo '<h4>' . $tr[$signed ? 'SIGNED' : 'UNSIGNED'] . ' :</h4>';
             echo '</div>';
             echo '<div class="row">';
-            $first = false;
         }
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
@@ -41,8 +40,11 @@ function docs_show_list($docs, $signed) {
         echo '<a href="/' . $lang . '/docs/' . $pdf_id_key . '/"><img class="page-preview" src="' . $img_src . '" alt="" border= "0" /></a>';
         echo '</span>';
         echo '</div>';
+        $count++;
     }
-    echo '</div>';
+    if($count > 0) {
+        echo '</div>';
+    }
 }
 
 ?>
@@ -121,7 +123,7 @@ if($pdf_id != '') {
     </div>
 <?php    
 } else {
-    if($is_signed_in) {
+   if($is_signed_in) {
         $docs = model_doc_get_list($user['user_id']);
     } else {
         $docs = $_SESSION['docs'];
