@@ -55,7 +55,7 @@ require_once 'inc/utils.php';
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a<?php if ($page == 'home') { echo ' class="nav-link active" aria-current="page"'; } else {echo ' class="nav-link"';} ?> href="/<?php echo $lang; ?>/">
+                        <a<?php if ($page == 'home') { echo ' class="nav-link reduced active" aria-current="page"'; } else {echo ' class="nav-link reduced"';} ?> href="/<?php echo $lang; ?>/">
                             <i class="bi bi-upload"></i>&nbsp; <?php echo $tr['MENU.SEND_DOCUMENT']; ?>
                         </a>
                     </li>
@@ -75,9 +75,7 @@ require_once 'inc/utils.php';
 if($is_signed_in) {
 ?>
                 <ul class="navbar-nav mx-auto">
-                    <li class="navbar-item navbar-text">
-                         <?php echo $tr['WELCOME'] . ' <b>' . $user['user_name'] . '</b>'; ?>&nbsp;&nbsp;
-                    </li>
+                    <li class="navbar-item navbar-text welcome"><?php echo $tr['WELCOME'] . ' <b>' . $user['user_name'] . '</b>'; ?></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.YOUR_ACCOUNT']; ?>
@@ -149,27 +147,27 @@ include "inc/content/{$page}.php";
                     <li class="nav-item">
                         <a<?php
                         if ($page == 'terms-of-use') {
-                            echo ' class="nav-link active" aria-current="page"';
+                            echo ' class="nav-link limited active" aria-current="page"';
                         } else {
-                            echo ' class="nav-link"';
+                            echo ' class="nav-link limited"';
                         }
                         ?> href="<?php echo "/{$lang}/{$page_role['terms-of-use']}"; ?>"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
                         if ($page == 'legal-notice') {
-                            echo ' class="nav-link active" aria-current="page"';
+                            echo ' class="nav-link limited active" aria-current="page"';
                         } else {
-                            echo ' class="nav-link"';
+                            echo ' class="nav-link limited"';
                         }
                         ?> href="<?php echo "/{$lang}/{$page_role['legal-notice']}"; ?>"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
                         if ($page == 'contact') {
-                            echo ' class="nav-link active" aria-current="page"';
+                            echo ' class="nav-link limited active" aria-current="page"';
                         } else {
-                            echo ' class="nav-link"';
+                            echo ' class="nav-link limited"';
                         }
                         ?> href="<?php echo "/{$lang}/{$page_role['contact']}"; ?>"><?php echo $tr['MENU.CONTACT']; ?></a>
                     </li>

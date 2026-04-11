@@ -157,9 +157,6 @@ a.common:hover {
 	height: 20px;
 }
 
-@media screen and (min-width: 991px) {
-}
-
 #signPreview {
 	display: none;
 	background-color: transparent;
@@ -220,3 +217,33 @@ a.common:hover {
 #sign_toolbar .btn {
 	min-width: 141px;
 }
+
+.navbar-text.welcome {
+	margin: 0px 10px 0px 5px;
+}
+
+@media screen and (max-width: 1050px) {
+	.nav-link.reduced {
+		max-width: 135px;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    white-space: nowrap;
+	}
+	.navbar-text.welcome {
+		width: 100%;
+		max-width: 135px;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    white-space: nowrap;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.nav-link.limited {
+		max-width: 135px;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    white-space: nowrap;
+	}
+}
+
