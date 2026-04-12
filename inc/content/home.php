@@ -30,7 +30,7 @@ if(!$is_signed_in) {
 }
 ?>
 </div>
-
+<!--
 <div style="position: relative;  width: 300px; height: 150px; background-color: rgba(0, 255, 0, 0.2);">
     <canvas id="signCanvas" style="position: absolute; left: 0px; top: 0px; width: 300px; height: 150px;"></canvas>
 </div>
@@ -40,3 +40,4 @@ if(!$is_signed_in) {
 <script>
 sign.initCanvas();
 </script>
+-->
