@@ -321,6 +321,10 @@ var sign = {
     },
 
     initCanvas: function(w, h) {
+        try {
+          document.createEvent('TouchEvent');
+        } catch (e) {
+        }
         sign.canvas = document.getElementById("signCanvas");
         sign.canvas.addEventListener("mousedown", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
