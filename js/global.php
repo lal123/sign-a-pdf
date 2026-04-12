@@ -321,16 +321,8 @@ var sign = {
     },
 
     initCanvas: function(w, h) {
-        try {
-          document.createEvent('TouchEvent');
-        } catch (e) {
-        }
         sign.canvas = document.getElementById("signCanvas");
         sign.canvas.addEventListener("mousedown", function (e) {
-            sign.drawCanvas(e.offsetX, e.offsetY);
-            sign.c.f = true;
-        });
-        sign.canvas.addEventListener("touchstart", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
             sign.c.f = true;
         });
@@ -340,19 +332,7 @@ var sign = {
             }
             sign.drawCanvas(e.offsetX, e.offsetY);
         });
-        sign.canvas.addEventListener("touchmove", function (e) {
-            if(!sign.c.f) {
-                return false;
-            }
-            sign.drawCanvas(e.offsetX, e.offsetY);
-        });
         sign.canvas.addEventListener("mouseover", function (e) {
-            if(!sign.c.f) {
-                return false;
-            }
-            sign.drawCanvas(e.offsetX, e.offsetY);
-        });
-        sign.canvas.addEventListener("touchend", function (e) {
             if(!sign.c.f) {
                 return false;
             }
@@ -366,12 +346,6 @@ var sign = {
         });
         sign.canvas.addEventListener("mouseleave", function (e) {
             sign.c = {f: false, x: null, y: null};
-        });
-        sign.canvas.addEventListener("touchcancel", function (e) {
-            if(!sign.c.f) {
-                return false;
-            }
-            sign.drawCanvas(e.offsetX, e.offsetY);
         });
         sign.canvas.width  = w;
         sign.canvas.height = h;
