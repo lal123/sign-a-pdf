@@ -223,6 +223,9 @@ var docs = {
 
 var sign = {
 
+    canvas: null,
+    c: {f: false, x: null, y: null},
+
     adjust: function(pdf_id, signed_pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
             var target_pages = [0];    
@@ -278,8 +281,64 @@ var sign = {
             eval(data);
         });
         return false;
-    }
+    },
 
+    drawCanvas: function(x, y) {
+        if(sign.c.x != null && sign.c.y != null) {
+            ctx = sign.canvas.getContext("2d");
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(sign.c.x, sign.c.y);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = "#0000ff";
+            ctx.stroke();
+        }
+        sign.c.x = x;
+        sign.c.y = y;
+    },
+
+    downloadCanvas() {
+        const imageSrc = sign.canvas.toDataURL();
+        const a = document.createElement('a');
+        a.href = imageSrc;
+        a.download = 'image.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+    },
+
+    initCanvas: function() {
+        sign.canvas = document.getElementById("signCanvas");
+        sign.canvas.addEventListener("mousedown", function (e) {
+            sign.drawCanvas(e.offsetX, e.offsetY);
+            sign.c.f = true;
+        });
+        sign.canvas.addEventListener("mousemove", function (e) {
+            if(!sign.c.f) {
+                return false;
+            }
+            sign.drawCanvas(e.offsetX, e.offsetY);
+        });
+        sign.canvas.addEventListener("mouseover", function (e) {
+            if(!sign.c.f) {
+                return false;
+            }
+            sign.drawCanvas(e.offsetX, e.offsetY);
+        });
+        sign.canvas.addEventListener("mouseup", function (e) {
+            sign.c = {f: false, x: null, y: null};
+        });
+        sign.canvas.addEventListener("mouseout", function (e) {
+            sign.c = {f: false, x: null, y: null};
+        });
+        sign.canvas.addEventListener("mouseleave", function (e) {
+            sign.c = {f: false, x: null, y: null};
+        });
+        sign.canvas.width  = 300;
+        sign.canvas.height = 150;
+        return false;
+    }
 }
 
 var account = {

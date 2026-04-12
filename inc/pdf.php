@@ -2,6 +2,8 @@
 
 function pdf_convert_to_png() {
 
+	global $lang, $tr;
+
 	$err_msg = '';
 	$pdf_id = '';
 	$name = '';
@@ -15,9 +17,9 @@ function pdf_convert_to_png() {
 	    $type = $_FILES['upload_file']['type'];
 	    $name = $_FILES['upload_file']['name'];
 	    if($size > 20 * 1024 * 1024) {
-	    	$err_msg = 'file is too big';
+	    	$err_msg = $tr['UPLOAD.FILE_TOO_BIG'];
 	    } else if($type != 'application/pdf') {
-	    	$err_msg = 'not a pdf';
+	    	$err_msg = $tr['UPLOAD.NOT_A_PDF'];
 	    }
 	    if($err_msg == '') {
 		    if ((isset($tmp_name)) && ($size != 0)) {
