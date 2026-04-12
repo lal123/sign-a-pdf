@@ -130,6 +130,14 @@ function sign_get_img_from_data($sign_data) {
     fputs($fh, $sign_data);
     fclose($fh);
 
+    /*
+    write_log(__METHOD__, "[sign_file][{$sign_file}]");
+
+    $png_image = imagecreatefrompng($sign_file);
+
+    imagepng($pgn_image, $sign_file);
+    */
+    
     $ret = json_encode(['sign_id' => $sign_id, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
     return $ret;
 }
@@ -144,9 +152,9 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     $intr_w = imagesx($page_img);
     $intr_h = imagesy($page_img);
     
-    imagealphablending($page_img, false);
+    //imagealphablending($page_img, false);
 
-    imagesavealpha($page_img, true);
+    //imagesavealpha($page_img, true);
 
     $sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
     $sign_img = imagecreatefrompng($sign_dir . '/' . $sign_id . '.png');
