@@ -114,13 +114,16 @@ a.common:hover {
 
 .doc-small-preview > .doc-name {
     max-width: 100%;
-    height: 24px;
+    text-align: center;
+    height: 28px;
+    line-height: 24px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
 
 .doc-small-preview > .doc-date {
+    text-align: center;
 	color: #404040;
 }
 
