@@ -14,6 +14,7 @@
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
+        <input type="hidden" name="sign_data" value="" />
     </form>
 <?php
     switch($sign_option) {

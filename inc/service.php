@@ -113,6 +113,9 @@ switch($action) {
 						break;
 					case 1 :
 					default:
+						$sign_width = -1;
+						$sign_height = -1;
+						$sign_id = '';
 						$sign_step+= $sign_inc;
 				}
 				break;
@@ -121,9 +124,9 @@ switch($action) {
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
-				$sign_data = $_POST['sign_data'];
 				switch($sign_option) {
 					case 1:
+						$sign_data = $_POST['sign_data'];
 						if($sign_inc == 1) {
 							$res = sign_get_img_from_data($sign_data);
 							$arr = json_decode($res, true);

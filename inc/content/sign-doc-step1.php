@@ -27,7 +27,7 @@
                 <div class="col-lg-8 ms-1 mt-1 mb-0">
                     <div class="form-group">
                         <label for="signFile"><?php echo $tr['SIGN.OPTIONS.STOR.LABEL']; ?> :</label>
-                        <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="$(this).removeClass('is-invalid'); $('#globalError').empty(); return docs.prepareSignFile(this); return false;" onfocus="" value="<?php echo $sign_file; ?>" />
+                        <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="$(this).removeClass('is-invalid'); $('#globalError').empty(); return docs.prepareSignFile(this); return false;" onfocus="" value="" />
                           <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.STOR.INVALID']; ?></div>
                      </div>
                 </div>
