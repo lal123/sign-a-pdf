@@ -91,7 +91,7 @@ switch($action) {
 					case 2 :
 						$res = sign_get_img_from_file();
 						$arr = json_decode($res, true);
-						write_log('sign_post_file', print_r($arr, true));
+						//write_log('sign_post_file', print_r($arr, true));
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 							$sign_id = $arr['sign_id'];
 							$sign_width = $arr['sign_width'];
@@ -111,6 +111,9 @@ switch($action) {
 							//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
 						}
 						break;
+					case 1 :
+					default:
+						$sign_step+= $sign_inc;
 				}
 				break;
 			case 2:
@@ -118,7 +121,20 @@ switch($action) {
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
-				$sign_step+= $sign_inc;
+				$sign_data = $_POST['sign_data'];
+				switch($sign_option) {
+					case 1:
+						if($sign_inc == 1) {
+							$res = sign_get_img_from_data($sign_data);
+							$arr = json_decode($res, true);
+							$sign_id = $arr['sign_id'];
+						}
+						break;
+					default:
+				}
+				if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+					$sign_step+= $sign_inc;
+				}
 				break;
 			case 3:
 				$sign_text = $_POST['sign_text'];
@@ -160,6 +176,9 @@ switch($action) {
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";
 			}
+			if(($sign_step == 2) && ($sign_option == 1)) {
+            	echo "sign.initCanvas(450, 200);\n";
+            }
 	        echo "$('#signDocModal').modal('show');\n";
 	    }
 		break;

@@ -1,7 +1,7 @@
 <?php
 ?>
 <div>
-    <p><?php echo $tr['DOCS.SIGN.STEP2.INTRO']; ?> :</p>
+    <p><?php echo $tr[$sign_option == 1 ? 'DOCS.SIGN.STEP2.SIGN_IT' : 'DOCS.SIGN.STEP2.INTRO']; ?> :</p>
     <form method="POST" action="" id="signDocForm" onsubmit="return docs.sendSignDocForm(1); return false;">
         <input type="hidden" name="action" value="get_sign_step" />
         <input type="hidden" name="pdf_id" value="<?php echo $pdf_id; ?>" />
@@ -14,6 +14,17 @@
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
-    </form> 
-    <img src="/uploads/sign/<?php echo $sign_id; ?>.png" alt="" border="0" class="signSetp2Preview" /> 
+    </form>
+<?php
+    switch($sign_option) {
+        case 1:
+            echo '    <div class="sign-container"><canvas id="signCanvas" class="sign-canvas"></canvas></div>' . "\n";
+            echo '<button onclick="return sign.downloadCanvas(); return false;">Click !</button>';
+            echo '<button onclick="return sign.clearCanvas(); return false;">Clear !</button>';
+            break;
+        default:
+            echo '    <img src="/uploads/sign/' . $sign_id .'.png" alt="" border="0" class="signSetp2Preview" />' . "\n" ;
+    }
+?>
 </div>
+<div class="lg-8 ms-0 mt-2 mb-0" id="globalError" style="color: red;"><?php echo $arr['err_msg']; ?></div>

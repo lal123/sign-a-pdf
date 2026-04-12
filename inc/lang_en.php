@@ -69,6 +69,7 @@ $tr =[
 	'DOCS.SIGN.TITLE'		=> 'Sign a document',
 	'DOCS.SIGN.STEP1.INTRO'			=> 'Choose the source of your signature',
 	'DOCS.SIGN.STEP2.INTRO'			=> 'Here is a preview of your signature',
+	'DOCS.SIGN.STEP2.SIGN_IT'		=> 'Create your signature by drawing into the rectangle',
 	'DOCS.SIGN.STEP3.INTRO'			=> 'Choose the pages on which the signature should be added',
 	'DOCS.DELETE.CONFIRM'			=> 'Are you sure you want to remove this document ?',
 	'SIGN.OPTIONS.CREA.INVITE'		=> 'An image created graphically',

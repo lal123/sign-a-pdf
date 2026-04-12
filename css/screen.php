@@ -225,6 +225,21 @@ a.common:hover {
 	margin: 0px 10px 0px 5px;
 }
 
+.sign-container {
+	position: relative;
+	width: 450px;
+	height: 200px;
+	border: 1px dotted #000000;
+}
+
+.sign-canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 450px;
+	height: 200px;
+}
+
 @media screen and (max-width: 1060px) and (min-width: 980px) {
 	.nav-link.reduced {
 		max-width: 135px;

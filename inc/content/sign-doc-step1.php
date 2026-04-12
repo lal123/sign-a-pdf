@@ -11,7 +11,7 @@
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="sign_option" value="1" id="signOption1"<?php if($sign_option == 1) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(1); return true;" disabled="disabled" />
+            <input class="form-check-input" type="radio" name="sign_option" value="1" id="signOption1"<?php if($sign_option == 1) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(1); return true;" />
             <label class="form-check-label" for="signOption1">
                 <?php echo $tr['SIGN.OPTIONS.CREA.INVITE']; ?>
             </label>

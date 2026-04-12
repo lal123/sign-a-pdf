@@ -108,6 +108,32 @@ function sign_get_img_from_text($sign_text) {
 	return $ret;
 }
 
+function sign_get_img_from_data($sign_data) {
+
+    $err_msg = '';
+    $sign_id = '';
+
+    $sign_dir = getcwd() . '/../' . UPLOAD_DIR . '/sign';
+    if(!file_exists($sign_dir)){
+        mkdir($sign_dir);
+        chmod($sign_dir, 0777);
+    }
+
+    do {
+        $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
+        $sign_file = $sign_dir . '/' . $sign_id . '.png';
+    } while (file_exists($sign_file));
+
+    $sign_data = base64_decode(str_replace('data:image/png;base64,', '', $sign_data));
+
+    $fh = fopen($sign_file, "wb");
+    fputs($fh, $sign_data);
+    fclose($fh);
+
+    $ret = json_encode(['sign_id' => $sign_id, 'err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+    return $ret;
+}
+
 function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
 
     $err_msg = '';

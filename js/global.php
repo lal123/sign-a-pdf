@@ -172,6 +172,13 @@ var docs = {
                     return docs.getSignStep(data);
                 }
             }
+        } else if((vals['sign_step'] == '2')) {
+            if((vals['sign_option'] == 1) && (vals['sign_inc'] == 1)) {
+                vals['sign_data'] = sign.canvas.toDataURL();
+                vals['sign_width'] = sign.canvas.width;
+                vals['sign_height'] = sign.canvas.height;
+                //err = true;
+            }
         } else if((vals['sign_step'] == '3') && (vals['page_option'] == '3') && (vals['sign_inc'] == 1)) {
             if(vals['sign_pages'] == '') {
                 err = true;
@@ -206,7 +213,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 2, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 1, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
     showSignPanel: function(sign_option) {
@@ -290,11 +297,17 @@ var sign = {
             ctx.beginPath();
             ctx.moveTo(sign.c.x, sign.c.y);
             ctx.lineTo(x, y);
-            ctx.strokeStyle = "#0000ff";
+            ctx.strokeStyle = "#000000";
             ctx.stroke();
         }
         sign.c.x = x;
         sign.c.y = y;
+    },
+
+    clearCanvas: function() {
+        ctx = sign.canvas.getContext("2d");
+        ctx.clearRect(0, 0, sign.canvas.width, sign.canvas.height);
+        return false;
     },
 
     downloadCanvas() {
@@ -305,10 +318,9 @@ var sign = {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
     },
 
-    initCanvas: function() {
+    initCanvas: function(w, h) {
         sign.canvas = document.getElementById("signCanvas");
         sign.canvas.addEventListener("mousedown", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
@@ -335,8 +347,8 @@ var sign = {
         sign.canvas.addEventListener("mouseleave", function (e) {
             sign.c = {f: false, x: null, y: null};
         });
-        sign.canvas.width  = 300;
-        sign.canvas.height = 150;
+        sign.canvas.width  = w;
+        sign.canvas.height = h;
         return false;
     }
 }
