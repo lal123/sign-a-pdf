@@ -38,6 +38,7 @@ $tr =[
 	'SUBMIT'				=> 'Submit',
 	'DELETE'				=> 'Delete',
 	'DOWNLOAD'				=> 'Download',
+	'CLEAR'					=> 'Clear',
 	'SIGNED'				=> 'Signed',
 	'UNSIGNED'				=> 'Unsigned',
 	'DATE_FORMAT'			=> "m/d/Y H:i:s",

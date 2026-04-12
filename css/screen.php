@@ -240,6 +240,21 @@ a.common:hover {
 	height: 200px;
 }
 
+.sign-container > .clear-canvas {
+	position: absolute;
+	right: -28px;
+	top: 0px;
+}
+
+.sign-container > .clear-canvas > .act {
+	font-size: 24px;
+	line-height: 24px;
+	color: #cc3333;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+}
+
 @media screen and (max-width: 1060px) and (min-width: 980px) {
 	.nav-link.reduced {
 		max-width: 135px;

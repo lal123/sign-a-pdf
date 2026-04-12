@@ -19,9 +19,9 @@
 <?php
     switch($sign_option) {
         case 1:
-            echo '    <div class="sign-container"><canvas id="signCanvas" class="sign-canvas"></canvas></div>' . "\n";
-            echo '<button onclick="return sign.downloadCanvas(); return false;">Click !</button>';
-            echo '<button onclick="return sign.clearCanvas(); return false;">Clear !</button>';
+            echo '    <div class="sign-container"><canvas id="signCanvas" class="sign-canvas"></canvas>' . "\n";
+            echo '    <div class="clear-canvas"><a href="javascript:void(0)" onclick="return sign.clearCanvas(); return false;" class="act bi bi-x-circle-fill" title="' . $tr['CLEAR'] . '"></a></div>' . "\n";
+            echo '</div>' . "\n";
             break;
         default:
             echo '    <img src="/uploads/sign/' . $sign_id .'.png" alt="" border="0" class="signSetp2Preview" />' . "\n" ;
