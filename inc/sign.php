@@ -130,12 +130,17 @@ function sign_get_img_from_data($sign_data) {
     fputs($fh, $sign_data);
     fclose($fh);
 
-    /*    
+    /*        
     write_log(__METHOD__, "[sign_file][{$sign_file}]");
 
     $sign_img = imagecreatefrompng($sign_file);
+    $intr_w = imagesx($sign_img);
+    $intr_h = imagesy($sign_img);
 
     imagealphablending($sign_img, true);
+
+    $transparent = imagecolorallocatealpha($sign_img, 255, 255, 255, 0);
+    imagefill($sign_img, 0, 0, $transparent);
 
     imagesavealpha($sign_img, true);
 
