@@ -181,6 +181,9 @@ switch($action) {
 			}
 			if(($sign_step == 2) && ($sign_option == 1)) {
             	echo "sign.initCanvas(450, 200);\n";
+            	if($sign_inc == -1) {
+            		echo "sign.loadCanvas('/uploads/sign/{$sign_id}.png');\n";
+            	}
             }
 	        echo "$('#signDocModal').modal('show');\n";
 	    }

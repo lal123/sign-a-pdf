@@ -310,6 +310,16 @@ var sign = {
         return false;
     },
 
+    loadCanvas: function(img_url) {
+        ctx = sign.canvas.getContext("2d");
+        var img = new Image();
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = img_url;
+        return false;
+    },
+
     downloadCanvas() {
         const imageSrc = sign.canvas.toDataURL();
         const a = document.createElement('a');
