@@ -31,9 +31,9 @@ function purge_dir($root_dir,$dir){
 						$local_filedate = filemtime($local_dir . '/' . $root_dir . $dir . '/' . $local_filename);
 						$str_filedate = date('Y-m-d H:i:s', $local_filedate);
 						# pour supprimer un fichier il faut
-						# - qu'il date de 6 heures au moins
+						# - qu'il date de 24 heures au moins
 						# - qu'il n'appartienne pas à un utilisateur enregistré
-						if($local_filedate < (time() - 6 * 60 * 60)){
+						if($local_filedate < (time() - 24 * 60 * 60)){
 
 							$used = false;
 							
@@ -65,10 +65,8 @@ function purge_dir($root_dir,$dir){
 	echo $root_dir.$dir . " {$count} files, {$deleted} deleted\n";
 }
 
-//$db=db_connect();
-
 foreach($dir_list as $dir){
 	purge_dir($dir, '');
 }
 
-//db_close();
+db_close();

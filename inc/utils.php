@@ -317,7 +317,7 @@ function utils_get_contact_msg($values, &$errors) {
 	
 	if(!isset($_SESSION['mail_sent']['contact']) || ($_SESSION['mail_sent']['contact'] != 1)) {	
 		$text_msg = $values['contact_text'];
-		$html_msg = '<html><body>' . $values['contact_text'] . '</body</html>';
+		$html_msg = '<html><body>' . strtr($values['contact_text'], ["\n" => "<br />"]) . '</body</html>';
 		send_mail(
 			['name' => 'Contact Sign-a-pdf.com', 'mail' => 'contact@sign-a-pdf.com'],
 			['name' => $values['user_name'], 'mail' => $values['user_email']],
