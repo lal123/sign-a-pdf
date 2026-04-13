@@ -176,7 +176,7 @@ a.common:hover {
 	padding: 0px;
 }
 
-.sign_cmd_bar {
+#signPreview .sign_cmd_bar {
     display: block;
     position: absolute;
     padding: 0px;
@@ -185,6 +185,37 @@ a.common:hover {
     right: -28px;
     top: 0px;
 }
+
+#signPreview .helper {
+    display: block;
+    position: absolute;
+    padding: 0px;
+    width: 10px;
+    height: 10px;
+    border: solid 1px black;
+    border-radius: 10px;
+    background-color: white;
+ }
+
+#signPreview .helper.ne {
+    right: -5px;
+    top: -5px;
+} 
+
+#signPreview .helper.nw {
+    left: -5px;
+    top: -5px;
+} 
+
+#signPreview .helper.sw {
+    left: -5px;
+    bottom: -5px;
+} 
+
+#signPreview .helper.se {
+    right: -5px;
+    bottom: -5px;
+} 
 
 .sign_cmd_bar > span {
 	display: block;
