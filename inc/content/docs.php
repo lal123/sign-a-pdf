@@ -66,7 +66,7 @@ if($pdf_id != '') {
     }
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name;
 } else {
-    echo $tr['DOCS.LIST_DOCUMENTS'] . ' :';
+    echo $tr['DOCS.LIST_DOCUMENTS'];
 }
 ?>
     </div>
