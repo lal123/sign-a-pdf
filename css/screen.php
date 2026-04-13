@@ -183,7 +183,7 @@ a.common:hover {
     width: 28px;
     height: 50px;
     right: -28px;
-    top: 0px;
+    top: 2px;
 }
 
 #signPreview .helper {
