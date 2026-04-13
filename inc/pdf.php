@@ -42,7 +42,7 @@ function pdf_convert_to_png() {
 					}
 					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
 					//$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
-					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColorAlpha ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
+					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
 					// -alpha remove
 					write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
@@ -134,7 +134,7 @@ function pdf_convert_from_png($signed_pdf_id) {
 	}
 	sort($file_list, SORT_NATURAL);
 
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColorAlpha ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
 	// -alpha remove
 	//write_log(__METHOD__, $command);
     exec($command, $output, $return_var);
