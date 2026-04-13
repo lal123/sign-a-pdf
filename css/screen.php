@@ -114,6 +114,7 @@ a.common:hover {
 
 .doc-small-preview > .doc-name {
     max-width: 100%;
+    margin: 0px 10px 0px 10px;
     text-align: center;
     height: 28px;
     line-height: 24px;
