@@ -349,9 +349,11 @@ var sign = {
         });
         sign.canvas.width  = w;
         sign.canvas.height = h;
+        /*
         ctx = sign.canvas.getContext("2d");
         ctx.fillStyle = 'rgba(255, 255, 255, 0.0)';
         ctx.fillRect(0, 0, w, h);
+        */
         return false;
     }
 }

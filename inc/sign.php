@@ -156,11 +156,14 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
 
     $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 
-    $page_img = imagecreatefrompng($img_dir . '/' . $page_id . '.png');
-    $intr_w = imagesx($page_img);
-    $intr_h = imagesy($page_img);
-    
-    imagealphablending($page_img, true);
+    $page0_img = imagecreatefrompng($img_dir . '/' . $page_id . '.png');
+    $intr_w = imagesx($page0_img);
+    $intr_h = imagesy($page0_img);
+
+    $page_img = imagecreatetruecolor($intr_w, $intr_h);
+    imagecopy($page_img, $page0_img, 0, 0, 0, 0, $intr_w, $intr_h);
+
+    //imagealphablending($page_img, true);
 
     //imagesavealpha($page_img, true);
 
@@ -169,12 +172,18 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     $s_in_w = imagesx($sign_img);
     $s_in_h = imagesy($sign_img);
 
+    //imagealphablending($sign_img, false);
+
+    //imagesavealpha($sign_img, true);
+
     $dst_x = intval($sign_x * ($intr_w / $page_w));
     $dst_y = intval($sign_y * ($intr_h / $page_h));
     $dst_w = intval($sign_w * ($intr_w / $page_w));
     $dst_h = intval($sign_h * ($intr_h / $page_h));
 
     imagecopyresized($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $dst_w, $dst_h, $s_in_w, $s_in_h);
+    //imagecopyresampled($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $dst_w, $dst_h, $s_in_w, $s_in_h);
+    //imagecopy($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $s_in_w, $s_in_h);
 
     $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
     if(!file_exists($signed_img_dir)){
@@ -184,6 +193,7 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
 
     imagepng($page_img, $signed_img_dir . '/' . $signed_page_id . '.png');
 
+    imagedestroy($page0_img);
     imagedestroy($page_img);
     imagedestroy($sign_img);
 
