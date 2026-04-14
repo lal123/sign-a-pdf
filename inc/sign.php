@@ -42,6 +42,7 @@ function sign_get_img_from_file() {
                 chmod($sign_dir, 0777);
             }
 
+            srand((float) microtime() * 1000000);
             do {
                 $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
                 $sign_file = $sign_dir . '/' . $sign_id . '.png';
@@ -95,6 +96,7 @@ function sign_get_img_from_text($sign_text) {
 		chmod($sign_dir, 0777);
 	}
 
+    srand((float) microtime() * 1000000);
     do {
         $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
         $sign_file = $sign_dir . '/' . $sign_id . '.png';
@@ -119,6 +121,7 @@ function sign_get_img_from_data($sign_data) {
         chmod($sign_dir, 0777);
     }
 
+    srand((float) microtime() * 1000000);
     do {
         $sign_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
         $sign_file = $sign_dir . '/' . $sign_id . '.png';

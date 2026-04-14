@@ -31,11 +31,7 @@ function docs_show_list($docs, $signed) {
         echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'/uploads/pdf/' .($details['signed'] ? 'signed/' : '') . $pdf_id_key . '.pdf\', \'' . rawurlencode($details['name']) . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
-        if(file_exists($img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png')) {
-            $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'.png';
-        } else if(file_exists($img_dir . '/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . '-0.png')) {
-            $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key .'-0.png';
-        }
+        $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
         echo '<span class="doc-preview">';
         echo '<a href="/' . $lang . '/docs/' . $pdf_id_key . '/"><img class="page-preview" src="' . $img_src . '" alt="" border= "0" /></a>';
         echo '</span>';
@@ -60,11 +56,15 @@ if($pdf_id != '') {
         $doc = model_doc_get_from_pdf_id($pdf_id);
         $doc_name = $doc['doc_name'];
         $doc_signed = ($doc['doc_signed'] == 1);
+        $doc_size = $doc['doc_size'];
+        $doc_pages = $doc['doc_pages'];
     } else {
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
         $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1));
+        $doc_size = $_SESSION['docs'][$pdf_id]['size'];
+        $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];
     }
-    echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name;
+    echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
 } else {
     echo $tr['DOCS.LIST_DOCUMENTS'];
 }
@@ -88,36 +88,24 @@ if($pdf_id != '') {
 
     <div class="container" id="docs-container">
 <?php
-    if(file_exists($img_dir . '/' . ($doc_signed ? 'signed/' : '') . $pdf_id .'.png')) {
-        echo '<div class="row">';
-        echo '<div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12 page-container" id="' . $pdf_id . '">';
+    $col = 1;
+    for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
+        if($col == 1) {
+            echo '<div class="row">';
+        }
+        echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
         echo '<div class="page-content">';
-        echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '.png' . '" alt="" border= "0" />';
+        echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . ($doc_pages > 1 ? '-' . ($img_numb - 1) : '') . '.png' . '" alt="" border= "0" />';
         echo '</div>';
         echo '</div>';
-        echo '</div>';
-    } else {
-        $img_numb = 1;
-        $col = 1;
-        while(file_exists($img_dir . '/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png')) {
-            if($col == 1) {
-                echo '<div class="row">';
-            }
-            echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
-            echo '<div class="page-content">';
-            echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . '-' . ($img_numb - 1) . '.png' . '" alt="" border= "0" />';
+        $col++;
+        if($col > $nb_cols) {
             echo '</div>';
-            echo '</div>';
-            $col++;
-            if($col > $nb_cols) {
-                echo '</div>';
-                $col = 1;
-            }
-            $img_numb++;
+            $col = 1;
         }
-        if($col <= $nb_cols) {
-            echo '</div>' . "\n";
-        }
+    }
+    if($col <= $nb_cols) {
+        echo '</div>' . "\n";
     }
 ?>
     </div>

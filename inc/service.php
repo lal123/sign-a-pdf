@@ -30,10 +30,11 @@ switch($action) {
 				$pdf_id = $arr['pdf_id'];
 				if($is_signed_in) {
 					$user_id = $user['user_id'];
-					model_doc_create(['user_id' => $user_id, 'pdf_id' => $arr['pdf_id'], 'name' => $arr['name'], 'size' => $arr['size']]);
+					model_doc_create(['user_id' => $user_id, 'pdf_id' => $arr['pdf_id'], 'name' => $arr['name'], 'size' => $arr['size'], 'pages' => $arr['pages']]);
 				} else {
-					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
 					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
+					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
+					$_SESSION['docs'][$pdf_id]['pages'] = $arr['pages'];
 					$_SESSION['docs'][$pdf_id]['signed'] = 0;
 					$_SESSION['docs'][$pdf_id]['time'] = time();
 				}
@@ -270,6 +271,7 @@ switch($action) {
 				$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
 				$_SESSION['docs'][$signed_pdf_id]['time'] = time();
 				$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
+				$_SESSION['docs'][$signed_pdf_id]['pages'] = $_SESSION['docs'][$pdf_id]['pages'];
 				$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
 				//unset($_SESSION['docs'][$pdf_id]);
 			}

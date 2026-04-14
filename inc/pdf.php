@@ -8,6 +8,7 @@ function pdf_convert_to_png() {
 	$pdf_id = '';
 	$name = '';
 	$size = 0;
+	$pages = 1;
 	$output = [];
 	$return_var = 0;
 
@@ -44,12 +45,19 @@ function pdf_convert_to_png() {
 					//$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
 					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
 					// -alpha remove
-					write_log(__METHOD__, $command);
+					///write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
 				    if($return_var != 0) {
 				        $err_msg = "{$command} exited with return_var {$return_var}\n";
 						write_log(__METHOD__, "*** ERROR *** {$err_msg}");
 				    }
+			        if(!file_exists($img_dir . '/' . $pdf_id .'.png')) {
+			        	$pages = 0;
+			        	while(file_exists($img_dir . '/' . $pdf_id . '-' . $pages . '.png')) {
+			        		$pages++;
+			        	}
+
+			        }
 		        }
 		    } else {
 		        $err_msg = 'No data received!';
@@ -58,7 +66,7 @@ function pdf_convert_to_png() {
 	} else {
         $err_msg = 'No data received!';
     }
-	$ret = json_encode(['pdf_id' => $pdf_id, 'err_msg' => $err_msg, 'name' => $name, 'size' => $size], JSON_UNESCAPED_UNICODE);
+	$ret = json_encode(['pdf_id' => $pdf_id, 'err_msg' => $err_msg, 'name' => $name, 'size' => $size, 'pages' => $pages], JSON_UNESCAPED_UNICODE);
 	return $ret;
 }
 
@@ -87,6 +95,7 @@ function pdf_import_unsigned_pages($pdf_id) {
 		chmod($signed_pdf_dir, 0777);
 	}
 	
+    srand((float) microtime() * 1000000);
     do {
         $signed_pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
         $signed_pdf_file = $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
@@ -96,7 +105,7 @@ function pdf_import_unsigned_pages($pdf_id) {
 	while($filename = readdir($fh)) {
 		if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
 			list(, $suffix) = $matches;
-			write_log(__METHOD__, "copy {$img_dir}/{$filename} => {$signed_img_dir}/{$signed_pdf_id}{$suffix}.png");
+			//write_log(__METHOD__, "copy {$img_dir}/{$filename} => {$signed_img_dir}/{$signed_pdf_id}{$suffix}.png");
 			copy($img_dir . '/' . $filename, $signed_img_dir . '/' . $signed_pdf_id . $suffix . '.png');
 		}
 	}
