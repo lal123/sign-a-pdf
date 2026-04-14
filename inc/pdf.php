@@ -35,6 +35,7 @@ function pdf_convert_to_png() {
 		                $pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
 		                $pdf_file = $pdf_dir . '/' . $pdf_id . '.pdf';
 		            } while (file_exists($pdf_file));
+		            
 		            move_uploaded_file($tmp_name, $pdf_file);
 		        	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 					if(!file_exists($img_dir)){
@@ -43,7 +44,12 @@ function pdf_convert_to_png() {
 					}
 					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
 					//$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
-					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
+
+					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
+
+					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
+
+					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png > /dev/null &';
 					// -alpha remove
 					///write_log(__METHOD__, $command);
 				    exec($command, $output, $return_var);
@@ -51,6 +57,8 @@ function pdf_convert_to_png() {
 				        $err_msg = "{$command} exited with return_var {$return_var}\n";
 						write_log(__METHOD__, "*** ERROR *** {$err_msg}");
 				    }
+
+				    /*
 			        if(!file_exists($img_dir . '/' . $pdf_id .'.png')) {
 			        	$pages = 0;
 			        	while(file_exists($img_dir . '/' . $pdf_id . '-' . $pages . '.png')) {
@@ -58,6 +66,7 @@ function pdf_convert_to_png() {
 			        	}
 
 			        }
+			        */
 		        }
 		    } else {
 		        $err_msg = 'No data received!';
@@ -68,6 +77,17 @@ function pdf_convert_to_png() {
     }
 	$ret = json_encode(['pdf_id' => $pdf_id, 'err_msg' => $err_msg, 'name' => $name, 'size' => $size, 'pages' => $pages], JSON_UNESCAPED_UNICODE);
 	return $ret;
+}
+
+function pdf_count_pages($pdf_id) {
+
+	$output = [];
+	$return_var = 0;
+	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+	$command = "/usr/bin/ls -la {$img_dir}/{$pdf_id}*.png | wc -l";
+	exec($command, $output, $return_var);
+	write_log(__METHOD__, "[pdf_id][{$pdf_id}][return_var][{$return_var}][output][" . print_r($output, true) . "]");
+	return $output[0];
 }
 
 function pdf_import_unsigned_pages($pdf_id) {

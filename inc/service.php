@@ -48,6 +48,21 @@ switch($action) {
 		*/
 		echo $res;
 		break;
+	case 'convert_doc':
+		$pdf_id = $_POST['pdf_id'];
+		$pages = $_POST['pages'];
+    	$count = pdf_count_pages($pdf_id);
+		$percent = ceil($count / $pages * 100);
+        echo "$('#modal-info').html('{$tr['UPLOAD.PREPARING_DOC']} :&nbsp; {$count} / {$pages} ({$percent}%}');\n";
+        echo "$('#modal-progress').show();\n";
+        echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
+		echo "console.log('{$count}/{$pages}');\n";
+		if($count == $pages) {
+			echo "document.location.href = '/{$lang}/docs/{$pdf_id}/';\n";
+		} else {
+			echo "docs.convertHandle = setTimeout(\"docs.convert('{$pdf_id}', '{$pages}')\", 500);\n";
+		}
+		break;
 	case 'delete_doc':
 		$pdf_id = $_POST['pdf_id'];
 		if($is_signed_in) {

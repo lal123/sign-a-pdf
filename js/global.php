@@ -29,6 +29,10 @@ var upload = {
                 file_obj.value = '';
                 upload.req = null;
             }
+            if(docs.convertHandle != null) {
+                clearTimeout(docs.convertHandle);
+                docs.convertHandle = null;
+            }
         });
         $('#modal-info').html('');
         $('#uploadModal').modal('show');
@@ -55,7 +59,8 @@ var upload = {
                 if(data != '') {
                     var result = JSON.parse(data);
                     if(result.err_msg == '') {
-                        document.location.href = '/<?php echo $lang; ?>/docs/' + result.pdf_id + '/';
+                        //document.location.href = '/' + lang + '/docs/' + result.pdf_id + '/';
+                        docs.convert(result.pdf_id, result.pages);
                     } else {
                         $('#modal-progress').hide();
                         $('#modal-info').html(result.err_msg);
@@ -69,10 +74,11 @@ var upload = {
                     myXhr.upload.addEventListener('progress', function(e) {
                         var percent = parseInt(e.loaded / e.total * 100);
                         $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + ' (' + percent + '%)');
-                                        $('#modal-progress').show();
+                        $('#modal-progress').show();
                         $('#modal-progress-bar').css({'width': percent + '%'});
                         if(e.loaded >= e.total) {
-                            upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>', false);
+                            $('#modal-progress-bar').css({'width': '0px'});
+                            upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>...', false);
                         }
                     });
                 }
@@ -103,6 +109,18 @@ var upload = {
 }
 
 var docs = {
+
+    convertHandle: null,
+
+    convert: function(pdf_id, pages) {
+        $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: {'action': 'convert_doc', 'pdf_id': pdf_id, 'pages': pages, 'lang': '<?php echo $lang; ?>'}
+        }).done(function(data) {
+            eval(data);
+        });
+    },
 
     confirmDelete: function(pdf_id) {
         $('#deleteDocModal #actionConfirm').on('click', event => {
