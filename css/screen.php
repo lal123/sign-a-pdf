@@ -310,7 +310,26 @@ a.common:hover {
 	}
 }
 
+@media screen and (max-width: 600px) {
+
+	#sign_toolbar .btn {
+		font-size: 16px;
+		line-height: 24px;
+		min-width: 120px;
+		max-width: 120px;
+	}
+
+}
+
 @media screen and (max-width: 450px) {
+
+	#sign_toolbar .btn {
+		font-size: 12px;
+		line-height: 18px;
+		min-width: 100px;
+		max-width: 100px;
+	}
+
 	.nav-link.limited {
 		max-width: 135px;
 	    text-overflow: ellipsis;
