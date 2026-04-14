@@ -76,9 +76,10 @@ var upload = {
                         $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + ' (' + percent + '%)');
                         $('#modal-progress').show();
                         $('#modal-progress-bar').css({'width': percent + '%'});
+                        $('#modal-progress').show();
                         if(e.loaded >= e.total) {
                             $('#modal-progress-bar').css({'width': '0px'});
-                            upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>...', false);
+                            upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>', false);
                         }
                     });
                 }

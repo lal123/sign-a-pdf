@@ -56,7 +56,7 @@ switch($action) {
         echo "$('#modal-info').html('{$tr['UPLOAD.PREPARING_DOC']} :&nbsp; {$count} / {$pages} ({$percent}%}');\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
-		echo "console.log('{$count}/{$pages}');\n";
+		//echo "console.log('{$count}/{$pages}');\n";
 		if($count == $pages) {
 			echo "document.location.href = '/{$lang}/docs/{$pdf_id}/';\n";
 		} else {

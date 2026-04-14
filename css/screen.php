@@ -287,6 +287,14 @@ a.common:hover {
 	height: 24px;
 }
 
+#modal-progress-bar {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -ms-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
 @media screen and (max-width: 1060px) and (min-width: 980px) {
 	.nav-link.reduced {
 		max-width: 135px;
