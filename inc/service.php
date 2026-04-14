@@ -51,16 +51,17 @@ switch($action) {
 	case 'convert_doc':
 		$pdf_id = $_POST['pdf_id'];
 		$pages = $_POST['pages'];
-    	$count = pdf_count_pages($pdf_id);
+		$signed = $_POST['signed'];
+    	$count = pdf_count_pages($pdf_id, $signed);
 		$percent = ceil($count / $pages * 100);
         echo "$('#modal-info').html('{$tr['UPLOAD.PREPARING_DOC']} :&nbsp; {$count} / {$pages} ({$percent}%}');\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
-		//echo "console.log('{$count}/{$pages}');\n";
+		echo "console.log('{$count}/{$pages}');\n";
 		if($count == $pages) {
 			echo "document.location.href = '/{$lang}/docs/{$pdf_id}/';\n";
 		} else {
-			echo "docs.convertHandle = setTimeout(\"docs.convert('{$pdf_id}', '{$pages}')\", 500);\n";
+			echo "docs.convertHandle = setTimeout(\"docs.convert('{$pdf_id}', {$signed}, {$pages})\", 500);\n";
 		}
 		break;
 	case 'delete_doc':
@@ -222,7 +223,11 @@ switch($action) {
 		$sign_id = $_POST['sign_id'];
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
-    	
+		
+		$arr = model_doc_get_from_pdf_id($pdf_id);
+		$pages = $arr['doc_pages'];
+
+		/*
 		$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 	    $file_list = [];
 	    $fh = opendir($img_dir);
@@ -233,6 +238,10 @@ switch($action) {
 				$file_list[] = $pdf_id . $suffix;
 			}
 		}
+		$pages = sizeof($file_list);
+		*/
+
+
 		//sort($file_list, SORT_NATURAL);
         //write_log("sign_page", 'file_list: ' . print_r($file_list, true));
 
@@ -241,7 +250,7 @@ switch($action) {
     	$pages_arr = [];    
     	switch($page_option) {
     		case 2:
-    			for($i = 1 ; $i <= sizeof($file_list) ; $i++) {
+    			for($i = 1 ; $i <= $pages ; $i++) {
     				$pages_arr[] = $i;
     			}
     			break;
@@ -260,33 +269,30 @@ switch($action) {
     			break;
 			case 1:
     		default:
-    			$pages_arr[] = sizeof($file_list);
+    			$pages_arr[] = $pages;
     	}
     	
-        //write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
+        write_log("sign_page", 'pages: ' . $pages);
+        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
 
         for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
-        	$page_id =  $pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
-        	$signed_page_id =  $signed_pdf_id . ((sizeof($file_list) > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
-        	if(in_array($page_id, $file_list)) {
-        		//write_log('sign_page', 'matched: ' .$pages_arr[$i] . ' => ' . $page_id);
-        		//write_log('sign_page', "page_id: {$page_id} ; signed_page_id: {$signed_page_id}");
-				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
-				$arr = json_decode($res, true);
-        	}
+        	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
+        	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
+			$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+			$arr = json_decode($res, true);
         }
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-			pdf_convert_from_png($signed_pdf_id);
+			pdf_convert_from_png($pdf_id, $signed_pdf_id, $pages);
 			$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
-			$signed_doc_size = filesize($signed_pdf_dir . '/' . $signed_pdf_id . '.pdf');
+			$signed_doc_size = -1; // filesize($signed_pdf_dir . '/' . $signed_pdf_id . '.pdf');
 			if($is_signed_in) {
 				model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
 			} else {
 				$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
 				$_SESSION['docs'][$signed_pdf_id]['time'] = time();
-				$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
-				$_SESSION['docs'][$signed_pdf_id]['pages'] = $_SESSION['docs'][$pdf_id]['pages'];
+				$_SESSION['docs'][$signed_pdf_id]['size'] = -1; // $signed_doc_size;
+				$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
 				$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
 				//unset($_SESSION['docs'][$pdf_id]);
 			}
@@ -294,7 +300,8 @@ switch($action) {
 			echo "$('#signButton').addClass('disabled');\n";
 			echo "$('#signPreview').remove();\n";
 	        echo '$("*").css("cursor", "default");' . "\n";
-			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
+			echo "docs.convertHandle = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 500);\n";
+			//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
 		}
 		break;
 }

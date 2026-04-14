@@ -26,7 +26,9 @@ function pdf_convert_to_png() {
 		    if ((isset($tmp_name)) && ($size != 0)) {
 		        srand((float) microtime() * 1000000);
 		        if ($err_msg == '') {
+		        	
 		        	$pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf';
+					
 					if(!file_exists($pdf_dir)){
 						mkdir($pdf_dir);
 						chmod($pdf_dir, 0777);
@@ -37,6 +39,11 @@ function pdf_convert_to_png() {
 		            } while (file_exists($pdf_file));
 		            
 		            move_uploaded_file($tmp_name, $pdf_file);
+		        	
+					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
+
+					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
+
 		        	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
 					if(!file_exists($img_dir)){
 						mkdir($img_dir);
@@ -45,14 +52,12 @@ function pdf_convert_to_png() {
 					//$command = '/usr/bin/pdftoppm -rx 150 -ry 150 "' . $pdf_file . '" -png ' . $img_dir . '/' . $pdf_id;
 					//$command = '/usr/bin/convert -density 192 ' . $pdf_file . ' -quality 100 -alpha remove -resize 100% ' . $img_dir . '/' . $pdf_id . '.png';
 
-					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
-
-					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
-
 					$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . $pdf_file . ' -quality 100 -resize 100% ' . $img_dir . '/' . $pdf_id . '.png > /dev/null &';
 					// -alpha remove
 					///write_log(__METHOD__, $command);
+
 				    exec($command, $output, $return_var);
+
 				    if($return_var != 0) {
 				        $err_msg = "{$command} exited with return_var {$return_var}\n";
 						write_log(__METHOD__, "*** ERROR *** {$err_msg}");
@@ -79,14 +84,19 @@ function pdf_convert_to_png() {
 	return $ret;
 }
 
-function pdf_count_pages($pdf_id) {
+function pdf_count_pages($pdf_id, $signed = false) {
 
 	$output = [];
 	$return_var = 0;
-	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
 	$command = "/usr/bin/ls -la {$img_dir}/{$pdf_id}*.png | wc -l";
 	exec($command, $output, $return_var);
-	write_log(__METHOD__, "[pdf_id][{$pdf_id}][return_var][{$return_var}][output][" . print_r($output, true) . "]");
+    if($return_var != 0) {
+        $err_msg = "{$command} exited with return_var {$return_var}\n";
+		write_log(__METHOD__, "*** ERROR *** {$err_msg}");
+		write_log(__METHOD__, "[command][{$command}][pdf_id][{$pdf_id}][return_var][{$return_var}][output][" . print_r($output, true) . "]");
+		return 0;
+    }
 	return $output[0];
 }
 
@@ -121,6 +131,7 @@ function pdf_import_unsigned_pages($pdf_id) {
         $signed_pdf_file = $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
     } while (file_exists($signed_pdf_file));
 
+    /*
     $fh = opendir($img_dir);
 	while($filename = readdir($fh)) {
 		if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
@@ -129,11 +140,13 @@ function pdf_import_unsigned_pages($pdf_id) {
 			copy($img_dir . '/' . $filename, $signed_img_dir . '/' . $signed_pdf_id . $suffix . '.png');
 		}
 	}
+	*/
+
 	$ret = json_encode(['err_msg' => $err_msg, 'signed_pdf_id' => $signed_pdf_id], JSON_UNESCAPED_UNICODE);
 	return $ret;
 }
 
-function pdf_convert_from_png($signed_pdf_id) {
+function pdf_convert_from_png($pdf_id, $signed_pdf_id, $pages) {
 
 	global $err_msg;
 
@@ -141,18 +154,31 @@ function pdf_convert_from_png($signed_pdf_id) {
 	$output = [];
 	$return_var = 0;
 
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+    if(!file_exists($img_dir)){
+        mkdir($img_dir);
+        chmod($img_dir, 0777);
+    }
+	
     $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
     if(!file_exists($signed_img_dir)){
         mkdir($signed_img_dir);
         chmod($signed_img_dir, 0777);
     }
 	
+	$pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf';
+	if(!file_exists($pdf_dir)){
+		mkdir($pdf_dir);
+		chmod($pdf_dir, 0777);
+	}
+	
 	$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
 	if(!file_exists($signed_pdf_dir)){
 		mkdir($signed_pdf_dir);
 		chmod($signed_pdf_dir, 0777);
 	}
-	
+
+	/*	
     $file_list = [];
     $fh = opendir($signed_img_dir);
 	while($filename = readdir($fh)) {
@@ -162,11 +188,21 @@ function pdf_convert_from_png($signed_pdf_id) {
 		}
 	}
 	sort($file_list, SORT_NATURAL);
+	*/
 
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	$file_list = [];
+	for($i = 0; $i < $pages ; $i++) {
+		$file_list[] = $signed_img_dir . '/' . $signed_pdf_id . ($pages > 1 ? ($i - 1) : '') . '.png';
+	}
+	//sort($file_list, SORT_NATURAL);
+
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf > /dev/null &';
 	// -alpha remove
-	//write_log(__METHOD__, $command);
+	
+	write_log(__METHOD__, $command);
+    
     exec($command, $output, $return_var);
+    
     if($return_var != 0) {
         $err_msg = "{$command} exited with return_var {$return_var}\n";
 		write_log(__METHOD__, "*** ERROR *** {$err_msg}");

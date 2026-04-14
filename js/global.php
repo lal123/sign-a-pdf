@@ -60,7 +60,7 @@ var upload = {
                     var result = JSON.parse(data);
                     if(result.err_msg == '') {
                         //document.location.href = '/' + lang + '/docs/' + result.pdf_id + '/';
-                        docs.convert(result.pdf_id, result.pages);
+                        docs.convert(result.pdf_id, 0, result.pages);
                     } else {
                         $('#modal-progress').hide();
                         $('#modal-info').html(result.err_msg);
@@ -113,11 +113,11 @@ var docs = {
 
     convertHandle: null,
 
-    convert: function(pdf_id, pages) {
+    convert: function(pdf_id, signed, pages) {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'convert_doc', 'pdf_id': pdf_id, 'pages': pages, 'lang': '<?php echo $lang; ?>'}
+            data: {'action': 'convert_doc', 'pdf_id': pdf_id, 'signed': signed, 'pages': pages, 'lang': '<?php echo $lang; ?>'}
         }).done(function(data) {
             eval(data);
         });
