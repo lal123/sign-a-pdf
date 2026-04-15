@@ -48,6 +48,7 @@ var upload = {
             return false;
         }
         docs.pdf_id = null;
+        upload.req = null;
         var FD = new FormData($('#upload_form')[0]);
         $(FD).serializeArray();
         upload.req = $.ajax({
@@ -246,8 +247,8 @@ var docs = {
     },
 
     prepareDownload: function(pdf_id) {
+        docs.downloadReq = null;
         $('#downloadDocModal').on('hidden.bs.modal', event => {
-            console.log('download canceled !');
             if(docs.downloadReq != null) {
                 docs.downloadReq.abort();
                 docs.downloadReq = null;

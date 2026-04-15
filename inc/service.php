@@ -335,7 +335,6 @@ switch($action) {
 				model_doc_update_size($pdf_id, $doc_size);
 			}
 		}
-
 		echo "$('#downloadDocModal').modal('hide');\n";
         echo "docs.download('{$pdf_id}');\n";
 		
