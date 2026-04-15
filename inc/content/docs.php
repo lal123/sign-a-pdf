@@ -28,7 +28,7 @@ function docs_show_list($docs, $signed) {
         }
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
-        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
+        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.prepareDownload(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
         $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
@@ -44,7 +44,6 @@ function docs_show_list($docs, $signed) {
 }
 
 ?>
-
 <div class="container">
     <div class="col-lg-6 ms-0 mt-3 mb-0">
         <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
@@ -72,7 +71,6 @@ if($pdf_id != '') {
 }
 ?>
     </div>
-
 <?php
 if($pdf_id != '') {
 ?>
@@ -81,7 +79,7 @@ if($pdf_id != '') {
             <a href="javascript:void(0)" id="signButton" onclick="<?php if(true || (php_uname("n") == 'alain-520-1080fr') || (isset($user) && ($user['user_id'] == 1))) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="downloadButton" onclick="return docs.download('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
+            <a href="javascript:void(0)" id="downloadButton" onclick="return docs.prepareDownload('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
             <a href="javascript:void(0)" id="deleteButton" onclick="return docs.confirmDelete('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DELETE']; ?></a>
@@ -127,7 +125,6 @@ if($pdf_id != '') {
 }
 ?>
 </div>
-
 <?php
 if($pdf_id != '') {
 ?>
@@ -167,6 +164,20 @@ if($pdf_id != '') {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
                 <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" data-bs-backdrop="static" id="downloadDocModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.DOWNLOAD.TITLE']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody"><?php echo $tr['DOCS.DOWNLOAD.PREPARING']; ?> ...</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
             </div>
         </div>
     </div>

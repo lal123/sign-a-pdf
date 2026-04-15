@@ -315,4 +315,26 @@ switch($action) {
 			//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
 		}
 		break;
+	case 'doc_download':
+		$pdf_id = $_POST['pdf_id'];
+		$doc = model_doc_get_from_pdf_id($pdf_id);
+		$name = $doc['doc_name'];
+		$pages = $doc['doc_pages'];
+		$signed = $doc['doc_signed'];
+
+		$filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
+
+		if($signed == 1) {
+			if($doc['doc_size'] == -1) {
+				pdf_convert_from_png($pdf_id, $pages);
+				$doc_size = filesize($filename);
+				model_doc_update_size($pdf_id, $doc_size);
+			}
+		}
+
+		echo "$('#downloadDocModal').modal('hide');\n";
+        echo "docs.download('{$pdf_id}');\n";
+		
+		break;
+
 }

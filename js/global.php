@@ -115,6 +115,7 @@ var docs = {
 
     convertHandle: null,
     pdf_id: null,
+    downloadReq: null,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -242,6 +243,26 @@ var docs = {
         $('.form-panel').hide();
         $('#formPanel' + sign_option).show();
         return true;
+    },
+
+    prepareDownload: function(pdf_id) {
+        $('#downloadDocModal').on('hidden.bs.modal', event => {
+            console.log('download canceled !');
+            if(docs.downloadReq != null) {
+                docs.downloadReq.abort();
+                docs.downloadReq = null;
+            }
+        });
+        $('#downloadDocModal').modal('show');
+        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'lang': lang};
+        downloadReq = $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: data
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
     },
 
     download: function(pdf_id) {
