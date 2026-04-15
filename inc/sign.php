@@ -203,3 +203,37 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     $ret = json_encode(['err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
     return $ret;
 }
+
+function sign_create_signed_pages($pdf_id, $signed_pdf_id, $pages) {
+
+    global $err_msg;
+
+    $err_msg = '';
+    $output = [];
+    $return_var = 0;
+
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+    if(!file_exists($img_dir)){
+        mkdir($img_dir);
+        chmod($img_dir, 0777);
+    }
+    
+    $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
+    if(!file_exists($signed_img_dir)){
+        mkdir($signed_img_dir);
+        chmod($signed_img_dir, 0777);
+    }
+    
+    $file_list = [];
+    for($i = 1; $i <= $pages ; $i++) {
+        $signed_img_file = $signed_img_dir . '/' . $signed_pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
+        if(!file_exists($signed_img_file)) {
+            $img_file = $img_dir . '/' . $pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
+            copy($img_file, $signed_img_file);
+        }
+        $file_list[] = $signed_img_file;
+    }
+
+    $ret = json_encode(['err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+    return $ret;
+}

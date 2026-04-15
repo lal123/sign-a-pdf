@@ -272,8 +272,8 @@ switch($action) {
     			$pages_arr[] = $pages;
     	}
     	
-        write_log("sign_page", 'pages: ' . $pages);
-        write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
+        //write_log("sign_page", 'pages: ' . $pages);
+        //write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
 
         for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
         	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
@@ -283,7 +283,8 @@ switch($action) {
         }
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-			pdf_convert_from_png($pdf_id, $signed_pdf_id, $pages);
+			//pdf_convert_from_png($pdf_id, $signed_pdf_id, $pages);
+			sign_create_signed_pages($pdf_id, $signed_pdf_id, $pages);
 			$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
 			$signed_doc_size = -1; // filesize($signed_pdf_dir . '/' . $signed_pdf_id . '.pdf');
 			if($is_signed_in) {
@@ -298,7 +299,7 @@ switch($action) {
 			}
 			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
 			echo "$('#signButton').addClass('disabled');\n";
-			echo "$('#signPreview').remove();\n";
+			//echo "$('#signPreview').remove();\n";
 	        echo '$("*").css("cursor", "default");' . "\n";
 			echo "docs.convertHandle = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 500);\n";
 			//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";

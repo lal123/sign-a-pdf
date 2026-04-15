@@ -28,7 +28,7 @@ function docs_show_list($docs, $signed) {
         }
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
         echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
-        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'/uploads/pdf/' .($details['signed'] ? 'signed/' : '') . $pdf_id_key . '.pdf\', \'' . rawurlencode($details['name']) . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
+        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.download(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '/" class="common">' . $details['name'] . '</a></div>';
         $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
@@ -57,11 +57,13 @@ if($pdf_id != '') {
         $doc_name = $doc['doc_name'];
         $doc_signed = ($doc['doc_signed'] == 1);
         $doc_size = $doc['doc_size'];
+        $doc_time = strtotime($doc['doc_creato']);
         $doc_pages = $doc['doc_pages'];
     } else {
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
         $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1));
         $doc_size = $_SESSION['docs'][$pdf_id]['size'];
+        $doc_time = $_SESSION['docs'][$pdf_id]['time'];
         $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];
     }
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
@@ -79,7 +81,7 @@ if($pdf_id != '') {
             <a href="javascript:void(0)" id="signButton" onclick="<?php if(true || (php_uname("n") == 'alain-520-1080fr') || (isset($user) && ($user['user_id'] == 1))) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="downloadButton" onclick="<?php echo "return docs.download('/uploads/pdf/" . ($doc_signed ? 'signed/' : '') . $pdf_id . ".pdf', '" . rawurlencode($doc_name) . "'); "; ?>return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
+            <a href="javascript:void(0)" id="downloadButton" onclick="return docs.download('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
             <a href="javascript:void(0)" id="deleteButton" onclick="return docs.confirmDelete('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DELETE']; ?></a>

@@ -117,7 +117,7 @@ var docs = {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'convert_doc', 'pdf_id': pdf_id, 'signed': signed, 'pages': pages, 'lang': '<?php echo $lang; ?>'}
+            data: {'action': 'convert_doc', 'pdf_id': pdf_id, 'signed': signed, 'pages': pages, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });
@@ -136,7 +136,7 @@ var docs = {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'delete_doc', 'pdf_id': pdf_id, 'lang': '<?php echo $lang; ?>'}
+            data: {'action': 'delete_doc', 'pdf_id': pdf_id, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });
@@ -241,8 +241,8 @@ var docs = {
         return true;
     },
 
-    download: function(file, name) {
-        document.location.href = '/inc/download.php?file=' + file + '&name=' + encodeURIComponent(name);
+    download: function(pdf_id) {
+        document.location.href = '/inc/download.php?file=' + pdf_id + '&lang=' + lang;
         return false;
     }
 }
@@ -397,7 +397,7 @@ var account = {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'delete_account', 'user_id': user_id, 'lang': '<?php echo $lang; ?>'}
+            data: {'action': 'delete_account', 'user_id': user_id, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });
