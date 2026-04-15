@@ -41,6 +41,9 @@ function pdf_convert_to_png() {
 		            move_uploaded_file($tmp_name, $pdf_file);
 		        	
 					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
+					if(!isset($pages) || ($pages == 0)) {
+						$pages = 1;
+					}
 
 					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
 

@@ -4,18 +4,31 @@ require_once 'utils.php';
 
 $pdf_id = $_GET['file'];
 
-$doc = model_doc_get_from_pdf_id($pdf_id);
-$name = $doc['doc_name'];
-$pages = $doc['doc_pages'];
-$signed = $doc['doc_signed'];
+if($is_signed_in) {
+	$doc = model_doc_get_from_pdf_id($pdf_id);
+	$name = $doc['doc_name'];
+	$pages = $doc['doc_pages'];
+	$signed = $doc['doc_signed'];
+	$doc_size = $doc['doc_size'];
+} else {
+	$doc = $_SESSION['docs'][$pdf_id];
+	$name = $doc['name'];
+	$pages = $doc['pages'];
+	$signed = $doc['signed'];
+	$doc_size = $doc['size'];
+}
 
 $filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
 if($signed == 1) {
-	if($doc['doc_size'] == -1) {
+	if($doc_size == -1) {
 		pdf_convert_from_png($pdf_id, $pages);
 		$doc_size = filesize($filename);
-		model_doc_update_size($pdf_id, $doc_size);
+		if($is_signed_in) {
+			model_doc_update_size($pdf_id, $doc_size);
+		} else {
+			$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
+		}
 	}
 }
 

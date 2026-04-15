@@ -234,8 +234,12 @@ switch($action) {
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
 		
-		$arr = model_doc_get_from_pdf_id($pdf_id);
-		$pages = $arr['doc_pages'];
+		if($is_signed_in){
+			$arr = model_doc_get_from_pdf_id($pdf_id);
+			$pages = $arr['doc_pages'];
+		} else {
+			$pages = $_SESSION['docs'][$pdf_id]['pages'];
+		}
 
 		/*
 		$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
