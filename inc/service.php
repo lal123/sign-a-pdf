@@ -57,7 +57,7 @@ switch($action) {
         echo "$('#modal-info').html('" . ($count == 0 ? $tr['UPLOAD.WAITING_MSG'] : $tr['UPLOAD.PREPARING_DOC'] . " :&nbsp; {$count} / {$pages}&nbsp; ({$percent}%)") . "');\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
-		echo "console.log('{$count}/{$pages}');\n";
+		//echo "console.log('{$count}/{$pages}');\n";
 		if($count == $pages) {
 			echo "document.location.href = '/{$lang}/docs/{$pdf_id}/';\n";
 		} else {
