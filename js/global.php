@@ -32,6 +32,7 @@ var upload = {
             if(docs.convertHandle != null) {
                 clearTimeout(docs.convertHandle);
                 docs.convertHandle = null;
+                docs.delete(docs.pdf_id);
             }
         });
         $('#modal-info').html('');
@@ -46,6 +47,7 @@ var upload = {
             file_obj.value = "";
             return false;
         }
+        docs.pdf_id = null;
         var FD = new FormData($('#upload_form')[0]);
         $(FD).serializeArray();
         upload.req = $.ajax({
@@ -59,7 +61,8 @@ var upload = {
                 if(data != '') {
                     var result = JSON.parse(data);
                     if(result.err_msg == '') {
-                        docs.convert(result.pdf_id, 0, result.pages);
+                        docs.pdf_id = result.pdf_id;
+                        docs.convert(docs.pdf_id, 0, result.pages);
                     } else {
                         $('#modal-progress').hide();
                         $('#modal-info').html(result.err_msg);
@@ -111,6 +114,7 @@ var upload = {
 var docs = {
 
     convertHandle: null,
+    pdf_id: null,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
