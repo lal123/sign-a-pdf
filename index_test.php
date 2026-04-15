@@ -1,71 +1,100 @@
 <?php
 
-/*
-if(php_uname("n") != 'alain-520-1080fr') {
-    echo 'Hello, World!';die();
-}
-*/
+$filename='sign-a-pdf';
+$font_filename = 'fonts/HelveticaNeue.ttf';
+$font_size = 11.5;
+$angle = 0;
+$image_width = 88;
+$image_height = 31;
+$margin_top = 3;
 
-require_once 'inc/utils.php';
+$lang_text = [
+    "en" => [
+        "Sign",
+        "a PDF",
+        "for free",
+    ],
+    "fr" => [
+        "Signez",
+        "un PDF",
+        "gratuit",
+    ],
+    "pt" => [
+        "Assine",
+        "um PDF",
+        "gratuito",
+    ],
+ ];
+
+foreach($lang_text as $lang => $text) {
+
+    $img_files = [];
+
+    $max_ascent = -1;
+    $max_descent = -1;
+
+    for($i = 0 ; $i < sizeof($text); $i++) {
+        $dims = imagettfbbox($font_size, 0, $font_filename, $text[$i]);
+        $ascent = abs($dims[7]);
+        if(($ascent > $max_ascent) || ($max_ascent == -1)) {
+            $max_ascent = $ascent;
+        }
+        $descent = abs($dims[1]);
+        if(($descent > $max_descent) || ($max_descent == -1)) {
+            $max_descent = $descent;
+        }
+    }
+
+    for($i = 0 ; $i < sizeof($text); $i++) {
+
+        $img = imagecreatetruecolor(88, 31);
+
+        $background = imagecolorallocate($img, 0x18, 0x30, 0x34);
+        $white = imagecolorallocate($img, 0xff, 0xff, 0xff);
+
+        $logo = imagecreatefrompng('favicon-32x32.png');
+
+        imagefill($img, 0, 0, $background);
+
+        imagecopyresampled($img, $logo, 3, 5, 0, 0, 21, 21, 32, 32);
+
+        $dims = imagettfbbox($font_size, 0, $font_filename, $text[$i]);
+        //$ascent = abs($dims[7]);
+        //$descent = abs($dims[1]);
+        //$text_width = abs($dims[0]) + abs($dims[2]);
+        $text_height = $max_ascent + $max_descent;
+        $text_x = 28;
+        $text_y = $margin_top + (($image_height / 2) - ($text_height / 2)) + $ascent;
+
+        imagettftext($img, $font_size, $angle, $text_x, $text_y, $white, $font_filename, $text[$i]);
+
+        $tmp_filename = './uploads/' . $filename . '-' . $lang . '-' .$image_width . 'x' . $image_height . '-' . $i . '.gif';
+
+        $img_files[]= $tmp_filename;
+
+        imagegif($img, $tmp_filename);
+
+        imagedestroy($img);
+    }
+
+    $command = "/usr/bin/gifsicle -l -w -O3 --disposal=bg --colors 256 -o=" . getcwd() . "/img/{$filename}-{$lang}-{$image_width}x{$image_height}.gif";
+    for($i = 0 ; $i < sizeof($img_files); $i++) {
+        $command.= " -d=150 " . getcwd() . "/" . $img_files[$i];
+    }
+    exec($command);
+    //echo $command . "<br />\n";
+
+    for($i = 0 ; $i < sizeof($text); $i++) {
+        unlink($img_files[$i]);
+    }
+}
 
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo $lang; ?>">
-<head>
-    <title><?php echo $page_title; ?></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="<?php echo $tr['META.KEYWORDS']; ?>" />
-    <meta name="description" content="<?php echo $tr['META.DESCRIPTION']; ?>" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <meta name="robots" content="index,follow,all" />
-    <meta name="revisit-after" content="2 days" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="stylesheet" href="/css/fonts.<?php echo $version_suffix; ?>.css" />
-    <link rel="stylesheet" href="/css/screen.<?php echo $version_suffix; ?>.css" />
-    <link rel="stylesheet" href="/css/bootstrap-5.3.8.min.css" />
-    <link rel="stylesheet" href="/css/jquery-ui.1.14.2.min.css" />
-    <link rel="stylesheet" href="/css/jquery-ui.structure.1.14.2.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
-    <script src="/js/jquery-4.0.0.min.js"></script>
-    <script src="/js/jquery-ui.1.14.2.min.js"></script>
-    <script src="/js/bootstrap-5.3.8.min.js"></script>
-    <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCV3E6Q85R"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KCV3E6Q85R');
-    </script>
-</head>
 <body>
-
-<div class="container">
-    <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark" style="height: 101px;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/<?php echo $lang; ?>/"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
-            <div class="collapse navbar-collapse" id="myMenu" style="">
-                <ul class="navbar-nav ms-0">
-                    <li class="navbar-item navbar-text">
-                        <div style="font-family: saginaw_bold; font-size: 28px; line-height: 36px; margin: -5px 0px 0px -15px;">
-                            <?php if($lang == 'en') {
-                                echo 'Sign<br />for free !';
-                            } else {
-                                echo 'Signez<br/>gratuitement !';
-                            }
-                            ?>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
-<!--<div style="position: absolute; top: 0px; left: 0px; width: 320px; height: 100px; border: dotted 1px white; z-index: 1031;"></div>-->
+<?php
+foreach($lang_text as $lang => $text) {
+    $img_src = "/img/{$filename}-{$lang}-{$image_width}x{$image_height}.gif";
+    echo '<img src="' . $img_src . '" alt="" border="0" /><br /><br />';
+}
+?>
 </body>
-</html>
