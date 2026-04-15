@@ -14,8 +14,12 @@ $filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : ''
 if($signed == 1) {
 	if($doc['doc_size'] == -1) {
 		pdf_convert_from_png($pdf_id, $pages);
+		$doc_size = filesize($filename);
+		model_doc_update_size($pdf_id, $doc_size);
 	}
 }
+
+db_close();
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");

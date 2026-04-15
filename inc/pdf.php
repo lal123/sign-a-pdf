@@ -191,7 +191,7 @@ function pdf_convert_from_png($signed_pdf_id, $pages) {
 		$file_list[] = $signed_img_file;
 	}
 
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch -type TrueColor ' . implode(' ', $file_list) . ' -quality 80 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
 	
 	write_log(__METHOD__, $command);
     

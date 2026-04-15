@@ -59,7 +59,6 @@ var upload = {
                 if(data != '') {
                     var result = JSON.parse(data);
                     if(result.err_msg == '') {
-                        //document.location.href = '/' + lang + '/docs/' + result.pdf_id + '/';
                         docs.convert(result.pdf_id, 0, result.pages);
                     } else {
                         $('#modal-progress').hide();
@@ -73,13 +72,13 @@ var upload = {
                 if (myXhr.upload) {
                     myXhr.upload.addEventListener('progress', function(e) {
                         var percent = parseInt(e.loaded / e.total * 100);
-                        $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + ' (' + percent + '%)');
+                        $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + '&nbsp; (' + percent + '%)');
                         $('#modal-progress').show();
                         $('#modal-progress-bar').css({'width': percent + '%'});
                         $('#modal-progress').show();
                         if(e.loaded >= e.total) {
                             $('#modal-progress-bar').css({'width': '0px'});
-                            upload.warn('<?php echo $tr['UPLOAD.PREPARING_DOC']; ?>', false);
+                            upload.warn('<?php echo $tr['UPLOAD.WAITING_MSG']; ?>', false);
                         }
                     });
                 }

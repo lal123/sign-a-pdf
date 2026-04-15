@@ -54,7 +54,7 @@ switch($action) {
 		$signed = $_POST['signed'];
     	$count = pdf_count_pages($pdf_id, $signed);
 		$percent = ceil($count / $pages * 100);
-        echo "$('#modal-info').html('{$tr['UPLOAD.PREPARING_DOC']} :&nbsp; {$count} / {$pages} ({$percent}%}');\n";
+        echo "$('#modal-info').html('" . ($count == 0 ? $tr['UPLOAD.WAITING_MSG'] : $tr['UPLOAD.PREPARING_DOC'] . " :&nbsp; {$count} / {$pages}&nbsp; ({$percent}%)") . "');\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
 		echo "console.log('{$count}/{$pages}');\n";
