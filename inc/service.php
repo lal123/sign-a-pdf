@@ -73,6 +73,7 @@ switch($action) {
 		break;
 	case 'delete_doc':
 		$pdf_id = $_POST['pdf_id'];
+		$redirect = $_POST['redirect'];
 		if($is_signed_in) {
 			if(!model_doc_delete($pdf_id)) {
 				//??
@@ -85,7 +86,9 @@ switch($action) {
 		if($docs_numb > 0) {
 			echo "$('.doc-small-preview[pdf_id=" . $pdf_id . "]').remove();\n";
 			echo "$('.docs_numb').html('({$docs_numb})');\n";
-			echo "document.location.href = '/{$lang}/docs';\n";
+			if($redirect == 1) {
+				echo "document.location.href = '/{$lang}/docs';\n";
+			}
 		} else {
 			echo "document.location.href = '/{$lang}/';\n";
 		}

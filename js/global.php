@@ -32,7 +32,7 @@ var upload = {
             if(docs.convertHandle != null) {
                 clearTimeout(docs.convertHandle);
                 docs.convertHandle = null;
-                docs.delete(docs.pdf_id);
+                docs.delete(docs.pdf_id, 0);
             }
         });
         $('#modal-info').html('');
@@ -129,17 +129,17 @@ var docs = {
     confirmDelete: function(pdf_id) {
         $('#deleteDocModal #actionConfirm').on('click', event => {
             $('#deleteDocModal').modal('hide');
-            docs.delete(pdf_id);
+            docs.delete(pdf_id, 1);
         });
         $('#deleteDocModal').modal('show');
         return false;
     },
 
-    delete: function(pdf_id) {
+    delete: function(pdf_id, redirect) {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'delete_doc', 'pdf_id': pdf_id, 'lang': lang}
+            data: {'action': 'delete_doc', 'pdf_id': pdf_id, 'redirect': redirect, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });
