@@ -19,3 +19,16 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule "^(en|fr)/docs/([a-f0-9]{16})/?$" index.php?lang=$1&page=docs&pdf_id=$2&%{QUERY_STRING} [L]
 RewriteRule "^(en|fr)/?([a-z0-9\-]*)/?$" index.php?lang=$1&page=$2&%{QUERY_STRING} [L]
+
+order allow,deny
+allow from all
+
+#ErrorDocument 403 'Not for you'
+
+#Me
+#deny from 127.0.0.1
+#deny from 82.64.18.12
+
+#individual access attempts to /wp-admin/ etc
+deny from 104.23.223.0/8
+deny from 172.70.248.0/8
