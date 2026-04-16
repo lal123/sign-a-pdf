@@ -29,9 +29,9 @@ var upload = {
                 file_obj.value = '';
                 upload.req = null;
             }
-            if(docs.convertHandle != null) {
-                clearTimeout(docs.convertHandle);
-                docs.convertHandle = null;
+            if(docs.conv != null) {
+                clearTimeout(docs.conv);
+                docs.conv = null;
                 docs.delete(docs.pdf_id, 0);
             }
         });
@@ -48,7 +48,6 @@ var upload = {
             return false;
         }
         docs.pdf_id = null;
-        upload.req = null;
         var FD = new FormData($('#upload_form')[0]);
         $(FD).serializeArray();
         upload.req = $.ajax({
@@ -114,9 +113,9 @@ var upload = {
 
 var docs = {
 
-    convertHandle: null,
+    conv: null,
     pdf_id: null,
-    downloadReq: null,
+    req: null,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -247,16 +246,15 @@ var docs = {
     },
 
     prepareDownload: function(pdf_id) {
-        docs.downloadReq = null;
         $('#downloadDocModal').on('hidden.bs.modal', event => {
-            if(docs.downloadReq != null) {
-                docs.downloadReq.abort();
-                docs.downloadReq = null;
+            if(docs.req != null) {
+                docs.req.abort();
+                docs.req = null;
             }
         });
         $('#downloadDocModal').modal('show');
         data = {'action': 'doc_download', 'pdf_id': pdf_id, 'lang': lang};
-        downloadReq = $.ajax({
+        docs.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
             data: data

@@ -68,7 +68,7 @@ switch($action) {
 		} else {
 			$points++;
 			$_SESSION['points'] = $points % 8;
-			echo "docs.convertHandle = setTimeout(\"docs.convert('{$pdf_id}', {$signed}, {$pages})\", 250);\n";
+			echo "docs.conv = setTimeout(\"docs.convert('{$pdf_id}', {$signed}, {$pages})\", 250);\n";
 		}
 		break;
 	case 'delete_doc':
@@ -315,24 +315,37 @@ switch($action) {
 			echo "$('#signButton').addClass('disabled');\n";
 			//echo "$('#signPreview').remove();\n";
 	        echo '$("*").css("cursor", "default");' . "\n";
-			echo "docs.convertHandle = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 500);\n";
-			//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
+			//echo "docs.conv = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 250);\n";
+			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
 		}
 		break;
 	case 'doc_download':
 		$pdf_id = $_POST['pdf_id'];
-		$doc = model_doc_get_from_pdf_id($pdf_id);
-		$name = $doc['doc_name'];
-		$pages = $doc['doc_pages'];
-		$signed = $doc['doc_signed'];
+		if($is_signed_in) {
+			$doc = model_doc_get_from_pdf_id($pdf_id);
+			$name = $doc['doc_name'];
+			$size = $doc['doc_size'];
+			$pages = $doc['doc_pages'];
+			$signed = $doc['doc_signed'];
+		} else {
+			$doc = $_SESSION['docs'][$pdf_id];
+			$name = $doc['name'];
+			$size = $doc['size'];
+			$pages = $doc['pages'];
+			$signed = $doc['signed'];
+		}
 
 		$filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
 		if($signed == 1) {
-			if($doc['doc_size'] == -1) {
+			if($size == -1) {
 				pdf_convert_from_png($pdf_id, $pages);
 				$doc_size = filesize($filename);
-				model_doc_update_size($pdf_id, $doc_size);
+				if($is_signed_in) {
+					model_doc_update_size($pdf_id, $doc_size);
+				} else {
+					$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
+				}
 			}
 		}
 		echo "$('#downloadDocModal').modal('hide');\n";
