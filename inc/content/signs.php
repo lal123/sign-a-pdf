@@ -11,7 +11,7 @@ function signs_show_list($signs) {
         echo '<div class="sign-suppr"><a href="javascript:void(0)" onclick="return sign.confirmDelete(\'' . $sign_file_id . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
         echo '<div class="sign-down"><a href="javascript:void(0)" onclick="return sign.download(\'' .$sign_file_id. '\', \'signature\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="sign-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
-        echo '<div class="sign-name">#' . $count . '</div>';
+        echo '<div class="sign-name">#' . $details['order']. '</div>';
         $img_src = '/' . UPLOAD_DIR . '/sign/' . $sign_file_id . '.png';
         echo '<span class="sign-preview">';
         echo '<img class="sign-img-preview" src="' . $img_src . '" alt="" border= "0" />';

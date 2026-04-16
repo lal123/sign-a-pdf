@@ -310,17 +310,19 @@ function model_sign_get_list($sign_user_id) {
     global $base, $cdb;
     
     $ret = [];
-    $sql = "select sign_file_id, UNIX_TIMESTAMP(sign_creato) sign_time, sign_width, sign_height from `{$base}`.`signs`"
+    $sql = "select s.sign_file_id, UNIX_TIMESTAMP(s.sign_creato) sign_time, s.sign_width, s.sign_height,"
+            . " ((select count(*) from `sign-a-pdf`.`signs` where sign_user_id = '1' and sign_id < s.sign_id) + 1) sign_order"
+            . " from `{$base}`.`signs` s"
             . " where 1"
-            . " and sign_user_id = '" . db_escape($sign_user_id) . "'"
-            . " group by sign_file_id"
-            . " order by sign_creato desc";
+            . " and s.sign_user_id = '" . db_escape($sign_user_id) . "'"
+            . " group by s.sign_file_id"
+            . " order by s.sign_creato desc";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false){
         while($arr = db_fetch_assoc($res)){
             $sign_file_id = $arr['sign_file_id'];
-            $ret[$sign_file_id] = ['time' => $arr['sign_time'], 'width' => $arr['sign_width'], 'height' => $arr['sign_height']];
+            $ret[$sign_file_id] = ['time' => $arr['sign_time'], 'width' => $arr['sign_width'], 'height' => $arr['sign_height'], 'order' => $arr['sign_order']];
         }
     }
     write_log(__METHOD__, print_r($ret, true));
