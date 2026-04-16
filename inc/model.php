@@ -284,6 +284,19 @@ function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id, $signed_doc_size) {
 function model_sign_create($values) {
 
     global $base, $cdb;
+
+    $sql = "select max(`sign_order`) from `{$base}`.`signs` where `sign_user_id` = '" . db_escape($values['sign_user_id']) . "'";
+    $res = db_query($sql);
+    if($res != false){
+        list($sign_order) = db_fetch_row($res);
+        if(!isset($sign_order) || ($sign_order == '')) {
+            $sign_order = 1;
+        } else {
+            $sign_order++;
+        }
+    } else {
+        return $res;
+    }
     
     $sql = "insert into `{$base}`.`signs` ("
         . "`sign_user_id`, "
@@ -298,7 +311,7 @@ function model_sign_create($values) {
         . "'" . db_escape($values['sign_file_id']) . "', "
         . "'" . db_escape($values['sign_width']) . "', "
         . "'" . db_escape($values['sign_height']) . "', "
-        . "((select max(`sign_order`) from `{$base}`.`signs` where `sign_user_id` = '" . db_escape($values['sign_user_id']) . "') + 1), "
+        . "{$sign_order}, "
         . "now(), "
         . "now()"
         . ")";

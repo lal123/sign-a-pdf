@@ -80,7 +80,7 @@ body {
 
 .modal-body {
 	min-height: 120px;
-	max-height: 400px;
+	max-height: 336px;
 }}
 
 .modal-content {
