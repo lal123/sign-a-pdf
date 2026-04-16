@@ -49,7 +49,7 @@
             </div>
         </div>
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="sign_option" value="4" id="signOption4"<?php if($sign_option == 4) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(4); return true;"<?php if($signs_numb == 0) { echo ' disabled="disabled"'; } ?> />
+            <input class="form-check-input" type="radio" name="sign_option" value="4" id="signOption4"<?php if($sign_option == 4) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(4); return true;"<?php if(($signs_numb == 0) || !$is_signed_in) { echo ' disabled="disabled"'; } ?> />
             <label class="form-check-label" for="signOption4">
                 <?php echo $tr['SIGN.OPTIONS.PREV.INVITE']; ?>
             </label>

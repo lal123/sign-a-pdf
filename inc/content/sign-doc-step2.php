@@ -51,10 +51,12 @@ switch($sign_option) {
             foreach($signs as $sign_file_id => $details) {
                 echo '<div class="form-check mb-2">';
                 echo '<input class="form-check-input" type="radio" name="sign_id" value="' . $sign_file_id . '" id="sign_' . $sign_file_id . '" ' . ((isset($sign_id) && ($sign_id == $sign_file_id)) || ((!isset($sign_id) || ($sign_id == '')) && ($first == true)) ? ' checked="checked"' : '') .'/>';
-                echo '&nbsp; <label  for="sign_' . $sign_file_id . '">#' . date($details['order']) . '</label>';
+                echo '&nbsp; ';
+                echo '<label  for="sign_' . $sign_file_id . '">#' . date($details['order']);
                 echo '<div class="prev-sign-preview">';
                 echo '<img src="/' . UPLOAD_DIR . '/sign/' . $sign_file_id . '.png" alt="" border="0" />';
                 echo '</div>';
+                echo '</label>';
                 echo '</div>';
                 $first = false;
             }
