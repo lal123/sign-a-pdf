@@ -225,10 +225,19 @@ switch($action) {
 				model_sign_create(['sign_user_id' => $user_id, 'sign_file_id' => $sign_id, 'sign_width' => $sign_width, 'sign_height' => $sign_height]);
 				$signs_numb = model_sign_get_numb($user_id);
 			} else {
+		        $order = 1;
+		        if(isset($_SESSION['signs']) && is_array($_SESSION['signs']) && (sizeof($_SESSION['signs']) > 0)) {
+		            $signs = $_SESSION['signs'];
+		            uksort($signs, function($a, $b) {
+		                global $signs;
+		                return strcasecmp($signs[$b]['order'], $signs[$a]['order']);
+		            });
+		            $order = array_values($signs)[0]['order'] + 1;
+		        }
 				$_SESSION['signs'][$sign_id]['time'] = time();
 				$_SESSION['signs'][$sign_id]['width'] = $sign_width;
 				$_SESSION['signs'][$sign_id]['height'] = $sign_height;
-				$_SESSION['signs'][$sign_id]['order'] = 1;
+				$_SESSION['signs'][$sign_id]['order'] = $order;
 				$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
 			}
 			echo "$('.signs_numb').html('({$signs_numb})');\n";
