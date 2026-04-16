@@ -80,7 +80,8 @@ body {
 
 .modal-body {
 	min-height: 120px;
-}
+	max-height: 400px;
+}}
 
 .modal-content {
 	background-color: #c0c0c0 !important;	
@@ -224,6 +225,16 @@ a.common:hover {
 
 .sign-preview > .sign-img-preview {
 	max-width: 100%;
+}
+
+.prev-sign-preview {
+	max-width: 100%;
+	max-height: 100px;
+}
+
+.prev-sign-preview > img{
+	max-width: 100%;
+	max-height: 100px;
 }
 
 #signPreview {

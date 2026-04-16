@@ -127,7 +127,7 @@ if($pdf_id != '') {
 if($pdf_id != '') {
 ?>
 <div class="modal" data-bs-backdrop="static" id="signDocModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN.TITLE']; ?></h5>
