@@ -42,6 +42,16 @@ require_once 'inc/utils.php';
         gtag('js', new Date());
         gtag('config', 'G-KCV3E6Q85R');
     </script>
+<?php
+if(($page == 'account') && ($action == 'confirm')) {
+?>
+    <script>
+      gtag('event', 'form_submit', {
+      });
+    </script>
+<?php
+}
+?>
 </head>
 <body oncontextmenu="return false;">
 
