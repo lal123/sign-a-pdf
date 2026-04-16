@@ -27,7 +27,7 @@ allow from all
 
 #Me
 #deny from 127.0.0.1
-#deny from 82.64.18.12
+deny from 82.64.18.12
 
 #individual access attempts to /wp-admin/ etc
 deny from 104.23.223.0/8
