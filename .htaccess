@@ -27,15 +27,15 @@ allow from all
 
 #Me
 #deny from 127.0.0.1
-deny from 82.64.19.0/8
+deny from 82.64.19.0/24
 
 #individual access attempts to /wp-admin/ etc
-deny from 104.23.223.0/8
-deny from 172.70.248.0/8
-deny from 162.158.182.0/8
+deny from 104.23.223.0/24
+deny from 172.70.248.0/24
+deny from 162.158.182.0/24
 deny from 185.213.174.125
 deny from 92.118.39.126
 deny from 206.81.12.187
-deny from 104.23.217.0/8
-deny from 104.23.223.0/8
+deny from 104.23.217.0/24
+deny from 104.23.223.0/24
 
