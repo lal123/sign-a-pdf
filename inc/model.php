@@ -290,6 +290,7 @@ function model_sign_create($values) {
         . "`sign_file_id`, "
         . "`sign_width`, "
         . "`sign_height`, "
+        . "`sign_order`, "
         . "`sign_creato`, "
         . "`sign_modifo`"
         . ") values ("
@@ -297,6 +298,7 @@ function model_sign_create($values) {
         . "'" . db_escape($values['sign_file_id']) . "', "
         . "'" . db_escape($values['sign_width']) . "', "
         . "'" . db_escape($values['sign_height']) . "', "
+        . "((select max(`sign_order`) from `{$base}`.`signs` where `sign_user_id` = '" . db_escape($values['sign_user_id']) . "') + 1), "
         . "now(), "
         . "now()"
         . ")";
@@ -310,13 +312,12 @@ function model_sign_get_list($sign_user_id) {
     global $base, $cdb;
     
     $ret = [];
-    $sql = "select s.sign_file_id, UNIX_TIMESTAMP(s.sign_creato) sign_time, s.sign_width, s.sign_height,"
-            . " ((select count(*) from `sign-a-pdf`.`signs` where sign_user_id = '1' and sign_id < s.sign_id) + 1) sign_order"
-            . " from `{$base}`.`signs` s"
+    $sql = "select sign_file_id, UNIX_TIMESTAMP(sign_creato) sign_time, sign_width, sign_height, sign_order"
+            . " from `{$base}`.`signs`"
             . " where 1"
-            . " and s.sign_user_id = '" . db_escape($sign_user_id) . "'"
-            . " group by s.sign_file_id"
-            . " order by s.sign_creato desc";
+            . " and sign_user_id = '" . db_escape($sign_user_id) . "'"
+            . " group by sign_file_id"
+            . " order by sign_creato desc";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false){

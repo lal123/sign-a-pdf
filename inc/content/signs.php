@@ -9,7 +9,7 @@ function signs_show_list($signs) {
 
         echo '<div class="sign-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" sign_file_id="' . $sign_file_id . '">';
         echo '<div class="sign-suppr"><a href="javascript:void(0)" onclick="return sign.confirmDelete(\'' . $sign_file_id . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
-        echo '<div class="sign-down"><a href="javascript:void(0)" onclick="return sign.download(\'' .$sign_file_id. '\', \'signature\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
+        echo '<div class="sign-down"><a href="javascript:void(0)" onclick="return sign.download(\'' .$sign_file_id. '\', \'signature-' . $details['order'] . '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="sign-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="sign-name">#' . $details['order']. '</div>';
         $img_src = '/' . UPLOAD_DIR . '/sign/' . $sign_file_id . '.png';
@@ -36,11 +36,14 @@ function signs_show_list($signs) {
    if($is_signed_in) {
         $signs = model_sign_get_list($user['user_id']);
     } else {
-        $signs = $_SESSION['signs'];
-        uksort($signss, function($a, $b) {
-            global $signs;
-            return strcasecmp($signs[$b]['time'], $signs[$a]['time']);
-        });
+        $signs = [];
+        if(isset($_SESSION['signs']) && is_array($_SESSION['signs']) && (sizeof($_SESSION['signs']) > 0)) {
+            $signs = $_SESSION['signs'];
+            uksort($signs, function($a, $b) {
+                global $signs;
+                return strcasecmp($signs[$b]['time'], $signs[$a]['time']);
+            });
+        }
     }
     signs_show_list($signs);
 ?>

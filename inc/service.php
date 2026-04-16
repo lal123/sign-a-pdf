@@ -228,6 +228,7 @@ switch($action) {
 				$_SESSION['signs'][$sign_id]['time'] = time();
 				$_SESSION['signs'][$sign_id]['width'] = $sign_width;
 				$_SESSION['signs'][$sign_id]['height'] = $sign_height;
+				$_SESSION['signs'][$sign_id]['order'] = 1;
 				$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
 			}
 			echo "$('.signs_numb').html('({$signs_numb})');\n";
