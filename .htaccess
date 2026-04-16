@@ -36,3 +36,4 @@ deny from 162.158.182.0/8
 deny from 185.213.174.125
 deny from 92.118.39.126
 deny from 206.81.12.187
+deny 82.64.18.12
