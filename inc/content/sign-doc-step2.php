@@ -1,7 +1,31 @@
 <?php
 ?>
 <div>
-    <p><?php echo $tr[$sign_option == 1 ? 'DOCS.SIGN.STEP2.SIGN_IT' : 'DOCS.SIGN.STEP2.INTRO']; ?> :</p>
+    <p>
+<?php
+
+switch($sign_option) {
+    case 1 :
+        echo $tr['DOCS.SIGN.STEP2.SIGN_IT'];
+        break;
+    case 4 :
+        echo $tr['DOCS.SIGN.STEP2.CHOOSE_SIGN'];
+        if($is_signed_in) {
+            $user_id = $user['user_id'];
+            $signs = model_sign_get_list($user_id);
+        } else {
+            $signs = $_SESSION['signs'];
+            uksort($signs, function($a, $b) {
+                global $signs;
+                return strcasecmp($signs[$b]['time'], $signs[$a]['time']);
+            });
+        }
+
+        break;
+    default:
+        echo $tr['DOCS.SIGN.STEP2.INTRO'];
+}
+?> :</p>
     <form method="POST" action="" id="signDocForm" onsubmit="return docs.sendSignDocForm(1); return false;">
         <input type="hidden" name="action" value="get_sign_step" />
         <input type="hidden" name="pdf_id" value="<?php echo $pdf_id; ?>" />
@@ -9,23 +33,36 @@
         <input type="hidden" name="sign_step" id="signStep" value="2" />
         <input type="hidden" name="sign_option" id="signOption" value="<?php echo $sign_option; ?>" />
         <input type="hidden" name="sign_text" id="signText" value="<?php echo $sign_text; ?>" />
-        <input type="hidden" name="sign_id" value="<?php echo $sign_id; ?>" />
         <input type="hidden" name="sign_width" value="<?php echo $sign_width; ?>" />
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
         <input type="hidden" name="sign_data" value="" />
-    </form>
 <?php
     switch($sign_option) {
         case 1:
+            echo '    <input type="hidden" name="sign_id" value="' . $sign_id . '" />';
             echo '    <div class="sign-container"><canvas id="signCanvas" class="sign-canvas"></canvas>' . "\n";
             echo '    <div class="clear-canvas"><a href="javascript:void(0)" onclick="return sign.clearCanvas(); return false;" class="act bi bi-x-circle-fill" title="' . $tr['CLEAR'] . '"></a></div>' . "\n";
             echo '</div>' . "\n";
             break;
+        case 4:
+            $first = true;
+            echo '<ul>';
+            foreach($signs as $sign_file_id => $details) {
+                echo '<li>';
+                echo '<input type="radio" name="sign_id" value="' . $sign_file_id . '" id="sign_' . $sign_file_id . '" ' . ((isset($sign_id) && ($sign_id == $sign_file_id)) || ((!isset($sign_id) || ($sign_id == '')) && ($first == true)) ? ' checked="checked"' : '') .'/>';
+                echo '&nbsp; <label  for="sign_' . $sign_file_id . '">' . date($tr['DATE_FORMAT'], $details['time']) . '</label>';
+                echo '</li>';
+                $first = false;
+            }
+            echo '</ul>';
+            break;
         default:
-            echo '    <img src="/uploads/sign/' . $sign_id .'.png" alt="" border="0" class="signSetp2Preview" />' . "\n" ;
+            echo '    <input type="hidden" name="sign_id" value="' . $sign_id . '" />';
+            echo '    <img src="/uploads/sign/' . $sign_id .'.png" alt="" border="0" class="sign-step2-preview" />' . "\n" ;
     }
 ?>
+    </form>
 </div>
 <div class="lg-8 ms-0 mt-2 mb-0" id="globalError" style="color: red;"><?php echo $arr['err_msg']; ?></div>

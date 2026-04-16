@@ -53,7 +53,7 @@ body {
 	display: block;
 }
 
-.signSetp2Preview {
+.sign-step2-preview {
 	max-width: 100%;
 }
 
@@ -159,6 +159,71 @@ a.common:hover {
 	cursor: pointer;
 	width: 20px;
 	height: 20px;
+}
+
+.sign-small-preview {
+	position: relative;
+	padding: 0px 0px 8px 0px;
+}
+
+.sign-small-preview > .sign-preview {
+	display: inline-block;
+	position: relative;
+	//width: 100%;
+	//height: 100%;
+}
+
+.sign-small-preview > .sign-name {
+    margin: 0px 10px 0px 10px;
+    text-align: center;
+    height: 28px;
+    line-height: 24px;
+}
+
+.sign-small-preview > .sign-date {
+    text-align: center;
+	color: #404040;
+}
+
+.sign-small-preview > .sign-suppr {
+	position: absolute;
+	right: -2px;
+	top: -2px;
+}
+
+.sign-small-preview > .sign-suppr > .act {
+	font-size: 20px;
+	line-height: 20px;
+	color: #cc3333;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+}
+
+.sign-small-preview > .sign-down {
+	position: absolute;
+	right: -2px;
+	top: 20px;
+}
+
+.sign-small-preview > .sign-down > .act {
+	font-size: 20px;
+	line-height: 20px;
+	color: #208020;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+}
+
+.sign-preview {
+	max-width: 100%;
+	padding: 8px;
+	//margin: 4px;
+    box-shadow: 2px 2px 6px #6f7f7f;
+}
+
+.sign-preview > .sign-img-preview {
+	max-width: 100%;
 }
 
 #signPreview {

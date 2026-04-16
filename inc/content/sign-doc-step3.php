@@ -31,7 +31,7 @@
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="page_option" value="3" id="signOption3"<?php if($page_option == 3) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(3); return true;" />
-            <label class="form-check-label" for="radioDefault2">
+            <label class="form-check-label" for="signOption3">
                 <?php echo $tr['SIGN.PAGES.CUST.INVITE']; ?>
             </label>
             <div class="form-panel<?php if($page_option == 3) { echo ' showed'; } ?>" id="formPanel3">

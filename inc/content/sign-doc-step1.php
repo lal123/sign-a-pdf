@@ -33,9 +33,9 @@
                 </div>
             </div>
         </div>
-        <div class="form-check">
+        <div class="form-check mb-2">
             <input class="form-check-input" type="radio" name="sign_option" value="3" id="signOption3"<?php if($sign_option == 3) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(3); return true;" />
-            <label class="form-check-label" for="radioDefault2">
+            <label class="form-check-label" for="signOption3">
                 <?php echo $tr['SIGN.OPTIONS.TEXT.INVITE']; ?>
             </label>
             <div class="form-panel<?php if($sign_option == 3) { echo ' showed'; } ?>" id="formPanel3">
@@ -46,6 +46,14 @@
                           <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.TEXT.INVALID']; ?></div>
                      </div>
                 </div>
+            </div>
+        </div>
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="sign_option" value="4" id="signOption4"<?php if($sign_option == 4) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(4); return true;"<?php if($signs_numb == 0) { echo ' disabled="disabled"'; } ?> />
+            <label class="form-check-label" for="signOption4">
+                <?php echo $tr['SIGN.OPTIONS.PREV.INVITE']; ?>
+            </label>
+            <div class="form-panel<?php if($sign_option == 4) { echo ' showed'; } ?>" id="formPanel4">
             </div>
         </div>
         <div class="lg-8 ms-0 mt-2 mb-0" id="globalError" style="color: red;"><?php echo $arr['err_msg']; ?></div>

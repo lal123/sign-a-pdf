@@ -1,6 +1,6 @@
 <?php
 
-$version_suffix = '1.25';
+$version_suffix = '1.26';
 
 $lang = '';
 
@@ -91,8 +91,10 @@ if(array_key_exists($page, $pages)) {
 
 if($is_signed_in) {
 	$docs_numb = model_doc_get_numb($user['user_id']);
+	$signs_numb = model_sign_get_numb($user['user_id']);
 } else {
 	$docs_numb = (isset($_SESSION['docs']) ? sizeof($_SESSION['docs']) : 0);
+	$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
 }
 
 if(($page == 'docs') && ($docs_numb == 0)) {

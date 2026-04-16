@@ -188,12 +188,12 @@ function model_doc_get_numb($doc_user_id) {
     $sql = "select count(*) from `{$base}`.`docs`"
             . " where 1"
             . " and doc_user_id='" . db_escape($doc_user_id) . "'";
-    write_log(__METHOD__, $sql);
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false){
         list($doc_numb) = db_fetch_row($res);
     }
-    write_log(__METHOD__, "[doc_numb][{$doc_numb}]");
+    //write_log(__METHOD__, "[doc_numb][{$doc_numb}]");
     return $doc_numb;
 }
 
@@ -274,6 +274,102 @@ function model_doc_sign($doc_pdf_id, $doc_signed_pdf_id, $signed_doc_size) {
         . "where 1 "
         . "and `doc_pdf_id` = '" . db_escape($doc_pdf_id) . "' ";
     write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = true;
+    }
+    return $ret;
+}
+
+function model_sign_create($values) {
+
+    global $base, $cdb;
+    
+    $sql = "insert into `{$base}`.`signs` ("
+        . "`sign_user_id`, "
+        . "`sign_file_id`, "
+        . "`sign_width`, "
+        . "`sign_height`, "
+        . "`sign_creato`, "
+        . "`sign_modifo`"
+        . ") values ("
+        . "'" . db_escape($values['sign_user_id']) . "', "
+        . "'" . db_escape($values['sign_file_id']) . "', "
+        . "'" . db_escape($values['sign_width']) . "', "
+        . "'" . db_escape($values['sign_height']) . "', "
+        . "now(), "
+        . "now()"
+        . ")";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return $res;
+}
+
+function model_sign_get_list($sign_user_id) {
+    
+    global $base, $cdb;
+    
+    $ret = [];
+    $sql = "select sign_file_id, UNIX_TIMESTAMP(sign_creato) sign_time, sign_width, sign_height from `{$base}`.`signs`"
+            . " where 1"
+            . " and sign_user_id = '" . db_escape($sign_user_id) . "'"
+            . " group by sign_file_id"
+            . " order by sign_creato desc";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false){
+        while($arr = db_fetch_assoc($res)){
+            $sign_file_id = $arr['sign_file_id'];
+            $ret[$sign_file_id] = ['time' => $arr['sign_time'], 'width' => $arr['sign_width'], 'height' => $arr['sign_height']];
+        }
+    }
+    write_log(__METHOD__, print_r($ret, true));
+    return $ret;
+}
+
+function model_sign_get_from_file_id($sign_file_id) {
+
+    global $base, $cdb;
+    
+    $ret = [];
+    $sql = "select * from `{$base}`.`signs`"
+            . " where 1"
+            . " and sign_file_id='" . db_escape($sign_file_id) . "'";
+    //write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = db_fetch_assoc($res);
+    }
+    //write_log(__METHOD__, print_r($ret, true));
+    return $ret;
+}
+
+function model_sign_get_numb($sign_user_id) {
+    
+    global $base, $cdb;
+    
+    $doc_numb = 0;
+    $sql = "select count(distinct sign_file_id) from `{$base}`.`signs`"
+            . " where 1"
+            . " and sign_user_id='" . db_escape($sign_user_id) . "'";
+    //write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false){
+        list($signs_numb) = db_fetch_row($res);
+    }
+    //write_log(__METHOD__, "[sign_numb][{$signs_numb}]");
+    return $signs_numb;
+}
+
+function model_sign_delete($sign_file_id) {
+
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "delete from `{$base}`.`signs`"
+            . " where 1"
+            . " and `sign_file_id` = '" . db_escape($sign_file_id) . "'";
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false) {
         $ret = true;

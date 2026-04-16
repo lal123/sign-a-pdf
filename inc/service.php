@@ -93,6 +93,24 @@ switch($action) {
 			echo "document.location.href = '/{$lang}/';\n";
 		}
 		break;
+	case 'delete_sign':
+		$sign_file_id = $_POST['sign_file_id'];
+		if($is_signed_in) {
+			if(!model_sign_delete($sign_file_id)) {
+				//??
+			}
+			$signs_numb = model_sign_get_numb($user['user_id']);
+		} else {
+			unset($_SESSION['signs'][$sign_file_id]);
+			$signs_numb = sizeof($_SESSION['signs']);
+		}
+		if($signs_numb > 0) {
+			echo "$('.sign-small-preview[sign_file_id=" . $sign_file_id . "]').remove();\n";
+			echo "$('.signs_numb').html('({$signs_numb})');\n";
+		} else {
+			echo "document.location.href = '/{$lang}/';\n";
+		}
+		break;
 	case 'delete_account':
 		$user_id = $_POST['user_id'];
 		$errors = [];
@@ -138,6 +156,9 @@ switch($action) {
 							//echo "$('#globalError').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
 						}
 						break;
+					case 4 :
+						$sign_step+= $sign_inc;
+						break;
 					case 1 :
 					default:
 						$sign_width = -1;
@@ -158,6 +179,16 @@ switch($action) {
 							$res = sign_get_img_from_data($sign_data);
 							$arr = json_decode($res, true);
 							$sign_id = $arr['sign_id'];
+						}
+						break;
+					case 4:
+						if($sign_inc == 1) {
+							$sign_details = model_sign_get_from_file_id($sign_id);
+							if(sizeof($sign_details) == 0) {
+								$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];
+							}
+							$sign_width = $sign_details['sign_width'];
+							$sign_height = $sign_details['sign_height'];
 						}
 						break;
 					default:
@@ -188,6 +219,18 @@ switch($action) {
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
+
+			if($is_signed_in) {
+				$user_id = $user['user_id'];
+				model_sign_create(['sign_user_id' => $user_id, 'sign_file_id' => $sign_id, 'sign_width' => $sign_width, 'sign_height' => $sign_height]);
+				$signs_numb = model_sign_get_numb($user_id);
+			} else {
+				$_SESSION['signs'][$sign_id]['time'] = time();
+				$_SESSION['signs'][$sign_id]['width'] = $sign_width;
+				$_SESSION['signs'][$sign_id]['height'] = $sign_height;
+				$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
+			}
+			echo "$('.signs_numb').html('({$signs_numb})');\n";
 	        $res = pdf_import_unsigned_pages($pdf_id);
 	        $arr = json_decode($res, true);
 	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {

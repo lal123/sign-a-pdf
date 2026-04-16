@@ -314,6 +314,31 @@ var sign = {
         $('html, body').animate({scrollTop: (target_page.position().top + target_page.height() - sign_height - 120)+ 'px'}, 'fast', function(){});
     },
 
+    confirmDelete: function(sign_file_id) {
+        $('#deleteSignModal #actionConfirm').on('click', event => {
+            $('#deleteSignModal').modal('hide');
+            sign.delete(sign_file_id, 1);
+        });
+        $('#deleteSignModal').modal('show');
+        return false;
+    },
+
+    delete: function(sign_file_id, redirect) {
+        $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: {'action': 'delete_sign', 'sign_file_id': sign_file_id, 'lang': lang}
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
+    },
+
+    download: function(sign_file_id, sign_name) {
+        document.location.href = '/inc/download_sign.php?sign_file=' + sign_file_id + '&sign_name=' + sign_name + '&lang=' + lang;
+        return false;
+    },
+
     moved: function(event, ui) {
     },
 

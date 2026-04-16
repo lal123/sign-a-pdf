@@ -1,7 +1,5 @@
 <?php
 
-$img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
-
 $nb_cols = 1;
 $bs_dir = 12 / $nb_cols;
 
@@ -13,7 +11,7 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 
 function docs_show_list($docs, $signed) {
 
-    global $lang, $tr, $img_dir;
+    global $lang, $tr;
 
     $count = 0;
     foreach($docs as $pdf_id_key => $details) {
