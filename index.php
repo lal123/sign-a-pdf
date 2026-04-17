@@ -43,7 +43,7 @@ require_once 'inc/utils.php';
         gtag('config', 'G-KCV3E6Q85R');
     </script>
 <?php
-if(($page == 'account') && ($action == 'confirm')) {
+if(false && ($page == 'account') && ($action == 'confirm')) {
 ?>
     <script>
       gtag('event', 'form_submit', {});
