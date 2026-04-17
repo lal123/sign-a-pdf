@@ -26,14 +26,16 @@ require_once 'inc/utils.php';
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="stylesheet" href="/css/fonts.<?php echo $version_suffix; ?>.css" />
-    <link rel="stylesheet" href="/css/screen.<?php echo $version_suffix; ?>.css" />
     <link rel="stylesheet" href="/css/bootstrap-5.3.8.min.css" />
-    <link rel="stylesheet" href="/css/jquery-ui.1.14.2.min.css" />
-    <link rel="stylesheet" href="/css/jquery-ui.structure.1.14.2.min.css" />
+    <link rel="stylesheet" href="/css/jquery-ui-1.14.2.min.css" />
+    <link rel="stylesheet" href="/css/jquery-ui-structure-1.14.2.min.css" />
+    <link rel="stylesheet" href="/css/farbtastic-1.2.css" />
+    <link rel="stylesheet" href="/css/screen.<?php echo $version_suffix; ?>.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <script src="/js/jquery-4.0.0.min.js"></script>
-    <script src="/js/jquery-ui.1.14.2.min.js"></script>
+    <script src="/js/jquery-ui-1.14.2.min.js"></script>
     <script src="/js/bootstrap-5.3.8.min.js"></script>
+    <script src="/js/farbtastic-1.2.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCV3E6Q85R"></script>
     <script>

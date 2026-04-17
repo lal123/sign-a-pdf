@@ -363,6 +363,20 @@ a.common:hover {
 	height: 24px;
 }
 
+#text-color-preview {
+	font-size: 28px;
+	line-height: 34px;
+}
+
+#colopicker {
+    display: block;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    width: 200px;
+    height: 200px;
+}
+
 #modal-progress-bar {
     -webkit-transition: none;
     -moz-transition: none;

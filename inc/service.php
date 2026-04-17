@@ -222,6 +222,8 @@ switch($action) {
 			case 0:
 			default:
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
+				$text_color = '#000000';
+				$text_font = 'beautiful_es-webfont';
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
@@ -262,6 +264,20 @@ switch($action) {
 			echo "$('#modalBody').html(decodeURIComponent('" . rawurlencode($content) . "'));\n";
 			if($sign_step == 1) {
 				echo "$('#signDocModal #backButton').hide();\n";
+/*
+                            stepper.fb_obj = $.farbtastic('#colorpicker', function(col) {
+                                stepper.fb_color = col;
+                                $('#colorpreview_small').css({'color': col});
+                                $('#colorpreview_large').css({'color': col});
+                                $('#hidden_text_color').val(col);
+                            });
+                            stepper.fb_obj.setColor(stepper.fb_color);
+*/
+                echo "$.farbtastic('#colorpicker', function(col) {
+                	console.log(col);
+                    $('#textColor').val(col);
+                    $('#text-color-preview').css({'color': col});
+                }).setColor('" . $text_color . "');\n";
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";
 			}

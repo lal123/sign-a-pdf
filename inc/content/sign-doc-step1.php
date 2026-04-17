@@ -10,6 +10,7 @@
         <input type="hidden" name="sign_inc" id="signInc" value="1" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
+        <input type="hidden" name="text_color" id="textColor" value="<?php echo $text_color; ?>" ?>
         <div class="form-check mb-2">
             <input class="form-check-input" type="radio" name="sign_option" value="1" id="signOption1"<?php if($sign_option == 1) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(1); return true;" />
             <label class="form-check-label" for="signOption1">
@@ -46,12 +47,13 @@
                     <div class="col-auto">
                         <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.FONT.LABEL']; ?> :</label>
                         <select name="text_font" id="textFont" class="form-control" aria-describedby="textFontHelp">
-                            <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw Bold</option>
                             <option value="beautiful_es-webfont"<?php if(isset($text_font) && ($text_font == 'beautiful_es-webfont')) { echo ' selected="selected"'; } ?>>Beautiful ES</option>
+                            <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw Bold</option>
                         </select>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-sm-3">
                         <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.COLOR.LABEL']; ?> :</label>
+<!--
                         <select name="text_color" id="textColor" class="form-control" aria-describedby="textColorHelp">
 <?php
 foreach($tr['SIGN.OPTIONS.TEXT.COLORS'] as $color_name => $color_hexa) {
@@ -59,7 +61,17 @@ echo '                            <option value="' . $color_hexa . '"' . (isset(
 }
 ?>
                         </select>
+-->
+<!--
+                        <input type="text" name="text_color" id="textColor" class="form-control" aria-describedby="textColorHelp" value="" style="background-color: #000000; cursor: pointer;" onclick="alert('Ok');" disabled="disabled" />
+-->
+                        <div style="width: 60px; height: 40px; padding: 0px; margin: 4px 0px 0px 2px;">
+                            <a href="javascript:void(0)" onclick="alert('Ok');"><span class="bi bi-palette-fill" id="text-color-preview" style="color: <?php echo $text_color; ?>"></span></a>
+                        </div>
                     </div>
+                </div>
+                <div style="position: relative;">
+                    <div class="" style="" id="colorpicker"></div>
                 </div>
             </div>
         </div>
