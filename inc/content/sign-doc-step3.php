@@ -9,6 +9,8 @@
         <input type="hidden" name="sign_step" id="signStep" value="3" />
         <input type="hidden" name="sign_option" id="signOption" value="<?php echo $sign_option; ?>" />
         <input type="hidden" name="sign_text" id="signText" value="<?php echo $sign_text; ?>" />
+        <input type="hidden" name="text_font" id="textFont" value="<?php echo $text_font; ?>" />
+        <input type="hidden" name="text_color" id="textColor" value="<?php echo $text_color; ?>" />
         <input type="hidden" name="sign_id" value="<?php echo $sign_id; ?>" />
         <input type="hidden" name="sign_width" value="<?php echo $sign_width; ?>" />
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />

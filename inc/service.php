@@ -132,6 +132,8 @@ switch($action) {
 		switch($sign_step) {
 			case 1:
 				$sign_text = $_POST['sign_text'];
+				$text_font = $_POST['text_font'];
+				$text_color = $_POST['text_color'];
 				switch($sign_option) {
 					case 2 :
 						$res = sign_get_img_from_file();
@@ -145,7 +147,7 @@ switch($action) {
 						}
 						break;
 					case 3 :
-						$res = sign_get_img_from_text($sign_text);
+						$res = sign_get_img_from_text($sign_text, $text_font, $text_color);
 						$arr = json_decode($res, true);
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 							$sign_id = $arr['sign_id'];
@@ -169,6 +171,8 @@ switch($action) {
 				break;
 			case 2:
 				$sign_text = $_POST['sign_text'];
+				$text_font = $_POST['text_font'];
+				$text_color = $_POST['text_color'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
@@ -199,6 +203,8 @@ switch($action) {
 				break;
 			case 3:
 				$sign_text = $_POST['sign_text'];
+				$text_font = $_POST['text_font'];
+				$text_color = $_POST['text_color'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];

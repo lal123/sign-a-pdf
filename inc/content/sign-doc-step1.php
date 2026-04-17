@@ -24,12 +24,10 @@
                 <?php echo $tr['SIGN.OPTIONS.STOR.INVITE']; ?>
             </label>
             <div class="form-panel<?php if($sign_option == 2) { echo ' showed'; } ?>" id="formPanel2">
-                <div class="col-lg-8 ms-1 mt-1 mb-0">
-                    <div class="form-group">
-                        <label for="signFile"><?php echo $tr['SIGN.OPTIONS.STOR.LABEL']; ?> :</label>
-                        <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="$(this).removeClass('is-invalid'); $('#globalError').empty(); return docs.prepareSignFile(this); return false;" onfocus="" value="" />
-                          <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.STOR.INVALID']; ?></div>
-                     </div>
+                <div class="form-group">
+                    <label for="signFile"><?php echo $tr['SIGN.OPTIONS.STOR.LABEL']; ?> :</label>
+                    <input type="file" name="sign_file" id="signFile" class="form-control" aria-describedby="signFileHelp" onchange="$(this).removeClass('is-invalid'); $('#globalError').empty(); return docs.prepareSignFile(this); return false;" onfocus="" value="" />
+                      <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.STOR.INVALID']; ?></div>
                 </div>
             </div>
         </div>
@@ -39,12 +37,29 @@
                 <?php echo $tr['SIGN.OPTIONS.TEXT.INVITE']; ?>
             </label>
             <div class="form-panel<?php if($sign_option == 3) { echo ' showed'; } ?>" id="formPanel3">
-                <div class="col-lg-8 ms-1 mt-1 mb-0">
-                    <div class="form-group">
+                <div class="form-group row g-3">
+                    <div class="col-sm-5">
                         <label for="signText"><?php echo $tr['SIGN.OPTIONS.TEXT.LABEL']; ?> :</label>
                         <input type="text" name="sign_text" id="signText" maxlength="50" class="form-control" aria-describedby="signTextHelp" onfocus="$(this).removeClass('is-invalid'); $('#globalError').empty();" placeholder="<?php echo $tr['SIGN.OPTIONS.TEXT.PLACEHOLDER']; ?>" value="<?php echo $sign_text; ?>" />
-                          <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.TEXT.INVALID']; ?></div>
-                     </div>
+                        <div class="invalid-feedback"><?php echo $tr['SIGN.OPTIONS.TEXT.INVALID']; ?></div>
+                    </div>
+                    <div class="col-auto">
+                        <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.FONT.LABEL']; ?> :</label>
+                        <select name="text_font" id="textFont" class="form-control" aria-describedby="textFontHelp">
+                            <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw Bold</option>
+                            <option value="beautiful_es-webfont"<?php if(isset($text_font) && ($text_font == 'beautiful_es-webfont')) { echo ' selected="selected"'; } ?>>Beautiful ES</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.COLOR.LABEL']; ?> :</label>
+                        <select name="text_color" id="textColor" class="form-control" aria-describedby="textColorHelp">
+<?php
+foreach($tr['SIGN.OPTIONS.TEXT.COLORS'] as $color_name => $color_hexa) {
+echo '                            <option value="' . $color_hexa . '"' . (isset($text_color) && ($text_color == $color_hexa) ? ' selected="selected"' : '') . '>' .$color_name . '</option>' . "\n";
+}
+?>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

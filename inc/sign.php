@@ -60,12 +60,12 @@ function sign_get_img_from_file() {
 }
 
 
-function sign_get_img_from_text($sign_text) {
+function sign_get_img_from_text($sign_text, $text_font, $text_color) {
 
 	$err_msg = '';
 	$sign_id = '';
 
-    $font_filename = getcwd() . '/../fonts/saginawbold-webfont.ttf';
+    $font_filename = getcwd() . '/../fonts/' . $text_font . '.ttf';
     $font_size = 80;
 
     $dims = imagettfbbox($font_size, 0, $font_filename, $sign_text);
@@ -82,7 +82,7 @@ function sign_get_img_from_text($sign_text) {
 
     $image = imagecreatetruecolor($image_width , $image_height);
 
-    $default_color = imagecolorallocate($image, 0, 0, 0);
+    $default_color = imagecolorallocate($image, hexdec(substr($text_color, 1, 2)), hexdec(substr($text_color, 3, 2)), hexdec(substr($text_color, 5, 2)));
     $transparent = imagecolorallocatealpha($image, 255, 255, 255, 127);
     
     imagefill($image, 0, 0, $transparent);
