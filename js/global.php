@@ -427,6 +427,14 @@ var sign = {
         sign.canvas.width  = w;
         sign.canvas.height = h;
         return false;
+    },
+
+    showColorPicker: function() {
+        var x = $('#textColorPreview').position().left + $('#textColorPreview').width() / 2 - $('#colorpicker').width() / 2 - 4; 
+        var y = $('#textColorPreview').position().top - $('#colorpicker').height() - 12;
+        $('#colorpicker').css({'left': x + 'px', 'top': y + 'px'});
+        $('#colorpicker').show();
+        return false;
     }
 }
 

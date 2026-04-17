@@ -38,6 +38,7 @@
                 <?php echo $tr['SIGN.OPTIONS.TEXT.INVITE']; ?>
             </label>
             <div class="form-panel<?php if($sign_option == 3) { echo ' showed'; } ?>" id="formPanel3">
+                <div id="colorpicker"></div>
                 <div class="form-group row g-3">
                     <div class="col-sm-5">
                         <label for="signText"><?php echo $tr['SIGN.OPTIONS.TEXT.LABEL']; ?> :</label>
@@ -52,26 +53,11 @@
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.COLOR.LABEL']; ?> :</label>
-<!--
-                        <select name="text_color" id="textColor" class="form-control" aria-describedby="textColorHelp">
-<?php
-foreach($tr['SIGN.OPTIONS.TEXT.COLORS'] as $color_name => $color_hexa) {
-echo '                            <option value="' . $color_hexa . '"' . (isset($text_color) && ($text_color == $color_hexa) ? ' selected="selected"' : '') . '>' .$color_name . '</option>' . "\n";
-}
-?>
-                        </select>
--->
-<!--
-                        <input type="text" name="text_color" id="textColor" class="form-control" aria-describedby="textColorHelp" value="" style="background-color: #000000; cursor: pointer;" onclick="alert('Ok');" disabled="disabled" />
--->
-                        <div style="width: 60px; height: 40px; padding: 0px; margin: 4px 0px 0px 2px;">
-                            <a href="javascript:void(0)" onclick="alert('Ok');"><span class="bi bi-palette-fill" id="text-color-preview" style="color: <?php echo $text_color; ?>"></span></a>
+                        <label for="textColorHolder"><?php echo $tr['SIGN.OPTIONS.TEXT.COLOR.LABEL']; ?> :</label>
+                        <div id="textColorHolder">
+                            <a href="javascript:void(0)" onclick="return sign.showColorPicker(); return false;"><span class="bi bi-palette-fill" id="textColorPreview" style="color: <?php echo $text_color; ?>"></span></a>
                         </div>
                     </div>
-                </div>
-                <div style="position: relative;">
-                    <div class="" style="" id="colorpicker"></div>
                 </div>
             </div>
         </div>

@@ -363,18 +363,29 @@ a.common:hover {
 	height: 24px;
 }
 
-#text-color-preview {
+#textColorHolder {
+	width: 60px;
+	height: 40px;
+	padding: 0px;
+	margin: 4px 0px 0px 2px;
+}
+
+#textColorPreview {
 	font-size: 28px;
 	line-height: 34px;
 }
 
-#colopicker {
-    display: block;
+#colorpicker {
+    display: none;
     position: absolute;
-    left: 100px;
-    top: 100px;
-    width: 200px;
-    height: 200px;
+    left: 250px;
+    top: 0px;
+    width: 208px;
+    height: 208px;
+    background-color: #c0c0c0;
+    border: solid 1px #606060;
+    padding: 4px;
+    border-radius: 16px;
 }
 
 #modal-progress-bar {
