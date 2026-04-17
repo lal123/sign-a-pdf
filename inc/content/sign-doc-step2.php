@@ -26,7 +26,7 @@ switch($sign_option) {
         echo $tr['DOCS.SIGN.STEP2.INTRO'];
 }
 ?> :</p>
-    <form method="POST" action="" id="signDocForm" onsubmit="return docs.sendSignDocForm(1); return false;">
+    <form method="POST" action="" id="signDocForm" onsubmit="return docs.sendSignDocForm(1); return false;" name="sign_create_step2">
         <input type="hidden" name="action" value="get_sign_step" />
         <input type="hidden" name="pdf_id" value="<?php echo $pdf_id; ?>" />
         <input type="hidden" name="lang" value="<?php echo $lang; ?>" />

@@ -12,7 +12,7 @@ switch($action) {
     <div class="ms-0 mt-3 mb-3">
         <?php echo ($action == 'create' ? $tr['ACCOUNT.CREATE_INTRO'] : $tr['ACCOUNT.UPDATE_INTRO']); ?>
     </div>
-    <form method="POST" action="">
+    <form method="POST" action="" name="account_<?php echo $action; ?>">
         <input type="hidden" name="action" value="<?php echo $action; ?>" />
         <div class="form-row">
             <div class="col-lg-2 ms-0 mb-1">

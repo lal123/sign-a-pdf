@@ -46,8 +46,7 @@ require_once 'inc/utils.php';
 if(($page == 'account') && ($action == 'confirm')) {
 ?>
     <script>
-      gtag('event', 'form_submit', {
-      });
+      gtag('event', 'form_submit', {});
     </script>
 <?php
 }

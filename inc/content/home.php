@@ -10,7 +10,7 @@
     </div>
     <center>
         <h4><?php echo $tr['HOME.ADD_PDF']; ?> :</h4>
-        <form method="post" enctype="multipart/form-data" id="upload_form" class="upload-form" style="display: none;">
+        <form method="post" enctype="multipart/form-data" id="upload_form" class="upload-form" style="display: none;" name="upload">
             <input type="hidden" name="<?php echo ini_get('session.upload_progress.prefix') . ini_get('session.upload_progress.name'); ?>" value="pdf_upload" />
             <input type="file" name="upload_file" id="upload_file" class="upload-file" onchange="return upload.prepare(this); return false;">
             <input type="hidden" name="lang" value="<?php echo $lang; ?>" />

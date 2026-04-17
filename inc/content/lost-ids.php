@@ -7,7 +7,7 @@ switch($action) {
     case 'lost-ids':
         unset($_SESSION['mail_sent']);
 ?>    
-    <form method="POST" action="">
+    <form method="POST" action="" name="lost_ids">
         <input type="hidden" name="action" value="lost-ids" />
         <div class="form-row">
             <div class="col-lg-4 ms-0 mb-2">

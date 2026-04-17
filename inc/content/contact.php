@@ -11,7 +11,7 @@ switch($action) {
     case 'contact':
         unset($_SESSION['mail_sent']);
 ?>    
-    <form method="POST" action="">
+    <form method="POST" action="" name="contact">
         <input type="hidden" name="action" value="contact" />
         <div class="form-row">
             <div class="col-lg-6 ms-0 mt-3 mb-3">

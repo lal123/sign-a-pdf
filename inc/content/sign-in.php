@@ -7,7 +7,7 @@ switch($action) {
     case 'sign-in':
         unset($_SESSION['mail_sent']);
 ?>    
-    <form method="POST" action="">
+    <form method="POST" action="" name="sign_in">
         <input type="hidden" name="action" value="sign-in" />
         <div class="form-row">
             <div class="col-lg-4 ms-0 mb-2">
