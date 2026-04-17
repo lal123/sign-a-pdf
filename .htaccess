@@ -44,8 +44,10 @@ deny from 162.158.111.146
 deny from 162.158.182.0/24
 deny from 172.64.192.0/24
 deny from 172.68.10.0/24
+deny from 172.68.193.131
 deny from 172.68.229.0/24
 deny from 172.70.248.0/24
+deny from 172.71.148.0/24
 deny from 172.71.164.0/24
 deny from 172.71.172.0/24
 deny from 172.71.184.0/24
