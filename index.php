@@ -42,6 +42,7 @@ require_once 'inc/utils.php';
         gtag('js', new Date());
         gtag('config', 'G-KCV3E6Q85R');
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601" crossorigin="anonymous"></script>
 <?php
 if(false && ($page == 'account') && ($action == 'confirm')) {
 ?>
