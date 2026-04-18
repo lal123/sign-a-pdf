@@ -13,7 +13,7 @@
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
         <input type="hidden" name="text_color" id="textColor" value="<?php echo $text_color; ?>" ?>
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="sign_option" value="4" id="signOption4"<?php if($sign_option == 4) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(4); return true;"<?php if(($signs_numb == 0) || !$is_signed_in) { echo ' disabled="disabled"'; } ?> />
+            <input class="form-check-input" type="radio" name="sign_option" value="4" id="signOption4"<?php if(($sign_option == 4) && $is_signed_in && ($signs_numb != 0)) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(4); return true;"<?php if(($signs_numb == 0) || !$is_signed_in) { echo ' disabled="disabled"'; } ?> />
             <label class="form-check-label" for="signOption4">
                 <?php echo $tr['SIGN.OPTIONS.PREV.INVITE']; ?>
             </label>
@@ -21,11 +21,11 @@
             </div>
         </div>
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="sign_option" value="1" id="signOption1"<?php if($sign_option == 1) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(1); return true;" />
+            <input class="form-check-input" type="radio" name="sign_option" value="1" id="signOption1"<?php if(($sign_option == 1) || (($sign_option == 4) && (!$is_signed_in || ($signs_numb == 0)))) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(1); return true;" />
             <label class="form-check-label" for="signOption1">
                 <?php echo $tr['SIGN.OPTIONS.CREA.INVITE']; ?>
             </label>
-            <div class="form-panel mt-1<?php if($sign_option == 1) { echo ' showed'; } ?>" id="formPanel1">
+            <div class="form-panel mt-1<?php if(($sign_option == 1) || (($sign_option == 4) && (!$is_signed_in || ($signs_numb == 0))))  { echo ' showed'; } ?>" id="formPanel1">
                 <div class="form-group row g-2">
                     <div class="col-sm-4 col-auto">
                         <label for="textThickness"><?php echo $tr['SIGN.OPTIONS.CREA.THICK.LABEL']; ?> :</label>
@@ -40,7 +40,7 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                     <div class="col-sm-3 col-auto">
                         <label for="textColorHolder2"><?php echo $tr['SIGN.OPTIONS.CREA.COLOR.LABEL']; ?> :</label>
                         <div id="textColorHolder2" class="text-color-holder">
-                            <a href="javascript:void(0)" onclick="return sign.showColorPicker(this); return false;"><span class="bi bi-palette-fill text-color-preview" id="textColorPreview2" style="color: <?php echo $text_color; ?>"></span></a>
+                            <a href="javascript:void(0)" onclick="return sign.showColorPicker(this, 'right'); return false;"><span class="bi bi-palette-fill text-color-preview" id="textColorPreview2" style="color: <?php echo $text_color; ?>"></span></a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                     <div class="col-sm-3 col-auto">
                         <label for="textColorHolder"><?php echo $tr['SIGN.OPTIONS.TEXT.COLOR.LABEL']; ?> :</label>
                         <div id="textColorHolder" class="text-color-holder">
-                            <a href="javascript:void(0)" onclick="return sign.showColorPicker(this); return false;"><span class="bi bi-palette-fill text-color-preview" id="textColorPreview" style="color: <?php echo $text_color; ?>"></span></a>
+                            <a href="javascript:void(0)" onclick="return sign.showColorPicker(this, 'top'); return false;"><span class="bi bi-palette-fill text-color-preview" id="textColorPreview" style="color: <?php echo $text_color; ?>"></span></a>
                         </div>
                     </div>
                 </div>

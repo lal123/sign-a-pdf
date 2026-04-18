@@ -236,7 +236,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 4, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
     prepareDownload: function(pdf_id) {
@@ -431,13 +431,15 @@ var sign = {
         return false;
     },
 
-    showColorPicker: function(obj) {
-        /*
-        var x = $(obj).position().left + $(obj).width() / 2 - $('#colorpicker').width() / 2; 
-        var y = $(obj).position().top - $('#colorpicker').height() - 16;
-        console.log(x, y);
+    showColorPicker: function(obj, pos) {
+        if(pos == 'top') {
+            var x = $(obj).position().left + $(obj).width() / 2 - $('#colorpicker').width() / 2 - 2; 
+            var y = Math.max($(obj).position().top - $('#colorpicker').height() - 20, 0);
+        } else if (pos == 'right') {
+            var x = $(obj).position().left + $(obj).width() + 6; 
+            var y = $(obj).position().top + $(obj).height() / 2 - $('#colorpicker').height() / 2 - 12;
+        }
         $('#colorpicker').css({'left': x + 'px', 'top': y + 'px'});
-        */
         $('#colorpicker').toggle();
         return false;
     },
