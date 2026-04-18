@@ -481,15 +481,16 @@ a.common:hover {
 	#sign_toolbar .btn-group {
 		font-size: 12px;
 		line-height: 18px;
-		min-width: 100px !important;
-		max-width: 100px !important;
+		min-width: 90px !important;
+		max-width: 90px !important;
 	}
 
 	#sign_toolbar a.btn {
 		font-size: 12px;
 		line-height: 18px;
-		min-width: 100px !important;
-		max-width: 100px !important;
+		min-width: 90px !important;
+		max-width: 90px !important;
+		padding: 8px 8px 8px 8px !important;
 	}
 
 	.nav-link.limited {
