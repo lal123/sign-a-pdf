@@ -18,9 +18,6 @@
             <input type="submit" />
         </form>
         <a href="javascript:void(0)" onclick="this.blur(); return upload.dialog(); return false;" title="<?php echo $tr['HOME.ADD_PDF']; ?>" class="option-holder"><img src="/img/upload.png" alt="" border="0" /></a>
-        <div class="notice" id="notice2">
-            <span class="tooltips"><span><?php echo $err_msg; ?></span></span>
-        </div>
     </center>
 <?php
 if(!$is_signed_in) {

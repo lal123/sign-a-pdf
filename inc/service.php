@@ -18,6 +18,22 @@ if(isset($_POST['lang'])) {
 
 $err_msg = '';
 
+if(isset($_SESSION['text_color']) && ($_SESSION['text_color'] != '')) {
+	$text_color = $_SESSION['text_color'];
+} else if(isset($_COOKIE['text_color']) && ($_COOKIE['text_color'] != '')) {
+	$text_color = $_COOKIE['text_color'];
+} else {
+	$text_color = '#000000';
+}
+
+if(isset($_SESSION['text_font']) && ($_SESSION['text_font'] != '')) {
+	$text_font = $_SESSION['text_font'];
+} else if(isset($_COOKIE['text_font']) && ($_COOKIE['text_font'] != '')) {
+	$text_font = $_COOKIE['text_font'];
+} else {
+	$text_font = 'beautiful_es-webfont';
+}
+
 switch($action) {
 	case 'upload_doc':
 		$max_docs_numb = ($is_signed_in ? USER_MAX_DOCS_NUMB : MAX_DOCS_NUMB);
@@ -134,6 +150,7 @@ switch($action) {
 				$sign_text = $_POST['sign_text'];
 				$text_font = $_POST['text_font'];
 				$text_color = $_POST['text_color'];
+				$text_thickness = $_POST['text_thickness'];
 				switch($sign_option) {
 					case 2 :
 						$res = sign_get_img_from_file();
@@ -150,6 +167,10 @@ switch($action) {
 						$res = sign_get_img_from_text($sign_text, $text_font, $text_color);
 						$arr = json_decode($res, true);
 						if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+							setcookie('text_font', $text_font, time() + 2 * 365 * 86400, '/');
+							$_SESSION['text_font'] = $text_font;
+							setcookie('text_color', $text_color, time() + 2 * 365 * 86400, '/');
+							$_SESSION['text_color'] = $text_color;
 							$sign_id = $arr['sign_id'];
 							$sign_width = $arr['sign_width'];
 							$sign_height = $arr['sign_height'];
@@ -173,6 +194,7 @@ switch($action) {
 				$sign_text = $_POST['sign_text'];
 				$text_font = $_POST['text_font'];
 				$text_color = $_POST['text_color'];
+				$text_thickness = $_POST['text_thickness'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
@@ -205,6 +227,7 @@ switch($action) {
 				$sign_text = $_POST['sign_text'];
 				$text_font = $_POST['text_font'];
 				$text_color = $_POST['text_color'];
+				$text_thickness = $_POST['text_thickness'];
 				$sign_id = $_POST['sign_id'];
 				$sign_width = $_POST['sign_width'];
 				$sign_height = $_POST['sign_height'];
@@ -222,8 +245,6 @@ switch($action) {
 			case 0:
 			default:
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
-				$text_color = '#000000';
-				$text_font = 'beautiful_es-webfont';
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
@@ -266,13 +287,18 @@ switch($action) {
 				echo "$('#signDocModal #backButton').hide();\n";
                 echo "$.farbtastic('#colorpicker', function(col) {
                     $('#textColor').val(col);
-                    $('#textColorPreview').css({'color': col});
+                    $('.text-color-preview').css({'color': col});
                 }).setColor('" . $text_color . "');\n";
+                echo "$('#signDocModal').click(function(event){
+                	if(!$(event.target).hasClass('text-color-preview') && ($(event.target).parents('#colorpicker').length == 0)) {
+                		sign.hideColorPicker();
+                	}
+				});\n";
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";
 			}
 			if(($sign_step == 2) && ($sign_option == 1)) {
-            	echo "sign.initCanvas(450, 200);\n";
+            	echo "sign.initCanvas(450, 200, '" . $text_color . "', '" . $text_thickness . "');\n";
             	if($sign_inc == -1) {
             		echo "sign.loadCanvas('/uploads/sign/{$sign_id}.png');\n";
             	}

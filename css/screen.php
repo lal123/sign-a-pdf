@@ -363,14 +363,14 @@ a.common:hover {
 	height: 24px;
 }
 
-#textColorHolder {
+.text-color-holder {
 	width: 60px;
 	height: 40px;
 	padding: 0px;
 	margin: 4px 0px 0px 2px;
 }
 
-#textColorPreview {
+.text-color-preview {
 	font-size: 28px;
 	line-height: 34px;
 }
@@ -378,13 +378,13 @@ a.common:hover {
 #colorpicker {
     display: none;
     position: absolute;
-    left: 250px;
-    top: 0px;
-    width: 208px;
-    height: 208px;
+    right: 10px;
+    top: 10px;
+    width: 200px;
+    height: 200px;
     background-color: #c0c0c0;
     border: solid 1px #606060;
-    padding: 4px;
+    padding: 1px;
     border-radius: 16px;
 }
 
@@ -437,5 +437,17 @@ a.common:hover {
 	    overflow: hidden;
 	    white-space: nowrap;
 	}
+}
+
+@media screen and (max-width: 520px) {
+
+	#signText {
+		max-width: 100px;
+	}
+
+	#textFont {
+		max-width: 100px;
+	}
+
 }
 

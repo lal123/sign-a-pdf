@@ -35,6 +35,7 @@ switch($sign_option) {
         <input type="hidden" name="sign_text" id="signText" value="<?php echo $sign_text; ?>" />
         <input type="hidden" name="text_font" id="textFont" value="<?php echo $text_font; ?>" />
         <input type="hidden" name="text_color" id="textColor" value="<?php echo $text_color; ?>" />
+        <input type="hidden" name="text_thickness" id="textThickness" value="<?php echo $text_thickness; ?>" />
         <input type="hidden" name="sign_width" value="<?php echo $sign_width; ?>" />
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />

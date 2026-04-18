@@ -239,12 +239,6 @@ var docs = {
         return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
-    showSignPanel: function(sign_option) {
-        $('.form-panel').hide();
-        $('#formPanel' + sign_option).show();
-        return true;
-    },
-
     prepareDownload: function(pdf_id) {
         $('#downloadDocModal').on('hidden.bs.modal', event => {
             if(docs.req != null) {
@@ -357,14 +351,20 @@ var sign = {
         return false;
     },
 
+    showSignPanel: function(sign_option) {
+        $('.form-panel').hide();
+        $('#formPanel' + sign_option).show();
+        return true;
+    },
+
     drawCanvas: function(x, y) {
         if(sign.c.x != null && sign.c.y != null) {
             ctx = sign.canvas.getContext("2d");
-            ctx.lineWidth = 4;
+            ctx.lineWidth = sign.canvas.thickness;
             ctx.beginPath();
             ctx.moveTo(sign.c.x, sign.c.y);
             ctx.lineTo(x, y);
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = sign.canvas.color;
             ctx.stroke();
         }
         sign.c.x = x;
@@ -397,7 +397,7 @@ var sign = {
         document.body.removeChild(a);
     },
 
-    initCanvas: function(w, h) {
+    initCanvas: function(w, h, c, t) {
         sign.canvas = document.getElementById("signCanvas");
         sign.canvas.addEventListener("mousedown", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
@@ -426,14 +426,24 @@ var sign = {
         });
         sign.canvas.width  = w;
         sign.canvas.height = h;
+        sign.canvas.color = c;
+        sign.canvas.thickness = t;
         return false;
     },
 
-    showColorPicker: function() {
-        var x = $('#textColorPreview').position().left + $('#textColorPreview').width() / 2 - $('#colorpicker').width() / 2 - 4; 
-        var y = $('#textColorPreview').position().top - $('#colorpicker').height() - 12;
+    showColorPicker: function(obj) {
+        /*
+        var x = $(obj).position().left + $(obj).width() / 2 - $('#colorpicker').width() / 2; 
+        var y = $(obj).position().top - $('#colorpicker').height() - 16;
+        console.log(x, y);
         $('#colorpicker').css({'left': x + 'px', 'top': y + 'px'});
-        $('#colorpicker').show();
+        */
+        $('#colorpicker').toggle();
+        return false;
+    },
+
+    hideColorPicker: function() {
+        $('#colorpicker').hide();
         return false;
     }
 }
