@@ -485,7 +485,15 @@ a.common:hover {
 		max-width: 90px !important;
 	}
 
-	#sign_toolbar a.btn {
+	#sign_toolbar .btn {
+		font-size: 12px;
+		line-height: 18px;
+		min-width: 90px !important;
+		max-width: 90px !important;
+		padding: 8px 8px 8px 8px !important;
+	}
+
+	.modal-footer .btn {
 		font-size: 12px;
 		line-height: 18px;
 		min-width: 90px !important;
