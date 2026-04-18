@@ -183,6 +183,10 @@ switch($action) {
 						$sign_step+= $sign_inc;
 						break;
 					case 1 :
+						setcookie('text_font', $text_font, time() + 2 * 365 * 86400, '/');
+						$_SESSION['text_font'] = $text_font;
+						setcookie('text_color', $text_color, time() + 2 * 365 * 86400, '/');
+						$_SESSION['text_color'] = $text_color;
 					default:
 						$sign_width = -1;
 						$sign_height = -1;
