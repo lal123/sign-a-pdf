@@ -434,11 +434,12 @@ var sign = {
     showColorPicker: function(obj, pos) {
         if(pos == 'top') {
             var x = $(obj).position().left + $(obj).width() / 2 - $('#colorpicker').width() / 2 - 2; 
-            var y = Math.max($(obj).position().top - $('#colorpicker').height() - 20, 0);
+            var y = Math.max($(obj).position().top - $('#colorpicker').height() - 22, 0);
         } else if (pos == 'right') {
-            var x = $(obj).position().left + $(obj).width() + 6; 
-            var y = $(obj).position().top + $(obj).height() / 2 - $('#colorpicker').height() / 2 - 12;
+            var x = $(obj).position().left + $(obj).width() + 10; 
+            var y = $(obj).position().top + $(obj).height() / 2 - $('#colorpicker').height() / 2 - 8;
         }
+        $('#colorpicker').removeClass('top').removeClass('right').addClass(pos);
         $('#colorpicker').css({'left': x + 'px', 'top': y + 'px'});
         $('#colorpicker').toggle();
         return false;

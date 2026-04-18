@@ -382,10 +382,62 @@ a.common:hover {
     top: 10px;
     width: 200px;
     height: 200px;
-    background-color: #c0c0c0;
-    border: solid 1px #606060;
+    background-color: #204444;
+    //border: solid 1px #204444;
     padding: 1px;
     border-radius: 16px;
+}
+
+#colorpicker.top:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #204444;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
+#colorpicker.top:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid #204444;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
+#colorpicker.right:before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  margin-top: -8px;
+  width: 0;
+  height: 0;
+  border-right: 8px solid #204444;
+  border-bottom: 8px solid transparent;
+  border-top: 8px solid transparent;
+}
+
+#colorpicker.right:after {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  margin-top: -8px;
+  width: 0;
+  height: 0;
+  border-right: 8px solid #204444;
+  border-bottom: 8px solid transparent;
+  border-top: 8px solid transparent;
 }
 
 #modal-progress-bar {
