@@ -268,6 +268,7 @@ var sign = {
 
     canvas: null,
     c: {f: false, x: null, y: null},
+    prevObjId: null,
 
     adjust: function(pdf_id, signed_pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
@@ -305,7 +306,7 @@ var sign = {
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
-        sign.touchInit(document.getElementById('signPreview'));
+        sign.touchInit('signPreview');
         $('html, body').animate({scrollTop: (target_page.position().top + target_page.height() - sign_height - 120)+ 'px'}, 'fast', function(){});
     },
 
@@ -438,6 +439,8 @@ var sign = {
         first = touches[0],
         type = "";
 
+        if($(first.target).attr('id') != sign.prevObjId) return;
+
         switch(event.type){
             case "touchstart": type = "mousedown"; break;
             case "touchmove": type = "mousemove"; break;
@@ -454,7 +457,9 @@ var sign = {
         event.preventDefault();
     },
 
-    touchInit: function(obj) {
+    touchInit: function(objId) {
+        sign.prevObjId = objId;
+        obj = document.getElementById(objId)
         obj.addEventListener("touchstart", sign.touchHandler, true);
         obj.addEventListener("touchmove", sign.touchHandler, true);
         obj.addEventListener("touchend", sign.touchHandler, true);
