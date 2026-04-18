@@ -103,7 +103,7 @@ a.common:hover {
 
 .doc-small-preview {
 	position: relative;
-	padding: 0px 4px 8px 4px;
+	padding: 0px 4px 12px 4px;
 }
 
 .doc-small-preview > .doc-preview {
@@ -164,7 +164,7 @@ a.common:hover {
 
 .sign-small-preview {
 	position: relative;
-	padding: 0px 4px 8px 4px;
+	padding: 0px 4px 12px 4px;
 }
 
 .sign-small-preview > .sign-preview {
