@@ -335,16 +335,16 @@ a.common:hover {
 
 .sign-container {
 	position: relative;
-	width: 450px;
+	width: 490px;
 	max-width: 100%;
 	height: 200px;
-	padding-right: 28px;
+	padding-right: 18px;
 }
 
 .sign-canvas {
 	left: 0px;
 	top: 0px;
-	width: 450px;
+	width: 490px;
 	max-width: 100%;
 	height: 200px;
 	outline: 1px dotted #000000;
@@ -352,7 +352,7 @@ a.common:hover {
 
 .sign-container > .clear-canvas {
 	position: absolute;
-	right: 0px;
+	right: -10px;
 	top: 0px;
 }
 

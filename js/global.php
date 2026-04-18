@@ -267,7 +267,7 @@ var docs = {
 var sign = {
 
     canvas: null,
-    c: {f: false, w: 0, h: 0, x: null, y: null},
+    c: {f: false, x: null, y: null},
 
     adjust: function(pdf_id, signed_pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
@@ -358,7 +358,7 @@ var sign = {
     },
 
     drawCanvas: function(x, y) {
-        if(sign.c.x != null && sign.c.y != null) {
+        if((sign.c.x != null) && (sign.c.y != null)) {
             ctx = sign.canvas.getContext("2d");
             ctx.lineWidth = sign.canvas.thickness;
             ctx.beginPath();
@@ -399,15 +399,10 @@ var sign = {
 
     initCanvas: function(c, t) {
         sign.canvas = document.getElementById("signCanvas");
-        sign.c.w = $('#signCanvas').width();
-        sign.c.h = $('#signCanvas').height();
-        sign.canvas.width = sign.c.w;
-        sign.canvas.height = sign.c.h;
+        sign.canvas.width = $('#signCanvas').width();
+        sign.canvas.height = $('#signCanvas').height();
         sign.canvas.color = c;
         sign.canvas.thickness = t;
-        sign.canvas.addEventListener("touchcancel", function (e) {
-            console.log('touchcancel', e);
-        });
         sign.canvas.addEventListener("mousedown", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
             sign.c.f = true;
@@ -437,6 +432,9 @@ var sign = {
         sign.canvas.addEventListener("mouseover", function (e) {
             if(!sign.c.f) {
                 return false;
+            } else {
+                sign.c.x = e.offsetX;
+                sign.c.y = e.offsetY;
             }
             sign.drawCanvas(e.offsetX, e.offsetY);
         });
@@ -447,9 +445,12 @@ var sign = {
             sign.c = {f: false, x: null, y: null};
         });
         sign.canvas.addEventListener("mouseout", function (e) {
-            sign.c = {f: false, x: null, y: null};
+            //sign.c = {f: false, x: null, y: null};
         });
         sign.canvas.addEventListener("mouseleave", function (e) {
+            //sign.c = {f: false, x: null, y: null};
+        });
+        sign.canvas.addEventListener("touchcancel", function (e) {
             sign.c = {f: false, x: null, y: null};
         });
         return false;
