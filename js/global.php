@@ -267,7 +267,7 @@ var docs = {
 var sign = {
 
     canvas: null,
-    c: {f: false, x: null, y: null},
+    c: {f: false, w: 0, h: 0, x: null, y: null},
 
     adjust: function(pdf_id, signed_pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
@@ -397,10 +397,26 @@ var sign = {
         document.body.removeChild(a);
     },
 
-    initCanvas: function(w, h, c, t) {
+    initCanvas: function(c, t) {
         sign.canvas = document.getElementById("signCanvas");
+        sign.c.w = $('#signCanvas').width();
+        sign.c.h = $('#signCanvas').height();
+        sign.canvas.width = sign.c.w;
+        sign.canvas.height = sign.c.h;
+        sign.canvas.color = c;
+        sign.canvas.thickness = t;
+        sign.canvas.addEventListener("touchcancel", function (e) {
+            console.log('touchcancel', e);
+        });
         sign.canvas.addEventListener("mousedown", function (e) {
             sign.drawCanvas(e.offsetX, e.offsetY);
+            sign.c.f = true;
+        });
+        sign.canvas.addEventListener("touchstart", function (e) {
+            var rect = e.target.getBoundingClientRect();
+            for (const changedTouch of event.changedTouches) {
+                sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top);
+            }
             sign.c.f = true;
         });
         sign.canvas.addEventListener("mousemove", function (e) {
@@ -408,6 +424,15 @@ var sign = {
                 return false;
             }
             sign.drawCanvas(e.offsetX, e.offsetY);
+        });
+        sign.canvas.addEventListener("touchmove", function (e) {
+            if(!sign.c.f) {
+                return false;
+            }
+            var rect = e.target.getBoundingClientRect();
+            for (const changedTouch of event.changedTouches) {
+                sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top);
+            }
         });
         sign.canvas.addEventListener("mouseover", function (e) {
             if(!sign.c.f) {
@@ -418,16 +443,15 @@ var sign = {
         sign.canvas.addEventListener("mouseup", function (e) {
             sign.c = {f: false, x: null, y: null};
         });
+        sign.canvas.addEventListener("touchend", function (e) {
+            sign.c = {f: false, x: null, y: null};
+        });
         sign.canvas.addEventListener("mouseout", function (e) {
             sign.c = {f: false, x: null, y: null};
         });
         sign.canvas.addEventListener("mouseleave", function (e) {
             sign.c = {f: false, x: null, y: null};
         });
-        sign.canvas.width  = w;
-        sign.canvas.height = h;
-        sign.canvas.color = c;
-        sign.canvas.thickness = t;
         return false;
     },
 

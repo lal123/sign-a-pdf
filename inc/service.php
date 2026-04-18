@@ -303,7 +303,7 @@ switch($action) {
 				echo "$('#signDocModal #backButton').show();\n";
 			}
 			if(($sign_step == 2) && ($sign_option == 1)) {
-            	echo "sign.initCanvas(450, 200, '" . $text_color . "', '" . $text_thickness . "');\n";
+            	echo "sign.initCanvas('" . $text_color . "', '" . $text_thickness . "');\n";
             	if($sign_inc == -1) {
             		echo "sign.loadCanvas('/uploads/sign/{$sign_id}.png');\n";
             	}
