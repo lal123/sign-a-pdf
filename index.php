@@ -34,6 +34,7 @@ require_once 'inc/utils.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <script src="/js/jquery-4.0.0.min.js"></script>
     <script src="/js/jquery-ui-1.14.2.min.js"></script>
+    <script src="/js/jquery-ui-touch-punch-0.2.3.min.js"></script>
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/farbtastic-1.2.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
