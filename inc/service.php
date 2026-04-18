@@ -245,6 +245,7 @@ switch($action) {
 			case 0:
 			default:
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
+				$text_thickness = 4;
 				$sign_step+= $sign_inc;
 		}
 		if($sign_step >= 4) {
