@@ -470,19 +470,26 @@ a.common:hover {
 	#sign_toolbar .btn {
 		font-size: 16px;
 		line-height: 24px;
-		min-width: 120px;
-		max-width: 120px;
+		min-width: 120px !important;
+		max-width: 120px !important;
 	}
 
 }
 
 @media screen and (max-width: 450px) {
 
-	#sign_toolbar .btn {
+	#sign_toolbar .btn-group {
 		font-size: 12px;
 		line-height: 18px;
-		min-width: 100px;
-		max-width: 100px;
+		min-width: 100px !important;
+		max-width: 100px !important;
+	}
+
+	#sign_toolbar a.btn {
+		font-size: 12px;
+		line-height: 18px;
+		min-width: 100px !important;
+		max-width: 100px !important;
 	}
 
 	.nav-link.limited {
