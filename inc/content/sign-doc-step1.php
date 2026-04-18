@@ -75,6 +75,8 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                         <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.FONT.LABEL']; ?> :</label>
                         <select name="text_font" id="textFont" class="form-control" aria-describedby="textFontHelp">
                             <option value="allegro-webfont"<?php if(isset($text_font) && ($text_font == 'allegro-webfont')) { echo ' selected="selected"'; } ?>>Allegro</option>
+                            <option value="amienne-webfont"<?php if(isset($text_font) && ($text_font == 'amienne-webfont')) { echo ' selected="selected"'; } ?>>Amienne</option>
+                            <option value="bambino-webfont"<?php if(isset($text_font) && ($text_font == 'bambino-webfont')) { echo ' selected="selected"'; } ?>>Bambino</option>
                             <option value="beautiful_es-webfont"<?php if(isset($text_font) && ($text_font == 'beautiful_es-webfont')) { echo ' selected="selected"'; } ?>>Beautiful</option>
                             <option value="marydale_bold-webfont"<?php if(isset($text_font) && ($text_font == 'marydale_bold-webfont')) { echo ' selected="selected"'; } ?>>Marydale</option>
                             <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw</option>

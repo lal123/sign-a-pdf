@@ -4,13 +4,37 @@ header('Content-Type: text/css');
 
 ?>
 @font-face {
-    font-family: 'saginaw';
-    src: url('../fonts/saginawbold-webfont.eot');
-    src: url('../fonts/saginawbold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/saginawbold-webfont.woff2') format('woff2'),
-         url('../fonts/saginawbold-webfont.woff') format('woff'),
-         url('../fonts/saginawbold-webfont.ttf') format('truetype'),
-         url('../fonts/saginawbold-webfont.svg#saginaw_bold') format('svg');
+    font-family: 'allegro';
+    src: url('../fonts/allegro-webfont.eot');
+    src: url('../fonts/allegro-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/allegro-webfont.woff2') format('woff2'),
+         url('../fonts/allegro-webfont.woff') format('woff'),
+         url('../fonts/allegro-webfont.ttf') format('truetype'),
+         url('../fonts/allegro-webfont.svg#allegro_regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'amienneregular';
+    src: url('../fonts/amienne-webfont.eot');
+    src: url('../fonts/amienne-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/amienne-webfont.woff2') format('woff2'),
+         url('../fonts/amienne-webfont.woff') format('woff'),
+         url('../fonts/amienne-webfont.ttf') format('truetype'),
+         url('../fonts/amienne-webfont.svg#amienneregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'bambinoregular';
+    src: url('../fonts/bambino-webfont.eot');
+    src: url('../fonts/bambino-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bambino-webfont.woff2') format('woff2'),
+         url('../fonts/bambino-webfont.woff') format('woff'),
+         url('../fonts/bambino-webfont.ttf') format('truetype'),
+         url('../fonts/bambino-webfont.svg#bambinoregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -28,18 +52,6 @@ header('Content-Type: text/css');
 }
 
 @font-face {
-    font-family: 'allegro';
-    src: url('../fonts/allegro-webfont.eot');
-    src: url('../fonts/allegro-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/allegro-webfont.woff2') format('woff2'),
-         url('../fonts/allegro-webfont.woff') format('woff'),
-         url('../fonts/allegro-webfont.ttf') format('truetype'),
-         url('../fonts/allegro-webfont.svg#allegro_regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'marydale';
     src: url('../fonts/marydale_bold-webfont.eot');
     src: url('../fonts/marydale_bold-webfont.eot?#iefix') format('embedded-opentype'),
@@ -51,3 +63,14 @@ header('Content-Type: text/css');
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'saginaw';
+    src: url('../fonts/saginawbold-webfont.eot');
+    src: url('../fonts/saginawbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/saginawbold-webfont.woff2') format('woff2'),
+         url('../fonts/saginawbold-webfont.woff') format('woff'),
+         url('../fonts/saginawbold-webfont.ttf') format('truetype'),
+         url('../fonts/saginawbold-webfont.svg#saginaw_bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
