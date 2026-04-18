@@ -230,6 +230,7 @@ a.common:hover {
 .prev-sign-preview {
 	max-width: 100%;
 	max-height: 100px;
+	cursor: pointer;
 }
 
 .prev-sign-preview > img{
