@@ -74,6 +74,7 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                     <div class="col-auto">
                         <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.FONT.LABEL']; ?> :</label>
                         <select name="text_font" id="textFont" class="form-control" aria-describedby="textFontHelp">
+                            <option value="allegro-webfont"<?php if(isset($text_font) && ($text_font == 'allegro-webfont')) { echo ' selected="selected"'; } ?>>Allegro</option>
                             <option value="beautiful_es-webfont"<?php if(isset($text_font) && ($text_font == 'beautiful_es-webfont')) { echo ' selected="selected"'; } ?>>Beautiful ES</option>
                             <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw Bold</option>
                         </select>

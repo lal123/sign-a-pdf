@@ -46,7 +46,7 @@ switch($sign_option) {
         case 1:
             echo '    <input type="hidden" name="sign_id" value="' . $sign_id . '" />';
             echo '    <div class="sign-container"><canvas id="signCanvas" class="sign-canvas"></canvas>' . "\n";
-            echo '    <div class="clear-canvas"><a href="javascript:void(0)" onclick="return sign.clearCanvas(); return false;" class="act bi bi-x-circle-fill" title="' . $tr['CLEAR'] . '"></a></div>' . "\n";
+            echo '    <div class="clear-canvas"><a href="javascript:void(0)" onclick="return sign.clearCanvas(); return false;" class="act bi bi-trash-fill" title="' . $tr['CLEAR'] . '"></a></div>' . "\n";
             echo '</div>' . "\n";
             break;
         case 4:

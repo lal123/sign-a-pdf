@@ -99,7 +99,6 @@ $tr =[
 	'SIGN.OPTIONS.TEXT.INVALID'		=> 'Entrez un texte',
 	'SIGN.OPTIONS.TEXT.FONT.LABEL'	=> 'Police',
 	'SIGN.OPTIONS.TEXT.COLOR.LABEL'	=> 'Couleur',
-	'SIGN.OPTIONS.TEXT.COLORS'		=> ['Noir' => '#000000', 'Bleu' => '#0000FF', 'Gris' => '#606060', 'Rouge' => '#FF0000', 'Vert' => '#00FF00'],
 	'SIGN.OPTIONS.PREV.INVITE'		=> "Une signature créée précédemment",
 	'SIGN.OPTIONS.PREV.LABEL'		=> '',
 	'SIGN.OPTIONS.PREV.PLACEHOLDER'	=> '',

@@ -31,7 +31,7 @@ if(isset($_SESSION['text_font']) && ($_SESSION['text_font'] != '')) {
 } else if(isset($_COOKIE['text_font']) && ($_COOKIE['text_font'] != '')) {
 	$text_font = $_COOKIE['text_font'];
 } else {
-	$text_font = 'beautiful_es-webfont';
+	$text_font = 'allegro-webfont';
 }
 
 switch($action) {

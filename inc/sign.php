@@ -71,14 +71,16 @@ function sign_get_img_from_text($sign_text, $text_font, $text_color) {
     $dims = imagettfbbox($font_size, 0, $font_filename, $sign_text);
     $ascent = abs($dims[7]);
     $descent = abs($dims[1]);
+
     $text_width = abs($dims[0]) + abs($dims[2]);
     $text_height = $ascent + $descent;
+
+    $image_width = $text_width + 30;
     $image_height = $text_height + 20;
+
     $text_x = 5;
     $text_y = (($image_height / 2) - ($text_height / 2)) + $ascent;
 
-    $image_width = $text_width + 20;
-    $image_height = $text_height + 20;
 
     $image = imagecreatetruecolor($image_width , $image_height);
 

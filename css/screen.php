@@ -357,7 +357,7 @@ a.common:hover {
 .sign-container > .clear-canvas > .act {
 	font-size: 24px;
 	line-height: 24px;
-	color: #cc3333;
+	color: #204444;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;

@@ -99,7 +99,6 @@ $tr =[
 	'SIGN.OPTIONS.TEXT.INVALID'		=> 'Enter a text',
 	'SIGN.OPTIONS.TEXT.FONT.LABEL'	=> 'Font',
 	'SIGN.OPTIONS.TEXT.COLOR.LABEL'	=> 'Color',
-	'SIGN.OPTIONS.TEXT.COLORS'		=> ['Black' => '#000000', 'Blue' => '#0000FF', 'Gray' => '#606060', 'Green' => '#00FF00', 'Red' => '#FF0000'],
 	'SIGN.OPTIONS.PREV.INVITE'		=> "A signature created previously",
 	'SIGN.OPTIONS.PREV.LABEL'		=> '',
 	'SIGN.OPTIONS.PREV.PLACEHOLDER'	=> '',
