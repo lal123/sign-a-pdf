@@ -305,6 +305,7 @@ var sign = {
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
+        sign.touchInit(document.getElementById('signPreview'));
         $('html, body').animate({scrollTop: (target_page.position().top + target_page.height() - sign_height - 120)+ 'px'}, 'fast', function(){});
     },
 
@@ -403,56 +404,13 @@ var sign = {
         sign.canvas.height = $('#signCanvas').height();
         sign.canvas.color = c;
         sign.canvas.thickness = t;
-        sign.canvas.addEventListener("mousedown", function (e) {
-            sign.drawCanvas(e.offsetX, e.offsetY);
-            sign.c.f = true;
-        });
-        sign.canvas.addEventListener("touchstart", function (e) {
-            var rect = e.target.getBoundingClientRect();
-            for (const changedTouch of event.changedTouches) {
-                sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top);
-            }
-            sign.c.f = true;
-        });
-        sign.canvas.addEventListener("mousemove", function (e) {
-            if(!sign.c.f) {
-                return false;
-            }
-            sign.drawCanvas(e.offsetX, e.offsetY);
-        });
-        sign.canvas.addEventListener("touchmove", function (e) {
-            if(!sign.c.f) {
-                return false;
-            }
-            var rect = e.target.getBoundingClientRect();
-            for (const changedTouch of event.changedTouches) {
-                sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top);
-            }
-        });
-        sign.canvas.addEventListener("mouseover", function (e) {
-            if(!sign.c.f) {
-                return false;
-            } else {
-                sign.c.x = e.offsetX;
-                sign.c.y = e.offsetY;
-            }
-            sign.drawCanvas(e.offsetX, e.offsetY);
-        });
-        sign.canvas.addEventListener("mouseup", function (e) {
-            sign.c = {f: false, x: null, y: null};
-        });
-        sign.canvas.addEventListener("touchend", function (e) {
-            sign.c = {f: false, x: null, y: null};
-        });
-        sign.canvas.addEventListener("mouseout", function (e) {
-            //sign.c = {f: false, x: null, y: null};
-        });
-        sign.canvas.addEventListener("mouseleave", function (e) {
-            //sign.c = {f: false, x: null, y: null};
-        });
-        sign.canvas.addEventListener("touchcancel", function (e) {
-            sign.c = {f: false, x: null, y: null};
-        });
+        sign.canvas.addEventListener("mousedown", function (e) { sign.drawCanvas(e.offsetX, e.offsetY); sign.c.f = true; });
+        sign.canvas.addEventListener("touchstart", function (e) { var rect = e.target.getBoundingClientRect(); for (const changedTouch of event.changedTouches) { sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top); } sign.c.f = true; });
+        sign.canvas.addEventListener("mousemove", function (e) { if(!sign.c.f) { return false; } sign.drawCanvas(e.offsetX, e.offsetY); }); sign.canvas.addEventListener("touchmove", function (e) { if(!sign.c.f) { return false; } var rect = e.target.getBoundingClientRect(); for (const changedTouch of event.changedTouches) { sign.drawCanvas(changedTouch.pageX - rect.left, changedTouch.pageY - rect.top); } });
+        sign.canvas.addEventListener("mouseover", function (e) { if(!sign.c.f) { return false; } else { sign.c.x = e.offsetX; sign.c.y = e.offsetY; } sign.drawCanvas(e.offsetX, e.offsetY); });
+        sign.canvas.addEventListener("mouseup", function (e) { sign.c = {f: false, x: null, y: null}; });
+        sign.canvas.addEventListener("touchend", function (e) { sign.c = {f: false, x: null, y: null}; });
+        sign.canvas.addEventListener("touchcancel", function (e) { sign.c = {f: false, x: null, y: null}; });
         return false;
     },
 
@@ -473,6 +431,34 @@ var sign = {
     hideColorPicker: function() {
         $('#colorpicker').hide();
         return false;
+    },
+
+    touchHandler: function(event) {
+        var touches = event.changedTouches,
+        first = touches[0],
+        type = "";
+
+        switch(event.type){
+            case "touchstart": type = "mousedown"; break;
+            case "touchmove": type = "mousemove"; break;
+            case "touchend": type = "mouseup"; break;
+            default: return;
+        }
+        var simulatedEvent = document.createEvent("MouseEvent");
+        simulatedEvent.initMouseEvent(type, true, true, window, 1,
+            first.screenX, first.screenY,
+            first.clientX, first.clientY, false,
+            false, false, false, 0, null);
+
+        first.target.dispatchEvent(simulatedEvent);
+        event.preventDefault();
+    },
+
+    touchInit: function(obj) {
+        obj.addEventListener("touchstart", sign.touchHandler, true);
+        obj.addEventListener("touchmove", sign.touchHandler, true);
+        obj.addEventListener("touchend", sign.touchHandler, true);
+        obj.addEventListener("touchcancel", sign.touchHandler, true);    
     }
 }
 
@@ -498,3 +484,4 @@ var account = {
         return false;
     }
 }
+

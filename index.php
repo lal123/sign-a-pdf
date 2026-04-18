@@ -201,7 +201,7 @@ include "inc/content/{$page}.php";
 
 <script>
     $('document').ready(function() {
-    });
+     });
 </script>
 
 </body>
