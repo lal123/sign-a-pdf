@@ -110,7 +110,7 @@ if($doc_pages > 1) {
         <div id="nav-bar">
                 <div class="form-group row g-3">
                     <div class="col-sm-3 col-auto">Page</div>
-                    <div class="col-sm-3 col-auto">
+                    <div class="col-sm-3 col-auto act">
                         <select name="nav_page" class="act" id="navPage" onchange="return docs.initChangePage(this.value); return false;">
 <?php
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
