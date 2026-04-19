@@ -208,7 +208,7 @@ if(($page == 'docs') && ($pdf_id != '')) {
             docs.adaptNavBar();
         });' . "\n";
     echo '        docs.adaptNavBar();'."\n";
-    echo '        $("#nav-bar").draggable({});'."\n";
+//    echo '        $("#nav-bar").draggable({});'."\n";
 }
 ?>
      });
