@@ -107,7 +107,7 @@ if($pdf_id != '') {
     }
 ?>
         <div id="nav-bar">
-                <div class="form-group row g-2">
+                <div class="form-group row g-3">
                     <div class="col-sm-4 col-auto">
                         Page
                     </div>
@@ -117,8 +117,12 @@ if($pdf_id != '') {
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
     echo '                            <option value="' . $img_numb .'">' . $img_numb .'</option>' . "\n";
 }
-?>                            
+?>
                         </select>
+                    </div>
+                    <div class="col-sm-4 col-auto">
+                        <a href="javascript:void(0)" class="bi bi-skip-start act" onclick="return docs.changePage(1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-skip-end act" onclick="return docs.changePage(<?php echo $doc_pages; ?>); return false;"></a>
                     </div>
                 </div>
         </div>

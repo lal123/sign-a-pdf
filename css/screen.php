@@ -74,6 +74,10 @@ body {
     box-shadow: 2px 2px 6px #6f7f7f;
 }
 
+#doc-container {
+	padding-bottom: 120px;
+}
+
 #doc-container #nav-bar {
 	position: fixed;
 	top: 260px;
@@ -83,9 +87,9 @@ body {
 	background-color: #204444;
 	border-radius: 20px;
 	color: #ffffff;
-	padding: 7px 16px 7px 16px;
+	padding: 6px 16px 6px 16px;
 	font-size: 20px;
-	line-height: 24px;
+	line-height: 28px;
 	opacity: 0.8;
 }
 
@@ -93,6 +97,10 @@ body {
 	color: #ffffff;
 	background-color: #204444;
 	outline: none;
+}
+
+#doc-container #nav-bar a.act {
+	color: #ffffff;
 }
 
 .modal-content {
