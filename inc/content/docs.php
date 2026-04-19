@@ -86,25 +86,26 @@ if($pdf_id != '') {
 
     <div class="container" id="doc-container">
 <?php
-    $col = 1;
-    for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
-        if($col == 1) {
-            echo '<div class="row">';
-        }
-        echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
-        echo '<div class="page-content">';
-        echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . ($doc_pages > 1 ? '-' . ($img_numb - 1) : '') . '.png' . '" alt="" border= "0" />';
-        echo '</div>';
-        echo '</div>';
-        $col++;
-        if($col > $nb_cols) {
-            echo '</div>';
-            $col = 1;
-        }
+$col = 1;
+for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
+    if($col == 1) {
+        echo '<div class="row">';
     }
-    if($col < $nb_cols) {
-        echo '</div>' . "\n";
+    echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
+    echo '<div class="page-content">';
+    echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . ($doc_pages > 1 ? '-' . ($img_numb - 1) : '') . '.png' . '" alt="" border= "0" />';
+    echo '</div>';
+    echo '</div>';
+    $col++;
+    if($col > $nb_cols) {
+        echo '</div>';
+        $col = 1;
     }
+}
+if($col < $nb_cols) {
+    echo '</div>' . "\n";
+}
+if($doc_pages > 1) {
 ?>
         <div id="nav-bar">
                 <div class="form-group row g-3">
@@ -126,6 +127,9 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
                     </div>
                 </div>
         </div>
+<?php
+}
+?>
     </div>
 <?php    
 } else {
