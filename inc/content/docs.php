@@ -74,7 +74,7 @@ if($pdf_id != '') {
 ?>
     <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="signButton" onclick="<?php if(true || (php_uname("n") == 'alain-520-1080fr') || (isset($user) && ($user['user_id'] == 1))) { ?>return docs.initSign('<?php echo $pdf_id; ?>'); <?php } ?>return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
             <a href="javascript:void(0)" id="downloadButton" onclick="return docs.prepareDownload('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
@@ -111,7 +111,7 @@ if($doc_pages > 1) {
                 <div class="form-group row g-3">
                     <div class="col-sm-3 col-auto">Page</div>
                     <div class="col-sm-3 col-auto">
-                        <select name="nav_page" id="navPage" onchange="return docs.changePage(this.value); return false;">
+                        <select name="nav_page" id="navPage" onchange="return docs.initChangePage(this.value); return false;">
 <?php
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
     echo '                            <option value="' . $img_numb .'">' . $img_numb .'</option>' . "\n";
@@ -120,10 +120,10 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
                         </select>
                     </div>
                     <div class="col-sm-6 col-auto" style="text-align: right">
-                        <a href="javascript:void(0)" class="bi bi-skip-start-fill act" onclick="return docs.changePage(1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-left-fill act small" onclick="return docs.changePage(parseInt($('#navPage').val()) - 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-right-fill act small" onclick="return docs.changePage(parseInt($('#navPage').val()) + 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-skip-end-fill act" onclick="return docs.changePage(<?php echo $doc_pages; ?>); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-skip-start-fill act" onclick="return docs.initChangePage(1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-left-fill act small" onclick="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-right-fill act small" onclick="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-skip-end-fill act" onclick="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
                     </div>
                 </div>
         </div>

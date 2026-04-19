@@ -15,6 +15,10 @@ body {
 	min-width: 175px;
 }
 
+.btn {
+	cursor: pointer;
+}
+
 .btn.normalized {
 	min-width: 98px;
 
@@ -105,6 +109,7 @@ body {
 }
 
 #doc-container #nav-bar a.act {
+	cursor: pointer;
 	color: #ffffff;
 }
 
