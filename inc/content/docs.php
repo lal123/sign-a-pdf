@@ -119,7 +119,7 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 ?>
                         </select>
                     </div>
-                    <div class="col-sm-6 col-auto clickable" style="text-align: right">
+                    <div class="col-sm-6 col-auto" style="text-align: right">
                         <a href="javascript:void(0)" class="bi bi-skip-start-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.FIRST_PAGE']; ?>" onclick="return docs.initChangePage(1); return false;"></a>
                         <a href="javascript:void(0)" class="bi bi-caret-left-fill act small" title="<?php echo $tr['DOCS.NAV_PAGE.PREV_PAGE']; ?>" onclick="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
                         <a href="javascript:void(0)" class="bi bi-caret-right-fill act small" title="<?php echo $tr['DOCS.NAV_PAGE.NEXT_PAGE']; ?>" onclick="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
