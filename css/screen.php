@@ -74,6 +74,27 @@ body {
     box-shadow: 2px 2px 6px #6f7f7f;
 }
 
+#doc-container #nav-bar {
+	position: fixed;
+	top: 260px;
+	left: 20px;
+	width: 200px;
+	height: 40px;
+	background-color: #204444;
+	border-radius: 20px;
+	color: #ffffff;
+	padding: 7px 16px 7px 16px;
+	font-size: 20px;
+	line-height: 24px;
+	opacity: 0.8;
+}
+
+#doc-container #nav-bar select {
+	color: #ffffff;
+	background-color: #204444;
+	outline: none;
+}
+
 .modal-content {
 	background-color: #c0c0c0 !important;	
 }

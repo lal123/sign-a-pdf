@@ -147,6 +147,25 @@ var docs = {
         return false;
     },
 
+    changePage: function(page) {
+        var target_page = $('.page-container').eq(page - 1);
+        $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
+    },
+
+    adaptNavBar:function() {
+        var docPos = $('html, body').scrollTop();
+        var page = 0;
+        $.each($('.page-container'), function(index, item) {
+            var pagePos = $(item).position().top;
+            if(pagePos > (docPos + 230)) {
+                return false;
+            }
+            page++;
+        });
+      $('#navPage').val(Math.max(page, 1));
+      return false;
+    },
+
     prepareSignFile: function(file_obj) {
         $('#signFile').removeClass('is-invalid');
         var file_type = file_obj.files[0].type;

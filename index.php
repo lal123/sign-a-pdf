@@ -202,6 +202,14 @@ include "inc/content/{$page}.php";
 
 <script>
     $('document').ready(function() {
+<?php
+if($page == 'docs') {
+    echo '        $(document).on("scroll", function(event) {
+            docs.adaptNavBar();
+        });' . "\n";
+    echo '        docs.adaptNavBar();'."\n";
+}
+?>
      });
 </script>
 

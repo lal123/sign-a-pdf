@@ -84,7 +84,7 @@ if($pdf_id != '') {
         </div>
     </div>
 
-    <div class="container" id="docs-container">
+    <div class="container" id="doc-container">
 <?php
     $col = 1;
     for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
@@ -102,10 +102,26 @@ if($pdf_id != '') {
             $col = 1;
         }
     }
-    if($col <= $nb_cols) {
+    if($col < $nb_cols) {
         echo '</div>' . "\n";
     }
 ?>
+        <div id="nav-bar">
+                <div class="form-group row g-2">
+                    <div class="col-sm-4 col-auto">
+                        Page
+                    </div>
+                    <div class="col-sm-4 col-auto">
+                        <select name="nav_page" id="navPage" onchange="return docs.changePage(this.value); return false;">
+<?php
+for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
+    echo '                            <option value="' . $img_numb .'">' . $img_numb .'</option>' . "\n";
+}
+?>                            
+                        </select>
+                    </div>
+                </div>
+        </div>
     </div>
 <?php    
 } else {
