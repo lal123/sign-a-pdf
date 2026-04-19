@@ -102,7 +102,7 @@ body {
 	opacity: 0.9;
 }
 
-#doc-container #nav-bar select {
+#doc-container #nav-bar select.act {
 	color: #ffffff;
 	background-color: #204444;
 	outline: none;
