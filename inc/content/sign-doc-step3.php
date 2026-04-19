@@ -17,7 +17,7 @@
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
         <input type="hidden" name="sign_data" id="signData" value="" />
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="page_option" value="1" id="signOption1"<?php if($page_option == 1) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(1); return true;" />
+            <input class="form-check-input" type="radio" name="page_option" value="1" id="signOption1"<?php if($page_option == 1) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(1); return true;" />
             <label class="form-check-label" for="signOption1">
                 <?php echo $tr['SIGN.PAGES.LAST.INVITE']; ?>
             </label>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="form-check mb-2">
-            <input class="form-check-input" type="radio" name="page_option" value="2" id="signOption2"<?php if($page_option == 2) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(2); return true;" />
+            <input class="form-check-input" type="radio" name="page_option" value="2" id="signOption2"<?php if($page_option == 2) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(2); return true;" />
             <label class="form-check-label" for="signOption2">
                 <?php echo $tr['SIGN.PAGES.ALL.INVITE']; ?>
             </label>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="page_option" value="3" id="signOption3"<?php if($page_option == 3) { echo ' checked="checked"'; } ?> onclick="return docs.showSignPanel(3); return true;" />
+            <input class="form-check-input" type="radio" name="page_option" value="3" id="signOption3"<?php if($page_option == 3) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(3); return true;" />
             <label class="form-check-label" for="signOption3">
                 <?php echo $tr['SIGN.PAGES.CUST.INVITE']; ?>
             </label>
