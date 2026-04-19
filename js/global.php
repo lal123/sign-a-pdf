@@ -116,7 +116,8 @@ var docs = {
     conv: null,
     pdf_id: null,
     req: null,
-    compNumb: 0,
+    preload: null,
+    compNum: null,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -149,7 +150,8 @@ var docs = {
     },
 
     initChangePage: function(page) {
-        docs.compNumb = 0;
+        docs.compNum = 0;
+        docs.preload = [];
         docs.changePage(page);
     },
 
@@ -157,17 +159,17 @@ var docs = {
         var pages_numb = $('.page-container').length;
         if((page < 1 ) || (page > pages_numb)) return false; 
         $.each($('.page-container'), function(index, item) {
-            var tmpImg = new Image();
-            tmpImg.src = $(item).find('img.page-preview').attr('src');
-            tmpImg.onload = function() {
-                docs.compNumb++;                
+            if(!docs.preload.hasOwnProperty(index)) {
+                docs.preload[index] = new Image();
+                docs.preload[index].src = $(item).find('img.page-preview').attr('src');
+                docs.preload[index].onload = function() {
+                    docs.compNum++;                
+                }
             }
         });
-        if(docs.compNumb < pages_numb) {
-            $("*").css("cursor", "progress");
+        if(docs.compNum < pages_numb) {
             setTimeout('docs.changePage(' + page + ')', 250);
         } else {
-            $("*").css("cursor", "default");
             var target_page = $('.page-container').eq(page - 1);
             $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
         }
