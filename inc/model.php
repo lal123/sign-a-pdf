@@ -234,16 +234,14 @@ function model_doc_get_from_pdf_id($doc_pdf_id) {
 
     global $base, $cdb;
     
-    $ret = [];
+    $ret = false;
     $sql = "select * from `{$base}`.`docs`"
             . " where 1"
             . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
-    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
-    if($res != false) {
+    if(($res != false) && (db_num_rows($res) != 0)) {
         $ret = db_fetch_assoc($res);
     }
-    //write_log(__METHOD__, print_r($ret, true));
     return $ret;
 }
 

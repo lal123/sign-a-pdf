@@ -233,9 +233,15 @@ a.common:hover {
 	cursor: pointer;
 }
 
-.prev-sign-preview > img{
+.prev-sign-preview > img {
 	max-width: 100%;
 	max-height: 100px;
+}
+
+.sign-list-item {
+	border: dotted 1px #999999;
+	padding: 4px 6px 6px 30px;
+	border-radius: 12px;
 }
 
 #signPreview {
@@ -252,6 +258,7 @@ a.common:hover {
 	bottom: 50px;
 	right: 50px;
 	padding: 0px;
+	cursor: move;
 }
 
 #signPreview .sign_cmd_bar {

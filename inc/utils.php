@@ -1,6 +1,6 @@
 <?php
 
-$version_suffix = '1.56';
+$version_suffix = '1.57';
 
 $lang = '';
 
@@ -58,25 +58,27 @@ require_once 'mailer.php';
 
 session_start();
 
+db_connect();
+
+$user = [];
+$is_signed_in = utils_is_signed_in($user);
+
 $pdf_id = '';
 
 if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 	$pdf_id = $_GET['pdf_id'];
-}
-
-if($pdf_id != '') {
-	if(!file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/' . $pdf_id . '.pdf') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/pdf/signed/' . $pdf_id . '.pdf') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/img/' . $pdf_id . '.png') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/img/signed/' . $pdf_id . '.png') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/img/' . $pdf_id . '-0.png') && !file_exists(getcwd() . '/' . UPLOAD_DIR . '/img/signed//' . $pdf_id . '-0.png')) {
+	if($is_signed_in) {
+		$doc = model_doc_get_from_pdf_id($pdf_id);
+	} else {
+		$doc = (isset($_SESSION['docs']) && isset($_SESSION['docs'][$pdf_id]) ?  $_SESSION['docs'][$pdf_id] : false);
+	}
+	if($doc === false) {
 		header("Location: /{$lang}/");
 		exit();
 	} else {
 		$page = 'docs';
 	}
 }
-
-db_connect();
-
-$user = [];
-$is_signed_in = utils_is_signed_in($user);
 
 $err_msg = '';
 $action = '';
