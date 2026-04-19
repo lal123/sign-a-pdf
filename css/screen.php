@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: text/css');
+header("Content-Type: text/css");
 
 ?>
 body {
