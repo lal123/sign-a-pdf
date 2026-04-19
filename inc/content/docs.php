@@ -108,10 +108,8 @@ if($pdf_id != '') {
 ?>
         <div id="nav-bar">
                 <div class="form-group row g-3">
-                    <div class="col-sm-4 col-auto">
-                        Page
-                    </div>
-                    <div class="col-sm-4 col-auto">
+                    <div class="col-sm-3 col-auto">Page</div>
+                    <div class="col-sm-3 col-auto">
                         <select name="nav_page" id="navPage" onchange="return docs.changePage(this.value); return false;">
 <?php
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
@@ -120,8 +118,10 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 ?>
                         </select>
                     </div>
-                    <div class="col-sm-4 col-auto">
+                    <div class="col-sm-6 col-auto" style="text-align: right">
                         <a href="javascript:void(0)" class="bi bi-skip-start act" onclick="return docs.changePage(1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-left act small" onclick="return docs.changePage(parseInt($('#navPage').val()) - 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-right act small" onclick="return docs.changePage(parseInt($('#navPage').val()) + 1); return false;"></a>
                         <a href="javascript:void(0)" class="bi bi-skip-end act" onclick="return docs.changePage(<?php echo $doc_pages; ?>); return false;"></a>
                     </div>
                 </div>

@@ -82,7 +82,7 @@ body {
 	position: fixed;
 	top: 260px;
 	left: 20px;
-	width: 200px;
+	width: 250px;
 	height: 40px;
 	background-color: #204444;
 	border-radius: 20px;
@@ -101,6 +101,10 @@ body {
 
 #doc-container #nav-bar a.act {
 	color: #ffffff;
+}
+
+#doc-container #nav-bar a.act.small {
+	font-size: 17px;
 }
 
 .modal-content {

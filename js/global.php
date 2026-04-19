@@ -148,8 +148,11 @@ var docs = {
     },
 
     changePage: function(page) {
+        var pages_numb = $('.page-container').length;
+        if((page < 1 ) || (page > pages_numb)) return false; 
         var target_page = $('.page-container').eq(page - 1);
         $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
+        return false;
     },
 
     adaptNavBar:function() {
