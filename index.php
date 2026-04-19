@@ -203,11 +203,12 @@ include "inc/content/{$page}.php";
 <script>
     $('document').ready(function() {
 <?php
-if($page == 'docs') {
+if(($page == 'docs') && ($pdf_id != '')) {
     echo '        $(document).on("scroll", function(event) {
             docs.adaptNavBar();
         });' . "\n";
     echo '        docs.adaptNavBar();'."\n";
+    echo '        $("#nav-bar").draggable({});'."\n";
 }
 ?>
      });

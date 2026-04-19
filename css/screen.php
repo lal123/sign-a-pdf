@@ -80,7 +80,8 @@ body {
 
 #doc-container #nav-bar {
 	position: fixed;
-	top: 260px;
+	cursor: move;
+	bottom: 75px;
 	left: 20px;
 	width: 250px;
 	height: 40px;
@@ -90,7 +91,11 @@ body {
 	padding: 6px 16px 6px 16px;
 	font-size: 20px;
 	line-height: 28px;
-	opacity: 0.8;
+	opacity: 0.75;
+}
+
+#doc-container #nav-bar:hover {
+	opacity: 0.9;
 }
 
 #doc-container #nav-bar select {
@@ -514,7 +519,6 @@ a.common:hover {
 		min-width: 120px !important;
 		max-width: 120px !important;
 	}
-
 }
 
 @media screen and (max-width: 450px) {
