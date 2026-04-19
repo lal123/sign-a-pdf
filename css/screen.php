@@ -84,7 +84,7 @@ body {
 
 #doc-container #nav-bar {
 	position: fixed;
-//	cursor: move;
+	cursor: move;
 	bottom: 75px;
 	left: 20px;
 	width: 250px;
