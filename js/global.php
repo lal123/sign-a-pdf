@@ -481,6 +481,9 @@ var sign = {
         var y = Math.max($(obj).position().top - $('#textFontList').height() - 2, 0);
         $('#textFontList').css({'left': x + 'px', 'top': y + 'px'});
         $('#textFontList').animate({scrollTop: '0px'}, 0);
+        var col = $('#textColor').val();
+        $('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color' : col});
+        $('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').css({'background-color': col, 'color': '#ffffff'});
         $('#textFontList').toggle();
         var font_y = Math.max($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').position().top - parseInt($('#textFontList').height() / 2)  + parseInt($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').height() / 2) + $('#textFontList').scrollTop(), 0);
         $('#textFontList').animate({scrollTop: font_y + 'px'}, 250);
