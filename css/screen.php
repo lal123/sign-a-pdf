@@ -450,7 +450,6 @@ a.common:hover {
 	border-radius: 6px;
 	background-color: #ffffff;
 	margin: 0px 0px 0px 0px;
-	//cursor: pointer;
 	overflow: hidden;
 }
 
@@ -477,7 +476,8 @@ a.common:hover {
 #textFontList > .fontItem {
 	height: 36px;
 	cursor: pointer;
-    padding: 4px 12px 4px 12px;
+    padding: 2px 12px 2px 12px;
+    overflow: hidden;
 }
 
 #colorpicker {

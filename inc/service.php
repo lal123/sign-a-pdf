@@ -313,7 +313,7 @@ switch($action) {
 				echo "$('#textFontList > .fontItem').on('click', function(e) {
 					$('#textFontList > .fontItem').removeClass('selected');
 					$(e.target).addClass('selected');
-					sign.selectFont($(e.target).attr('font_filename'), $(e.target).attr('font_family'), $(e.target).attr('font_name'));
+					sign.selectFont($(e.target).attr('font_filename'), $(this).css('font-family'), $(this).css('font-size'), $(this).css('line-height'), $(this).html());
 				});\n";
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";

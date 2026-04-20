@@ -489,9 +489,9 @@ var sign = {
         return false;
     },
 
-    selectFont: function(font_filename, font_family, font_name) {
+    selectFont: function(font_filename, font_family, font_size, line_height, font_name) {
         $('#textFont').val(font_filename);
-        $('#textFontPreview').css({'font-family': font_family});
+        $('#textFontPreview').css({'font-family': font_family, 'font-size': font_size, 'line-height': line_height});
         $('#textFontPreview').html(font_name);
         sign.hideFontList();
     }
