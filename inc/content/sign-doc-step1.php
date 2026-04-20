@@ -74,14 +74,12 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                     <div class="col-auto">
                         <label for="textFont"><?php echo $tr['SIGN.OPTIONS.TEXT.FONT.LABEL']; ?> :</label>
                         <select name="text_font" id="textFont" class="form-control" aria-describedby="textFontHelp">
-                            <option value="allegro-webfont"<?php if(isset($text_font) && ($text_font == 'allegro-webfont')) { echo ' selected="selected"'; } ?>>Allegro</option>
-                            <option value="amienne-webfont"<?php if(isset($text_font) && ($text_font == 'amienne-webfont')) { echo ' selected="selected"'; } ?>>Amienne</option>
-                            <option value="bambino-webfont"<?php if(isset($text_font) && ($text_font == 'bambino-webfont')) { echo ' selected="selected"'; } ?>>Bambino</option>
-                            <option value="beautiful_es-webfont"<?php if(isset($text_font) && ($text_font == 'beautiful_es-webfont')) { echo ' selected="selected"'; } ?>>Beautiful</option>
-                            <option value="desard-webfont"<?php if(isset($text_font) && ($text_font == 'desard-webfont')) { echo ' selected="selected"'; } ?>>Desard</option>
-                            <option value="marydale_bold-webfont"<?php if(isset($text_font) && ($text_font == 'marydale_bold-webfont')) { echo ' selected="selected"'; } ?>>Marydale</option>
-                            <option value="saginawbold-webfont"<?php if(isset($text_font) && ($text_font == 'saginawbold-webfont')) { echo ' selected="selected"'; } ?>>Saginaw</option>
-                            <option value="valerie-webfont"<?php if(isset($text_font) && ($text_font == 'valerie-webfont')) { echo ' selected="selected"'; } ?>>Valerie</option>
+<?php
+$fonts = model_get_font_list();
+foreach($fonts as $index => $font) {
+echo '                            <option value="' . $font['font_filename'] . '"' . (isset($text_font) && ($text_font == $font['font_filename']) ? ' selected="selected"' : '') . '>' . $font['font_name'] . '</option>' . "\n";
+}
+?>
                         </select>
                     </div>
                     <div class="col-sm-3 col-auto">

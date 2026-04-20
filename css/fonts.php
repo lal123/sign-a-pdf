@@ -16,7 +16,7 @@ header('Content-Type: text/css');
 }
 
 @font-face {
-    font-family: 'amienneregular';
+    font-family: 'amienne';
     src: url('../fonts/amienne-webfont.eot');
     src: url('../fonts/amienne-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/amienne-webfont.woff2') format('woff2'),
@@ -28,7 +28,7 @@ header('Content-Type: text/css');
 }
 
 @font-face {
-    font-family: 'bambinoregular';
+    font-family: 'bambino';
     src: url('../fonts/bambino-webfont.eot');
     src: url('../fonts/bambino-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/bambino-webfont.woff2') format('woff2'),

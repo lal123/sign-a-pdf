@@ -391,3 +391,19 @@ function model_sign_delete($sign_file_id) {
     return $ret;
 }
 
+function model_get_font_list() {
+    
+    global $base, $cdb;
+    
+    $ret = array();
+    $sql = "select * from `{$base}`.`fonts`"
+            . " where 1"
+            . " order by `font_rank` asc";
+    $res = db_query($sql);
+    if($res != false){
+        while($arr = db_fetch_assoc($res)){
+            $ret[] = $arr;
+        }
+    }
+    return $ret;
+}
