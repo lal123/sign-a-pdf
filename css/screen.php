@@ -614,15 +614,15 @@ a.common:hover {
 @media screen and (max-width: 520px) {
 
 	#signText {
-		max-width: 100px;
+		max-width: 90px;
 	}
 
 	#textFont {
-		max-width: 100px;
+		max-width: 85px;
 	}
 
 	#textFontPreview {
-		max-width: 100px;
+		max-width: 85px;
 	}
 }
 
