@@ -476,18 +476,8 @@ a.common:hover {
 
 #textFontList > .fontItem {
 	height: 36px;
-	color: #000000;
+	cursor: pointer;
     padding: 4px 12px 4px 12px;
-}
-
-#textFontList > .fontItem.selected {
-	color: #ffffff;
-	background-color: #1967d2;
-}
-
-#textFontList > .fontItem:hover {
-	color: #ffffff;
-	background-color: #1967d2;
 }
 
 #colorpicker {

@@ -80,7 +80,8 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
                         <div id="textFontList">
 <?php
 foreach($fonts as $index => $font) {
-echo '                            <div class="fontItem' . (isset($text_font) && ($text_font == $font['font_filename']) ? ' selected' : '') . '" style="font-family: ' . $font['font_family']. '; color: ' . $text_color . '; font-size: 28px; line-height: 30px; max-height: 100%;" font_filename="' . $font['font_filename'] . '" font_family="' . $font['font_family'] . '" font_name="' . $font['font_name'] . '">' . $font['font_name'] . '</div>' . "\n";
+    $selected = (isset($text_font) && ($text_font == $font['font_filename']));
+    echo '                            <div class="fontItem' . ($selected ? ' selected' : '') . '" style="font-family: ' . $font['font_family'] . ';' . ($selected ? ' color: #ffffff; background-color: ' . $text_color . ';' : ' color: ' . $text_color . '; background-color: #ffffff;') . ' font-size: 28px; line-height: 30px; max-height: 100%;" font_filename="' . $font['font_filename'] . '" font_family="' . $font['font_family'] . '" font_name="' . $font['font_name'] . '">' . $font['font_name'] . '</div>' . "\n";
 }
 ?>
                             
