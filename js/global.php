@@ -4,7 +4,7 @@ require_once '../inc/utils.php';
 
 header('Content-Type: text/javascript');
 
-$cache_expire = 60 * 60 * 24 * 30 *3;
+$cache_expire = 60 * 60 * 24 * 30 * 3;
 header("Pragma: public");
 header("Cache-Control: max-age=" . $cache_expire);
 header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $cache_expire) . ' GMT');
@@ -477,11 +477,12 @@ var sign = {
     },
 
     showFontList: function(obj) {
-        var x = $(obj).position().left + $(obj).width() / 2 - $('#textFontList').width() / 2 - 2; 
+        var x = $(obj).position().left + parseInt($(obj).width() / 2 - $('#textFontList').width() / 2)- 2; 
         var y = Math.max($(obj).position().top - $('#textFontList').height() - 2, 0);
         $('#textFontList').css({'left': x + 'px', 'top': y + 'px'});
+        $('#textFontList').animate({scrollTop: '0px'}, 0);
         $('#textFontList').toggle();
-        var font_y = Math.max($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').position().top - parseInt($('#textFontList').height() / 2)  + parseInt($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').height() / 2), 0);
+        var font_y = Math.max($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').position().top - parseInt($('#textFontList').height() / 2)  + parseInt($('#textFontList > .fontItem[font_filename=' + $('#textFont').val() + ']').height() / 2) + $('#textFontList').scrollTop(), 0);
         $('#textFontList').animate({scrollTop: font_y + 'px'}, 250);
         return false;
     },
