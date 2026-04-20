@@ -290,31 +290,27 @@ switch($action) {
 			echo "$('#modalBody').html(decodeURIComponent('" . rawurlencode($content) . "'));\n";
 			if($sign_step == 1) {
 				echo "$('#signDocModal #backButton').hide();\n";
-                echo "$.farbtastic('#colorpicker', function(col) {
-                    $('#textColor').val(col);
-                    $('.text-color-preview').css({'color': col});
-                    $('#textFontPreview').css({'color': col});
-                    $('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color': col});
-                    $('#textFontList > .fontItem.selected').css({'background-color': col, 'color': '#ffffff'});
-                }).setColor('" . $text_color . "');\n";
-                echo "$('#signDocModal').click(function(event){
-                	if(!$(event.target).hasClass('text-color-preview') && ($(event.target).parents('#colorpicker').length == 0)) {
-                		sign.hideColorPicker();
-                	}
-                	if(!$(event.target).hasClass('text-font-preview') && ($(event.target).parents('#textFontList').length == 0)) {
-                		sign.hideFontList();
-                	}
-				});\n";
-				echo "$('#textFontList > .fontItem').on('mouseenter', function(e) {
-					var col = $('#textColor').val();
-					$('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color' : col});
-					$(e.target).css({'background-color': col, 'color': '#ffffff'});
-				});\n";
-				echo "$('#textFontList > .fontItem').on('click', function(e) {
-					$('#textFontList > .fontItem').removeClass('selected');
-					$(e.target).addClass('selected');
-					sign.selectFont($(e.target).attr('font_filename'), $(this).css('font-family'), $(this).css('font-size'), $(this).css('line-height'), $(this).html());
-				});\n";
+                echo "$.farbtastic('#colorpicker', function(col) {\n"
+                	. "    $('#textColor').val(col);\n"
+                	. "    $('.text-color-preview').css({'color': col});\n"
+                	. "    $('#textFontPreview').css({'color': col});\n"
+                	. "    $('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color': col});\n"
+                	. "    $('#textFontList > .fontItem.selected').css({'background-color': col, 'color': '#ffffff'});\n"
+                	. "}).setColor('" . $text_color . "');\n";
+                echo "$('#signDocModal').click(function(event){\n"
+                . "    if(!$(event.target).hasClass('text-color-preview') && ($(event.target).parents('#colorpicker').length == 0)) sign.hideColorPicker();\n"
+                . "    if(!$(event.target).hasClass('text-font-preview') && ($(event.target).parents('#textFontList').length == 0)) sign.hideFontList();\n"
+            	. "});\n";
+				echo "$('#textFontList > .fontItem').on('mouseenter', function(e) {\n"
+					. "    var col = $('#textColor').val();\n"
+					. "    $('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color' : col});\n"
+					. "    $(e.target).css({'background-color': col, 'color': '#ffffff'});\n"
+				. "});\n";
+				echo "$('#textFontList > .fontItem').on('click', function(e) {\n"
+					. "    $('#textFontList > .fontItem').removeClass('selected');\n"
+					. "    $(e.target).addClass('selected');\n"
+					. "    sign.selectFont($(e.target).attr('font_filename'), $(this).css('font-family'), $(this).css('font-size'), $(this).css('line-height'), $(this).html());\n"
+					. "});\n";
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";
 			}
