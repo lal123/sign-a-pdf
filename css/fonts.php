@@ -52,6 +52,18 @@ header('Content-Type: text/css');
 }
 
 @font-face {
+    font-family: 'desard';
+    src: url('../fonts/desard-webfont.eot');
+    src: url('../fonts/desard-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/desard-webfont.woff2') format('woff2'),
+         url('../fonts/desard-webfont.woff') format('woff'),
+         url('../fonts/desard-webfont.ttf') format('truetype'),
+         url('../fonts/desard-webfont.svg#desardregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'marydale';
     src: url('../fonts/marydale_bold-webfont.eot');
     src: url('../fonts/marydale_bold-webfont.eot?#iefix') format('embedded-opentype'),
@@ -74,3 +86,16 @@ header('Content-Type: text/css');
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'valerie';
+    src: url('../fonts/valerie-webfont.eot');
+    src: url('../fonts/valerie-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/valerie-webfont.woff2') format('woff2'),
+         url('../fonts/valerie-webfont.woff') format('woff'),
+         url('../fonts/valerie-webfont.ttf') format('truetype'),
+         url('../fonts/valerie-webfont.svg#valerieregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

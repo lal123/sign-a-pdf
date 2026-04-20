@@ -55,7 +55,7 @@ switch($sign_option) {
                 echo '<div class="form-check mb-2 sign-list-item">';
                 echo '<input class="form-check-input" type="radio" name="sign_id" id="sign_' . $sign_file_id . '" value="' . $sign_file_id . '"' . ((isset($sign_id) && ($sign_id == $sign_file_id)) || ((!isset($sign_id) || ($sign_id == '')) && ($first == true)) ? ' checked="checked"' : '') .'/>';
                 //echo '&nbsp; ';
-                echo '<label for="sign_' . $sign_file_id . '">#' . date($details['order']);
+                echo '<label for="sign_' . $sign_file_id . '">#' . date($details['order']) . ' - ' . date($tr['DATE_FORMAT'], $details['time']);
                 echo '<div class="prev-sign-preview">';
                 echo '<img src="/' . UPLOAD_DIR . '/sign/' . $sign_file_id . '.png" alt="" border="0" />';
                 echo '</div>';
