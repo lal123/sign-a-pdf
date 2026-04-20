@@ -279,7 +279,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 4, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
     prepareDownload: function(pdf_id) {
