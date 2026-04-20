@@ -1,0 +1,4 @@
+Options -Indexes
+
+ExpiresActive On
+ExpiresDefault "now plus 3 months"

@@ -305,6 +305,13 @@ switch($action) {
                 		sign.hideFontList();
                 	}
 				});\n";
+				/*
+		        var p = Math.max($('#step2 .part.middle .content.font-list .font-item[font_id=' + fonts.font_id + ']').position().top - parseInt($('#step2 .part.middle .content.font-list').height()/2) + parseInt($('#step2 .part.middle .content.font-list .font-item[font_id=' + fonts.font_id + ']').height() / 2), 0);
+		        if(p < 20) {
+		            p = 0;
+		        }
+		        $('#step2 .part.middle .content.font-list').animate({scrollTop: p + 'px'}, delay);
+		        */
 				echo "$('#textFontList > .fontItem').on('mouseenter', function(e) {
 					var col = $('#textColor').val();
 					$('#textFontList > .fontItem').css({'background-color': '#ffffff', 'color' : col});

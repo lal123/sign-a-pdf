@@ -81,7 +81,7 @@ for($thick = 1 ; $thick <= 6 ; $thick++) {
 <?php
 foreach($fonts as $index => $font) {
     $selected = (isset($text_font) && ($text_font == $font['font_filename']));
-    echo '                            <div class="fontItem' . ($selected ? ' selected' : '') . '" style="font-family: ' . $font['font_family'] . ';' . ($selected ? ' color: #ffffff; background-color: ' . $text_color . ';' : ' color: ' . $text_color . '; background-color: #ffffff;') . ' font-size: ' . $font['font_size'] . 'px; line-height: ' . $font['line_height']. 'px; max-height: 100%;" font_filename="' . $font['font_filename'] . '" font_name="' . $font['font_name'] . '">' . $font['font_name'] . '</div>' . "\n";
+    echo '                            <div class="fontItem' . ($selected ? ' selected' : '') . '" style="font-family: ' . $font['font_family'] . ';' . ($selected ? ' color: #ffffff; background-color: ' . $text_color . ';' : ' color: ' . $text_color . '; background-color: #ffffff;') . ' font-size: ' . $font['font_size'] . 'px; line-height: ' . $font['line_height']. 'px; max-height: 100%;" font_filename="' . $font['font_filename'] . '">' . $font['font_name'] . '</div>' . "\n";
 }
 ?>
                             
