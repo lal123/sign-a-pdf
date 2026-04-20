@@ -279,7 +279,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 4, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 3, 'page_option': 1, 'sign_pages': '', 'lang': lang})
     },
 
     prepareDownload: function(pdf_id) {
@@ -474,6 +474,26 @@ var sign = {
     hideColorPicker: function() {
         $('#colorpicker').hide();
         return false;
+    },
+
+    showFontList: function(obj) {
+        var x = $(obj).position().left + $(obj).width() / 2 - $('#textFontList').width() / 2 - 2; 
+        var y = Math.max($(obj).position().top - $('#textFontList').height() - 2, 0);
+        $('#textFontList').css({'left': x + 'px', 'top': y + 'px'});
+        $('#textFontList').toggle();
+        return false;
+    },
+
+    hideFontList: function() {
+        $('#textFontList').hide();
+        return false;
+    },
+
+    selectFont: function(font_filename, font_family, font_name) {
+        $('#textFont').val(font_filename);
+        $('#textFontPreview').css({'font-family': font_family});
+        $('#textFontPreview').html(font_name);
+        sign.hideFontList();
     }
 }
 

@@ -407,3 +407,18 @@ function model_get_font_list() {
     }
     return $ret;
 }
+
+function model_get_font_from_filename($font_filename) {
+    
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "select * from `{$base}`.`fonts`"
+            . " where 1"
+            . " and `font_filename` = '" .db_escape($font_filename) . "'";
+    $res = db_query($sql);
+    if($res != false && db_num_rows($res) != 0) {
+        $ret = db_fetch_assoc($res);
+    }
+    return $ret;
+}

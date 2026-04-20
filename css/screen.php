@@ -428,6 +428,68 @@ a.common:hover {
 	line-height: 34px;
 }
 
+#signText {
+	max-width: 140px;
+}
+
+#textFont {
+	max-width: 140px;
+}
+
+#textFontChoice {
+	text-decoration: none;
+	color: #000000;
+}
+
+#textFontPreview {
+	width: 136px;
+	height: 36px;
+	color: #000000;
+	padding: 2px 12px 2px 12px;
+	border: solid 1px rgb(222, 226, 230);
+	border-radius: 6px;
+	background-color: #ffffff;
+	margin: 0px 0px 0px 0px;
+	//cursor: pointer;
+	overflow: hidden;
+}
+
+#textFontChoice:active > #textFontPreview, #textFontChoice:focus > #textFontPreview {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+}
+
+#textFontList {
+	display: none;
+    position: absolute;
+    border: solid 1px #767676;
+    padding: 0px 0px 0px 0px;
+	width: 136px;
+	height: 196px;
+    right: 10px;
+    top: 10px;
+    background-color: #ffffff;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#textFontList > .fontItem {
+	height: 36px;
+	color: #000000;
+    padding: 4px 12px 4px 12px;
+}
+
+#textFontList > .fontItem.selected {
+	color: #ffffff;
+	background-color: #1967d2;
+}
+
+#textFontList > .fontItem:hover {
+	color: #ffffff;
+	background-color: #1967d2;
+}
+
 #colorpicker {
     display: none;
     position: absolute;
@@ -569,5 +631,8 @@ a.common:hover {
 		max-width: 100px;
 	}
 
+	#textFontPreview {
+		max-width: 100px;
+	}
 }
 

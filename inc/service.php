@@ -298,6 +298,17 @@ switch($action) {
                 	if(!$(event.target).hasClass('text-color-preview') && ($(event.target).parents('#colorpicker').length == 0)) {
                 		sign.hideColorPicker();
                 	}
+                	if(!$(event.target).hasClass('text-font-preview') && ($(event.target).parents('#textFontList').length == 0)) {
+                		sign.hideFontList();
+                	}
+				});\n";
+				echo "$('#textFontList > .fontItem').on('mouseenter', function(e) {
+					$('#textFontList > .fontItem').removeClass('selected');
+					$(e.target).addClass('selected');
+					console.log('e', $(e.target).attr('font_filename'));
+				});\n";
+				echo "$('#textFontList > .fontItem').on('click', function(e) {
+					sign.selectFont($(e.target).attr('font_filename'), $(e.target).attr('font_family'), $(e.target).attr('font_name'));
 				});\n";
 			} else {
 				echo "$('#signDocModal #backButton').show();\n";
