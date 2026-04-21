@@ -441,6 +441,10 @@ a.common:hover {
 	color: #000000;
 }
 
+#textFontChoice:active, #textFontChoice:focus {
+	outline: none;
+}
+
 #textFontPreview {
 	width: 136px;
 	height: 36px;
