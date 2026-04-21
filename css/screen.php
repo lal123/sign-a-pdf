@@ -7,6 +7,10 @@ body {
 	background-color: #c0c0c0 !important;
 }
 
+a:active, a:focus {
+	outline: none;
+}
+
 .navbar.dark-cyan {
  	background-color: #183034;	
 }
@@ -439,10 +443,6 @@ a.common:hover {
 #textFontChoice {
 	text-decoration: none;
 	color: #000000;
-}
-
-#textFontChoice:active, #textFontChoice:focus {
-	outline: none;
 }
 
 #textFontPreview {
