@@ -140,7 +140,7 @@ $tr =[
 	'ACCOUNT.CONFIRM.PLACEHOLDER'	=> 'Your confirmation',
 	'ACCOUNT.CONFIRM.HELP'			=> '',
 	'ACCOUNT.CONFIRM.ERROR'			=> 'Invalid Confirmation',
-	'ACCOUNT.USER_OPTIN'			=> "I accept to receive informations from this site",
+	'ACCOUNT.USER_OPTIN'			=> "I accept to receive information messages from this site",
 	'ACCOUNT.USER_ACCEPT'			=> 'I accept the <a href="./terms-of-use" target="_blank" class="common">Terms of use</a>',
 	'ACCOUNT.USER_ACCEPT.ERROR'		=> 'You must accept the terms of use',
 	'ACCOUNT.UNEXPECTED_ERROR'		=> 'Unexpected error',

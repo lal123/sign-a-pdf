@@ -54,13 +54,13 @@ switch($action) {
             </div>
             <div class="col-lg-5 ms-0 mb-2">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_optin'])) { echo ' is-valid'; } ?>" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="checkbox" class="form-check-input" name="user_optin" id="userOptin"<?php if(isset($values['user_optin']) && ($values['user_optin'] == 1)) { echo ' checked="checked"'; } ?> />
                     <label class="form-check-label" for="userOptin"><?php echo $tr['ACCOUNT.USER_OPTIN']; ?></label>
                 </div>
             </div>
             <div class="col-lg-4 ms-0 mb-3">
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo (isset($errors['user_accept']) ? ' is-invalid' : ' is-valid'); } ?>" name="user_accept" id="userAccept"<?php if(isset($values['user_accept']) && ($values['user_accept'] == 1)) { echo ' checked="checked"'; } ?> required="required" onfocus="$(this).removeClass('is-valid').removeClass('is-invalid');" />
+                    <input type="checkbox" class="form-check-input<?php if(isset($values['user_accept'])) { echo (isset($errors['user_accept']) ? ' is-invalid' : ''); } ?>" name="user_accept" id="userAccept"<?php if(isset($values['user_accept']) && ($values['user_accept'] == 1)) { echo ' checked="checked"'; } ?> required="required" onfocus="$(this).removeClass('is-invalid');" />
                     <label class="form-check-label" for="userAccept"><?php echo $tr['ACCOUNT.USER_ACCEPT']; ?></label><?php if(isset($errors['user_accept'])) { echo '<div class="invalid-feedback">' . $errors['user_accept'] . '</div>'; } ?>
                 </div>
             </div>

@@ -127,7 +127,8 @@ switch($page) {
 			$values['confirm'] = $values['user_pass'];
 		} else {
 			$action = 'create';					
-			$values = [];
+			// default values
+			$values = ['user_optin' => '1'];
 		}
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST') {

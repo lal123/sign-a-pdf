@@ -249,6 +249,7 @@ switch($action) {
 				break;
 			case 0:
 			default:
+				// default values
 				$sign_text = ($is_signed_in ? $user['user_name'] : '');
 				$text_thickness = 4;
 				$sign_step+= $sign_inc;
