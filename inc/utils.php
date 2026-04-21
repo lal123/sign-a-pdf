@@ -508,7 +508,7 @@ function utils_create_link($page, $action, $user_id, $user_key) {
 		default:
 			$act = 1;
 	}
-	$scheme = (php_uname("n") == 'alain-520-1080fr' ? 'http' : 'https');
+	$scheme = (php_uname("n") == 'King' ? 'http' : 'https');
 	$link = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/' . $lang . '/' . $page_role[$page] . '?s=' . base64_encode(sprintf("%04x", rand(0, 0x0ffff)) . $act . $user_key . $user_id);
 	return $link;	
 }
