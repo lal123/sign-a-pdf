@@ -94,19 +94,6 @@ if(array_key_exists($page, $pages)) {
 
 }
 
-if($is_signed_in) {
-	$docs_numb = model_doc_get_numb($user['user_id']);
-	$signs_numb = model_sign_get_numb($user['user_id']);
-} else {
-	$docs_numb = (isset($_SESSION['docs']) ? sizeof($_SESSION['docs']) : 0);
-	$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
-}
-
-if(($page == 'docs') && ($docs_numb == 0)) {
-	header("Location: /{$lang}/");
-	exit();
-}
-
 $page_title = $page_title_prefix;
 
 if(!$is_home && array_key_exists($page, $page_title_suffix)) {
@@ -256,7 +243,18 @@ switch($page) {
 		break;
 }
 
-//write_log('utils', "[lang][{$lang}][page][{$page}][action][{$action}][pdf_id][{$pdf_id}]");
+if($is_signed_in) {
+	$docs_numb = model_doc_get_numb($user['user_id']);
+	$signs_numb = model_sign_get_numb($user['user_id']);
+} else {
+	$docs_numb = (isset($_SESSION['docs']) ? sizeof($_SESSION['docs']) : 0);
+	$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
+}
+
+if(($page == 'docs') && ($docs_numb == 0)) {
+	header("Location: /{$lang}/");
+	exit();
+}
 
 function utils_user_sign_in($values, &$errors) {
 
@@ -566,7 +564,7 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 
 function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
 
-	global $lang, $tr, $page_role;
+	global $lang, $tr, $page_role, $is_signed_in;
 
 	$user = [];
 	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key, 'user_valid' => 1], [], $user);
