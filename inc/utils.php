@@ -532,7 +532,7 @@ function utils_get_link($secret) {
 
 function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
 
-	global $lang, $tr, $page_role, $user, $is_signed_in;
+	global $lang, $tr, $page_role;
 
 	$user = [];
 	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
@@ -565,7 +565,7 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 
 function utils_user_reconnect($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
 
-	global $lang, $tr, $page_role, $is_signed_in;
+	global $lang, $tr, $page_role;
 
 	$user = [];
 	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key, 'user_valid' => 1], [], $user);
