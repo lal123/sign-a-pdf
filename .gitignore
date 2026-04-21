@@ -4,3 +4,5 @@ uploads/*
 inc/mysql.php
 inc/private.php
 sitemap.xml
+admin/.htaccess
+admin/.htpasswd
