@@ -3,3 +3,4 @@ res
 uploads/*
 inc/mysql.php
 inc/private.php
+sitemap.xml
