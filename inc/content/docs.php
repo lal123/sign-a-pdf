@@ -136,7 +136,7 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
    if($is_signed_in) {
         $docs = model_doc_get_list($user['user_id']);
     } else {
-        $docs = isset($_SESSION['docs'] ? $_SESSION['docs'] : []);
+        $docs = (isset($_SESSION['docs']) ? $_SESSION['docs'] : []);
         uksort($docs, function($a, $b) {
             global $docs;
             return strcasecmp($docs[$b]['time'], $docs[$a]['time']);

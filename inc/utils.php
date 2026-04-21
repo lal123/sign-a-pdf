@@ -104,6 +104,7 @@ if($is_signed_in) {
 
 if(($page == 'docs') && ($docs_numb == 0)) {
 	header("Location: /{$lang}/");
+	exit();
 }
 
 $page_title = $page_title_prefix;
