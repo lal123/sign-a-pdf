@@ -7,15 +7,16 @@ db_connect();
 $users = model_get_user_list();
 
 $an_docs = [];
+$an_signs = [];
 
-function get_dir($dir, $rel_dir, &$an_docs) {
+function get_dir($type, $dir, $rel_dir, &$items) {
     $fh = opendir($dir);
     while($fn = readdir($fh)) {
         if(!preg_match('/^\./', $fn)){
             if(is_dir($dir . '/' . $fn)){
-                get_dir($dir . '/' . $fn, $rel_dir . $fn . '/', $an_docs);
+                get_dir($type, $dir . '/' . $fn, $rel_dir . $fn . '/', $items);
             } else {
-            	if(preg_match('/^([0-9a-f]{16})\.pdf$/', $fn, $matches)) {
+                if(($type == 'pdf') && preg_match('/^([0-9a-f]{16})\.(pdf)$/', $fn, $matches)) {
             		list(, $pdf_id) = $matches;
             		if(model_doc_get_from_pdf_id($pdf_id) === false) {
                         $pages = preg_match_all("/\/Page\W/", file_get_contents($dir . '/' . $fn), $matches);
@@ -25,15 +26,24 @@ function get_dir($dir, $rel_dir, &$an_docs) {
                         $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/img/' . ($signed == 1 ? 'signed/' : '') . $pdf_id . ($pages > 1 ? '-0' : '') . '.png';
-            			$an_docs[$signed][] = ['pdf_id' => $pdf_id, 'path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
+            			$items[$signed][] = ['pdf_id' => $pdf_id, 'path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
             		}
-            	}
+            	} else if(($type == 'sign') && preg_match('/^([0-9a-f]{16})\.(png)$/', $fn, $matches)) {
+                    list(, $sign_id) = $matches;
+                    $res = model_sign_get_from_file_id($sign_id);
+                    if(($res != null) && (sizeof($res) != 0)) {
+                        $time = filemtime($dir . '/' . $fn);
+                        $preview = '/' . UPLOAD_DIR . '/sign/' . $sign_id . '.png';
+                        $items[] = ['sign_id' => $sign_id, 'path' => $rel_dir . $sign_id, 'preview' => $preview, 'time' => $time];
+                    }
+                }
             }
         }
     }
 }
 
-get_dir(getcwd() . '/../' . UPLOAD_DIR . '/pdf', '', $an_docs);
+get_dir('pdf', getcwd() . '/../' . UPLOAD_DIR . '/pdf', '', $an_docs);
+get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 
 db_close();
 
@@ -66,7 +76,12 @@ db_close();
 </head>
 <body oncontextmenu="return false;">
 
-<div style="padding: 20px 20px 0px 20px;">
+<br />
+
+<div class="container-fluid">
+
+    <h4>Registered users</h4>
+
 	<ul style="list-style-type: circle; padding: 0px 0px 0px 20px;">
 <?php
 foreach($users as $index => $user) {
@@ -77,8 +92,14 @@ foreach($users as $index => $user) {
 ?>
 	</ul>
 </div>
+
 <hr style="margin: 0px 0px 14px 0px; padding: 0;" />
+
 <div class="container-fluid">
+
+<h4>Anonymous uploads</h4>
+
+
 <?php
 
 uksort($an_docs, function($a, $b) {
@@ -93,7 +114,7 @@ foreach($an_docs as $signed => $docs) {
         return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
     });
 
-    echo '<h4>' . ($signed ? 'Signed' : 'Unsigned') . '</h4>';
+    echo '<h5>' . ($signed ? 'Signed' : 'Unsigned') . ' docs</h5>';
 
     echo '<div class="row">';
     foreach($docs as $index => $doc) {
@@ -110,5 +131,29 @@ foreach($an_docs as $signed => $docs) {
 ?>
 </div>
 
+<div class="container-fluid">
+<?php
+
+uksort($an_signs, function($a, $b) {
+    global $an_signs;
+    return strcasecmp($an_signs[$b]['time'], $an_signs[$a]['time']);
+});
+
+echo '<h4>Signs</h4>';
+
+echo '<div class="row">';
+foreach($an_signs as $index => $sign) {
+    echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center; margin: 0px 0px 20px 0px;">';
+    echo date('Y-m-d H:i:s', $sign['time']) . '<br />';
+    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank" class="common">' . $sign['sign_id'] . '</a><br />';
+    echo '<div style="width: 300px; height: 200px; max-width: 100%;">';
+    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank"><img src="' . $sign['preview'] . '" alt="" border="0" style="max-width: 100%; max-height: 100%;" /></a>';
+    echo '</div>';
+    echo '</div>';
+}
+echo '</div>';
+
+?>
+</div>
 </body>
 </html>
