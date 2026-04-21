@@ -1,6 +1,6 @@
 <?php
 
-require_once 'inc/utils.php';
+require_once '../inc/utils.php';
 
 db_connect();
 
