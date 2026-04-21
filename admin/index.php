@@ -8,15 +8,32 @@ $users = model_get_user_list();
 
 $an_docs = [];
 
-$fh = opendir(getcwd() . '/../' . UPLOAD_DIR . '/pdf/');
-while($fn = readdir($fh)) {
-	if(preg_match('/^([0-9a-f]{16})\.pdf$/', $fn, $matches)) {
-		list(, $pdf_id) = $matches;
-		if(model_doc_get_from_pdf_id($pdf_id) !== false) {
-			$an_docs[] = $pdf_id;
-		}
-	}
+function get_dir($dir, $rel_dir, &$an_docs) {
+    $fh = opendir($dir);
+    while($fn = readdir($fh)) {
+        if(!preg_match('/^\./', $fn)){
+            if(is_dir($dir . '/' . $fn)){
+                get_dir($dir . '/' . $fn, $rel_dir . $fn . '/', $an_docs);
+            } else {
+            	if(preg_match('/^([0-9a-f]{16})\.pdf$/', $fn, $matches)) {
+            		list(, $pdf_id) = $matches;
+            		if(model_doc_get_from_pdf_id($pdf_id) !== false) {
+                        $pages = preg_match_all("/\/Page\W/", file_get_contents($dir . '/' . $fn), $matches);
+                        if(!isset($pages) || ($pages == 0)) {
+                            $pages = 1;
+                        }
+                        $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
+                        $time = filemtime($dir . '/' . $fn);
+                        $preview = '/' . UPLOAD_DIR . '/img/' . ($signed == 1 ? 'signed/' : '') . $pdf_id . ($pages > 1 ? '-0' : '') . '.png';
+            			$an_docs[] = ['path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
+            		}
+            	}
+            }
+        }
+    }
 }
+
+get_dir(getcwd() . '/../' . UPLOAD_DIR . '/pdf', '', $an_docs);
 
 db_close();
 
@@ -63,9 +80,18 @@ foreach($users as $index => $user) {
 <div>
 	<ul style="list-style-type: circle;">
 <?php
-foreach($an_docs as $index => $pdf_id) {
+
+uksort($an_docs, function($a, $b) {
+    global $an_docs;
+    return strcasecmp($an_docs[$b]['time'], $an_docs[$a]['time']);
+});
+
+foreach($an_docs as $index => $doc) {
 	echo '<li style="margin: 0px 0px 6px 0px;">';
-	echo $pdf_id;
+	echo $doc['path'] . ' (' . $doc['pages'] . ')' . ' (' . date('Y-m-d H:i:s', $doc['time']) . ')';
+    echo '<div style="height: 200px;">';
+    echo '<img src="' . $doc['preview'] . '" alt="" border="0" style="max-height: 100%;" />';
+    echo '</div>';
 	echo '</li>';
 }
 ?>
