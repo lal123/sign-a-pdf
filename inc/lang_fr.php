@@ -1,6 +1,7 @@
 <?php
 
 $page_role = [
+	'home'	=> 'envoyer-un-document',
 	'docs'		=> 'vos-documents',
 	'signs'		=> 'vos-signatures',
 	'account' 	=> 'compte',
@@ -15,6 +16,7 @@ $page_role = [
 $page_title_prefix = 'Signer un PDF gratuitement';
 
 $page_title_suffix = [
+	'home'		=> 'Envoyer un document',
 	'docs'		=> 'Vos documents',
 	'signs'		=> 'Your signatures',
 	'account'	=> 'Votre compte',

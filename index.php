@@ -68,7 +68,7 @@ if(false && ($page == 'account') && ($action == 'confirm')) {
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a<?php if ($page == 'home') { echo ' class="nav-link reduced active" aria-current="page"'; } else {echo ' class="nav-link reduced"';} ?> href="/<?php echo $lang; ?>/">
+                        <a<?php if ($page == 'home') { echo ' class="nav-link reduced active" aria-current="page"'; } else {echo ' class="nav-link reduced"';} ?> href="<?php echo '/' . $lang . '/' . $page_role['home']; ?>">
                             <i class="bi bi-upload"></i>&nbsp; <?php echo $tr['MENU.SEND_DOCUMENT']; ?>
                         </a>
                     </li>

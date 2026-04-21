@@ -39,10 +39,13 @@ if(isset($_POST['lang']) && ($_POST['lang'] != '')) {
 	exit();
 }
 
-$page = 'home';
+$is_home = false;
 
 if(isset($_GET['page']) && ($_GET['page'] != '')) {
 	$page = $_GET['page'];
+} else{
+	$page = 'home';
+	$is_home = true;
 }
 
 require_once 'lang.php';
@@ -105,7 +108,7 @@ if(($page == 'docs') && ($docs_numb == 0)) {
 
 $page_title = $page_title_prefix;
 
-if($page != 'home' && array_key_exists($page, $page_title_suffix)) {
+if(!$is_home && array_key_exists($page, $page_title_suffix)) {
 
 	$page_title.= ' - ' . $page_title_suffix[$page];
 

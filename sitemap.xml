@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<urlset
+xmlns="http://www.google.com/schemas/sitemap/0.84"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.google.com/schemas/sitemap/0.84
+http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
+	<url>
+		<loc>https://www.sign-a-pdf.com/</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/send-a-document</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/account</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/sign-in</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/contact</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/envoyer-un-document/</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/compte</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/se-connecter</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/contact</loc>
+	</url>
+</urlset>
