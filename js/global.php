@@ -313,7 +313,7 @@ var docs = {
     },
 
     download: function(pdf_id) {
-        document.location.href = '/inc/download.php?file=' + pdf_id + '&lang=' + lang;
+        document.location.href = '/' + lang + '/download/' + pdf_id;
         return false;
     }
 }
