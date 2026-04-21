@@ -1,12 +1,12 @@
 <?php
 
 $page_role = [
-	'home'	=> 'envoyer-un-document',
-	'docs'		=> 'vos-documents',
-	'signs'		=> 'vos-signatures',
-	'account' 	=> 'compte',
-	'sign-in'	=> 'se-connecter',
-	'sign-out'	=> 'se-deconnecter',
+	'home'			=> 'envoyer-un-document',
+	'docs'			=> 'vos-documents',
+	'signs'			=> 'vos-signatures',
+	'account' 		=> 'compte',
+	'sign-in'		=> 'se-connecter',
+	'sign-out'		=> 'se-deconnecter',
 	'terms-of-use'	=> 'conditions',
 	'legal-notice'	=> 'mentions-legales',
 	'contact'		=> 'contact',
@@ -16,12 +16,12 @@ $page_role = [
 $page_title_prefix = 'Signer un PDF gratuitement';
 
 $page_title_suffix = [
-	'home'		=> 'Envoyer un document',
-	'docs'		=> 'Vos documents',
-	'signs'		=> 'Your signatures',
-	'account'	=> 'Votre compte',
-	'sign-in'	=> 'Se connecter',
-	'sign-out'	=> 'Sign out',
+	'home'			=> 'Envoyer un document',
+	'docs'			=> 'Vos documents',
+	'signs'			=> 'Your signatures',
+	'account'		=> 'Votre compte',
+	'sign-in'		=> 'Se connecter',
+	'sign-out'		=> 'Sign out',
 	'terms-of-use'	=> "Conditions d'utilisation",
 	'legal-notice'	=> 'Mentions légales',
 	'contact'		=> 'Contact',
@@ -59,7 +59,7 @@ $tr =[
 	'MENU.LEGAL_NOTICE'		=> 'Mentions légales',
 	'MENU.CONTACT'			=> 'Contact',
 	'HOME.INTRO'			=> 'Ajoutez un document et vous pourrez alors le signer gratuitement',
-	'HOME.ADVICE'			=> '<a class="common" href="%%account_link%%">Créez un compte</a>, et vous pourrez retrouver facilement vos documents et vos signatures',
+	'HOME.ADVICE'			=> '<a class="common" href="%%account_link%%">Créez un compte</a> et vous pourrez retrouver facilement vos documents et vos signatures',
 	'HOME.ADD_PDF'			=> 'Ajouter un PDF',
 	'UPLOAD.SENDING_DOC'	=> 'Envoi de votre document',
 	'NOT_AN_IMAGE'			=> "Ce fichier n'est pas reconnu comme une image",
