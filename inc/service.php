@@ -148,6 +148,7 @@ switch($action) {
 		switch($sign_step) {
 			case 1:
 				$sign_text = $_POST['sign_text'];
+				$sign_text = substr($sign_text, 0, 50);
 				$text_font = $_POST['text_font'];
 				$text_color = $_POST['text_color'];
 				$text_thickness = $_POST['text_thickness'];
@@ -456,9 +457,10 @@ switch($action) {
 				}
 			}
 		}
+        echo "clearInterval(docs.animh);\n";
+        echo "docs.animh = null;\n";
 		echo "$('#downloadDocModal').modal('hide');\n";
         echo "docs.download('{$pdf_id}');\n";
-		
 		break;
 
 }

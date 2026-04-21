@@ -118,6 +118,8 @@ var docs = {
     req: null,
     preload: null,
     compNum: null,
+    animh: null,
+    animc: 0,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -287,8 +289,12 @@ var docs = {
             if(docs.req != null) {
                 docs.req.abort();
                 docs.req = null;
+                clearInterval(docs.animh);
+                docs.animh = null;
             }
         });
+        docs.animc = 0;
+        docs.animh = setInterval('docs.animDownload()', 250);
         $('#downloadDocModal').modal('show');
         data = {'action': 'doc_download', 'pdf_id': pdf_id, 'lang': lang};
         docs.req = $.ajax({
@@ -299,6 +305,11 @@ var docs = {
             eval(data);
         });
         return false;
+    },
+
+    animDownload: function() {
+        $('#downloadDocModal #modalBody > span.waiting').html(new String(".").repeat(docs.animc % 8));
+        docs.animc++;
     },
 
     download: function(pdf_id) {

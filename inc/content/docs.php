@@ -197,7 +197,7 @@ if($pdf_id != '') {
                 <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.DOWNLOAD.TITLE']; ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="modalBody"><?php echo $tr['DOCS.DOWNLOAD.PREPARING']; ?> ...</div>
+            <div class="modal-body" id="modalBody"><?php echo $tr['DOCS.DOWNLOAD.PREPARING']; ?> <span class="waiting"></span></div>
             <div class="modal-footer">
                 <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
             </div>
