@@ -78,9 +78,9 @@ switch($action) {
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
 		//echo "console.log('{$count}/{$pages}');\n";
-		if($count == $pages) {
+		if($count >= $pages) {
 			$_SESSION['points'] = 0;
-			echo "document.location.href = '/{$lang}/docs/{$pdf_id}/';\n";
+			echo "document.location.href = '/{$lang}/docs/{$pdf_id}';\n";
 		} else {
 			$points++;
 			$_SESSION['points'] = $points % 8;
@@ -426,7 +426,7 @@ switch($action) {
 			//echo "$('#signPreview').remove();\n";
 	        echo '$("*").css("cursor", "default");' . "\n";
 			//echo "docs.conv = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 250);\n";
-			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}/';\n";
+			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 		}
 		break;
 	case 'doc_download':
