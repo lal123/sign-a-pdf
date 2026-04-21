@@ -25,7 +25,7 @@ array_push($rows, "https://www.sign-a-pdf.com/en/sign-in");
 array_push($rows, "https://www.sign-a-pdf.com/en/contact");
 
 array_push($rows, "https://www.sign-a-pdf.com/fr/");
-array_push($rows, "https://www.sign-a-pdf.com/fr/envoyer-un-document/");
+array_push($rows, "https://www.sign-a-pdf.com/fr/envoyer-un-document");
 array_push($rows, "https://www.sign-a-pdf.com/fr/compte");
 array_push($rows, "https://www.sign-a-pdf.com/fr/se-connecter");
 array_push($rows, "https://www.sign-a-pdf.com/fr/contact");
