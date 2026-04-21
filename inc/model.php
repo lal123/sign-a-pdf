@@ -330,7 +330,7 @@ function model_sign_get_list($sign_user_id) {
             . " and sign_user_id = '" . db_escape($sign_user_id) . "'"
             . " group by sign_file_id"
             . " order by sign_creato desc";
-    write_log(__METHOD__, $sql);
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false){
         while($arr = db_fetch_assoc($res)){
@@ -338,7 +338,7 @@ function model_sign_get_list($sign_user_id) {
             $ret[$sign_file_id] = ['time' => $arr['sign_time'], 'width' => $arr['sign_width'], 'height' => $arr['sign_height'], 'order' => $arr['sign_order']];
         }
     }
-    write_log(__METHOD__, print_r($ret, true));
+    //write_log(__METHOD__, print_r($ret, true));
     return $ret;
 }
 

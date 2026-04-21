@@ -45,8 +45,6 @@ function get_dir($type, $dir, $rel_dir, &$items) {
 get_dir('pdf', getcwd() . '/../' . UPLOAD_DIR . '/pdf', '', $an_docs);
 get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 
-db_close();
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
@@ -73,6 +71,87 @@ db_close();
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/farbtastic-1.2.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
+    <script>
+        var lang = '<?php echo $lang; ?>';
+        function getDocs(user_id) {
+            $.ajax({
+                url: './inc/service.php',
+                type: 'POST',
+                data: {'action': 'get_docs', 'user_id' : user_id, 'lang': lang}
+            }).done(function(data) {
+                eval(data);
+            });
+            return false;
+        }
+        function docsShow(user_id, docs_json) {
+            var docs = JSON.parse(docs_json);
+            html = '';
+            for(doc_id in docs) {
+                var time = new Date(docs[doc_id]['time'] * 1000);
+                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div">';
+                html+= time.toLocaleDateString("fr-FR") + ' ' + time.toLocaleTimeString("fr-FR") + '<br />';
+                html+= '<a href="/uploads/pdf/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + '.pdf" target="_blank" class="common">' + doc_id + '</a> (' + docs[doc_id]['pages'] +' page' + (docs[doc_id]['pages'] > 1 ? 's' : '') + ')<br />';
+                html+= '<div class="doc-preview-container">';
+                html+= '<a href="/uploads/pdf/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + '.pdf" target="_blank"><img src="/uploads/img/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + (docs[doc_id]['pages'] > 1 ? '-0' : '') + '.png" alt="" border="0"  class="doc-preview-img" /></a>';
+                html+= '</div>';
+                html+= '</div>';
+            }
+            $('.docs_row[user_id=' + user_id + ']').html(html);
+            return false;
+        }
+        function getSigns(user_id) {
+            $.ajax({
+                url: './inc/service.php',
+                type: 'POST',
+                data: {'action': 'get_signs', 'user_id' : user_id, 'lang': lang}
+            }).done(function(data) {
+                eval(data);
+            });
+            return false;
+        }
+        function signsShow(user_id, signs_json) {
+            var signs = JSON.parse(signs_json);
+            html = '';
+            for(sign_id in signs) {
+                var time = new Date(signs[sign_id]['time'] * 1000);
+                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div">';
+                html+= time.toLocaleDateString("fr-FR") + ' ' + time.toLocaleTimeString("fr-FR") + '<br />';
+                html+= '<a href="/uploads/sign/' + sign_id + '.png" target="_blank" class="common">' + sign_id + '</a><br />';
+                html+= '<div class="sign-preview-container">';
+                html+= '<a href="/uploads/sign/' + sign_id + '.png" target="_blank"><img src="/uploads/sign/' + sign_id + '.png" alt="" border="0"  class="sign-preview-img" /></a>';
+                html+= '</div>';
+                html+= '</div>';
+            }
+            $('.signs_row[user_id=' + user_id + ']').html(html);
+            return false;
+        }
+    </script>
+    <style>
+        .doc-preview-div {
+            text-align: center;
+            margin: 0px 0px 20px 0px;
+        }
+        .doc-preview-container {
+            height: 360px;
+            max-width: 100%;
+            padding: 4px;
+        }
+        .doc-preview-img {
+            max-height: 100%;
+        }
+        .sign-preview-div {
+            text-align: center;
+            margin: 0px 0px 20px 0px;"
+        }
+        .sign-preview-container {
+            width: 300px;
+            max-width: 100%;
+            padding: 4px;
+        }
+        .sign-preview-img {
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body oncontextmenu="return false;">
 
@@ -85,8 +164,17 @@ db_close();
 	<ul style="list-style-type: circle; padding: 0px 0px 0px 20px;">
 <?php
 foreach($users as $index => $user) {
+    $doc_numb = model_doc_get_numb($user['user_id']);
+    $sign_numb = model_sign_get_numb($user['user_id']);
 	echo '<li style="margin: 0px 0px 6px 0px;">';
-	echo '<a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a>';
+    echo '<div class="row">';
+	echo '<div class="col-sm-1"><a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a></div>';
+    echo '<div class="col-sm-2">' . date('d/m/Y H:i:s', strtotime($user['user_creato'])) . '</div>';
+    if($doc_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getDocs(' . $user['user_id'] . ')">' . $doc_numb . ' documents</a></div>';
+    if($sign_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getSigns(' . $user['user_id'] . ')">' . $sign_numb . ' signatures</a></div>';
+    echo '</div>';
+    echo '<div class="row docs_row" user_id="' . $user['user_id'] . '"></div>';
+    echo '<div class="row signs_row" user_id="' . $user['user_id'] . '"></div>';
 	echo '</li>';
 }
 ?>
@@ -118,11 +206,11 @@ foreach($an_docs as $signed => $docs) {
 
     echo '<div class="row">';
     foreach($docs as $index => $doc) {
-    	echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center; margin: 0px 0px 20px 0px;">';
-    	echo date('Y-m-d H:i:s', $doc['time']) . '<br />';
+    	echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div">';
+    	echo date('d/m/Y H:i:s', $doc['time']) . '<br />';
         echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank" class="common">' . $doc['pdf_id'] . '</a> (' . $doc['pages'] . ' page' . ($doc['pages'] > 1 ? 's' : '') . ')' . '<br />';
-        echo '<div style="height: 360px;">';
-        echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank"><img src="' . $doc['preview'] . '" alt="" border="0" style="max-height: 100%;" /></a>';
+        echo '<div class="doc-preview-container">';
+        echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank"><img src="' . $doc['preview'] . '" alt="" border="0" class="doc-preview-img" /></a>';
         echo '</div>';
     	echo '</div>';
     }
@@ -143,11 +231,11 @@ echo '<h5>Signs</h5>';
 
 echo '<div class="row">';
 foreach($an_signs as $index => $sign) {
-    echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center; margin: 0px 0px 20px 0px;">';
-    echo date('Y-m-d H:i:s', $sign['time']) . '<br />';
+    echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div">';
+    echo date('d/m/Y H:i:s', $sign['time']) . '<br />';
     echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank" class="common">' . $sign['sign_id'] . '</a><br />';
-    echo '<div style="width: 300px; height: 200px; max-width: 100%;">';
-    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank"><img src="' . $sign['preview'] . '" alt="" border="0" style="max-width: 100%; max-height: 100%;" /></a>';
+    echo '<div class="sign-preview-container">';
+    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank"><img src="' . $sign['preview'] . '" alt="" border="0"  class="sign-preview-img" /></a>';
     echo '</div>';
     echo '</div>';
 }
