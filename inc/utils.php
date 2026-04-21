@@ -532,7 +532,7 @@ function utils_get_link($secret) {
 
 function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$errors) {
 
-	global $lang, $tr, $page_role;
+	global $lang, $tr, $page_role, $user, $is_signed_in;
 
 	$user = [];
 	$res = model_user_exists(['user_id' => $user_id, 'user_key' => $user_key], [], $user);
@@ -542,7 +542,8 @@ function utils_user_validate($user_id, $user_key, &$user, &$is_signed_in, &$erro
 	}
 	if(sizeof($user) != 0) {
 		if($user['user_valid'] == 1) {
-			$errors['general'] = $tr['ACCOUNT.ALREADY_VALIDATED'];;
+			$errors['general'] = $tr['ACCOUNT.ALREADY_VALIDATED'];
+			$is_signed_in = true;
 		} else {
 			$res = model_user_validate($user_id, $user_key);
 			if($res == false) {
