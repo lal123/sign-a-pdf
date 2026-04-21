@@ -17,7 +17,7 @@ function get_dir($dir, $rel_dir, &$an_docs) {
             } else {
             	if(preg_match('/^([0-9a-f]{16})\.pdf$/', $fn, $matches)) {
             		list(, $pdf_id) = $matches;
-            		if(model_doc_get_from_pdf_id($pdf_id) !== false) {
+            		if(model_doc_get_from_pdf_id($pdf_id) === false) {
                         $pages = preg_match_all("/\/Page\W/", file_get_contents($dir . '/' . $fn), $matches);
                         if(!isset($pages) || ($pages == 0)) {
                             $pages = 1;
@@ -25,7 +25,7 @@ function get_dir($dir, $rel_dir, &$an_docs) {
                         $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/img/' . ($signed == 1 ? 'signed/' : '') . $pdf_id . ($pages > 1 ? '-0' : '') . '.png';
-            			$an_docs[] = ['path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
+            			$an_docs[$signed][] = ['pdf_id' => $pdf_id, 'path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
             		}
             	}
             }
@@ -66,8 +66,8 @@ db_close();
 </head>
 <body oncontextmenu="return false;">
 
-<div style="padding: 20px;">
-	<ul style="list-style-type: circle;">
+<div style="padding: 20px 20px 0px 20px;">
+	<ul style="list-style-type: circle; padding: 0px 0px 0px 20px;">
 <?php
 foreach($users as $index => $user) {
 	echo '<li style="margin: 0px 0px 6px 0px;">';
@@ -77,25 +77,37 @@ foreach($users as $index => $user) {
 ?>
 	</ul>
 </div>
-<div>
-	<ul style="list-style-type: circle;">
+<hr style="margin: 0px 0px 14px 0px; padding: 0;" />
+<div class="container-fluid">
 <?php
 
 uksort($an_docs, function($a, $b) {
     global $an_docs;
-    return strcasecmp($an_docs[$b]['time'], $an_docs[$a]['time']);
+    return strcasecmp($b, $a);
 });
 
-foreach($an_docs as $index => $doc) {
-	echo '<li style="margin: 0px 0px 6px 0px;">';
-	echo $doc['path'] . ' (' . $doc['pages'] . ')' . ' (' . date('Y-m-d H:i:s', $doc['time']) . ')';
-    echo '<div style="height: 200px;">';
-    echo '<img src="' . $doc['preview'] . '" alt="" border="0" style="max-height: 100%;" />';
+foreach($an_docs as $signed => $docs) {
+
+    uksort($docs, function($a, $b) {
+        global $docs;
+        return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
+    });
+
+    echo '<h4>' . ($signed ? 'Signed' : 'Unsigned') . '</h4>';
+
+    echo '<div class="row">';
+    foreach($docs as $index => $doc) {
+    	echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12" style="text-align: center; margin: 0px 0px 20px 0px;">';
+    	echo date('Y-m-d H:i:s', $doc['time']) . '<br />';
+        echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank" class="common">' . $doc['pdf_id'] . '</a> (' . $doc['pages'] . ' page' . ($doc['pages'] > 1 ? 's' : '') . ')' . '<br />';
+        echo '<div style="height: 360px;">';
+        echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank"><img src="' . $doc['preview'] . '" alt="" border="0" style="max-height: 100%;" /></a>';
+        echo '</div>';
+    	echo '</div>';
+    }
     echo '</div>';
-	echo '</li>';
 }
 ?>
-	</ul>
 </div>
 
 </body>
