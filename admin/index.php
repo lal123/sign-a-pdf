@@ -139,7 +139,7 @@ uksort($an_signs, function($a, $b) {
     return strcasecmp($an_signs[$b]['time'], $an_signs[$a]['time']);
 });
 
-echo '<h4>Signs</h4>';
+echo '<h5>Signs</h5>';
 
 echo '<div class="row">';
 foreach($an_signs as $index => $sign) {
