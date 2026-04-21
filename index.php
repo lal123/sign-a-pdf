@@ -47,10 +47,11 @@ require_once 'inc/utils.php';
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601" crossorigin="anonymous"></script>
 <?php
-if(false && ($page == 'account') && ($action == 'confirm')) {
+if(($page == 'account') && ($action == 'validate')) {
 ?>
     <script>
-      gtag('event', 'form_submit', {});
+      gtag('event', 'conversion_event_signup', {
+      });
     </script>
 <?php
 }
