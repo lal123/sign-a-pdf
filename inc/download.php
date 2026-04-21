@@ -10,10 +10,16 @@ if($is_signed_in) {
 	$pages = $doc['doc_pages'];
 	$signed = $doc['doc_signed'];
 	$doc_size = $doc['doc_size'];
-	if($doc['doc_user_id'] != $user['user_id']) die();
+	if($doc['doc_user_id'] != $user['user_id']) {
+		http_response_code(403);
+		die('Forbidden');
+	}
 } else {
 	$doc = $_SESSION['docs'][$pdf_id];
-	if(!isset($doc)) die();
+	if(!isset($doc)) {
+		http_response_code(403);
+		die('Forbidden');
+	}
 	$name = $doc['name'];
 	$pages = $doc['pages'];
 	$signed = $doc['signed'];
