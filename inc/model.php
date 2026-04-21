@@ -7,12 +7,13 @@ function model_get_user_list() {
     
     global $base, $cdb;
     
-    $ret = array();
+    $ret = false;
     $sql = "select * from `{$base}`.`users`"
             . " where 1"
             . " order by user_creato desc";
     $res = db_query($sql);
     if($res != false){
+        $ret = [];
         while($arr = db_fetch_assoc($res)){
             $ret[] = $arr;
         }
