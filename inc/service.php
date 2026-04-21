@@ -258,7 +258,9 @@ switch($action) {
 
 			if($is_signed_in) {
 				$user_id = $user['user_id'];
-				model_sign_create(['sign_user_id' => $user_id, 'sign_file_id' => $sign_id, 'sign_width' => $sign_width, 'sign_height' => $sign_height]);
+				if($sign_option != 4) {
+					model_sign_create(['sign_user_id' => $user_id, 'sign_file_id' => $sign_id, 'sign_width' => $sign_width, 'sign_height' => $sign_height]);
+				}
 				$signs_numb = model_sign_get_numb($user_id);
 			} else {
 		        $order = 1;

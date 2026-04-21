@@ -296,7 +296,7 @@ function model_sign_create($values) {
     } else {
         return $res;
     }
-    
+
     $sql = "insert into `{$base}`.`signs` ("
         . "`sign_user_id`, "
         . "`sign_file_id`, "
@@ -314,7 +314,7 @@ function model_sign_create($values) {
         . "now(), "
         . "now()"
         . ")";
-    write_log(__METHOD__, $sql);
+    //write_log(__METHOD__, $sql);
     $res = db_query($sql);
     return $res;
 }
