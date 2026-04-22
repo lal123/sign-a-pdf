@@ -197,12 +197,13 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 <?php
 foreach($users as $index => $user) {
     $doc_numb = model_doc_get_numb($user['user_id']);
+    $doc_total_size = model_doc_get_total_size($user['user_id']);
     $sign_numb = model_sign_get_numb($user['user_id']);
 	echo '<li style="margin: 0px 0px 6px 0px;">';
     echo '<div class="row">';
 	echo '<div class="col-sm-1"><a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a></div>';
     echo '<div class="col-sm-2">' . date('d/m/Y H:i:s', strtotime($user['user_creato'])) . '</div>';
-    if($doc_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getDocs(' . $user['user_id'] . ')">' . $doc_numb . ' document' . ($doc_numb > 1 ? 's' : '') . '</a></div>';
+    if($doc_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getDocs(' . $user['user_id'] . ')">' . $doc_numb . ' document' . ($doc_numb > 1 ? 's' : '') . '</a> (' . utils_formatSizeUnits($doc_total_size) . ')</div>';
     if($sign_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getSigns(' . $user['user_id'] . ')">' . $sign_numb . ' signature' . ($sign_numb > 1 ? 's' : '') . '</a></div>';
     echo '</div>';
     echo '<div class="row docs_row signed" user_id="' . $user['user_id'] . '"></div>';
@@ -235,7 +236,7 @@ foreach($an_docs as $signed => $docs) {
         return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
     });
 
-    echo '<h5>' . ($signed ? 'Signed' : 'Unsigned') . ' docs</h5>';
+    echo '<h5>' . ($signed ? 'Signed' : 'Unsigned') . ' docs (' . sizeof($docs) . ')</h5>';
 
     echo '<div class="row">';
     foreach($docs as $index => $doc) {
@@ -260,7 +261,7 @@ uksort($an_signs, function($a, $b) {
     return strcasecmp($an_signs[$b]['time'], $an_signs[$a]['time']);
 });
 
-echo '<h5>Signs</h5>';
+echo '<h5>Signs (' . sizeof($an_signs) . ')</h5>';
 
 echo '<div class="row">';
 foreach($an_signs as $index => $sign) {

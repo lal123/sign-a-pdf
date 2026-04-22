@@ -198,6 +198,23 @@ function model_doc_get_numb($doc_user_id) {
     return $doc_numb;
 }
 
+function model_doc_get_total_size($doc_user_id) {
+    
+    global $base, $cdb;
+    
+    $doc_size = 0;
+    $sql = "select sum(doc_size) from `{$base}`.`docs`"
+            . " where 1"
+            . " and doc_user_id='" . db_escape($doc_user_id) . "'";
+    //write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false){
+        list($doc_size) = db_fetch_row($res);
+    }
+    //write_log(__METHOD__, "[doc_numb][{$doc_numb}]");
+    return $doc_size;
+}
+
 function model_doc_delete($doc_pdf_id) {
 
     global $base, $cdb;
