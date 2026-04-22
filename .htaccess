@@ -33,6 +33,7 @@ allow from all
 
 #individual access attempts to /wp-admin/ etc
 deny from 34.78.0.85
+deny from 45.94.31.11
 deny from 92.118.39.126
 deny from 104.23.217.0/24
 deny from 104.23.221.0/24
