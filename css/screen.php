@@ -83,7 +83,7 @@ a:active, a:focus {
 }
 
 #doc-container {
-	padding-bottom: 120px;
+	//padding-bottom: 120px;
 }
 
 #doc-container #nav-bar {
@@ -627,6 +627,62 @@ a.common:hover {
 
 	#textFontPreview {
 		max-width: 85px;
+	}
+}
+
+div.mid-ad div {
+ 	margin: 20px 0px 70px 0px;
+}
+
+div.mid-ad div {
+ 	display: none;
+}
+
+div.mid-ad .ad-large {
+	//background-color: red;
+}
+
+div.mid-ad .ad-medium {
+	//background-color: blue;
+}
+
+div.mid-ad .ad-small {
+	//background-color: yellow;
+}
+
+div.mid-ad .ad-auto {
+	//background-color: red;
+}
+
+@media screen and (min-width: 1024px) {
+	div.mid-ad .ad-large {
+		display: block;
+		width: 970px;
+		height: 250px;
+	}
+}
+
+@media screen and (min-width: 800px) and (max-width: 1023px) {
+	div.mid-ad .ad-medium {
+		display: block;
+		width: 770px;
+		height: 200px;
+	}
+}
+
+@media screen and (min-width: 400px) and (max-width: 799px) {
+	div.mid-ad .ad-small {
+		display: block;
+		width: 370px;
+		height: 150px;
+	}
+}
+
+@media screen and (max-width: 399px) {
+	div.mid-ad .ad-auto {
+		display: block;
+		width: 320px;
+		height: 100px;
 	}
 }
 

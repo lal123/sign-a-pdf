@@ -163,6 +163,18 @@ if($is_signed_in) {
 include "inc/content/{$page}.php";
 
 ?>
+    <center>
+        <div class="mid-ad">
+            <div class="ad-large">
+            </div>
+            <div class="ad-medium">
+            </div>
+            <div class="ad-small">
+            </div>
+            <div class="ad-auto">
+            </div>
+        </div>
+    </center>
 </div>
 
 <div class="container">
