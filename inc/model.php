@@ -121,7 +121,7 @@ function model_get_mail_model($mail_lang, $mail_role) {
     global $base, $cdb;
     
     $arr = [];
-    $sql = "select * from `{$base}`.`mail_models`"
+    $sql = "select * from `{$base}`.`mails`"
             . " where 1"
             . " and `mail_lang` = '{$mail_lang}'"
             . " and `mail_role` = '{$mail_role}'";
