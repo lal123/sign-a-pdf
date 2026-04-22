@@ -49,8 +49,10 @@ require_once 'inc/utils.php';
 <?php
 if(($page == 'account') && ($action == 'validate')) {
 ?>
+    <!-- Google tag (gtag.js) event -->
     <script>
-      gtag('event', 'conversion_event_signup', {
+      gtag('event', 'conversion_event_signup_1', {
+        // <event_parameters>
       });
     </script>
 <?php
