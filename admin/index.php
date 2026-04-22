@@ -207,7 +207,7 @@ foreach($users as $index => $user) {
     $sign_numb = model_sign_get_numb($user['user_id']);
 	echo '<li style="margin: 0px 0px 6px 0px;">';
     echo '<div class="row">';
-	echo '<div class="col-sm-1"><a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a></div>';
+	echo '<div class="col-sm-2"><a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a></div>';
     echo '<div class="col-sm-2">' . date('d/m/Y H:i:s', strtotime($user['user_creato'])) . '</div>';
     echo '<div class="col-sm-2">';
     if($doc_numb > 0) echo '<a href="javascript:void(0)" class="common" onclick="return getDocs(' . $user['user_id'] . ')">' . $doc_numb . ' document' . ($doc_numb > 1 ? 's' : '') . '</a> (' . utils_formatSizeUnits($doc_total_size) . ')';
@@ -215,8 +215,8 @@ foreach($users as $index => $user) {
     echo '<div class="col-sm-2">';
     if($sign_numb > 0) echo '<a href="javascript:void(0)" class="common" onclick="return getSigns(' . $user['user_id'] . ')">' . $sign_numb . ' signature' . ($sign_numb > 1 ? 's' : '') . '</a>';
     echo '</div>';
-    echo '<div class="col-sm-2"><a href="https://whatismyipaddress.com/ip/'. $user['user_ip_address'] . '" target="_blank" class="common">' . $user['user_ip_address'] . '</a></div>';
-    echo '<div class="col-sm-2 accept-language">' . $user['user_accept_language'] . '</div>';
+    echo '<div class="col-sm-1"><a href="https://whatismyipaddress.com/ip/'. $user['user_ip_address'] . '" target="_blank" class="common">' . $user['user_ip_address'] . '</a></div>';
+    echo '<div class="col-sm-3 accept-language">' . $user['user_accept_language'] . '</div>';
     echo '</div>';
     echo '<div class="row docs_row signed" user_id="' . $user['user_id'] . '"></div>';
     echo '<div class="row docs_row unsigned" user_id="' . $user['user_id'] . '"></div>';
