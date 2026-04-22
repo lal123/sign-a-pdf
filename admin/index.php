@@ -74,21 +74,26 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
     <script>
         var lang = '<?php echo $lang; ?>';
         function getDocs(user_id) {
-            $.ajax({
-                url: './inc/service.php',
-                type: 'POST',
-                data: {'action': 'get_docs', 'user_id' : user_id, 'lang': lang}
-            }).done(function(data) {
-                eval(data);
-            });
+            if($('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').is(':visible')) {
+                $('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').hide();
+            } else {
+                $.ajax({
+                    url: './inc/service.php',
+                    type: 'POST',
+                    data: {'action': 'get_docs', 'user_id' : user_id, 'lang': lang}
+                }).done(function(data) {
+                    eval(data);
+                });
+            }
             return false;
         }
         function docsShow(user_id, docs_json) {
+            $('.doc-preview-div.by-user').hide();
             var docs = JSON.parse(docs_json);
             html = '';
             for(doc_id in docs) {
                 var time = new Date(docs[doc_id]['time'] * 1000);
-                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div">';
+                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div by-user">';
                 html+= time.toLocaleDateString("fr-FR") + ' ' + time.toLocaleTimeString("fr-FR") + '<br />';
                 html+= '<a href="/uploads/pdf/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + '.pdf" target="_blank" class="common">' + doc_id + '</a> (' + docs[doc_id]['pages'] +' page' + (docs[doc_id]['pages'] > 1 ? 's' : '') + ')<br />';
                 html+= '<div class="doc-preview-container">';
@@ -97,24 +102,30 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
                 html+= '</div>';
             }
             $('.docs_row[user_id=' + user_id + ']').html(html);
+            $('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').show();
             return false;
         }
         function getSigns(user_id) {
-            $.ajax({
-                url: './inc/service.php',
-                type: 'POST',
-                data: {'action': 'get_signs', 'user_id' : user_id, 'lang': lang}
-            }).done(function(data) {
-                eval(data);
-            });
+            if($('.signs_row[user_id=' + user_id + '] .sign-preview-div.by-user').is(':visible')) {
+                $('.signs_row[user_id=' + user_id + '] .sign-preview-div.by-user').hide();
+            } else {
+                $.ajax({
+                    url: './inc/service.php',
+                    type: 'POST',
+                    data: {'action': 'get_signs', 'user_id' : user_id, 'lang': lang}
+                }).done(function(data) {
+                    eval(data);
+                });
+            }
             return false;
         }
         function signsShow(user_id, signs_json) {
+            $('.sign-preview-div.by-user').hide();
             var signs = JSON.parse(signs_json);
             html = '';
             for(sign_id in signs) {
                 var time = new Date(signs[sign_id]['time'] * 1000);
-                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div">';
+                html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div by-user">';
                 html+= time.toLocaleDateString("fr-FR") + ' ' + time.toLocaleTimeString("fr-FR") + '<br />';
                 html+= '<a href="/uploads/sign/' + sign_id + '.png" target="_blank" class="common">' + sign_id + '</a><br />';
                 html+= '<div class="sign-preview-container">';
@@ -123,6 +134,7 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
                 html+= '</div>';
             }
             $('.signs_row[user_id=' + user_id + ']').html(html);
+            $('.signs_row[user_id=' + user_id + '] .sign-preview-div.by-user').show();
             return false;
         }
     </script>
