@@ -32,6 +32,8 @@ function model_user_create($values) {
         . "`user_key`, "
         . "`user_valid`, "
         . "`user_optin`, "
+        . "`user_ip_address`, "
+        . "`user_accept_language`, "
         . "`user_creato`, "
         . "`user_modifo`"
         . ") values ("
@@ -41,6 +43,8 @@ function model_user_create($values) {
         . "'" . db_escape($values['user_key']) . "', "
         . "0, "
         . $values['user_optin'] . ", "
+        . "'" . db_escape(utils_get_ip()) . "', "
+        . "'" . db_escape($_SERVER['HTTP_ACCEPT_LANGUAGE']) . "', "
         . "now(), "
         . "now()"
         . ")";

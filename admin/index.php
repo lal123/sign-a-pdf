@@ -49,7 +49,7 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
 <head>
-    <title><?php echo $page_title; ?></title>
+    <title>Admin - Index</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/favicon.ico" />
