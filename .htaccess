@@ -40,6 +40,7 @@ deny from 104.23.221.0/24
 deny from 104.23.223.0/24
 deny from 104.23.239.0/24
 deny from 128.90.157.18
+deny from 136.109.61.102
 deny from 156.227.28.9
 deny from 162.158.86.0/24
 deny from 162.158.87.0/24
