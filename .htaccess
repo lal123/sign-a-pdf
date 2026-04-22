@@ -19,6 +19,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule "^(en|fr)/docs/([a-f0-9]{16})/?$" index.php?lang=$1&page=docs&pdf_id=$2&%{QUERY_STRING} [L]
 RewriteRule "^(en|fr)/download/([a-f0-9]{16})/?$" inc/download.php?lang=$1&file=$2&%{QUERY_STRING} [L]
+RewriteRule "^(en|fr)/download_sign/([a-f0-9]{16})/(.*)$" inc/download_sign.php?lang=$1&sign_file=$2&sign_name=$3&%{QUERY_STRING} [L]
 RewriteRule "^(en|fr)/?([a-z0-9\-]*)/?$" index.php?lang=$1&page=$2&%{QUERY_STRING} [L]
 
 order allow,deny

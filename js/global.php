@@ -384,7 +384,7 @@ var sign = {
     },
 
     download: function(sign_file_id, sign_name) {
-        document.location.href = '/inc/download_sign.php?sign_file=' + sign_file_id + '&sign_name=' + sign_name + '&lang=' + lang;
+        document.location.href = '/' + lang + '/download_sign/' + sign_file_id + '/' + encodeURIComponent(sign_name);
         return false;
     },
 
