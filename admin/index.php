@@ -71,10 +71,44 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/farbtastic-1.2.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
+    <style>
+        .doc-preview-div {
+            text-align: center;
+            margin: 0px 0px 20px 0px;"
+        }
+        .doc-preview-container {
+            height: 360px;
+            max-width: 100%;
+            padding: 4px;
+        }
+        .doc-preview-img {
+            max-height: 100%;
+        }
+        .sign-preview-div {
+            text-align: center;
+            margin: 0px 0px 20px 9px;
+            border: dotted 1px #606060;
+            border-radius: 18px;
+            padding: 9px;
+        }
+        .sign-preview-container {
+            width: 300px;
+            max-width: 100%;
+            padding: 4px;
+        }
+        .sign-preview-img {
+            max-width: 100%;
+        }
+        .signs_row h5, .docs_row h5 {
+            margin: 10px 0px 10px 0px;
+        }
+    </style>
     <script>
         var lang = '<?php echo $lang; ?>';
         function getDocs(user_id) {
             if($('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').is(':visible')) {
+                $('.docs_row').html('');
+                $('.signs_row').html('');
                 $('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').hide();
             } else {
                 $.ajax({
@@ -88,10 +122,13 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
             return false;
         }
         function docsShow(user_id, docs_json) {
-            $('.doc-preview-div.by-user').hide();
+            $('.docs_row').html('');
+            $('.signs_row').html('');
             var docs = JSON.parse(docs_json);
-            html = '';
+            html_signed = '<h5>Signed docs</h5>';
+            html_unsigned = '<h5>Unsigned docs</h5>';
             for(doc_id in docs) {
+                html = '';
                 var time = new Date(docs[doc_id]['time'] * 1000);
                 html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div by-user">';
                 html+= time.toLocaleDateString("fr-FR") + ' ' + time.toLocaleTimeString("fr-FR") + '<br />';
@@ -100,13 +137,21 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
                 html+= '<a href="/uploads/pdf/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + '.pdf" target="_blank"><img src="/uploads/img/' + (docs[doc_id]['signed'] == 1 ? 'signed/' : '') + doc_id + (docs[doc_id]['pages'] > 1 ? '-0' : '') + '.png" alt="" border="0"  class="doc-preview-img" /></a>';
                 html+= '</div>';
                 html+= '</div>';
+                if(docs[doc_id]['signed'] == 1) {
+                    html_signed+= html;
+                } else {
+                    html_unsigned+= html;
+                }
             }
-            $('.docs_row[user_id=' + user_id + ']').html(html);
+            $('.docs_row.signed[user_id=' + user_id + ']').html(html_signed);
+            $('.docs_row.unsigned[user_id=' + user_id + ']').html(html_unsigned);
             $('.docs_row[user_id=' + user_id + '] .doc-preview-div.by-user').show();
             return false;
         }
         function getSigns(user_id) {
             if($('.signs_row[user_id=' + user_id + '] .sign-preview-div.by-user').is(':visible')) {
+                $('.docs_row').html('');
+                $('.signs_row').html('');
                 $('.signs_row[user_id=' + user_id + '] .sign-preview-div.by-user').hide();
             } else {
                 $.ajax({
@@ -120,9 +165,10 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
             return false;
         }
         function signsShow(user_id, signs_json) {
-            $('.sign-preview-div.by-user').hide();
+            $('.docs_row').html('');
+            $('.signs_row').html('');
             var signs = JSON.parse(signs_json);
-            html = '';
+            html = '<h5>Signs</h5>';
             for(sign_id in signs) {
                 var time = new Date(signs[sign_id]['time'] * 1000);
                 html+= '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div by-user">';
@@ -138,32 +184,6 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
             return false;
         }
     </script>
-    <style>
-        .doc-preview-div {
-            text-align: center;
-            margin: 0px 0px 20px 0px;
-        }
-        .doc-preview-container {
-            height: 360px;
-            max-width: 100%;
-            padding: 4px;
-        }
-        .doc-preview-img {
-            max-height: 100%;
-        }
-        .sign-preview-div {
-            text-align: center;
-            margin: 0px 0px 20px 0px;"
-        }
-        .sign-preview-container {
-            width: 300px;
-            max-width: 100%;
-            padding: 4px;
-        }
-        .sign-preview-img {
-            max-width: 100%;
-        }
-    </style>
 </head>
 <body oncontextmenu="return false;">
 
@@ -185,7 +205,8 @@ foreach($users as $index => $user) {
     if($doc_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getDocs(' . $user['user_id'] . ')">' . $doc_numb . ' documents</a></div>';
     if($sign_numb > 0) echo '<div class="col-sm-2"><a href="javascript:void(0)" class="common" onclick="return getSigns(' . $user['user_id'] . ')">' . $sign_numb . ' signatures</a></div>';
     echo '</div>';
-    echo '<div class="row docs_row" user_id="' . $user['user_id'] . '"></div>';
+    echo '<div class="row docs_row signed" user_id="' . $user['user_id'] . '"></div>';
+    echo '<div class="row docs_row unsigned" user_id="' . $user['user_id'] . '"></div>';
     echo '<div class="row signs_row" user_id="' . $user['user_id'] . '"></div>';
 	echo '</li>';
 }
