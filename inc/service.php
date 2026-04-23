@@ -72,14 +72,12 @@ switch($action) {
 		if(isset($_SESSION['points']) && ($_SESSION['points'] != 0)) {
 			$points = $_SESSION['points'];
 		}
-    	$count = pdf_count_pages($pdf_id, $signed);
+    	$count = pdf_count_pages($pdf_id, $pages, $signed);
 		$percent = ceil($count / $pages * 100);
         echo "$('#modal-info').html('" . ($count == 0 ? $tr['UPLOAD.WAITING_MSG'] . ' ' . str_repeat('.', $points) : $tr['UPLOAD.PREPARING_DOC'] . " :&nbsp; {$count} / {$pages}&nbsp; ({$percent}%)") . "');\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
-		//echo "console.log('{$count}/{$pages}');\n";
 		if($count >= $pages) {
-			sleep(1);
 			$_SESSION['points'] = 0;
 			echo "document.location.href = '/{$lang}/docs/{$pdf_id}';\n";
 		} else {

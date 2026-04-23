@@ -108,13 +108,25 @@ function pdf_check_pages_numb($pdf_id) {
     return $pages;
 }
 
-function pdf_count_pages($pdf_id, $signed = false) {
+function pdf_count_pages($pdf_id, $pages, $signed) {
 
 	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
+    
     $count = 0;
+
     $fh = opendir($img_dir);
 	while($filename = readdir($fh)) {
-		if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
+		if(preg_match("/^{$pdf_id}\-?([0-9]+)?\.png$/", $filename, $matches)) {
+			list(, $page_index) = $matches;
+			if(isset($page_index) && ($page_index != '')) {
+				$page_numb = intval($page_index + 1);
+				if($pages == 1) {
+					sleep(1);
+				}
+			} else {
+				$page_numb = 1;
+			}
+			write_log(__METHOD__, "{$filename} ({$page_numb})");
 			$img_file = $img_dir . '/' . $filename;
 			$tmp_img = imagecreatefrompng($img_file);
 			if($tmp_img != false) {
