@@ -39,11 +39,21 @@ function pdf_convert_to_png() {
 		            } while (file_exists($pdf_file));
 		            
 		            move_uploaded_file($tmp_name, $pdf_file);
-		        	
+
+					$pages = 1;
+
+					$command = '/usr/bin/pdfinfo ' . $pdf_file . ' | grep -- ^Pages';
+				    exec($command, $output, $return_var);
+				    if(preg_match('/([0-9]+)$/', $output[0], $matches)) {
+				    	list(, $pages) = $matches;
+				    }
+				    
+				    /*
 					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
 					if(!isset($pages) || ($pages == 0)) {
 						$pages = 1;
 					}
+					*/
 
 					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
 
