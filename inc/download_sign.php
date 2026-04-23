@@ -13,7 +13,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Content-Type: image/png");
 
-header("Content-Disposition: attachment; filename={$sign_name}");
+header("Content-Disposition: attachment; filename={$sign_name}.png");
 
 $content = file_get_contents($filename);
 
