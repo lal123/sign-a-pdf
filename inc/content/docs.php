@@ -15,6 +15,12 @@ function docs_show_list($docs, $signed) {
 
     $count = 0;
     foreach($docs as $pdf_id_key => $details) {
+        
+        $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
+        if(!file_exists($img_filename)) {
+            unset($_SESSION['docs'][$signed][$pdf_id_key]);
+            continue;
+        }
 
         if($details['signed'] != $signed) {
             continue;
