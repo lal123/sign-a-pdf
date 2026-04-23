@@ -87,15 +87,11 @@ function pdf_convert_to_png() {
 	return $ret;
 }
 
-function pdf_check_pages_numb($pdf_id) {
-
-	$img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
-	if(!file_exists($img_dir)){
-		mkdir($img_dir);
-		chmod($img_dir, 0777);
-	}
+function pdf_check_pages_numb($img_dir, $pdf_id) {
 
 	$pages = 1;
+
+	write_log(__METHOD__, 'Testing ' . $img_dir . '/' . $pdf_id . '.png');
 
     if(!file_exists($img_dir . '/' . $pdf_id . '.png')) {
     	$pages = 0;
@@ -120,13 +116,13 @@ function pdf_count_pages($pdf_id, $pages, $signed) {
 			list(, $page_index) = $matches;
 			if(isset($page_index) && ($page_index != '')) {
 				$page_numb = intval($page_index + 1);
-				if($pages == 1) {
-					sleep(1);
+				if(($pages == 1) || ($page_numb > $pages)) {
+					write_log(__METHOD__, 'unexpected file ' . $img_dir . '/' . $filename . ' - ' . $pages . ' page' . ($pages > 1  ? 's' : '') . ' expected');
+					sleep(2);
 				}
 			} else {
 				$page_numb = 1;
 			}
-			write_log(__METHOD__, "{$filename} ({$page_numb})");
 			$img_file = $img_dir . '/' . $filename;
 			$tmp_img = imagecreatefrompng($img_file);
 			if($tmp_img != false) {

@@ -252,6 +252,13 @@ foreach($an_docs as $signed => $docs) {
 
     echo '<div class="row">';
     foreach($docs as $index => $doc) {
+        
+
+        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/img' . ($doc['signed'] ? '/signed' : ''), $doc['pdf_id']);
+        if($pages != $doc['pages']) {
+            $doc['pages'] = $pages;
+        }
+
     	echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 doc-preview-div">';
     	echo date('d/m/Y H:i:s', $doc['time']) . '<br />';
         echo '<a href="/' . UPLOAD_DIR . '/pdf/' . ($doc['signed'] ? 'signed/' : '') . $doc['pdf_id'] . '.pdf" target="_blank" class="common">' . $doc['pdf_id'] . '</a> (' . $doc['pages'] . ' page' . ($doc['pages'] > 1 ? 's' : '') . ')' . '<br />';

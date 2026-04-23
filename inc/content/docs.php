@@ -49,7 +49,6 @@ function docs_show_list($docs, $signed) {
    <div class="col-lg-6 ms-0 mt-3 mb-3">
 <?php
 if($pdf_id != '') {
-    $pages = pdf_check_pages_numb($pdf_id);
     if($is_signed_in) {
         $doc = model_doc_get_from_pdf_id($pdf_id);
         $doc_name = $doc['doc_name'];
@@ -57,6 +56,7 @@ if($pdf_id != '') {
         $doc_size = $doc['doc_size'];
         $doc_time = strtotime($doc['doc_creato']);
         $doc_pages = $doc['doc_pages'];
+        $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
         if($pages != $doc_pages) {
             model_doc_update_pages($pdf_id, $pages);
             $doc_pages = $pages;
@@ -67,6 +67,7 @@ if($pdf_id != '') {
         $doc_size = $_SESSION['docs'][$pdf_id]['size'];
         $doc_time = $_SESSION['docs'][$pdf_id]['time'];
         $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];
+        $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
         if($pages != $doc_pages) {
             $_SESSION['docs'][$pdf_id]['pages'] = $pages;
             $doc_pages = $pages;
