@@ -81,6 +81,10 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
         li.user.invalid {
             color: #808080;
         }
+        li.user.invalid a.common{
+            color: #808080;
+            border-bottom: dotted 1px #808080;
+        }
         .doc-preview-div {
             text-align: center;
             margin: 0px 0px 20px 0px;"
