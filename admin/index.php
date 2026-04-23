@@ -75,6 +75,12 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
     <script src="/js/farbtastic-1.2.js"></script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
     <style>
+        li.user {
+            margin: 0px 0px 6px 0px;*
+        }
+        li.user.invalid {
+            color: #808080;
+        }
         .doc-preview-div {
             text-align: center;
             margin: 0px 0px 20px 0px;"
@@ -209,7 +215,7 @@ foreach($users as $index => $user) {
     $doc_numb = model_doc_get_numb($user['user_id']);
     $doc_total_size = model_doc_get_total_size($user['user_id']);
     $sign_numb = model_sign_get_numb($user['user_id']);
-	echo '<li style="margin: 0px 0px 6px 0px;">';
+	echo '<li class="user' . ($user['user_valid'] == 1 ? ' valid' : ' invalid') . '">';
     echo '<div class="row">';
 	echo '<div class="col-sm-2"><a href="' . utils_create_link('account', 'update', $user['user_id'], $user['user_key']) . '" target= "_blank" class="common">' . $user['user_name'] . '</a></div>';
     echo '<div class="col-sm-2">' . date('d/m/Y H:i:s', strtotime($user['user_creato'])) . '</div>';
