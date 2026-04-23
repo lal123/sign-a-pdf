@@ -169,6 +169,10 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     $intr_h = imagesy($page0_img);
 
     $page_img = imagecreatetruecolor($intr_w, $intr_h);
+    
+    $transparent = imagecolorallocatealpha($page_img, 255, 255, 255, 127);
+    imagefill($page_img, 0, 0, $transparent);
+
     imagecopy($page_img, $page0_img, 0, 0, 0, 0, $intr_w, $intr_h);
 
     //imagealphablending($page_img, true);
