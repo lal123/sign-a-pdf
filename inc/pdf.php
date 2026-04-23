@@ -91,8 +91,6 @@ function pdf_check_pages_numb($img_dir, $pdf_id) {
 
 	$pages = 1;
 
-	write_log(__METHOD__, 'Testing ' . $img_dir . '/' . $pdf_id . '.png');
-
     if(!file_exists($img_dir . '/' . $pdf_id . '.png')) {
     	$pages = 0;
     	while(file_exists($img_dir . '/' . $pdf_id . '-' . $pages . '.png')) {

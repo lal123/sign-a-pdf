@@ -19,11 +19,14 @@ function get_dir($type, $dir, $rel_dir, &$items) {
                 if(($type == 'pdf') && preg_match('/^([0-9a-f]{16})\.(pdf)$/', $fn, $matches)) {
             		list(, $pdf_id) = $matches;
             		if(model_doc_get_from_pdf_id($pdf_id) === false) {
+                        /*
                         $pages = preg_match_all("/\/Page\W/", file_get_contents($dir . '/' . $fn), $matches);
                         if(!isset($pages) || ($pages == 0)) {
                             $pages = 1;
                         }
+                        */
                         $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
+                        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed == 1 ? '/signed' : ''), $pdf_id);
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/img/' . ($signed == 1 ? 'signed/' : '') . $pdf_id . ($pages > 1 ? '-0' : '') . '.png';
             			$items[$signed][] = ['pdf_id' => $pdf_id, 'path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
