@@ -33,12 +33,12 @@ function get_dir($type, $dir, $rel_dir, &$items) {
             		}
             	} else if(($type == 'sign') && preg_match('/^([0-9a-f]{16})\.(png)$/', $fn, $matches)) {
                     list(, $sign_id) = $matches;
-                    $res = model_sign_get_from_file_id($sign_id);
-                    if(($res != null) && (sizeof($res) != 0)) {
+                    //$res = model_sign_get_from_file_id($sign_id);
+                    //if(($res != null) && (sizeof($res) != 0)) {
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/sign/' . $sign_id . '.png';
                         $items[] = ['sign_id' => $sign_id, 'path' => $rel_dir . $sign_id, 'preview' => $preview, 'time' => $time];
-                    }
+                    //}
                 }
             }
         }
