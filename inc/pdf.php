@@ -87,28 +87,35 @@ function pdf_convert_to_png() {
 	return $ret;
 }
 
+function pdf_check_pages_numb($pdf_id) {
+
+	$img_dir = getcwd() . '/' . UPLOAD_DIR . '/img';
+	if(!file_exists($img_dir)){
+		mkdir($img_dir);
+		chmod($img_dir, 0777);
+	}
+
+	$pages = 1;
+
+    if(!file_exists($img_dir . '/' . $pdf_id . '.png')) {
+    	$pages = 0;
+    	while(file_exists($img_dir . '/' . $pdf_id . '-' . $pages . '.png')) {
+    		$pages++;
+    	}
+
+    }
+
+    return $pages;
+}
+
 function pdf_count_pages($pdf_id, $signed = false) {
 
-	/*
-	$output = [];
-	$return_var = 0;
-	$command = "/usr/bin/ls -la {$img_dir}/{$pdf_id}*.png | wc -l";
-	exec($command, $output, $return_var);
-    if($return_var != 0) {
-        $err_msg = "{$command} exited with return_var {$return_var}\n";
-		write_log(__METHOD__, "*** ERROR *** {$err_msg}");
-		write_log(__METHOD__, "[command][{$command}][pdf_id][{$pdf_id}][return_var][{$return_var}][output][" . print_r($output, true) . "]");
-		return 0;
-    }
-    */
 	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
     $count = 0;
     $fh = opendir($img_dir);
 	while($filename = readdir($fh)) {
 		if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
 			$img_file = $img_dir . '/' . $filename;
-			//$filemtime = filemtime($img_file);
-			//write_log(__METHOD__, "match: {$img_file} ; filemtime: {$filemtime}");
 			$tmp_img = imagecreatefrompng($img_file);
 			if($tmp_img != false) {
 				imagedestroy($tmp_img);
@@ -116,9 +123,6 @@ function pdf_count_pages($pdf_id, $signed = false) {
 			}
 		}
 	}
-	/*
-	return $output[0];
-	*/
 	return $count;
 }
 

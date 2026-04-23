@@ -244,6 +244,22 @@ function model_doc_update_size($doc_pdf_id, $doc_size) {
             . " set `doc_size` = '" . db_escape($doc_size) . "'"
             . " where 1"
             . " and `doc_pdf_id` = '" . db_escape($doc_pdf_id) . "'";
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = true;
+    }
+    return $ret;
+}
+
+function model_doc_update_pages($doc_pdf_id, $doc_pages) {
+
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "update `{$base}`.`docs`"
+            . " set `doc_pages` = '" . db_escape($doc_pages) . "'"
+            . " where 1"
+            . " and `doc_pdf_id` = '" . db_escape($doc_pdf_id) . "'";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res != false) {

@@ -79,6 +79,7 @@ switch($action) {
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
 		//echo "console.log('{$count}/{$pages}');\n";
 		if($count >= $pages) {
+			//sleep(1);
 			$_SESSION['points'] = 0;
 			echo "document.location.href = '/{$lang}/docs/{$pdf_id}';\n";
 		} else {
