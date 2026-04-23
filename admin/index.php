@@ -86,6 +86,7 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
         }
         .doc-preview-img {
             max-height: 100%;
+            max-width: 249px;
         }
         .sign-preview-div {
             text-align: center;
