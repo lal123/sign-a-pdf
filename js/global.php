@@ -160,6 +160,7 @@ var docs = {
     changePage: function(page) {
         var pages_numb = $('.page-container').length;
         if((page < 1 ) || (page > pages_numb)) return false; 
+        $("*").css("cursor", "progress");
         $.each($('.page-container'), function(index, item) {
             if(!docs.preload.hasOwnProperty(index)) {
                 docs.preload[index] = new Image();
@@ -173,6 +174,7 @@ var docs = {
             setTimeout('docs.changePage(' + page + ')', 250);
         } else {
             var target_page = $('.page-container').eq(page - 1);
+            $("*").css("cursor", "default");
             $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
         }
         return false;
@@ -399,7 +401,8 @@ var sign = {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: data
+            data: data,
+            timeout: 90000
         }).done(function(data) {
             eval(data);
         });

@@ -69,6 +69,8 @@ function pdf_convert_to_png() {
 					// -type TrueColor
 					///write_log(__METHOD__, $command);
 
+					write_log(__METHOD__, "[pdf_id][{$pdf_id}][command][{$command}]");
+
 				    exec($command, $output, $return_var);
 
 				    if($return_var != 0) {
@@ -216,7 +218,7 @@ function pdf_convert_from_png($signed_pdf_id, $pages) {
 
 	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
 	// -type TrueColor
-	write_log(__METHOD__, $command);
+	write_log(__METHOD__, "[command][{$command}]");
     
     exec($command, $output, $return_var);
     
