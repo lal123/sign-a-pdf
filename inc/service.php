@@ -405,6 +405,9 @@ switch($action) {
         	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
 			$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 			$arr = json_decode($res, true);
+	        if(isset($arr['err_msg']) &&($arr['err_msg'] != '')) {
+	        	writelog(__METHOD__, "[error][{$error}]");
+	        }
         }
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {

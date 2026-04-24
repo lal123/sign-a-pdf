@@ -302,7 +302,8 @@ var docs = {
         docs.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: data
+            data: data,
+            timeout: 120000
         }).done(function(data) {
             eval(data);
         });
@@ -402,7 +403,7 @@ var sign = {
             url: '/inc/service.php',
             type: 'POST',
             data: data,
-            timeout: 90000
+            timeout: 120000
         }).done(function(data) {
             eval(data);
         });
