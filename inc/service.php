@@ -389,6 +389,9 @@ switch($action) {
 
     	$pages_numb = sizeof($pages_arr);
 
+	    list($usec, $sec) = explode(' ', microtime());
+	    $querytime_before = ((float)$usec + (float)$sec);
+	    
     	if(($pages_arr[$page_index] >= 1)  && ($pages_arr[$page_index] <= $pages)) {
 	    	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
 	    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
@@ -397,6 +400,13 @@ switch($action) {
 	    } else {
 	    	$arr['err_msg'] = $tr['DOCS.SIGN.INVALID_PAGE_INDEX'];
 	    }
+
+	    list($usec, $sec) = explode(' ', microtime());
+	    $querytime_after = ((float)$usec + (float)$sec);
+	    
+	    $querytime = $querytime_after - $querytime_before;
+	    
+		write_log('service_sign_page', "[page_id][{$page_id}][querytime][{$querytime}]");
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;
@@ -425,7 +435,7 @@ switch($action) {
 				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 			}
 		} else {
-			write_log(__METHOD__, '*** ERROR *** ' . $arr['err_msg']);
+			write_log('service_sign_page', '*** ERROR *** ' . $arr['err_msg']);
 			echo "$('#validateSignModal .global-error').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
 		}
 		break;
