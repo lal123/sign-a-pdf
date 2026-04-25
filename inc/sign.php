@@ -213,7 +213,7 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     return $ret;
 }
 
-function sign_create_signed_pages($pdf_id, $signed_pdf_id, $pages) {
+function sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages) {
 
     global $err_msg;
 

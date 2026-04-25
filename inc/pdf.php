@@ -144,25 +144,13 @@ function pdf_count_pages($pdf_id, $pages, $signed) {
 	return $count;
 }
 
-function pdf_import_unsigned_pages($pdf_id) {
+function pdf_create_signed_doc() {
 
 	global $err_msg;
 
 	$err_msg = '';
 	$signed_pdf_id = '';
 
-	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
-	if(!file_exists($img_dir)){
-		mkdir($img_dir);
-		chmod($img_dir, 0777);
-	}
-    
-    $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
-    if(!file_exists($signed_img_dir)){
-        mkdir($signed_img_dir);
-        chmod($signed_img_dir, 0777);
-    }
-    
 	$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
 	if(!file_exists($signed_pdf_dir)){
 		mkdir($signed_pdf_dir);
@@ -174,17 +162,6 @@ function pdf_import_unsigned_pages($pdf_id) {
         $signed_pdf_id = sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff)) . sprintf("%04x", rand(0, 0x0ffff));
         $signed_pdf_file = $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
     } while (file_exists($signed_pdf_file));
-
-    /*
-    $fh = opendir($img_dir);
-	while($filename = readdir($fh)) {
-		if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
-			list(, $suffix) = $matches;
-			//write_log(__METHOD__, "copy {$img_dir}/{$filename} => {$signed_img_dir}/{$signed_pdf_id}{$suffix}.png");
-			copy($img_dir . '/' . $filename, $signed_img_dir . '/' . $signed_pdf_id . $suffix . '.png');
-		}
-	}
-	*/
 
 	$ret = json_encode(['err_msg' => $err_msg, 'signed_pdf_id' => $signed_pdf_id], JSON_UNESCAPED_UNICODE);
 	return $ret;

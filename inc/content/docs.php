@@ -220,3 +220,24 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
+<div class="modal" data-bs-backdrop="static" id="validateSignModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN_DOC.TITLE']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="modal-info"><br /></div>
+                <div><br /></div>
+                <div id="modal-progress" class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
+                    <div id="modal-progress-bar" class="progress-bar text-bg-success" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 ms-3 mt-2 mb-0 global-error" style="color: red;"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+            </div>
+        </div>
+    </div>
+</div>

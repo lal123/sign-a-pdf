@@ -13,6 +13,7 @@ $fonts = model_get_font_list();
         <input type="hidden" name="sign_inc" id="signInc" value="1" />
         <input type="hidden" name="page_option" id="pageOption" value="<?php echo $page_option; ?>" />
         <input type="hidden" name="sign_pages" id="signPages" value="<?php echo $sign_pages; ?>" />
+        <input type="hidden" name="pages" id="pages" value="<?php echo $pages; ?>" />
         <input type="hidden" name="text_font" id="textFont" value="<?php echo $text_font; ?>" />
         <input type="hidden" name="text_color" id="textColor" value="<?php echo $text_color; ?>" ?>
         <div class="form-check mb-2">

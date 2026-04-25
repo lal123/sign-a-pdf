@@ -15,6 +15,7 @@
         <input type="hidden" name="sign_id" value="<?php echo $sign_id; ?>" />
         <input type="hidden" name="sign_width" value="<?php echo $sign_width; ?>" />
         <input type="hidden" name="sign_height" value="<?php echo $sign_height; ?>" />
+        <input type="hidden" name="pages" id="pages" value="<?php echo $pages; ?>" />
         <input type="hidden" name="sign_data" id="signData" value="" />
         <div class="form-check mb-2">
             <input class="form-check-input" type="radio" name="page_option" value="1" id="signOption1"<?php if($page_option == 1) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(1); return true;" />

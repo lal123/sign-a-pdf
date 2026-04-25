@@ -17,6 +17,10 @@ var upload = {
     req: null,
     byte_units: <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>,
    
+    incValidate: function(page_index) {
+        console.log('incValidate', page_index);
+    },
+
     dialog: function() {
         $('#upload_file').click();
         return false;
@@ -283,7 +287,7 @@ var docs = {
     },
 
     initSign: function(pdf_id) {
-        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 4, 'page_option': 1, 'sign_pages': '', 'lang': lang})
+        return docs.getSignStep({'action': 'get_sign_step', 'pdf_id': pdf_id, 'sign_step': 0, 'sign_inc': 1, 'sign_option': 4, 'page_option': 1, 'sign_pages': '', 'pages': $('.page-container').length, 'lang': lang})
     },
 
     prepareDownload: function(pdf_id) {
@@ -326,6 +330,7 @@ var sign = {
     canvas: null,
     c: {f: false, x: null, y: null},
     prevObjId: null,
+    req: null,
 
     adjust: function(pdf_id, signed_pdf_id, sign_id, page_option, sign_pages, sign_width, sign_height) {
         if(page_option == 2) {
@@ -359,7 +364,7 @@ var sign = {
         var page_id = target_page.attr('id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
-        signPreview.html('<div class="helper ne"></div><div class="helper nw"></div><div class="helper sw"></div><div class="helper se"></div><div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" onmousedown="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" onmousedown="return sign.validate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_option\': \'' + page_option + '\', \'sign_pages\': \'' + sign_pages + '\'}); return false;"></a></span></div>');
+        signPreview.html('<div class="helper ne"></div><div class="helper nw"></div><div class="helper sw"></div><div class="helper se"></div><div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['CANCEL']); ?>') + '" onmousedown="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['VALIDATE']); ?>') + '" onmousedown="return sign.validate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_index\': 0, \'page_option\': ' + page_option + ', \'sign_pages\': \'' + sign_pages + '\', \'pages\': ' + $('.page-container').length + '}); return false;"></a></span></div>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
@@ -395,15 +400,21 @@ var sign = {
     },
 
     validate: function(vals) {
-        $("*").css("cursor", "progress");
+        $('#validateSignModal').on('hidden.bs.modal', event => {
+            if(sign.req != null) {
+                sign.req.abort();
+                sign.req = null;
+            }
+        });
+        $('#validateSignModal .global-error').html('');
+        $('#validateSignModal').modal('show');
         var page = $('#' + vals['page_id'] + ' > .page-content > img');
-        var sign = $('#signPreview');
-        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'page_id': vals['page_id'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': sign.width(), 'sign_h': sign.height(), 'sign_x': sign.position().left, 'sign_y': sign.position().top, 'lang': lang}
-        $.ajax({
+        var signPreview = $('#signPreview');
+        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'page_index': vals['page_index'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': signPreview.width(), 'sign_h': signPreview.height(), 'sign_x': signPreview.position().left, 'sign_y': signPreview.position().top, 'lang': lang};
+        sign.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: data,
-            timeout: 120000
+            data: data
         }).done(function(data) {
             eval(data);
         });

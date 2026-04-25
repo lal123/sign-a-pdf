@@ -74,7 +74,7 @@ switch($action) {
 		}
     	$count = pdf_count_pages($pdf_id, $pages, $signed);
 		$percent = ceil($count / $pages * 100);
-        echo "$('#modal-info').html('" . ($count == 0 ? $tr['UPLOAD.WAITING_MSG'] . ' ' . str_repeat('.', $points) : $tr['UPLOAD.PREPARING_DOC'] . " :&nbsp; {$count} / {$pages}&nbsp; ({$percent}%)") . "');\n";
+        echo "$('#modal-info').html(decodeURIComponent('" . rawurlencode(($count == 0 ? $tr['UPLOAD.WAITING_MSG'] . ' ' . str_repeat('.', $points) : $tr['UPLOAD.PREPARING_DOC'] . " :&nbsp; {$count} / {$pages}&nbsp; ({$percent}%)")) . "'));\n";
         echo "$('#modal-progress').show();\n";
         echo "$('#modal-progress-bar').css({'width': {$percent} + '%'});\n";
 		if($count >= $pages) {
@@ -144,6 +144,7 @@ switch($action) {
 		$sign_option = $_POST['sign_option'];
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
+		$pages = $_POST['pages'];
 		switch($sign_step) {
 			case 1:
 				$sign_text = $_POST['sign_text'];
@@ -237,9 +238,22 @@ switch($action) {
 				$sign_height = $_POST['sign_height'];
 				if($sign_inc == 1) {
 					if($page_option == 3) {
-						if(!preg_match('/^([0-9]+)$/', $sign_pages)) {
-							//$arr['err_msg'] = $tr['SIGN.PAGES.CUST.INVALID'];
-						}
+				        $sp = preg_split('/[ ,]+/', $sign_pages);
+				        for($i = 0 ; $i < sizeof($sp) ; $i++) {
+				        	if(preg_match('/^([0-9]+)\-([0-9]+)$/', $sp[$i], $matches)) {
+				        		list(,$first, $last) = $matches;
+						        for($j = $first ; $j <= $last ; $j++) {
+						        	$pages_arr[] = $j;
+						        }
+				        	} else {
+					        	$pages_arr[] = $sp[$i];
+				        	}
+				        }
+				        for($i = 0 ; $i < sizeof($pages_arr); $i++) {
+				        	if(($pages_arr[$i] < 1) || ($pages_arr[$i] > $pages)) {
+				        		$arr['err_msg'] = $tr['SIGN.PAGES.CUST.INVALID'];
+				        	}
+				        }
 					}
 				}
 				if(($sign_inc == -1) || (!isset($arr['err_msg']) || ($arr['err_msg'] == ''))) {
@@ -278,7 +292,7 @@ switch($action) {
 				$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
 			}
 			echo "$('.signs_numb').html('({$signs_numb})');\n";
-	        $res = pdf_import_unsigned_pages($pdf_id);
+	        $res = pdf_create_signed_doc();
 	        $arr = json_decode($res, true);
 	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 	        	$signed_pdf_id = $arr['signed_pdf_id'];
@@ -329,21 +343,17 @@ switch($action) {
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
+		$page_index = $_POST['page_index'];
 		$page_id = $_POST['page_id'];
+		$sign_id = $_POST['sign_id'];
+		$page_option = $_POST['page_option'];
+		$sign_pages = $_POST['sign_pages'];
 		$page_w = $_POST['page_w'];
 		$page_h = $_POST['page_h'];
 		$sign_w = $_POST['sign_w'];
 		$sign_h = $_POST['sign_h'];
 		$sign_x = $_POST['sign_x'];
 		$sign_y = $_POST['sign_y'];
-		$signed_page_id = $signed_pdf_id;
-		if(preg_match("/^{$pdf_id}(.*)$/", $page_id, $matches)) {
-			list(, $suffix) = $matches;
-			$signed_page_id = $signed_pdf_id . $suffix;
-		}
-		$sign_id = $_POST['sign_id'];
-		$page_option = $_POST['page_option'];
-		$sign_pages = $_POST['sign_pages'];
 		
 		if($is_signed_in){
 			$arr = model_doc_get_from_pdf_id($pdf_id);
@@ -351,26 +361,6 @@ switch($action) {
 		} else {
 			$pages = $_SESSION['docs'][$pdf_id]['pages'];
 		}
-
-		/*
-		$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
-	    $file_list = [];
-	    $fh = opendir($img_dir);
-		while($filename = readdir($fh)) {
-			if(preg_match("/^{$pdf_id}(.*)\.png$/", $filename, $matches)) {
-				list(, $suffix) = $matches;
-				//$file_list[] = $img_dir . '/' . $pdf_id . $suffix . '.png';
-				$file_list[] = $pdf_id . $suffix;
-			}
-		}
-		$pages = sizeof($file_list);
-		*/
-
-
-		//sort($file_list, SORT_NATURAL);
-        //write_log("sign_page", 'file_list: ' . print_r($file_list, true));
-
-        //write_log("sign_page", "page_option: {$page_option}");
 
     	$pages_arr = [];    
     	switch($page_option) {
@@ -396,41 +386,43 @@ switch($action) {
     		default:
     			$pages_arr[] = $pages;
     	}
-    	
-        //write_log("sign_page", 'pages: ' . $pages);
-        //write_log("sign_page", 'pages_arr: ' . print_r($pages_arr, true));
 
-        for($i = 0 ; $i < sizeof($pages_arr) ; $i++) {
-        	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
-        	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$i] > 1) ? '-' . ($pages_arr[$i] - 1)  : '');
+    	$pages_numb = sizeof($pages_arr);
+
+    	if(($pages_arr[$page_index] >= 1)  && ($pages_arr[$page_index] <= $pages)) {
+	    	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
+	    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
 			$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 			$arr = json_decode($res, true);
-	        if(isset($arr['err_msg']) &&($arr['err_msg'] != '')) {
-	        	writelog(__METHOD__, "[error][{$error}]");
-	        }
-        }
+	    } else {
+	    	$arr['err_msg'] = $tr['DOCS.SIGN.INVALID_PAGE_INDEX'];
+	    }
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
-			//pdf_convert_from_png($pdf_id, $signed_pdf_id, $pages);
-			sign_create_signed_pages($pdf_id, $signed_pdf_id, $pages);
-			$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
-			$signed_doc_size = -1; // filesize($signed_pdf_dir . '/' . $signed_pdf_id . '.pdf');
-			if($is_signed_in) {
-				model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
-			} else {
-				$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
-				$_SESSION['docs'][$signed_pdf_id]['time'] = time();
-				$_SESSION['docs'][$signed_pdf_id]['size'] = -1; // $signed_doc_size;
-				$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
-				$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
-				//unset($_SESSION['docs'][$pdf_id]);
+        	$page_index++;
+        	if($page_index < $pages_numb) {
+		        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb}") . "'));\n";
+        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+        	} else {
+				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages);
+				$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
+				$signed_doc_size = -1;
+				if($is_signed_in) {
+					model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
+				} else {
+					$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
+					$_SESSION['docs'][$signed_pdf_id]['time'] = time();
+					$_SESSION['docs'][$signed_pdf_id]['size'] = -1;
+					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
+					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
+				}
+				echo "$('#signButton').addClass('disabled');\n";
+		        echo "$('#validateSignModal').modal('hide');\n";
+				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 			}
-			echo "$('.page-container[id={$page_id}] .page-content > .page-preview').attr('src', '/uploads/img/signed/{$signed_page_id}.png');\n";
-			echo "$('#signButton').addClass('disabled');\n";
-			//echo "$('#signPreview').remove();\n";
-	        echo '$("*").css("cursor", "default");' . "\n";
-			//echo "docs.conv = setTimeout(\"docs.convert('{$signed_pdf_id}', 1, {$pages})\", 250);\n";
-			echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
+		} else {
+			write_log(__METHOD__, '*** ERROR *** ' . $arr['err_msg']);
+			echo "$('#validateSignModal .global-error').html(decodeURIComponent('" . rawurlencode($arr['err_msg']) . "'));\n";
 		}
 		break;
 	case 'doc_download':
