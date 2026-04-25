@@ -401,7 +401,10 @@ switch($action) {
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;
         	if($page_index < $pages_numb) {
-		        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb}") . "'));\n";
+				$percent = ceil($page_index / $pages_numb * 100);
+		        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
+		        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
+		        echo "$('#validateSignModal .modal-progress').show();\n";
         		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
         	} else {
 				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages);
@@ -417,6 +420,7 @@ switch($action) {
 					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
 				}
 				echo "$('#signButton').addClass('disabled');\n";
+		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
 				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 			}

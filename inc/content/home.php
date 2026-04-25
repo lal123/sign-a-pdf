@@ -40,7 +40,7 @@ if(!$is_signed_in) {
             <div class="modal-body">
                 <div id="modal-info"><br /></div>
                 <div><br /></div>
-                <div id="modal-progress" class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
+                <div id="modal-progress" class="progress" role="progressbar" aria-label="uploadProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
                     <div id="modal-progress-bar" class="progress-bar text-bg-success" style="width: 0%"></div>
                 </div>
             </div>

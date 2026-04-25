@@ -80,7 +80,6 @@ var upload = {
                     myXhr.upload.addEventListener('progress', function(e) {
                         var percent = parseInt(e.loaded / e.total * 100);
                         $('#modal-info').html('<?php echo $tr['UPLOAD.BYTES_RECEIVED']; ?> :&nbsp; ' + upload.show_bytes(e.loaded) + ' / ' +  upload.show_bytes(e.total) + '&nbsp; (' + percent + '%)');
-                        $('#modal-progress').show();
                         $('#modal-progress-bar').css({'width': percent + '%'});
                         $('#modal-progress').show();
                         if(e.loaded >= e.total) {
