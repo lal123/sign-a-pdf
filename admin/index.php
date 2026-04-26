@@ -19,12 +19,6 @@ function get_dir($type, $dir, $rel_dir, &$items) {
                 if(($type == 'pdf') && preg_match('/^([0-9a-f]{16})\.(pdf)$/', $fn, $matches)) {
             		list(, $pdf_id) = $matches;
             		if(model_doc_get_from_pdf_id($pdf_id) === false) {
-                        /*
-                        $pages = preg_match_all("/\/Page\W/", file_get_contents($dir . '/' . $fn), $matches);
-                        if(!isset($pages) || ($pages == 0)) {
-                            $pages = 1;
-                        }
-                        */
                         $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
                         $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed == 1 ? '/signed' : ''), $pdf_id);
                         $time = filemtime($dir . '/' . $fn);
@@ -33,12 +27,12 @@ function get_dir($type, $dir, $rel_dir, &$items) {
             		}
             	} else if(($type == 'sign') && preg_match('/^([0-9a-f]{16})\.(png)$/', $fn, $matches)) {
                     list(, $sign_id) = $matches;
-                    //$res = model_sign_get_from_file_id($sign_id);
-                    //if(($res != null) && (sizeof($res) != 0)) {
+                    $res = model_sign_get_from_file_id($sign_id);
+                    if(($res == null) || (sizeof($res) == 0)) {
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/sign/' . $sign_id . '.png';
                         $items[] = ['sign_id' => $sign_id, 'path' => $rel_dir . $sign_id, 'preview' => $preview, 'time' => $time];
-                    //}
+                    }
                 }
             }
         }
@@ -289,25 +283,28 @@ foreach($an_docs as $signed => $docs) {
 <div class="container-fluid">
 <?php
 
-uksort($an_signs, function($a, $b) {
-    global $an_signs;
-    return strcasecmp($an_signs[$b]['time'], $an_signs[$a]['time']);
-});
+if(sizeof($an_signs) > 0) {
 
-echo '<h5>Signs (' . sizeof($an_signs) . ')</h5>';
+    uksort($an_signs, function($a, $b) {
+        global $an_signs;
+        return strcasecmp($an_signs[$b]['time'], $an_signs[$a]['time']);
+    });
 
-echo '<div class="row">';
-foreach($an_signs as $index => $sign) {
-    echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div">';
-    echo date('d/m/Y H:i:s', $sign['time']) . '<br />';
-    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank" class="common">' . $sign['sign_id'] . '</a><br />';
-    echo '<div class="sign-preview-container">';
-    echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank"><img src="' . $sign['preview'] . '" alt="" border="0"  class="sign-preview-img" /></a>';
+    echo '<h5>Signs (' . sizeof($an_signs) . ')</h5>';
+
+    echo '<div class="row">';
+    foreach($an_signs as $index => $sign) {
+        echo '<div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12 sign-preview-div">';
+        echo date('d/m/Y H:i:s', $sign['time']) . '<br />';
+        echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank" class="common">' . $sign['sign_id'] . '</a><br />';
+        echo '<div class="sign-preview-container">';
+        echo '<a href="/' . UPLOAD_DIR . '/sign/' . $sign['sign_id'] . '.png" target="_blank"><img src="' . $sign['preview'] . '" alt="" border="0"  class="sign-preview-img" /></a>';
+        echo '</div>';
+        echo '</div>';
+    }
     echo '</div>';
-    echo '</div>';
+
 }
-echo '</div>';
-
 ?>
 </div>
 </body>

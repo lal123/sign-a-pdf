@@ -406,7 +406,7 @@ switch($action) {
 	    
 	    $querytime = $querytime_after - $querytime_before;
 	    
-		write_log('service_sign_page', "[page_id][{$page_id}][querytime][{$querytime}]");
+		//write_log('service_sign_page', "[page_id][{$page_id}][querytime][{$querytime}]");
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;
