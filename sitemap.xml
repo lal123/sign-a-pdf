@@ -23,6 +23,12 @@ http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
 		<loc>https://www.sign-a-pdf.com/en/contact</loc>
 	</url>
 	<url>
+		<loc>https://www.sign-a-pdf.com/en/terms-of-use</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/en/legal-notice</loc>
+	</url>
+	<url>
 		<loc>https://www.sign-a-pdf.com/fr/</loc>
 	</url>
 	<url>
@@ -36,5 +42,11 @@ http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
 	</url>
 	<url>
 		<loc>https://www.sign-a-pdf.com/fr/contact</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/conditions</loc>
+	</url>
+	<url>
+		<loc>https://www.sign-a-pdf.com/fr/mentions-legales</loc>
 	</url>
 </urlset>

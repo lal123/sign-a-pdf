@@ -1,7 +1,3 @@
 # welcome!
 User-agent: *
-Disallow: /fr/conditions
-Disallow: /fr/mentions-legales
-Disallow: /en/terms-of-use
-Disallow: /en/legal-notice
 Sitemap: https://www.sign-a-pdf.com/sitemap.xml
