@@ -166,12 +166,54 @@ include "inc/content/{$page}.php";
     <center>
         <div class="mid-ad">
             <div class="ad-large">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601"
+                     crossorigin="anonymous"></script>
+                <!-- sign-a-pdf_970x250 -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:970px;height:250px"
+                     data-ad-client="ca-pub-4729392151663601"
+                     data-ad-slot="4641137529"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>                
             </div>
             <div class="ad-medium">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601"
+                     crossorigin="anonymous"></script>
+                <!-- sign-a-pdf_728x90 -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px"
+                     data-ad-client="ca-pub-4729392151663601"
+                     data-ad-slot="3791090283"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             <div class="ad-small">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601"
+                     crossorigin="anonymous"></script>
+                <!-- sign-a-pdf_320x100 -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:320px;height:100px"
+                     data-ad-client="ca-pub-4729392151663601"
+                     data-ad-slot="4893163823"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             <div class="ad-auto">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4729392151663601"
+                     crossorigin="anonymous"></script>
+                <!-- sign-a-pdf_auto -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-4729392151663601"
+                     data-ad-slot="7076248699"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
         </div>
     </center>

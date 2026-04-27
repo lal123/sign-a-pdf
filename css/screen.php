@@ -670,23 +670,23 @@ div.mid-ad .ad-auto {
 	}
 }
 
-@media screen and (min-width: 800px) and (max-width: 1023px) {
+@media screen and (min-width: 762px) and (max-width: 1023px) {
 	div.mid-ad .ad-medium {
 		display: block;
-		width: 770px;
-		height: 200px;
+		width: 728px;
+		height: 90px;
 	}
 }
 
-@media screen and (min-width: 400px) and (max-width: 799px) {
+@media screen and (min-width: 354px) and (max-width: 761px) {
 	div.mid-ad .ad-small {
 		display: block;
-		width: 370px;
-		height: 150px;
+		width: 320px;
+		height: 100px;
 	}
 }
 
-@media screen and (max-width: 399px) {
+@media screen and (max-width: 353px) {
 	div.mid-ad .ad-auto {
 		display: block;
 		width: 320px;
