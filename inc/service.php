@@ -120,11 +120,15 @@ switch($action) {
 		break;
 	case 'rotate_page':
 		$page_id = $_POST['page_id'];
+		$doc_signed = $_POST['doc_signed'];
 		$direction = $_POST['direction'];
-    	$res = sign_rotate_page($page_id, $direction);
+    	$res = sign_rotate_page($page_id, $doc_signed, $direction);
 		$arr = json_decode($res, true);
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
 			$rotated_page_id = $arr['page_id'];
+			if($is_signed_in) {
+				model_page_switch_version($page_id, $rotated_page_id);
+			}
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
 		    echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$rotated_page_id}');\n";
@@ -412,24 +416,23 @@ switch($action) {
 
     	$pages_numb = sizeof($pages_arr);
 
-	    list($usec, $sec) = explode(' ', microtime());
-	    $querytime_before = ((float)$usec + (float)$sec);
-	    
     	if(($pages_arr[$page_index] >= 1)  && ($pages_arr[$page_index] <= $pages)) {
-	    	$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
-	    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
-			$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
-			$arr = json_decode($res, true);
+
+    		$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
+
+    		if($page != false) {
+	    		$page_id = $page['page_id'];
+		    	//$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
+		    	
+		    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
+				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+				$arr = json_decode($res, true);
+			} else {
+				$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
+			}
 	    } else {
 	    	$arr['err_msg'] = $tr['DOCS.SIGN.INVALID_PAGE_INDEX'];
 	    }
-
-	    list($usec, $sec) = explode(' ', microtime());
-	    $querytime_after = ((float)$usec + (float)$sec);
-	    
-	    $querytime = $querytime_after - $querytime_before;
-	    
-		//write_log('service_sign_page', "[page_id][{$page_id}][querytime][{$querytime}]");
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;

@@ -209,21 +209,20 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     return $ret;
 }
 
-function sign_rotate_page($page_id, $direction) {
+function sign_rotate_page($page_id, $doc_signed, $direction) {
 
     write_log(__METHOD__, "sign_rotate_page [page_id][{$page_id}[direction][{$direction}]");
 
     $err_msg = '';
 
-    preg_match('/^(signed\/)?([0-9a-f]{16})([0-9\-]+)?$/', $page_id, $matches);
-    list(, $sub_dir, $pdf_id, $suffix) = $matches;
-    $page_id_prefix = $pdf_id . $suffix;
+    preg_match('/^([0-9a-f]{16})([0-9\-]+)?([0-9\_]+)?$/', $page_id, $matches);
+    list(, $pdf_id, $suffix1, $suffix2) = $matches;
 
-    write_log(__METHOD__, "sign_rotate_page [sub_dir][{$sub_dir}][pdf_id][{$pdf_id}][suffix][{$suffix}][page_id_prefix][{$page_id_prefix}]");
+    write_log(__METHOD__, "sign_rotate_page [pdf_id][{$pdf_id}][suffix1][{$suffix1}][suffix2][{$suffix2}]");
 
-    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/' . $sub_dir;
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/': '');
 
-    $img_filename = $img_dir . $page_id_prefix . '.png';
+    $img_filename = $img_dir . $page_id . '.png';
 
     $page_img = imagecreatefrompng($img_filename);
 
@@ -233,15 +232,15 @@ function sign_rotate_page($page_id, $direction) {
 
     $rotation_inc = 1;
     do {
-        $rotated_img_id = $page_id_prefix . '-' . $rotation_inc;
+        $rotated_img_id = $pdf_id . ($suffix1 != '' ? $suffix1 : '') .  '_' . $rotation_inc;
         $rotated_img_filename = $img_dir . '/' . $rotated_img_id . '.png';
         $rotation_inc++;
     } while (file_exists($rotated_img_filename));
 
     imagepng($rotated_img, $rotated_img_filename);
 
-    $arr['page_id'] = $sub_dir . $rotated_img_id;
-    $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . $sub_dir . $rotated_img_id . '.png';
+    $arr['page_id'] = $rotated_img_id;
+    $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/': '') . $rotated_img_id . '.png';
 
     $ret = json_encode($arr, JSON_UNESCAPED_UNICODE);
     return $ret;

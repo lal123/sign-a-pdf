@@ -128,7 +128,7 @@ foreach($page_enum as $page_index => $page_details) {
     }
     echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $page_details['page_id'] . '" page_id="' . $page_details['page_id'] . '">';
     echo '<div class="page-content">';
-    echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $page_details['page_id'] . '.png' . '" alt="" border= "0" />';
+    echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png' . '" alt="" border= "0" />';
     echo '</div>';
     echo '</div>';
     $col++;
@@ -161,8 +161,8 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
                         <a href="javascript:void(0)" class="bi bi-skip-end-fill act<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.LAST_PAGE']; ?>" onmousedown="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
                     </div>
                     <div class="col-sm-3 col-auto" style="text-align: right">
-                        <a href="javascript:void(0)" class="bi bi-arrow-counterclockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_LEFT']; ?>" onmousedown="return docs.rotatePage($('.page-container').eq($('#navPage').val() - 1).attr('page_id'), -1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-arrow-clockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_RIGHT']; ?>" onmousedown="return docs.rotatePage($('.page-container').eq($('#navPage').val() - 1).attr('page_id'), 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-arrow-counterclockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_LEFT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, -1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-arrow-clockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_RIGHT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, 1); return false;"></a>
                     </div>
                 </div>
         </div>

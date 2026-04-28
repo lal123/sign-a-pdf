@@ -361,6 +361,25 @@ function model_page_get_list_from_doc_id($doc_id) {
     return $ret;
 }
 
+function model_page_get_from_doc_id_and_index($doc_id, $page_index) {
+    
+    global $base, $cdb;
+    
+    $ret = false;
+    $sql = "select * from `{$base}`.`pages`"
+            . " where 1"
+            . " and `page_doc_id` = '" .db_escape($doc_id) . "'"
+            . " and `page_index`  = '" .db_escape($page_index) . "'"
+            . " and `page_available` = 1";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res != false) {
+        $ret = db_fetch_assoc($res);
+        write_log(__METHOD__, print_r($ret, true));
+    }
+    return $ret;
+}
+
 function model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf_id) {
 
     global $base, $cdb;
@@ -368,7 +387,7 @@ function model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf
     $ret = false;
     $sql = "insert into `{$base}`.`pages`"
             . " (select"
-            . " CONCAT('signed/', '{$signed_pdf_id}', IF((SELECT `doc_pages` FROM `{$base}`.`docs` WHERE `doc_id` = '{$doc_id}') > 1 , CONCAT('-', (`page_index` - 1)) , '')), "
+            . " CONCAT('{$signed_pdf_id}', IF((SELECT `doc_pages` FROM `{$base}`.`docs` WHERE `doc_id` = '{$doc_id}') > 1 , CONCAT('-', (`page_index` - 1)) , '')), "
             . " {$signed_doc_id}, "
             . " `page_index`, "
             . " 1, "
@@ -378,6 +397,36 @@ function model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf
             . " where 1"
             . " and `page_doc_id` = '{$doc_id}'"
             . " and `page_available` = 1)";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return $ret;
+}
+
+function model_page_switch_version($page_id, $new_page_id) {
+
+    global $base, $cdb;
+
+    $ret = false;
+    $sql = "insert into `{$base}`.`pages`"
+            . " (select"
+            . " '{$new_page_id}',"
+            . " `page_doc_id`,"
+            . " `page_index`,"
+            . " 1,"
+            . " now(), "
+            . " now()"
+            . " from `{$base}`.`pages`"
+            . " where 1"
+            . " and `page_id` = '{$page_id}')";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    IF($res == false) {
+        return $ret;
+    }
+    $sql = "update `{$base}`.`pages`"
+            . " set `page_available` = 0"
+            . " where 1"
+            . " and `page_id` = '{$page_id}'";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     return $ret;

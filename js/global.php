@@ -197,12 +197,14 @@ var docs = {
         return false;
     },
 
-    rotatePage: function(page_id, direction) {
-        console.log('rotatePage', page_id, direction);
+    rotatePage: function(page_numb, doc_signed, direction) {
+        if(page_numb < 1) page_numb = 1;
+        if(page_numb > $('.page-container').length) page_numb = $('.page-container').length;
+        var page_id = $('.page-container').eq(page_numb - 1).attr('page_id');
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'rotate_page', 'page_id': page_id, 'direction': direction, 'lang': lang}
+            data: {'action': 'rotate_page', 'page_id': page_id, 'doc_signed': doc_signed, 'direction': direction, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });
