@@ -44,13 +44,23 @@ switch($action) {
 			$arr = json_decode($res, true);
 			if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 				$pdf_id = $arr['pdf_id'];
+				$pages = $arr['pages'];
 				if($is_signed_in) {
 					$user_id = $user['user_id'];
-					model_doc_create(['user_id' => $user_id, 'pdf_id' => $arr['pdf_id'], 'name' => $arr['name'], 'size' => $arr['size'], 'pages' => $arr['pages']]);
+					model_doc_create(['user_id' => $user_id, 'pdf_id' => $pdf_id, 'name' => $arr['name'], 'size' => $arr['size'], 'pages' => $pages]);
+					$page_doc_id = db_insert_id();
+					for($page_index = 1 ; $page_index <= $pages ; $page_index++) {
+						$page_id = $pdf_id . ($pages > 1 ? '-' . ($page_index - 1 ) : '');
+						model_page_create(['page_id' => $page_id, 'page_doc_id' => $page_doc_id, 'page_index' => $page_index, 'page_available' => 1]);
+					}
 				} else {
 					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
 					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
-					$_SESSION['docs'][$pdf_id]['pages'] = $arr['pages'];
+					$_SESSION['docs'][$pdf_id]['pages'] = $pages;
+					for($page_index = 1 ; $page_index <= $pages ; $page_index++) {
+						$page_id = $pdf_id . ($pages > 1 ? '-' . ($page_index - 1 ) : '');
+						$_SESSION['docs'][$pdf_id]['page'][$page_index] = ['page_id' => $page_id, 'page_available' => 1];
+					}
 					$_SESSION['docs'][$pdf_id]['signed'] = 0;
 					$_SESSION['docs'][$pdf_id]['time'] = time();
 				}
@@ -106,6 +116,16 @@ switch($action) {
 			}
 		} else {
 			echo "document.location.href = '/{$lang}/';\n";
+		}
+		break;
+	case 'rotate_page':
+		$page_id = $_POST['page_id'];
+		$direction = $_POST['direction'];
+    	$res = sign_rotate_page($page_id, $direction);
+		$arr = json_decode($res, true);
+		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
+			$img_src = $arr['img_src'];
+		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
 		}
 		break;
 	case 'delete_sign':
@@ -357,6 +377,7 @@ switch($action) {
 		
 		if($is_signed_in){
 			$arr = model_doc_get_from_pdf_id($pdf_id);
+			$doc_id = $arr['doc_id'];
 			$pages = $arr['doc_pages'];
 		} else {
 			$pages = $_SESSION['docs'][$pdf_id]['pages'];
@@ -422,12 +443,21 @@ switch($action) {
 				$signed_doc_size = -1;
 				if($is_signed_in) {
 					model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
+					$signed_doc_id = db_insert_id();
+					model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf_id);
 				} else {
 					$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
 					$_SESSION['docs'][$signed_pdf_id]['time'] = time();
 					$_SESSION['docs'][$signed_pdf_id]['size'] = -1;
-					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
 					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
+					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
+			        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
+			            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
+			            	$page_id = $details['page_id'];
+			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . $page_index : '');
+			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => 'signed/' . $signed_page_id, 'page_available' => 1];
+			            }
+			        }
 				}
 				echo "$('#signButton').addClass('disabled');\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
@@ -457,17 +487,16 @@ switch($action) {
 
 		$filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
-		if($signed == 1) {
-			if($size == -1) {
-				pdf_convert_from_png($pdf_id, $pages);
-				$doc_size = filesize($filename);
-				if($is_signed_in) {
-					model_doc_update_size($pdf_id, $doc_size);
-				} else {
-					$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
-				}
+		//if($size == -1) {
+			pdf_convert_from_png($pdf_id, $signed, $pages);
+			$doc_size = filesize($filename);
+			if($is_signed_in) {
+				model_doc_update_size($pdf_id, $doc_size);
+			} else {
+				$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
 			}
-		}
+		//}
+
         echo "clearInterval(docs.animh);\n";
         echo "docs.animh = null;\n";
 		echo "$('#downloadDocModal').modal('hide');\n";

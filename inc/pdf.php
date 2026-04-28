@@ -48,13 +48,6 @@ function pdf_convert_to_png() {
 				    	list(, $pages) = $matches;
 				    }
 				    
-				    /*
-					$pages = preg_match_all("/\/Page\W/", file_get_contents($pdf_file), $matches);
-					if(!isset($pages) || ($pages == 0)) {
-						$pages = 1;
-					}
-					*/
-
 					write_log(__METHOD__, $pdf_file . " => " . $pages . " pages");
 
 		        	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
@@ -167,7 +160,7 @@ function pdf_create_signed_doc() {
 	return $ret;
 }
 
-function pdf_convert_from_png($signed_pdf_id, $pages) {
+function pdf_convert_from_png($pdf_id, $signed, $pages) {
 
 	global $err_msg;
 
@@ -175,25 +168,16 @@ function pdf_convert_from_png($signed_pdf_id, $pages) {
 	$output = [];
 	$return_var = 0;
 
-    $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
-    if(!file_exists($signed_img_dir)){
-        mkdir($signed_img_dir);
-        chmod($signed_img_dir, 0777);
-    }
-	
-	$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
-	if(!file_exists($signed_pdf_dir)){
-		mkdir($signed_pdf_dir);
-		chmod($signed_pdf_dir, 0777);
-	}
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
+	$pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf' . ($signed ? '/signed' : '');
 
 	$file_list = [];
 	for($i = 1; $i <= $pages ; $i++) {
-		$signed_img_file = $signed_img_dir . '/' . $signed_pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
-		$file_list[] = $signed_img_file;
+		$img_file = $img_dir . '/' . $pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
+		$file_list[] = $img_file;
 	}
 
-	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $signed_pdf_dir . '/' . $signed_pdf_id . '.pdf';
+	$command = '/usr/bin/convert -density 192 -units pixelsperinch ' . implode(' ', $file_list) . ' -quality 100 -resize 100% ' . $pdf_dir . '/' . $pdf_id . '.pdf';
 	// -type TrueColor
 	write_log(__METHOD__, "[command][{$command}]");
     

@@ -57,28 +57,45 @@ function docs_show_list($docs, $signed) {
 if($pdf_id != '') {
     if($is_signed_in) {
         $doc = model_doc_get_from_pdf_id($pdf_id);
+        $doc_id = $doc['doc_id'];
         $doc_name = $doc['doc_name'];
         $doc_signed = ($doc['doc_signed'] == 1);
         $doc_size = $doc['doc_size'];
         $doc_time = strtotime($doc['doc_creato']);
         $doc_pages = $doc['doc_pages'];
+        /*
         $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
         if($pages != $doc_pages) {
             model_doc_update_pages($pdf_id, $pages);
             $doc_pages = $pages;
         }
+        */
+        $page_enum = model_page_get_list_from_doc_id($doc_id);
     } else {
+        //print_r($_SESSION);
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
         $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1));
         $doc_size = $_SESSION['docs'][$pdf_id]['size'];
         $doc_time = $_SESSION['docs'][$pdf_id]['time'];
         $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];
+        /*
         $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
         if($pages != $doc_pages) {
             $_SESSION['docs'][$pdf_id]['pages'] = $pages;
             $doc_pages = $pages;
         }
+        */
+        $page_enum = [];
+        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
+            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
+                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id']];
+            }
+        }
+        //print_r($page_enum);
     }
+    
+    //print_r($page_enum);
+
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
 } else {
     echo $tr['DOCS.LIST_DOCUMENTS'];
@@ -102,14 +119,16 @@ if($pdf_id != '') {
 
     <div class="container" id="doc-container">
 <?php
+
+
 $col = 1;
-for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
+foreach($page_enum as $page_index => $page_details) {
     if($col == 1) {
         echo '<div class="row">';
     }
-    echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $pdf_id . '-' . ($img_numb - 1) . '">';
+    echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $page_details['page_id'] . '" page_id="' . $page_details['page_id'] . '">';
     echo '<div class="page-content">';
-    echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed ? 'signed/' : '') . $pdf_id . ($doc_pages > 1 ? '-' . ($img_numb - 1) : '') . '.png' . '" alt="" border= "0" />';
+    echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . $page_details['page_id'] . '.png' . '" alt="" border= "0" />';
     echo '</div>';
     echo '</div>';
     $col++;
@@ -121,13 +140,13 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 if($col < $nb_cols) {
     echo '</div>' . "\n";
 }
-if($doc_pages > 1) {
+if(true || ($doc_pages > 1)) {
 ?>
         <div id="nav-bar">
                 <div class="form-group row g-3">
-                    <div class="col-sm-3 col-auto">Page</div>
-                    <div class="col-sm-3 col-auto act">
-                        <select name="nav_page" class="act" id="navPage" onchange="return docs.initChangePage(this.value); return false;">
+                    <div class="col-sm-5 col-auto">
+                        <label for="navPage">Page&nbsp;</label>
+                        <select name="nav_page" class="act<?php if($doc_pages <= 1) echo ' disabled"'; ?>" id="navPage" onchange="return docs.initChangePage(this.value); return false;"<?php if($doc_pages <= 1) echo ' disabled="disabled"'; ?>>
 <?php
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
     echo '                            <option value="' . $img_numb .'">' . $img_numb .'</option>' . "\n";
@@ -135,11 +154,15 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 ?>
                         </select>
                     </div>
-                    <div class="col-sm-6 col-auto" style="text-align: right">
-                        <a href="javascript:void(0)" class="bi bi-skip-start-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.FIRST_PAGE']; ?>" onmousedown="return docs.initChangePage(1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-left-fill act small" title="<?php echo $tr['DOCS.NAV_PAGE.PREV_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-right-fill act small" title="<?php echo $tr['DOCS.NAV_PAGE.NEXT_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-skip-end-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.LAST_PAGE']; ?>" onmousedown="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
+                    <div class="col-sm-4 col-auto" style="text-align: left">
+                        <a href="javascript:void(0)" class="bi bi-skip-start-fill act<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.FIRST_PAGE']; ?>" onmousedown="return docs.initChangePage(1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-left-fill act small<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.PREV_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-caret-right-fill act small<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.NEXT_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-skip-end-fill act<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.LAST_PAGE']; ?>" onmousedown="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
+                    </div>
+                    <div class="col-sm-3 col-auto" style="text-align: right">
+                        <a href="javascript:void(0)" class="bi bi-arrow-counterclockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_LEFT']; ?>" onmousedown="return docs.rotatePage($('.page-container').eq($('#navPage').val() - 1).attr('page_id'), -1); return false;"></a>
+                        <a href="javascript:void(0)" class="bi bi-arrow-clockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_RIGHT']; ?>" onmousedown="return docs.rotatePage($('.page-container').eq($('#navPage').val() - 1).attr('page_id'), 1); return false;"></a>
                     </div>
                 </div>
         </div>

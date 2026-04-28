@@ -91,7 +91,7 @@ a:active, a:focus {
 	cursor: move;
 	bottom: 75px;
 	left: 20px;
-	width: 250px;
+	width: 300px;
 	height: 40px;
 	background-color: #204444;
 	border-radius: 20px;
@@ -100,6 +100,10 @@ a:active, a:focus {
 	font-size: 20px;
 	line-height: 28px;
 	opacity: 0.75;
+}
+
+#doc-container #nav-bar .col-auto{
+    white-space: nowrap;
 }
 
 #doc-container #nav-bar:hover {
@@ -112,9 +116,18 @@ a:active, a:focus {
 	outline: none;
 }
 
+#doc-container #nav-bar select.act.disabled {
+	color: #999999;
+}
+
 #doc-container #nav-bar a.act {
 	cursor: pointer;
 	color: #ffffff;
+}
+
+#doc-container #nav-bar a.act.disabled {
+	cursor: default;
+	color: #999999;
 }
 
 #doc-container #nav-bar a.act.small {

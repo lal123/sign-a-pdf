@@ -28,17 +28,15 @@ if($is_signed_in) {
 
 $filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
-if($signed == 1) {
-	if($doc_size == -1) {
-		pdf_convert_from_png($pdf_id, $pages);
-		$doc_size = filesize($filename);
-		if($is_signed_in) {
-			model_doc_update_size($pdf_id, $doc_size);
-		} else {
-			$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
-		}
+//if($doc_size == -1) {
+	pdf_convert_from_png($pdf_id, $signed, $pages);
+	$doc_size = filesize($filename);
+	if($is_signed_in) {
+		model_doc_update_size($pdf_id, $doc_size);
+	} else {
+		$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
 	}
-}
+//}
 
 db_close();
 

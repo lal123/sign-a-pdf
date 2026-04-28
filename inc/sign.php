@@ -198,10 +198,6 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     //imagecopy($page_img, $sign_img, $dst_x, $dst_y, 0, 0, $s_in_w, $s_in_h);
 
     $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
-    if(!file_exists($signed_img_dir)){
-        mkdir($signed_img_dir);
-        chmod($signed_img_dir, 0777);
-    }
 
     imagepng($page_img, $signed_img_dir . '/' . $signed_page_id . '.png');
 
@@ -210,6 +206,43 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $
     imagedestroy($sign_img);
 
     $ret = json_encode(['err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+    return $ret;
+}
+
+function sign_rotate_page($page_id, $direction) {
+
+    write_log(__METHOD__, "sign_rotate_page [page_id][{$page_id}[direction][{$direction}]");
+
+    $err_msg = '';
+
+    preg_match('/^(signed\/)?([0-9a-f]{16})([0-9\-]+)?$/', $page_id, $matches);
+    list(, $sub_dir, $pdf_id, $suffix) = $matches;
+    $page_id_prefix = $pdf_id . $suffix;
+
+    write_log(__METHOD__, "sign_rotate_page [sub_dir][{$sub_dir}][pdf_id][{$pdf_id}][suffix][{$suffix}][page_id_prefix][{$page_id_prefix}]");
+
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/' . $sub_dir;
+
+    $img_filename = $img_dir . $page_id_prefix . '.png';
+
+    $page_img = imagecreatefrompng($img_filename);
+
+    $transparent = imagecolorallocatealpha($page_img, 255, 255, 255, 127);
+
+    $rotated_img = imagerotate($page_img, -$direction * 90, $transparent);
+
+    $rotation_inc = 1;
+    do {
+        $rotated_img_id = $page_id_prefix . '-' . $rotation_inc;
+        $rotated_img_filename = $img_dir . '/' . $rotated_img_id . '.png';
+        $rotation_inc++;
+    } while (file_exists($rotated_img_filename));
+
+    imagepng($rotated_img, $rotated_img_filename);
+
+    $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . $sub_dir . $rotated_img_id . '.png';
+
+    $ret = json_encode($arr, JSON_UNESCAPED_UNICODE);
     return $ret;
 }
 
