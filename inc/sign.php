@@ -240,6 +240,7 @@ function sign_rotate_page($page_id, $direction) {
 
     imagepng($rotated_img, $rotated_img_filename);
 
+    $arr['page_id'] = $sub_dir . $rotated_img_id;
     $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . $sub_dir . $rotated_img_id . '.png';
 
     $ret = json_encode($arr, JSON_UNESCAPED_UNICODE);

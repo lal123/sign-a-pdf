@@ -124,8 +124,10 @@ switch($action) {
     	$res = sign_rotate_page($page_id, $direction);
 		$arr = json_decode($res, true);
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
+			$rotated_page_id = $arr['page_id'];
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
+		    echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$rotated_page_id}');\n";
 		}
 		break;
 	case 'delete_sign':
