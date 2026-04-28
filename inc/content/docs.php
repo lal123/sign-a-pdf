@@ -11,12 +11,21 @@ if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
 
 function docs_show_list($docs, $signed) {
 
-    global $lang, $tr;
+    global $lang, $tr, $is_signed_in;
 
     $count = 0;
     foreach($docs as $pdf_id_key => $details) {
         
-        $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
+        if($is_signed_in) {
+            $doc_id = $details['doc_id'];
+            $page = model_page_get_from_doc_id_and_index($doc_id, 1);
+            $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page['page_id'] . '.png';
+            $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page['page_id'] . '.png';
+        } else {
+            $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
+            $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
+        }
+
         if(!file_exists($img_filename)) {
             unset($_SESSION['docs'][$signed][$pdf_id_key]);
             continue;
@@ -35,7 +44,6 @@ function docs_show_list($docs, $signed) {
         echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.prepareDownload(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '" class="common">' . $details['name'] . '</a></div>';
-        $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
         echo '<span class="doc-preview">';
         echo '<a href="/' . $lang . '/docs/' . $pdf_id_key . '"><img class="page-preview" src="' . $img_src . '" alt="" border= "0" /></a>';
         echo '</span>';
