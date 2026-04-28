@@ -494,10 +494,11 @@ switch($action) {
 					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
 					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
 			        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
-			            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
+			            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $details) {
 			            	$page_id = $details['page_id'];
-			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . $page_index : '');
-			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => $signed_page_id, 'page_available' => 1];
+			            	$page_index = $details['page_index'];
+			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
+			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
 			            }
 			        }
 				}
