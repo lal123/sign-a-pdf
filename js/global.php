@@ -204,7 +204,7 @@ var docs = {
         $.ajax({
             url: '/inc/service.php',
             type: 'POST',
-            data: {'action': 'rotate_page', 'page_id': page_id, 'doc_signed': doc_signed, 'direction': direction, 'lang': lang}
+            data: {'action': 'rotate_page', 'page_id': page_id, 'page_numb': page_numb, 'doc_signed': doc_signed, 'direction': direction, 'lang': lang}
         }).done(function(data) {
             eval(data);
         });

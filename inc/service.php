@@ -59,7 +59,7 @@ switch($action) {
 					$_SESSION['docs'][$pdf_id]['pages'] = $pages;
 					for($page_index = 1 ; $page_index <= $pages ; $page_index++) {
 						$page_id = $pdf_id . ($pages > 1 ? '-' . ($page_index - 1 ) : '');
-						$_SESSION['docs'][$pdf_id]['page'][$page_index] = ['page_id' => $page_id, 'page_available' => 1];
+						$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $page_index, 'page_available' => 1];
 					}
 					$_SESSION['docs'][$pdf_id]['signed'] = 0;
 					$_SESSION['docs'][$pdf_id]['time'] = time();
@@ -120,14 +120,25 @@ switch($action) {
 		break;
 	case 'rotate_page':
 		$page_id = $_POST['page_id'];
+		$page_numb = $_POST['page_numb'];
 		$doc_signed = $_POST['doc_signed'];
 		$direction = $_POST['direction'];
     	$res = sign_rotate_page($page_id, $doc_signed, $direction);
 		$arr = json_decode($res, true);
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
-			$rotated_page_id = $arr['page_id'];
+			$rotated_page_id = $arr['rotated_page_id'];
 			if($is_signed_in) {
 				model_page_switch_version($page_id, $rotated_page_id);
+			} else {
+				preg_match('/^([0-9a-f]{16})/', $page_id, $matches);
+				list(, $pdf_id) = $matches;
+				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+					if($page_details['page_id'] == $page_id) {
+						$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
+						break;
+					}
+				}
+				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
 			}
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";

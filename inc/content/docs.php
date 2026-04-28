@@ -22,14 +22,21 @@ function docs_show_list($docs, $signed) {
             $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page['page_id'] . '.png';
             $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page['page_id'] . '.png';
         } else {
-            $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
-            $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $pdf_id_key . ($details['pages'] > 1 ? '-0' : '') . '.png';
+            foreach($_SESSION['docs'][$pdf_id_key]['page'] as $page_key => $page_details) {
+                if(($page_details['page_index'] == 1) && ($page_details['page_available'] == 1)) {
+                    $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page_detaila['page_id'] . '.png';
+                    $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png';
+                    break;
+                }
+            }
         }
 
+        /*
         if(!file_exists($img_filename)) {
             unset($_SESSION['docs'][$signed][$pdf_id_key]);
             continue;
         }
+        */
 
         if($details['signed'] != $signed) {
             continue;
@@ -96,9 +103,15 @@ if($pdf_id != '') {
         $page_enum = [];
         if(isset($_SESSION['docs'][$pdf_id]['page'])) {
             foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
-                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id']];
+                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id'], 'page_numb' => $details['page_index']];
             }
         }
+
+        uksort($page_enum, function($a, $b) {
+            global $page_enum;
+            return strcasecmp($page_enum[$a]['page_numb'], $page_enum[$b]['page_numb']);
+        });
+
         //print_r($page_enum);
     }
     
@@ -194,6 +207,11 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 }
 ?>
 </div>
+<pre>
+<?php
+print_r($_SESSION);
+?>    
+</pre>
 <?php
 if($pdf_id != '') {
 ?>

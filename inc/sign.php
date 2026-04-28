@@ -232,15 +232,15 @@ function sign_rotate_page($page_id, $doc_signed, $direction) {
 
     $rotation_inc = 1;
     do {
-        $rotated_img_id = $pdf_id . ($suffix1 != '' ? $suffix1 : '') .  '_' . $rotation_inc;
-        $rotated_img_filename = $img_dir . '/' . $rotated_img_id . '.png';
+        $rotated_page_id = $pdf_id . ($suffix1 != '' ? $suffix1 : '') .  '_' . $rotation_inc;
+        $rotated_img_filename = $img_dir . '/' . $rotated_page_id . '.png';
         $rotation_inc++;
     } while (file_exists($rotated_img_filename));
 
     imagepng($rotated_img, $rotated_img_filename);
 
-    $arr['page_id'] = $rotated_img_id;
-    $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/': '') . $rotated_img_id . '.png';
+    $arr['rotated_page_id'] = $rotated_page_id;
+    $arr['img_src'] = '/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/': '') . $rotated_page_id . '.png';
 
     $ret = json_encode($arr, JSON_UNESCAPED_UNICODE);
     return $ret;
