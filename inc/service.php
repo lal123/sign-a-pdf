@@ -429,7 +429,17 @@ switch($action) {
 
     	if(($pages_arr[$page_index] >= 1)  && ($pages_arr[$page_index] <= $pages)) {
 
-    		$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
+    		if($is_signed_in) {
+    			$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
+    		} else {
+    			$page = false;
+	            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+	                if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
+	                    $page = ['page_id' => $page_details['page_id'], 'page_index' => $page_details['page_index']];
+	                    break;
+	                }
+	            }
+    		}
 
     		if($page != false) {
 	    		$page_id = $page['page_id'];
@@ -448,13 +458,27 @@ switch($action) {
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;
         	if($page_index < $pages_numb) {
-	    		$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
-	    		$page_id = $page['page_id'];
-				$percent = ceil($page_index / $pages_numb * 100);
-		        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
-		        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
-		        echo "$('#validateSignModal .modal-progress').show();\n";
-        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+	    		if($is_signed_in) {
+	    			$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
+	    		} else {
+	    			$page = false;
+		            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+		                if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
+		                    $page = ['page_id' => $page_details['page_id'], 'page_index' => $page_details['page_index']];
+		                    break;
+		                }
+		            }
+	    		}
+	    		if($page != false) {
+		    		$page_id = $page['page_id'];
+					$percent = ceil($page_index / $pages_numb * 100);
+			        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
+			        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
+			        echo "$('#validateSignModal .modal-progress').show();\n";
+	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+	        	} else {
+					$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
+	        	}
         	} else {
 				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages);
 				$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
@@ -473,7 +497,7 @@ switch($action) {
 			            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
 			            	$page_id = $details['page_id'];
 			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . $page_index : '');
-			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => 'signed/' . $signed_page_id, 'page_available' => 1];
+			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => $signed_page_id, 'page_available' => 1];
 			            }
 			        }
 				}
