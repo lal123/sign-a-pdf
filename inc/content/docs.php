@@ -67,7 +67,7 @@ if($pdf_id != '') {
         $doc = model_doc_get_from_pdf_id($pdf_id);
         $doc_id = $doc['doc_id'];
         $doc_name = $doc['doc_name'];
-        $doc_signed = ($doc['doc_signed'] == 1);
+        $doc_signed = $doc['doc_signed'];
         $doc_size = $doc['doc_size'];
         $doc_time = strtotime($doc['doc_creato']);
         $doc_pages = $doc['doc_pages'];
@@ -82,7 +82,7 @@ if($pdf_id != '') {
     } else {
         //print_r($_SESSION);
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
-        $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1));
+        $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1) ? 1 : 0);
         $doc_size = $_SESSION['docs'][$pdf_id]['size'];
         $doc_time = $_SESSION['docs'][$pdf_id]['time'];
         $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];

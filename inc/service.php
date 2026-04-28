@@ -437,6 +437,8 @@ switch($action) {
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
         	$page_index++;
         	if($page_index < $pages_numb) {
+	    		$page = model_page_get_from_doc_id_and_index($doc_id, $pages_arr[$page_index]);
+	    		$page_id = $page['page_id'];
 				$percent = ceil($page_index / $pages_numb * 100);
 		        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
 		        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
