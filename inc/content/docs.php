@@ -107,9 +107,8 @@ if($pdf_id != '') {
             }
         }
 
-        uksort($page_enum, function($a, $b) {
-            global $page_enum;
-            return (intval($page_enum[$a]['page_numb']) > intval($page_enum[$b]['page_numb']) ? 1 : -1);
+        uasort($page_enum, function($a, $b) {
+            return (intval($a['page_numb']) > intval($b['page_numb']) ? 1 : -1);
         });
 
     }
@@ -194,9 +193,8 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
         $docs = model_doc_get_list($user['user_id']);
     } else {
         $docs = (isset($_SESSION['docs']) ? $_SESSION['docs'] : []);
-        uksort($docs, function($a, $b) {
-            global $docs;
-            return strcasecmp($docs[$b]['time'], $docs[$a]['time']);
+        uasort($docs, function($a, $b) {
+            return (intval($b['time']) > intval($a['time']) ? 1 : -1);
         });
     }
     docs_show_list($docs, 1);

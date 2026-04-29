@@ -318,9 +318,8 @@ switch($action) {
 		        $order = 1;
 		        if(isset($_SESSION['signs']) && is_array($_SESSION['signs']) && (sizeof($_SESSION['signs']) > 0)) {
 		            $signs = $_SESSION['signs'];
-		            uksort($signs, function($a, $b) {
-		                global $signs;
-		                return strcasecmp($signs[$b]['order'], $signs[$a]['order']);
+		            uasort($signs, function($a, $b) {
+		                return (intval($b['order']) > intval($a['order']) ? 1 : -1);
 		            });
 		            $order = array_values($signs)[0]['order'] + 1;
 		        }

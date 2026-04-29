@@ -15,10 +15,11 @@ switch($sign_option) {
             $signs = model_sign_get_list($user_id);
         } else {
             $signs = $_SESSION['signs'];
-            uksort($signs, function($a, $b) {
-                global $signs;
-                return strcasecmp($signs[$b]['time'], $signs[$a]['time']);
-            });
+            if(isset($signs) && is_array($signs) && (sizeof($signs) > 1)) {
+                uasort($signs, function($a, $b) {
+                    return (intval($b['time']) > intval($a['time']) ? 1 : -1);
+                });
+            }
         }
 
         break;

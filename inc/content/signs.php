@@ -39,9 +39,8 @@ function signs_show_list($signs) {
         $signs = [];
         if(isset($_SESSION['signs']) && is_array($_SESSION['signs']) && (sizeof($_SESSION['signs']) > 0)) {
             $signs = $_SESSION['signs'];
-            uksort($signs, function($a, $b) {
-                global $signs;
-                return strcasecmp($signs[$b]['time'], $signs[$a]['time']);
+            uasort($signs, function($a, $b) {
+                return (intval($b['time']) > intval($a['time']) ? 1 : -1);
             });
         }
     }
