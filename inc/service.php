@@ -145,6 +145,7 @@ switch($action) {
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
 		    echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$rotated_page_id}');\n";
+            echo "$('html, body').animate({scrollTop: ($(\".page-container[page_id='{$rotated_page_id}']\").position().top - 220) + 'px'}, 'fast', function(){});\n";
 		}
 		break;
 	case 'delete_sign':

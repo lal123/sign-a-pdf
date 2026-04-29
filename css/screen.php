@@ -100,6 +100,7 @@ a:active, a:focus {
 	font-size: 20px;
 	line-height: 28px;
 	opacity: 0.75;
+	z-index: 99999;
 }
 
 #doc-container #nav-bar .col-auto{

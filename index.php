@@ -262,7 +262,7 @@ include "inc/content/{$page}.php";
 <?php
 if(($page == 'docs') && ($pdf_id != '')) {
     echo '        $(document).on("scroll", function(event) {
-            docs.adaptNavBar();
+            return docs.adaptNavBar();
         });' . "\n";
     echo '        docs.adaptNavBar();'."\n";
     if(!utils_is_mobile()) echo '        $("#nav-bar").draggable({cancel: \'.act\'});'."\n";

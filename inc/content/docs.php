@@ -157,35 +157,31 @@ foreach($page_enum as $page_index => $page_details) {
 if($col < $nb_cols) {
     echo '</div>' . "\n";
 }
-if(true || ($doc_pages > 1)) {
 ?>
         <div id="nav-bar">
-                <div class="form-group row g-3">
-                    <div class="col-sm-5 col-auto">
-                        <label for="navPage">Page&nbsp;</label>
-                        <select name="nav_page" class="act<?php if($doc_pages <= 1) echo ' disabled"'; ?>" id="navPage" onchange="return docs.initChangePage(this.value); return false;"<?php if($doc_pages <= 1) echo ' disabled="disabled"'; ?>>
+            <div class="form-group row g-3">
+                <div class="col-sm-5 col-auto">
+                    <label for="navPage">Page&nbsp;</label>
+                    <select name="nav_page" class="act" id="navPage" onchange="return docs.initChangePage(this.value); return false;"<?php if($doc_pages <= 1) echo ' disabled="disabled"'; ?>>
 <?php
 for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
     echo '                            <option value="' . $img_numb .'">' . $img_numb .'</option>' . "\n";
 }
 ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 col-auto" style="text-align: left">
-                        <a href="javascript:void(0)" class="bi bi-skip-start-fill act<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.FIRST_PAGE']; ?>" onmousedown="return docs.initChangePage(1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-left-fill act small<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.PREV_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-caret-right-fill act small<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.NEXT_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-skip-end-fill act<?php if($doc_pages <= 1) echo ' disabled'; ?>" title="<?php echo $tr['DOCS.NAV_PAGE.LAST_PAGE']; ?>" onmousedown="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
-                    </div>
-                    <div class="col-sm-3 col-auto" style="text-align: right">
-                        <a href="javascript:void(0)" class="bi bi-arrow-counterclockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_LEFT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, -1); return false;"></a>
-                        <a href="javascript:void(0)" class="bi bi-arrow-clockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_RIGHT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, 1); return false;"></a>
-                    </div>
+                    </select>
                 </div>
+                <div class="col-sm-4 col-auto" style="text-align: left">
+                    <a href="javascript:void(0)" class="bi bi-skip-start-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.FIRST_PAGE']; ?>" onmousedown="return docs.initChangePage(1); return false;"></a>
+                    <a href="javascript:void(0)" class="bi bi-caret-left-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.PREV_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) - 1); return false;"></a>
+                    <a href="javascript:void(0)" class="bi bi-caret-right-fill act small" title="<?php echo $tr['DOCS.NAV_PAGE.NEXT_PAGE']; ?>" onmousedown="return docs.initChangePage(parseInt($('#navPage').val()) + 1); return false;"></a>
+                    <a href="javascript:void(0)" class="bi bi-skip-end-fill act" title="<?php echo $tr['DOCS.NAV_PAGE.LAST_PAGE']; ?>" onmousedown="return docs.initChangePage(<?php echo $doc_pages; ?>); return false;"></a>
+                </div>
+                <div class="col-sm-3 col-auto" style="text-align: right">
+                    <a href="javascript:void(0)" class="bi bi-arrow-counterclockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_LEFT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, -1); return false;"></a>
+                    <a href="javascript:void(0)" class="bi bi-arrow-clockwise act" title="<?php echo $tr['DOCS.NAV_PAGE.ROTATE_RIGHT']; ?>" onmousedown="return docs.rotatePage($('#navPage').val(), <?php echo $doc_signed; ?>, 1); return false;"></a>
+                </div>
+            </div>
         </div>
-<?php
-}
-?>
     </div>
 <?php    
 } else {
