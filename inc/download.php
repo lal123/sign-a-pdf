@@ -28,7 +28,7 @@ if($is_signed_in) {
 
 $filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
-//if($doc_size == -1) {
+if($doc_size == -1) {
 	pdf_convert_from_png($pdf_id, $signed, $pages);
 	$doc_size = filesize($filename);
 	if($is_signed_in) {
@@ -36,7 +36,7 @@ $filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : ''
 	} else {
 		$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
 	}
-//}
+}
 
 db_close();
 

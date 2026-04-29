@@ -109,13 +109,10 @@ if($pdf_id != '') {
 
         uksort($page_enum, function($a, $b) {
             global $page_enum;
-            return strcasecmp($page_enum[$a]['page_numb'], $page_enum[$b]['page_numb']);
+            return (intval($page_enum[$a]['page_numb']) > intval($page_enum[$b]['page_numb']) ? 1 : -1);
         });
 
-        //print_r($page_enum);
     }
-    
-    //print_r($page_enum);
 
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
 } else {
@@ -147,7 +144,7 @@ foreach($page_enum as $page_index => $page_details) {
     if($col == 1) {
         echo '<div class="row">';
     }
-    echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" id="' . $page_details['page_id'] . '" page_id="' . $page_details['page_id'] . '">';
+    echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" page_id="' . $page_details['page_id'] . '">';
     echo '<div class="page-content">';
     echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png' . '" alt="" border= "0" />';
     echo '</div>';
@@ -207,11 +204,6 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 }
 ?>
 </div>
-<pre>
-<?php
-print_r($_SESSION);
-?>    
-</pre>
 <?php
 if($pdf_id != '') {
 ?>

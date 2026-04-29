@@ -57,9 +57,9 @@ switch($action) {
 					$_SESSION['docs'][$pdf_id]['name'] = $arr['name'];
 					$_SESSION['docs'][$pdf_id]['size'] = $arr['size'];
 					$_SESSION['docs'][$pdf_id]['pages'] = $pages;
-					for($page_index = 1 ; $page_index <= $pages ; $page_index++) {
-						$page_id = $pdf_id . ($pages > 1 ? '-' . ($page_index - 1 ) : '');
-						$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $page_index, 'page_available' => 1];
+					for($page_numb = 1 ; $page_numb <= $pages ; $page_numb++) {
+						$page_id = $pdf_id . ($pages > 1 ? '-' . ($page_numb - 1 ) : '');
+						$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $page_numb, 'page_available' => 1];
 					}
 					$_SESSION['docs'][$pdf_id]['signed'] = 0;
 					$_SESSION['docs'][$pdf_id]['time'] = time();
@@ -125,13 +125,15 @@ switch($action) {
 		$direction = $_POST['direction'];
     	$res = sign_rotate_page($page_id, $doc_signed, $direction);
 		$arr = json_decode($res, true);
+		preg_match('/^([0-9a-f]{16})/', $page_id, $matches);
+		list(, $pdf_id) = $matches;
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
 			$rotated_page_id = $arr['rotated_page_id'];
 			if($is_signed_in) {
+				model_doc_update_size($pdf_id, -1);
 				model_page_switch_version($page_id, $rotated_page_id);
 			} else {
-				preg_match('/^([0-9a-f]{16})/', $page_id, $matches);
-				list(, $pdf_id) = $matches;
+				$_SESSION['docs'][$pdf_id]['size'] = -1;
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
 					if($page_details['page_id'] == $page_id) {
 						$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
@@ -379,6 +381,7 @@ switch($action) {
 		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
+		$page_id = $_POST['page_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$page_index = $_POST['page_index'];
 		$page_id = $_POST['page_id'];
@@ -475,7 +478,7 @@ switch($action) {
 			        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
 			        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
 			        echo "$('#validateSignModal .modal-progress').show();\n";
-	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'page_id': '{$page_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
 	        	} else {
 					$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
 	        	}
@@ -490,7 +493,7 @@ switch($action) {
 				} else {
 					$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
 					$_SESSION['docs'][$signed_pdf_id]['time'] = time();
-					$_SESSION['docs'][$signed_pdf_id]['size'] = -1;
+					$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
 					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
 					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
 			        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
@@ -530,7 +533,7 @@ switch($action) {
 
 		$filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
 
-		//if($size == -1) {
+		if($size == -1) {
 			pdf_convert_from_png($pdf_id, $signed, $pages);
 			$doc_size = filesize($filename);
 			if($is_signed_in) {
@@ -538,7 +541,7 @@ switch($action) {
 			} else {
 				$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
 			}
-		//}
+		}
 
         echo "clearInterval(docs.animh);\n";
         echo "docs.animh = null;\n";

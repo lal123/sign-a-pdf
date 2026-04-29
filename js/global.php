@@ -374,7 +374,7 @@ var sign = {
             sign_height = (page_height - 100) / 3;
             sign_width = parseInt(sign_height * sign_ratio);
         }
-        var page_id = target_page.attr('id');
+        var page_id = target_page.attr('page_id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
         signPreview.html('<div class="helper ne"></div><div class="helper nw"></div><div class="helper sw"></div><div class="helper se"></div><div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['CANCEL']); ?>') + '" onmousedown="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['VALIDATE']); ?>') + '" onmousedown="return sign.validate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_index\': 0, \'page_option\': ' + page_option + ', \'sign_pages\': \'' + sign_pages + '\', \'pages\': ' + $('.page-container').length + '}); return false;"></a></span></div>');
@@ -421,9 +421,14 @@ var sign = {
         });
         $('#validateSignModal .global-error').html('');
         $('#validateSignModal').modal('show');
-        var page = $('#' + vals['page_id'] + ' > .page-content > img');
+        var page = $(".page-container[page_id='" + vals['page_id'] + "'] > .page-content > img");
+        console.log('selector', ".page-container[page_id='" + vals['page_id'] + "'] > .page-content > img");
+        if(page.length == 0) {
+            alert('Page not found');
+            return false;
+        }
         var signPreview = $('#signPreview');
-        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'page_index': vals['page_index'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': signPreview.width(), 'sign_h': signPreview.height(), 'sign_x': signPreview.position().left, 'sign_y': signPreview.position().top, 'lang': lang};
+        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'page_id': vals['page_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'page_index': vals['page_index'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': signPreview.width(), 'sign_h': signPreview.height(), 'sign_x': signPreview.position().left, 'sign_y': signPreview.position().top, 'lang': lang};
         sign.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',

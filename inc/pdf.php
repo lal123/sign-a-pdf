@@ -162,7 +162,7 @@ function pdf_create_signed_doc() {
 
 function pdf_convert_from_png($pdf_id, $signed, $pages) {
 
-	global $err_msg;
+	global $lang, $tr, $err_msg, $is_signed_in;
 
 	$err_msg = '';
 	$output = [];
@@ -171,9 +171,25 @@ function pdf_convert_from_png($pdf_id, $signed, $pages) {
     $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
 	$pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf' . ($signed ? '/signed' : '');
 
+    if($is_signed_in) {
+    	$doc = model_doc_get_from_pdf_id($pdf_id);
+    	$page_enum = model_page_get_list_from_doc_id($doc['doc_id']);
+    } else {
+        $page_enum = [];
+        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
+            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
+                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id'], 'page_numb' => $details['page_index']];
+            }
+        }
+        uasort($page_enum, function($a, $b) {
+            $res = (intval($a['page_numb']) > intval($b['page_numb']) ? 1 : -1);
+            return $res;
+        });
+    }
+	
 	$file_list = [];
-	for($i = 1; $i <= $pages ; $i++) {
-		$img_file = $img_dir . '/' . $pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
+	foreach($page_enum as $page_key => $page_details) {
+		$img_file = $img_dir . '/' . $page_details['page_id'] . '.png';
 		$file_list[] = $img_file;
 	}
 
