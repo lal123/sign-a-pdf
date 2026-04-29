@@ -654,9 +654,7 @@ a.common:hover {
 
 div.mid-ad div {
  	margin: 20px 0px 70px 0px;
-}
-
-div.mid-ad div {
+	z-index: 1;
  	display: none;
 }
 

@@ -178,7 +178,7 @@ function model_doc_get_list($doc_user_id) {
     if($res != false){
         while($arr = db_fetch_assoc($res)){
             $pdf_id = $arr['doc_pdf_id'];
-            $ret[$pdf_id] = ['doc_id' => $arr['doc_id'], 'name' => $arr['doc_name'], 'time' => $arr['doc_time'], 'size' => $arr['doc_size'], 'pages' => $arr['doc_pages'], 'signed' => $arr['doc_signed']];
+            $ret[$pdf_id] = ['doc_id' => $arr['doc_id'], 'name' => $arr['doc_name'], 'doc_pdf_id' => $arr['doc_pdf_id'], 'time' => $arr['doc_time'], 'size' => $arr['doc_size'], 'pages' => $arr['doc_pages'], 'signed' => $arr['doc_signed']];
         }
     }
     //write_log(__METHOD__, print_r($ret, true));

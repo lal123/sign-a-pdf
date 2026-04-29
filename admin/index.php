@@ -199,7 +199,7 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
         }
     </script>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
 <br />
 
@@ -209,9 +209,42 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 
 	<ul style="list-style-type: circle; padding: 0px 0px 0px 20px;">
 <?php
+
+function get_total_file_size($doc_pdf_id, $fold_val) {
+    $total_size = 0;
+    $dir = getcwd() . '/../' . UPLOAD_DIR . '/' . $fold_val . '/';
+    $fh = opendir($dir);
+    while($fn = readdir($fh)) {
+        if(!preg_match('/^\./', $fn)) {
+            if(is_dir($dir . '/' . $fn)){
+                $total_size+= get_total_file_size($doc_pdf_id, $fold_val . '/' . $fn);
+            }else{
+                if(preg_match('/^([a-f0-9]{16})/', $fn, $regs)){
+                    list(, $pdf_id) = $regs;
+                    if($pdf_id == $doc_pdf_id) {
+                        $total_size+= filesize($dir . $fn);
+                    }
+                }
+            }
+        }
+    }
+    return $total_size;
+}
+
 foreach($users as $index => $user) {
     $doc_numb = model_doc_get_numb($user['user_id']);
-    $doc_total_size = model_doc_get_total_size($user['user_id']);
+    
+    //$doc_total_size = model_doc_get_total_size($user['user_id']);
+    
+    $doc_total_size = 0;
+    $folds = ['pdf', 'img'];
+    $docs = model_doc_get_list($user['user_id']);
+    foreach($docs as $doc_key => $doc_details) {
+        foreach($folds as $fold_key => $fold_val) {
+            $doc_total_size+= get_total_file_size($doc_details['doc_pdf_id'], $fold_val);
+        }
+    }
+
     $sign_numb = model_sign_get_numb($user['user_id']);
 	echo '<li class="user' . ($user['user_valid'] == 1 ? ' valid' : ' invalid') . '">';
     echo '<div class="row">';
