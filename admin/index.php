@@ -20,7 +20,7 @@ function get_dir($type, $dir, $rel_dir, &$items) {
             		list(, $pdf_id) = $matches;
             		if(model_doc_get_from_pdf_id($pdf_id) === false) {
                         $signed = (preg_match('/signed$/', $dir) ? 1 : 0);
-                        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed == 1 ? '/signed' : ''), $pdf_id);
+                        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/pdf' . ($signed == 1 ? '/signed' : '') . '/' . $pdf_id . '.pdf');
                         $time = filemtime($dir . '/' . $fn);
                         $preview = '/' . UPLOAD_DIR . '/img/' . ($signed == 1 ? 'signed/' : '') . $pdf_id . ($pages > 1 ? '-0' : '') . '.png';
             			$items[$signed][] = ['pdf_id' => $pdf_id, 'path' => $rel_dir . $pdf_id, 'pages' => $pages, 'signed' => $signed, 'preview' => $preview, 'time' => $time];
@@ -41,6 +41,27 @@ function get_dir($type, $dir, $rel_dir, &$items) {
 
 get_dir('pdf', getcwd() . '/../' . UPLOAD_DIR . '/pdf', '', $an_docs);
 get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
+
+function get_total_file_size($doc_pdf_id, $fold_val) {
+    $total_size = 0;
+    $dir = getcwd() . '/../' . UPLOAD_DIR . '/' . $fold_val . '/';
+    $fh = opendir($dir);
+    while($fn = readdir($fh)) {
+        if(!preg_match('/^\./', $fn)) {
+            if(is_dir($dir . '/' . $fn)){
+                $total_size+= get_total_file_size($doc_pdf_id, $fold_val . '/' . $fn);
+            }else{
+                if(preg_match('/^([a-f0-9]{16})/', $fn, $regs)){
+                    list(, $pdf_id) = $regs;
+                    if($pdf_id == $doc_pdf_id) {
+                        $total_size+= filesize($dir . $fn);
+                    }
+                }
+            }
+        }
+    }
+    return $total_size;
+}
 
 ?>
 <!DOCTYPE html>
@@ -210,27 +231,6 @@ get_dir('sign', getcwd() . '/../' . UPLOAD_DIR . '/sign', '', $an_signs);
 	<ul style="list-style-type: circle; padding: 0px 0px 0px 20px;">
 <?php
 
-function get_total_file_size($doc_pdf_id, $fold_val) {
-    $total_size = 0;
-    $dir = getcwd() . '/../' . UPLOAD_DIR . '/' . $fold_val . '/';
-    $fh = opendir($dir);
-    while($fn = readdir($fh)) {
-        if(!preg_match('/^\./', $fn)) {
-            if(is_dir($dir . '/' . $fn)){
-                $total_size+= get_total_file_size($doc_pdf_id, $fold_val . '/' . $fn);
-            }else{
-                if(preg_match('/^([a-f0-9]{16})/', $fn, $regs)){
-                    list(, $pdf_id) = $regs;
-                    if($pdf_id == $doc_pdf_id) {
-                        $total_size+= filesize($dir . $fn);
-                    }
-                }
-            }
-        }
-    }
-    return $total_size;
-}
-
 foreach($users as $index => $user) {
     $doc_numb = model_doc_get_numb($user['user_id']);
     
@@ -294,8 +294,7 @@ foreach($an_docs as $signed => $docs) {
     echo '<div class="row">';
     foreach($docs as $index => $doc) {
         
-
-        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/img' . ($doc['signed'] ? '/signed' : ''), $doc['pdf_id']);
+        $pages = pdf_check_pages_numb(getcwd() . '/../' . UPLOAD_DIR . '/pdf' . ($doc['signed'] ? '/signed' : '') . '/' .  $doc['pdf_id'] . '.pdf');
         if($pages != $doc['pages']) {
             $doc['pages'] = $pages;
         }

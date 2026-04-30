@@ -92,17 +92,20 @@ function pdf_convert_to_png() {
 	return $ret;
 }
 
-function pdf_check_pages_numb($img_dir, $pdf_id) {
+function pdf_check_pages_numb($pdf_file) {
+
+	$output = [];
+	$return_var = 0;
 
 	$pages = 1;
 
-    if(!file_exists($img_dir . '/' . $pdf_id . '.png')) {
-    	$pages = 0;
-    	while(file_exists($img_dir . '/' . $pdf_id . '-' . $pages . '.png')) {
-    		$pages++;
-    	}
-
+	$command = "/usr/bin/pdfinfo {$pdf_file} | /usr/bin/grep -a '^Pages'";
+    exec($command, $output, $return_var);
+    if(preg_match('/([0-9]+)$/', $output[0], $matches)) {
+    	list(, $pages) = $matches;
     }
+    
+    write_log(__METHOD__, "[pdf_file][{$pdf_file}][pages][{$pages}]");
 
     return $pages;
 }
