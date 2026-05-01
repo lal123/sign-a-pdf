@@ -137,6 +137,7 @@ switch($action) {
 				model_page_switch_version($page_id, $rotated_page_id);
 				*/
 			} else {
+				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 0];
 				/*
 				$_SESSION['docs'][$pdf_id]['size'] = -1;
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
@@ -516,11 +517,11 @@ switch($action) {
 			            }
 			        }
 				}
-				//echo "$('#signButton').addClass('disabled');\n";
+				echo "$('#signButton').addClass('disabled');\n";
 				echo "$('#signPreview').remove();\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
-				//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
+				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 			}
 		} else {
 			write_log('service_sign_page', '*** ERROR *** ' . $arr['err_msg']);
@@ -567,15 +568,16 @@ switch($action) {
 			model_page_confirm_list($doc['doc_id'], $page_list);
 		} else {
 			$_SESSION['docs'][$pdf_id]['size'] = -1;
+			foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+				$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = (in_array($page_details['page_id'], $page_list) ? 1 : 0);
+			}
 		}
+		/*
 		foreach($page_list as $page_key => $page_id) {
 			write_log('doc_confirm', $page_id);
 			if($is_signed_in) {
-				/*
 				model_page_switch_version($page_id, $rotated_page_id);
-				*/
 			} else {
-				/*
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
 					if($page_details['page_id'] == $page_id) {
 						$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
@@ -583,10 +585,9 @@ switch($action) {
 					}
 				}
 				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
-				*/
 			}
-
 		}
+		*/
         echo "$('#confirmDocModal').modal('hide');\n";
         echo "document.location.href = '{$destination}';\n";
 		break;

@@ -451,7 +451,7 @@ function model_page_confirm_list($doc_id, $page_list) {
             . " set `page_available` = 1"
             . " where 1"
             . " and `page_doc_id` = '" . db_escape($doc_id) . "'"
-            . " and `page_id` IN(" . implode(', ', $page_list) . ")";
+            . " and `page_id` IN('" . implode("', '", $page_list) . "')";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if($res == false) {

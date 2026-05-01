@@ -351,7 +351,7 @@ var docs = {
 
             var page_list = [];
             $.each($('.page-container'), function(index, item) {
-                page_list.push("'" + $(item).attr('page_id') + "'");
+                page_list.push($(item).attr('page_id'));
             });
             data = {'action': 'doc_confirm', 'pdf_id': pdf_id, 'page_list': page_list, 'destination': destination, 'lang': lang};
             docs.req = $.ajax({
@@ -454,7 +454,6 @@ var sign = {
         $('#validateSignModal .global-error').html('');
         $('#validateSignModal').modal('show');
         var page = $(".page-container[page_id='" + vals['page_id'] + "'] > .page-content > img");
-        console.log('selector', ".page-container[page_id='" + vals['page_id'] + "'] > .page-content > img");
         if(page.length == 0) {
             alert('Page not found');
             return false;
@@ -607,7 +606,6 @@ var pages = {
     safeRedirect: function(event, destination) {
 
         if((page == 'docs') && (pdf_id != '') && docs.changed) {
-            pages.destination = destination;
             event.stopPropagation();
             docs.confirm(destination);
             return false;
