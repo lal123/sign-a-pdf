@@ -449,6 +449,11 @@ var sign = {
     prepareValidate: function(vals) {
         vals['action'] = 'prepare_sign';
         vals['lang'] = lang;
+        var page_list = [];
+        $.each($('.page-container'), function(index, item) {
+            page_list.push($(item).attr('page_id'));
+        });
+        vals['page_list'] = page_list;
         sign.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
