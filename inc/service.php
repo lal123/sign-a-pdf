@@ -530,6 +530,20 @@ switch($action) {
 		break;
 	case 'doc_download':
 		$pdf_id = $_POST['pdf_id'];
+		$page_list = $_POST['page_list'];
+		$doc_changed = $_POST['doc_changed'];
+		if($doc_changed == 1) {
+			if($is_signed_in) {
+				$doc = model_doc_get_from_pdf_id($pdf_id);
+				model_doc_update_size($pdf_id, -1);
+				model_page_confirm_list($doc['doc_id'], $page_list);
+			} else {
+				$_SESSION['docs'][$pdf_id]['size'] = -1;
+				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+					$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = (in_array($page_details['page_id'], $page_list) ? 1 : 0);
+				}
+			}
+		}
 		if($is_signed_in) {
 			$doc = model_doc_get_from_pdf_id($pdf_id);
 			$name = $doc['doc_name'];

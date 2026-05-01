@@ -317,7 +317,13 @@ var docs = {
         docs.animc = 0;
         docs.animh = setInterval('docs.animDownload()', 250);
         $('#downloadDocModal').modal('show');
-        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'lang': lang};
+        var page_list = [];
+        $.each($('.page-container'), function(index, item) {
+            page_list.push($(item).attr('page_id'));
+        });
+        doc_changed = (docs.changed ? 1 : 0);
+        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'page_list': page_list, 'doc_changed': doc_changed, 'lang': lang};
+        docs.changed = false;
         docs.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
@@ -348,7 +354,6 @@ var docs = {
             document.location.href = destination;
         });
         $('#confirmDocModal #actionConfirmOk').on('click', event => {
-
             var page_list = [];
             $.each($('.page-container'), function(index, item) {
                 page_list.push($(item).attr('page_id'));
@@ -361,9 +366,6 @@ var docs = {
             }).done(function(data) {
                 eval(data);
             });
-
-            //$('#confirmDocModal').modal('hide');
-            //document.location.href = destination;
         });
         $("#confirmDocModal").modal("show");
         return false;
