@@ -411,7 +411,7 @@ var sign = {
         var page_id = target_page.attr('page_id');
         var signPreview = $('<div></div')
             .attr('id', 'signPreview');
-        signPreview.html('<div class="helper ne"></div><div class="helper nw"></div><div class="helper sw"></div><div class="helper se"></div><div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['CANCEL']); ?>') + '" onmousedown="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['VALIDATE']); ?>') + '" onmousedown="return sign.validate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_index\': 0, \'page_option\': ' + page_option + ', \'sign_pages\': \'' + sign_pages + '\', \'pages\': ' + $('.page-container').length + '}); return false;"></a></span></div>');
+        signPreview.html('<div class="helper ne"></div><div class="helper nw"></div><div class="helper sw"></div><div class="helper se"></div><div class="sign_cmd_bar"><span><a class="close bi bi-x-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['CANCEL']); ?>') + '" onmousedown="$(\'#signPreview\').remove(); return false;"></a><a class="check bi bi-check-circle-fill" title="' + decodeURIComponent('<?php echo rawurlencode($tr['VALIDATE']); ?>') + '" onmousedown="return sign.prepareValidate({\'pdf_id\': \'' + pdf_id + '\', \'signed_pdf_id\': \'' + signed_pdf_id + '\', \'page_id\': \'' + page_id + '\', \'sign_id\': \'' + sign_id + '\', \'page_index\': 0, \'page_option\': ' + page_option + ', \'sign_pages\': \'' + sign_pages + '\', \'pages\': ' + $('.page-container').length + '}); return false;"></a></span></div>');
         target_page.find('.page-content').append(signPreview);
         $('#signPreview').css({'display': 'inline-block', 'background-image': 'url(\'/uploads/sign/' + sign_id +'.png\'', 'width': sign_width + 'px', 'height': sign_height +'px'});
         $('#signPreview').resizable({handles: 'n,s,e,w,ne,se,nw,sw', stop: function (event, ui) { sign.moved(event, ui); }}).draggable({stop: function (event, ui) { sign.moved(event, ui); }});
@@ -444,6 +444,19 @@ var sign = {
     },
 
     moved: function(event, ui) {
+    },
+
+    prepareValidate: function(vals) {
+        vals['action'] = 'prepare_sign';
+        vals['lang'] = lang;
+        sign.req = $.ajax({
+            url: '/inc/service.php',
+            type: 'POST',
+            data: vals
+        }).done(function(data) {
+            eval(data);
+        });
+        return false;
     },
 
     validate: function(vals) {

@@ -386,9 +386,19 @@ switch($action) {
 	        echo "$('#signDocModal').modal('show');\n";
 	    }
 		break;
+	case 'prepare_sign':
+		$pdf_id = $_POST['pdf_id'];
+		$signed_pdf_id = $_POST['signed_pdf_id'];
+		$page_index = $_POST['page_index'];
+		$page_id = $_POST['page_id'];
+		$sign_id = $_POST['sign_id'];
+		$page_option = $_POST['page_option'];
+		$sign_pages = $_POST['sign_pages'];
+		$pages = $_POST['pages'];
+		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
+		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
-		$page_id = $_POST['page_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$page_index = $_POST['page_index'];
 		$page_id = $_POST['page_id'];
