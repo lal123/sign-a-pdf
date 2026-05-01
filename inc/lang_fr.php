@@ -82,6 +82,7 @@ $tr =[
 	'DOCS.SIGN.STEP2.CHOOSE_SIGN'	=> 'Choisissez une signature créée précédemment',
 	'DOCS.SIGN.STEP3.INTRO'			=> 'Choisissez les pages sur lesquelles la signature doit ête ajoutée',
 	'DOCS.DELETE.CONFIRM'			=> 'Êtes-vous sûr de vouloir supprimer ce document ?',
+	'DOCS.MODIFY.CONFIRM'			=> 'Voulez-vous sauvegarder les modifications de ce document ?',
 	'DOCS.DOWNLOAD.TITLE'			=> 'Téléchargement de votre document',
 	'DOCS.DOWNLOAD.PREPARING'		=> 'Préparation du téléchargement',
 	'DOCS.SIGN_DOC.TITLE'			=> 'Signature de votre document',

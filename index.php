@@ -1,11 +1,5 @@
 <?php
 
-/*
-if(php_uname("n") != 'alain-520-1080fr') {
-    echo 'Hello, World!';die();
-}
-*/
-
 require_once 'inc/utils.php';
 
 ?>
@@ -37,6 +31,10 @@ require_once 'inc/utils.php';
     <script src="/js/jquery-ui-touch-punch-0.2.3.min.js"></script>
     <script src="/js/bootstrap-5.3.8.min.js"></script>
     <script src="/js/farbtastic-1.2.js"></script>
+    <script>
+        page = '<?php echo $page; ?>';
+        pdf_id = '<?php echo (isset($pdf_id) && ($pdf_id != '') ? $pdf_id : ''); ?>';
+    </script>
     <script src="/js/global-<?php echo $lang; ?>.<?php echo $version_suffix; ?>.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KCV3E6Q85R"></script>
     <script>
@@ -64,7 +62,7 @@ if(($page == 'account') && ($action == 'validate')) {
 <div class="container">
     <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/<?php echo $lang; ?>/"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
+            <a class="navbar-brand" href="/<?php echo $lang; ?>/" onclick="return pages.safeRedirect(event, '/<?php echo $lang; ?>/'); return false;"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="">
                   <span class="navbar-toggler-icon"></span>
             </button>
@@ -256,7 +254,6 @@ include "inc/content/{$page}.php";
         </div>
     </nav>
 </div>
-
 <script>
     $('document').ready(function() {
 <?php
@@ -268,8 +265,7 @@ if(($page == 'docs') && ($pdf_id != '')) {
     if(!utils_is_mobile()) echo '        $("#nav-bar").draggable({cancel: \'.act\'});'."\n";
 }
 ?>
-     });
+    });
 </script>
-
 </body>
 </html>

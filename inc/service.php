@@ -130,9 +130,12 @@ switch($action) {
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
 			$rotated_page_id = $arr['rotated_page_id'];
 			if($is_signed_in) {
+				/*
 				model_doc_update_size($pdf_id, -1);
 				model_page_switch_version($page_id, $rotated_page_id);
+				*/
 			} else {
+				/*
 				$_SESSION['docs'][$pdf_id]['size'] = -1;
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
 					if($page_details['page_id'] == $page_id) {
@@ -141,6 +144,7 @@ switch($action) {
 					}
 				}
 				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
+				*/
 			}
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
@@ -459,6 +463,11 @@ switch($action) {
 	    }
 
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
+			if($page_index == 0) {
+				echo "$('#signPreview').css({'visibility': 'hidden'});\n";
+			}
+			$img_src = '/' . UPLOAD_DIR . '/img/signed/' . $signed_page_id . '.png';
+		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
         	$page_index++;
         	if($page_index < $pages_numb) {
 	    		if($is_signed_in) {
@@ -505,10 +514,11 @@ switch($action) {
 			            }
 			        }
 				}
-				echo "$('#signButton').addClass('disabled');\n";
+				//echo "$('#signButton').addClass('disabled');\n";
+				echo "$('#signPreview').remove();\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
-				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
+				//echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
 			}
 		} else {
 			write_log('service_sign_page', '*** ERROR *** ' . $arr['err_msg']);

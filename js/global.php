@@ -123,6 +123,7 @@ var docs = {
     compNum: null,
     animh: null,
     animc: 0,
+    changed: false,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -198,6 +199,7 @@ var docs = {
     },
 
     rotatePage: function(page_numb, doc_signed, direction) {
+        docs.changed = true;
         if(page_numb < 1) page_numb = 1;
         if(page_numb > $('.page-container').length) page_numb = $('.page-container').length;
         var page_id = $('.page-container').eq(page_numb - 1).attr('page_id');
@@ -334,6 +336,21 @@ var docs = {
 
     download: function(pdf_id) {
         document.location.href = '/' + lang + '/download/' + pdf_id;
+        return false;
+    },
+
+    prepareConfirm: function() {
+        $('#confirmDocModal').on('hidden.bs.modal', event => {
+            $('#confirmDocModal').modal('hide');
+
+            document.location.href = pages.destination;
+        });
+        $('#confirmDocModal #actionConfirm').on('click', event => {
+            $('#confirmDocModal').modal('hide');
+
+            document.location.href = pages.destination;
+        });
+        $("#confirmDocModal").modal("show");
         return false;
     }
 }
@@ -570,3 +587,19 @@ var account = {
     }
 }
 
+var pages = {
+
+    destination: '/',
+
+    safeRedirect: function(event, destination) {
+
+        if((page == 'docs') && (pdf_id != '') && docs.changed) {
+            pages.destination = destination;
+            event.stopPropagation();
+            docs.prepareConfirm();
+            return false;
+        }
+        document.localtion.href = destination;
+        return false;
+    }
+}
