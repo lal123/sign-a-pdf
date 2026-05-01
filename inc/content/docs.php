@@ -221,6 +221,49 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
+<div class="modal" data-bs-backdrop="static" id="confirmDocModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['CONFIRMATION']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p><?php echo $tr['DOCS.MODIFY.CONFIRM']; ?></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <div class="ms-0 mb-0">
+                    <button type="button" class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+                </div>
+                <div class="me-0 mb-0">
+                    <button id="actionConfirmNo" class="btn btn-primary dark-cyan normalized"><?php echo $tr['NO']; ?></button>
+                    <button id="actionConfirmOk" type="button" class="btn btn-primary dark-cyan normalized"><?php echo $tr['YES']; ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" data-bs-backdrop="static" id="validateSignModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN_DOC.TITLE']; ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="modal-info"><?php echo $tr['DOCS.SIGN_DOC.PREPARING']; ?></div>
+                <div><br /></div>
+                <div class="modal-progress progress" role="progressbar" aria-label="validateProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
+                    <div class="modal-progress-bar progress-bar text-bg-success" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 ms-3 mt-2 mb-0 global-error" style="color: red;"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php
 }
 ?>
@@ -241,23 +284,6 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
-<div class="modal" data-bs-backdrop="static" id="confirmDocModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle"><?php echo $tr['CONFIRMATION']; ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <p><?php echo $tr['DOCS.MODIFY.CONFIRM']; ?></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
-                <button id="actionConfirm" type="button" class="btn btn-primary dark-cyan"><?php echo $tr['CONFIRM']; ?></button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal" data-bs-backdrop="static" id="downloadDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -266,27 +292,6 @@ if($pdf_id != '') {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="modalBody"><?php echo $tr['DOCS.DOWNLOAD.PREPARING']; ?> <span class="waiting"></span></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" data-bs-backdrop="static" id="validateSignModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle"><?php echo $tr['DOCS.SIGN_DOC.TITLE']; ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <div class="modal-info"><?php echo $tr['DOCS.SIGN_DOC.PREPARING']; ?></div>
-                <div><br /></div>
-                <div class="modal-progress progress" role="progressbar" aria-label="validateProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 24px;">
-                    <div class="modal-progress-bar progress-bar text-bg-success" style="width: 0%"></div>
-                </div>
-            </div>
-            <div class="col-lg-6 ms-3 mt-2 mb-0 global-error" style="color: red;"></div>
             <div class="modal-footer">
                 <button class="btn btn-secondary normalized" data-bs-dismiss="modal"><?php echo $tr['CANCEL']; ?></button>
             </div>

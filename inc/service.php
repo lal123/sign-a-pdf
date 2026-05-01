@@ -130,6 +130,8 @@ switch($action) {
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
 			$rotated_page_id = $arr['rotated_page_id'];
 			if($is_signed_in) {
+				$doc = model_doc_get_from_pdf_id($pdf_id);
+				model_page_create(['page_id' => $rotated_page_id, 'page_doc_id' => $doc['doc_id'], 'page_index' => $page_numb, 'page_available' => 0]);
 				/*
 				model_doc_update_size($pdf_id, -1);
 				model_page_switch_version($page_id, $rotated_page_id);
@@ -540,9 +542,7 @@ switch($action) {
 			$pages = $doc['pages'];
 			$signed = $doc['signed'];
 		}
-
 		$filename = getcwd() . '/../' . UPLOAD_DIR . '/pdf/' . ($signed ? 'signed/' : '') . $pdf_id . '.pdf';
-
 		if($size == -1) {
 			pdf_convert_from_png($pdf_id, $signed, $pages);
 			$doc_size = filesize($filename);
@@ -552,11 +552,42 @@ switch($action) {
 				$_SESSION['docs'][$pdf_id]['size'] = $doc_size;
 			}
 		}
-
         echo "clearInterval(docs.animh);\n";
         echo "docs.animh = null;\n";
 		echo "$('#downloadDocModal').modal('hide');\n";
         echo "docs.download('{$pdf_id}');\n";
 		break;
+	case 'doc_confirm':
+		$pdf_id = $_POST['pdf_id'];
+		$page_list = $_POST['page_list'];
+		$destination = $_POST['destination'];
+		if($is_signed_in) {
+			$doc = model_doc_get_from_pdf_id($pdf_id);
+			model_doc_update_size($pdf_id, -1);
+			model_page_confirm_list($doc['doc_id'], $page_list);
+		} else {
+			$_SESSION['docs'][$pdf_id]['size'] = -1;
+		}
+		foreach($page_list as $page_key => $page_id) {
+			write_log('doc_confirm', $page_id);
+			if($is_signed_in) {
+				/*
+				model_page_switch_version($page_id, $rotated_page_id);
+				*/
+			} else {
+				/*
+				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+					if($page_details['page_id'] == $page_id) {
+						$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
+						break;
+					}
+				}
+				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
+				*/
+			}
 
+		}
+        echo "$('#confirmDocModal').modal('hide');\n";
+        echo "document.location.href = '{$destination}';\n";
+		break;
 }

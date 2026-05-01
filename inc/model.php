@@ -276,6 +276,7 @@ function model_doc_get_from_pdf_id($doc_pdf_id) {
     $sql = "select * from `{$base}`.`docs`"
             . " where 1"
             . " and doc_pdf_id='" . db_escape($doc_pdf_id) . "'";
+    write_log(__METHOD__, $sql);
     $res = db_query($sql);
     if(($res != false) && (db_num_rows($res) != 0)) {
         $ret = db_fetch_assoc($res);
@@ -429,6 +430,33 @@ function model_page_switch_version($page_id, $new_page_id) {
             . " and `page_id` = '{$page_id}'";
     write_log(__METHOD__, $sql);
     $res = db_query($sql);
+    return $ret;
+}
+
+function model_page_confirm_list($doc_id, $page_list) {
+
+    global $base, $cdb;
+
+    $ret = false;
+    $sql = "update `{$base}`.`pages`"
+            . " set `page_available` = 0"
+            . " where 1"
+            . " and `page_doc_id` = '" . db_escape($doc_id) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res == false) {
+        return false;
+    }
+    $sql = "update `{$base}`.`pages`"
+            . " set `page_available` = 1"
+            . " where 1"
+            . " and `page_doc_id` = '" . db_escape($doc_id) . "'"
+            . " and `page_id` IN(" . implode(', ', $page_list) . ")";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    if($res == false) {
+        return false;
+    }
     return $ret;
 }
 

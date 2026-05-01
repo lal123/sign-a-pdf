@@ -339,16 +339,31 @@ var docs = {
         return false;
     },
 
-    prepareConfirm: function() {
+    confirm: function(destination) {
         $('#confirmDocModal').on('hidden.bs.modal', event => {
             $('#confirmDocModal').modal('hide');
-
-            document.location.href = pages.destination;
         });
-        $('#confirmDocModal #actionConfirm').on('click', event => {
+        $('#confirmDocModal #actionConfirmNo').on('click', event => {
             $('#confirmDocModal').modal('hide');
+            document.location.href = destination;
+        });
+        $('#confirmDocModal #actionConfirmOk').on('click', event => {
 
-            document.location.href = pages.destination;
+            var page_list = [];
+            $.each($('.page-container'), function(index, item) {
+                page_list.push("'" + $(item).attr('page_id') + "'");
+            });
+            data = {'action': 'doc_confirm', 'pdf_id': pdf_id, 'page_list': page_list, 'destination': destination, 'lang': lang};
+            docs.req = $.ajax({
+                url: '/inc/service.php',
+                type: 'POST',
+                data: data,
+            }).done(function(data) {
+                eval(data);
+            });
+
+            //$('#confirmDocModal').modal('hide');
+            //document.location.href = destination;
         });
         $("#confirmDocModal").modal("show");
         return false;
@@ -589,14 +604,12 @@ var account = {
 
 var pages = {
 
-    destination: '/',
-
     safeRedirect: function(event, destination) {
 
         if((page == 'docs') && (pdf_id != '') && docs.changed) {
             pages.destination = destination;
             event.stopPropagation();
-            docs.prepareConfirm();
+            docs.confirm(destination);
             return false;
         }
         document.localtion.href = destination;

@@ -62,14 +62,14 @@ if(($page == 'account') && ($action == 'validate')) {
 <div class="container">
     <nav class="navbar fixed-top navbar-expand-lg border-bottom border-body dark-cyan" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/<?php echo $lang; ?>/" onclick="return pages.safeRedirect(event, '/<?php echo $lang; ?>/'); return false;"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
+            <a class="navbar-brand" href="/<?php echo $lang; ?>/" onclick="return pages.safeRedirect(event, this.href); return false;"><img src="/favicon-32x32.png" alt="" border="0" align="middle" style="width: 24px; height: 24px; margin: 0px 6px 4px 0px;"><?php echo $tr['SITE_NAME']; ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myMenu" aria-controls="myMenu" aria-expanded="false" aria-label="">
                   <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="myMenu" style="">
                 <ul class="navbar-nav ms-0">
                     <li class="nav-item">
-                        <a<?php if ($page == 'home') { echo ' class="nav-link reduced active" aria-current="page"'; } else {echo ' class="nav-link reduced"';} ?> href="<?php echo '/' . $lang . '/' . $page_role['home']; ?>">
+                        <a<?php if ($page == 'home') { echo ' class="nav-link reduced active" aria-current="page"'; } else {echo ' class="nav-link reduced"';} ?> href="<?php echo '/' . $lang . '/' . $page_role['home']; ?>" onclick="return pages.safeRedirect(event, this.href); return false;">
                             <i class="bi bi-upload"></i>&nbsp; <?php echo $tr['MENU.SEND_DOCUMENT']; ?>
                         </a>
                     </li>
@@ -82,7 +82,7 @@ if(($page == 'account') && ($action == 'validate')) {
                         } else { 
                             echo ' class="nav-link" href="/' . $lang . '/' . $page_role['docs'] . '"';
                         }
-                        ?>><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a>
+                        ?> onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a>
                     </li>
                 </ul>
 <?php
@@ -91,24 +91,24 @@ if($is_signed_in) {
                 <ul class="navbar-nav mx-auto">
                     <li class="navbar-item navbar-text welcome"><?php echo $tr['WELCOME'] . ' <b>' . $user['user_name'] . '</b>'; ?></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.YOUR_ACCOUNT']; ?>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-sliders"></i>&nbsp; <?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a>
+                                <a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['account']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-sliders"></i>&nbsp; <?php echo $tr['MENU.UPDATE_ACCOUNT']; ?></a>
                             </li>
                             <li>
-                                <a class="dropdown-item<?php if($docs_numb == 0) { echo ' disabled'; } ?>" href="<?php echo "/{$lang}/{$page_role['docs']}"; ?>"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a>
+                                <a class="dropdown-item<?php if($docs_numb == 0) { echo ' disabled'; } ?>" href="<?php echo "/{$lang}/{$page_role['docs']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-file-earmark"></i>&nbsp; <?php echo $tr['MENU.YOUR_DOCUMENTS']; ?>&nbsp; <span class="docs_numb"><?php if($docs_numb > 0) { echo '(' . $docs_numb . ')'; } ?></span></a>
                             </li>
                             <li>
-                                <a class="dropdown-item<?php if($signs_numb == 0) { echo ' disabled'; } ?>" href="<?php echo "/{$lang}/{$page_role['signs']}"; ?>"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?>&nbsp; <span class="signs_numb"><?php if($signs_numb > 0) { echo '(' . $signs_numb . ')'; } ?></span></a>
+                                <a class="dropdown-item<?php if($signs_numb == 0) { echo ' disabled'; } ?>" href="<?php echo "/{$lang}/{$page_role['signs']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['MENU.YOUR_SIGNATURES']; ?>&nbsp; <span class="signs_numb"><?php if($signs_numb > 0) { echo '(' . $signs_numb . ')'; } ?></span></a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a>
+                                <a class="dropdown-item" href="<?php echo "/{$lang}/{$page_role['sign-out']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-box-arrow-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_OUT']; ?></a>
                             </li>
                         </ul>
                     </li>
@@ -124,7 +124,7 @@ if($is_signed_in) {
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>"><i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['account']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-person"></i>&nbsp; <?php echo $tr['MENU.CREATE_ACCOUNT']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
@@ -133,7 +133,7 @@ if($is_signed_in) {
                         } else {
                             echo ' class="nav-link"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['sign-in']}"; ?>"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['sign-in']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><i class="bi bi-box-arrow-in-right"></i>&nbsp; <?php echo $tr['MENU.SIGN_IN']; ?></a>
                     </li>
                 </ul>
 <?php
@@ -145,8 +145,8 @@ if($is_signed_in) {
                         <i class="bi bi-globe2"></i>&nbsp; <?php echo $tr['EXPLICT_LANG']; ?>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/en/">English</a></li>
-                            <li><a class="dropdown-item" href="/fr/">Français</a></li>
+                            <li><a class="dropdown-item" href="/en/" onclick="return pages.safeRedirect(event, this.href); return false;">English</a></li>
+                            <li><a class="dropdown-item" href="/fr/" onclick="return pages.safeRedirect(event, this.href); return false;">Français</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -229,7 +229,7 @@ include "inc/content/{$page}.php";
                         } else {
                             echo ' class="nav-link limited"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['terms-of-use']}"; ?>"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['terms-of-use']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><?php echo $tr['MENU.TERMS_OF_USE']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
@@ -238,7 +238,7 @@ include "inc/content/{$page}.php";
                         } else {
                             echo ' class="nav-link limited"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['legal-notice']}"; ?>"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['legal-notice']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><?php echo $tr['MENU.LEGAL_NOTICE']; ?></a>
                     </li>
                     <li class="nav-item">
                         <a<?php
@@ -247,7 +247,7 @@ include "inc/content/{$page}.php";
                         } else {
                             echo ' class="nav-link limited"';
                         }
-                        ?> href="<?php echo "/{$lang}/{$page_role['contact']}"; ?>"><?php echo $tr['MENU.CONTACT']; ?></a>
+                        ?> href="<?php echo "/{$lang}/{$page_role['contact']}"; ?>" onclick="return pages.safeRedirect(event, this.href); return false;"><?php echo $tr['MENU.CONTACT']; ?></a>
                     </li>
                 </ul>
             </div>
