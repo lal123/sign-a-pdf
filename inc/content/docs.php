@@ -24,7 +24,7 @@ function docs_show_list($docs, $signed) {
         } else {
             foreach($_SESSION['docs'][$pdf_id_key]['page'] as $page_key => $page_details) {
                 if(($page_details['page_index'] == 1) && ($page_details['page_available'] == 1)) {
-                    $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page_detaila['page_id'] . '.png';
+                    $img_filename = getcwd() . '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png';
                     $img_src = '/' . UPLOAD_DIR . '/img/' . ($details['signed'] == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png';
                     break;
                 }
@@ -124,7 +124,7 @@ if($pdf_id != '') {
 ?>
     <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan<?php if($doc_signed == 1) { echo ' disabled'; } ?>"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign({'pdf_id': '<?php echo $pdf_id; ?>', 'doc_signed': <?php echo $doc_signed; ?>}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
             <a href="javascript:void(0)" id="downloadButton" onclick="return docs.prepareDownload('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>

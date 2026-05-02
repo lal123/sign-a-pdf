@@ -155,14 +155,14 @@ function sign_get_img_from_data($sign_data) {
     return $ret;
 }
 
-function sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
+function sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
 
 
     write_log(__METHOD__, "sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y)");
 
     $err_msg = '';
 
-    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($doc_signed == 1 ? '/signed' : '');
 
     $page0_img = imagecreatefrompng($img_dir . '/' . $page_id . '.png');
     $intr_w = imagesx($page0_img);

@@ -186,6 +186,7 @@ switch($action) {
 		$arr = [];
 		$arr['err_msg'] = '';
 		$pdf_id = $_POST['pdf_id'];
+		$doc_signed = $_POST['doc_signed'];
 		$sign_step = $_POST['sign_step'];
 		$sign_inc = $_POST['sign_inc'];
 		$sign_option = $_POST['sign_option'];
@@ -194,8 +195,7 @@ switch($action) {
 		$pages = $_POST['pages'];
 		switch($sign_step) {
 			case 1:
-				$sign_text = $_POST['sign_text'];
-				$sign_text = substr($sign_text, 0, 50);
+				$sign_text = substr($_POST['sign_text'], 0, 50);
 				$text_font = $_POST['text_font'];
 				$text_color = $_POST['text_color'];
 				$text_thickness = $_POST['text_thickness'];
@@ -343,7 +343,7 @@ switch($action) {
 	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 	        	$signed_pdf_id = $arr['signed_pdf_id'];
 		        echo "$('#signDocModal').modal('hide');\n";
-    	        echo "sign.adjust('{$pdf_id}', '{$signed_pdf_id}', '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
+    	        echo "sign.adjust('{$pdf_id}', '{$signed_pdf_id}', {$doc_signed}, '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
     	    }
 		} else {
 			ob_start();
@@ -389,6 +389,7 @@ switch($action) {
 	case 'prepare_sign':
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
+		$doc_signed = $_POST['doc_signed'];
 		$page_index = $_POST['page_index'];
 		$page_list = $_POST['page_list'];
 		$page_id = $_POST['page_id'];
@@ -406,11 +407,12 @@ switch($action) {
 				$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = (in_array($page_details['page_id'], $page_list) ? 1 : 0);
 			}
 		}
-		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
+		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
 		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
+		$doc_signed = $_POST['doc_signed'];
 		$page_index = $_POST['page_index'];
 		$page_id = $_POST['page_id'];
 		$sign_id = $_POST['sign_id'];
@@ -477,7 +479,7 @@ switch($action) {
 		    	//$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
 		    	
 		    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
-				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
+				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 				$arr = json_decode($res, true);
 			} else {
 				$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
@@ -511,7 +513,7 @@ switch($action) {
 			        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
 			        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
 			        echo "$('#validateSignModal .modal-progress').show();\n";
-	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'page_id': '{$page_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'page_id': '{$page_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
 	        	} else {
 					$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
 	        	}
