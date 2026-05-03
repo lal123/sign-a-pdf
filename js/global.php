@@ -119,8 +119,8 @@ var docs = {
     conv: null,
     pdf_id: null,
     req: null,
-    preload: null,
-    compNum: null,
+    preload: [],
+    compNum: 0,
     animh: null,
     animc: 0,
     changed: false,
@@ -161,10 +161,13 @@ var docs = {
         docs.changePage(page);
     },
 
-    changePage: function(page) {
+    changeDocument: function(destDocument) {
+        document.location.href = destDocument;
+        return false;
+    },
+
+    preloadPages: function(destFunction, destArgument) {
         var pages_numb = $('.page-container').length;
-        if((page < 1 ) || (page > pages_numb)) return false; 
-        //$("*").css("cursor", "progress");
         $.each($('.page-container'), function(index, item) {
             if(!docs.preload.hasOwnProperty(index)) {
                 docs.preload[index] = new Image();
@@ -175,12 +178,21 @@ var docs = {
             }
         });
         if(docs.compNum < pages_numb) {
-            setTimeout('docs.changePage(' + page + ')', 250);
+            setTimeout(docs.preloadPages, 250, destFunction, destArgument);
         } else {
-            var target_page = $('.page-container').eq(page - 1);
-            //$("*").css("cursor", "default");
-            $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
+            destFunction(destArgument);
         }
+        return false;
+    },
+
+    changePage: function(page) {
+        docs.preloadPages(docs.scrollToPage, page);
+        return false;
+    },
+
+    scrollToPage: function(page) {
+        var target_page = $('.page-container').eq(page - 1);
+        $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
         return false;
     },
 
@@ -452,6 +464,7 @@ var sign = {
     prepareValidate: function(vals) {
         vals['action'] = 'prepare_sign';
         vals['lang'] = lang;
+        vals['scrollTop'] = $('html, body').scrollTop();
         var page_list = [];
         $.each($('.page-container'), function(index, item) {
             page_list.push($(item).attr('page_id'));
@@ -482,7 +495,7 @@ var sign = {
             return false;
         }
         var signPreview = $('#signPreview');
-        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'page_id': vals['page_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'doc_signed': vals['doc_signed'], 'curr_page': vals['curr_page'], 'page_index': vals['page_index'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': signPreview.width(), 'sign_h': signPreview.height(), 'sign_x': signPreview.position().left, 'sign_y': signPreview.position().top, 'lang': lang};
+        var data = {'action': 'sign_page', 'pdf_id': vals['pdf_id'], 'page_id': vals['page_id'], 'signed_pdf_id': vals['signed_pdf_id'], 'doc_signed': vals['doc_signed'], 'curr_page': vals['curr_page'], 'page_index': vals['page_index'], 'sign_id': vals['sign_id'], 'page_option': vals['page_option'], 'sign_pages': vals['sign_pages'], 'page_w': page.width(), 'page_h': page.height(), 'sign_w': signPreview.width(), 'sign_h': signPreview.height(), 'sign_x': signPreview.position().left, 'sign_y': signPreview.position().top, 'lang': lang, 'scrollTop': vals['scrollTop']};
         sign.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',

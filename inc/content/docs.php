@@ -7,6 +7,8 @@ $pdf_id = '';
 
 if(isset($_GET['pdf_id']) && ($_GET['pdf_id'] != '')) {
     $pdf_id = $_GET['pdf_id'];
+} else {
+    unset($_SESSION['scrollTop']);    
 }
 
 function docs_show_list($docs, $signed) {

@@ -266,6 +266,14 @@ if(($page == 'docs') && ($pdf_id != '')) {
 }
 ?>
     });
+    $(window).on('load', function() {
+<?php
+if(isset($_SESSION['scrollTop']) && ($_SESSION['scrollTop'] != '' )) {
+    echo "        \$('html, body').scrollTop(" . $_SESSION['scrollTop'] . ");\n";
+    unset($_SESSION['scrollTop']);
+}
+?>
+    });
 </script>
 </body>
 </html>

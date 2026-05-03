@@ -398,6 +398,7 @@ switch($action) {
 		$page_option = $_POST['page_option'];
 		$sign_pages = $_POST['sign_pages'];
 		$pages = $_POST['pages'];
+		$scrollTop = $_POST['scrollTop'];
 		if($is_signed_in) {
 			$doc = model_doc_get_from_pdf_id($pdf_id);
 			model_doc_update_size($pdf_id, -1);
@@ -408,7 +409,7 @@ switch($action) {
 				$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = (in_array($page_details['page_id'], $page_list) ? 1 : 0);
 			}
 		}
-		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'curr_page': {$curr_page}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
+		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'curr_page': {$curr_page}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}', 'scrollTop': '{$scrollTop}'});\n";
 		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
@@ -426,7 +427,8 @@ switch($action) {
 		$sign_h = $_POST['sign_h'];
 		$sign_x = $_POST['sign_x'];
 		$sign_y = $_POST['sign_y'];
-		
+		$scrollTop = $_POST['scrollTop'];
+
 		if($is_signed_in){
 			$arr = model_doc_get_from_pdf_id($pdf_id);
 			$doc_id = $arr['doc_id'];
@@ -549,7 +551,9 @@ switch($action) {
 				echo "$('#signPreview').remove();\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
-				echo "document.location.href = '/{$lang}/docs/{$signed_pdf_id}';\n";
+		        $_SESSION['scrollTop'] = $scrollTop;
+		        echo "docs.compNum = 0;\n";
+				echo "docs.preloadPages(docs.changeDocument, '/{$lang}/docs/{$signed_pdf_id}');\n";
 			}
 		} else {
 			write_log('service_sign_page', '*** ERROR *** ' . $arr['err_msg']);
