@@ -500,7 +500,15 @@ switch($action) {
 						model_doc_update_size($signed_pdf_id, -1);
 						model_page_switch_version($page_id, $arr['signed_page_id']);
 					} else {
-
+						//$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $pages_arr[$page_index], 'page_available' => 0];
+						$_SESSION['docs'][$signed_pdf_id]['size'] = -1;
+						foreach($_SESSION['docs'][$signed_pdf_id]['page'] as $page_key => $page_details) {
+							if($page_details['page_id'] == $page_id) {
+								$_SESSION['docs'][$signed_pdf_id]['page'][$page_key]['page_available'] = 0;
+								//break;
+							}
+						}
+						$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $arr['signed_page_id'], 'page_index' => $pages_arr[$page_index], 'page_available' => 1];
 					}
 				}
 				$signed_page_id = $arr['signed_page_id'];
