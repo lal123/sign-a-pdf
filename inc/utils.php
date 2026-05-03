@@ -1,6 +1,6 @@
 <?php
 
-$version_suffix = '1.95';
+$version_suffix = '1.96';
 
 $lang = '';
 

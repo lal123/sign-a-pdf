@@ -399,6 +399,7 @@ switch($action) {
 		$sign_pages = $_POST['sign_pages'];
 		$pages = $_POST['pages'];
 		$scrollTop = $_POST['scrollTop'];
+        $_SESSION['scrollTop'] = $scrollTop;
 		if($is_signed_in) {
 			$doc = model_doc_get_from_pdf_id($pdf_id);
 			model_doc_update_size($pdf_id, -1);
@@ -427,8 +428,6 @@ switch($action) {
 		$sign_h = $_POST['sign_h'];
 		$sign_x = $_POST['sign_x'];
 		$sign_y = $_POST['sign_y'];
-		$scrollTop = $_POST['scrollTop'];
-
 		if($is_signed_in){
 			$arr = model_doc_get_from_pdf_id($pdf_id);
 			$doc_id = $arr['doc_id'];
@@ -551,7 +550,7 @@ switch($action) {
 				echo "$('#signPreview').remove();\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
-		        $_SESSION['scrollTop'] = $scrollTop;
+		        echo "docs.preload = [];\n";
 		        echo "docs.compNum = 0;\n";
 				echo "docs.preloadPages(docs.changeDocument, '/{$lang}/docs/{$signed_pdf_id}');\n";
 			}
