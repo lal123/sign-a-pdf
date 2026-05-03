@@ -27,6 +27,14 @@
             </div>
         </div>
         <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="page_option" value="4" id="signOption4"<?php if($page_option == 4) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(4); return true;" />
+            <label class="form-check-label" for="signOption4">
+                <?php echo $tr['SIGN.PAGES.CURR.INVITE']; ?>
+            </label>
+            <div class="form-panel<?php if($page_option == 4) { echo ' showed'; } ?>" id="formPanel4">
+            </div>
+        </div>
+        <div class="form-check mb-2">
             <input class="form-check-input" type="radio" name="page_option" value="2" id="signOption2"<?php if($page_option == 2) { echo ' checked="checked"'; } ?> onclick="return sign.showSignPanel(2); return true;" />
             <label class="form-check-label" for="signOption2">
                 <?php echo $tr['SIGN.PAGES.ALL.INVITE']; ?>

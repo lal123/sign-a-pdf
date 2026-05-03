@@ -246,7 +246,7 @@ function sign_rotate_page($page_id, $doc_signed, $direction) {
     return $ret;
 }
 
-function sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages) {
+function sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $doc_signed, $pages) {
 
     global $err_msg;
 
@@ -254,7 +254,7 @@ function sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages) {
     $output = [];
     $return_var = 0;
 
-    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img';
+    $img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : '');
     if(!file_exists($img_dir)){
         mkdir($img_dir);
         chmod($img_dir, 0777);
@@ -272,6 +272,7 @@ function sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages) {
         if(!file_exists($signed_img_file)) {
             $img_file = $img_dir . '/' . $pdf_id . ($pages > 1 ? '-' . ($i - 1) : '') . '.png';
             copy($img_file, $signed_img_file);
+            write_log(__METHOD__, "copy {$img_file} to {$signed_img_file}");
         }
         $file_list[] = $signed_img_file;
     }

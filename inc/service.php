@@ -343,7 +343,7 @@ switch($action) {
 	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 	        	$signed_pdf_id = $arr['signed_pdf_id'];
 		        echo "$('#signDocModal').modal('hide');\n";
-    	        echo "sign.adjust('{$pdf_id}', '{$signed_pdf_id}', {$doc_signed}, '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
+    	        echo "sign.adjust('{$pdf_id}', '{$signed_pdf_id}', {$doc_signed}, $('#navPage').val(), '{$sign_id}', {$page_option}, '{$sign_pages}', {$sign_width}, {$sign_height});\n";
     	    }
 		} else {
 			ob_start();
@@ -390,6 +390,7 @@ switch($action) {
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$doc_signed = $_POST['doc_signed'];
+		$curr_page = $_POST['curr_page'];
 		$page_index = $_POST['page_index'];
 		$page_list = $_POST['page_list'];
 		$page_id = $_POST['page_id'];
@@ -407,12 +408,13 @@ switch($action) {
 				$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = (in_array($page_details['page_id'], $page_list) ? 1 : 0);
 			}
 		}
-		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
+		echo "sign.validate({'pdf_id': '{$pdf_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'curr_page': {$curr_page}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': 0, 'page_option': '{$page_option}', 'sign_pages': '{$sign_pages}', 'pages': {$pages}, 'lang': '{$lang}'});\n";
 		break;
 	case 'sign_page':
 		$pdf_id = $_POST['pdf_id'];
 		$signed_pdf_id = $_POST['signed_pdf_id'];
 		$doc_signed = $_POST['doc_signed'];
+		$curr_page = $_POST['curr_page'];
 		$page_index = $_POST['page_index'];
 		$page_id = $_POST['page_id'];
 		$sign_id = $_POST['sign_id'];
@@ -453,6 +455,9 @@ switch($action) {
 		        	}
 		        }
     			break;
+			case 4:
+				$pages_arr[] = $curr_page;
+				break;
 			case 1:
     		default:
     			$pages_arr[] = $pages;
@@ -513,12 +518,12 @@ switch($action) {
 			        echo "$('#validateSignModal .modal-info').html(decodeURIComponent('" . rawurlencode($tr['DOCS.SIGN_DOC.PREPARING'] . " :&nbsp; {$page_index} / {$pages_numb} ({$percent}%)") . "'));\n";
 			        echo "$('#validateSignModal .modal-progress-bar').css({'width': {$percent} + '%'});\n";
 			        echo "$('#validateSignModal .modal-progress').show();\n";
-	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'page_id': '{$page_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'page_id': '{$page_id}', 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
+	        		echo "sign.validate({'pdf_id': '{$pdf_id}', 'page_id': '{$page_id}', 'signed_pdf_id': '{$signed_pdf_id}', 'doc_signed': {$doc_signed}, 'curr_page': {$curr_page}, 'sign_id': '{$sign_id}', 'page_index': {$page_index}, 'page_option': {$page_option}, 'sign_pages': '{$sign_pages}', 'pages': {$pages}});\n";
 	        	} else {
 					$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
 	        	}
         	} else {
-				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $pages);
+				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $doc_signed, $pages);
 				$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
 				$signed_doc_size = -1;
 				if($is_signed_in) {
@@ -536,11 +541,11 @@ switch($action) {
 			            	$page_id = $details['page_id'];
 			            	$page_index = $details['page_index'];
 			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
-			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] =  ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
+			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
 			            }
 			        }
 				}
-				echo "$('#signButton').addClass('disabled');\n";
+				//echo "$('#signButton').addClass('disabled');\n";
 				echo "$('#signPreview').remove();\n";
 		        echo "$('#validateSignModal .modal-progress').hide();\n";
 		        echo "$('#validateSignModal').modal('hide');\n";
