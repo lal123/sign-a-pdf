@@ -338,8 +338,12 @@ switch($action) {
 				$signs_numb = (isset($_SESSION['signs']) ? sizeof($_SESSION['signs']) : 0);
 			}
 			echo "$('.signs_numb').html('({$signs_numb})');\n";
-	        $res = pdf_create_signed_doc();
-	        $arr = json_decode($res, true);
+	        if(!$doc_signed) {
+	        	$res = pdf_create_signed_doc();
+	        	$arr = json_decode($res, true);
+	        } else {
+	        	$arr = ['signed_pdf_id' => $pdf_id, 'err_msg' => ''];
+	        }
 	        if(!isset($arr['err_msg']) || ($arr['err_msg'] == '')) {
 	        	$signed_pdf_id = $arr['signed_pdf_id'];
 		        echo "$('#signDocModal').modal('hide');\n";
@@ -399,7 +403,9 @@ switch($action) {
 		$sign_pages = $_POST['sign_pages'];
 		$pages = $_POST['pages'];
 		$scrollTop = $_POST['scrollTop'];
-        $_SESSION['scrollTop'] = $scrollTop;
+        if(!$doc_signed) {
+        	$_SESSION['scrollTop'] = $scrollTop;
+        }
 		if($is_signed_in) {
 			$doc = model_doc_get_from_pdf_id($pdf_id);
 			model_doc_update_size($pdf_id, -1);
@@ -524,27 +530,29 @@ switch($action) {
 					$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
 	        	}
         	} else {
-				sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $doc_signed, $pages);
-				$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
-				$signed_doc_size = -1;
-				if($is_signed_in) {
-					model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
-					$signed_doc_id = db_insert_id();
-					model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf_id);
-				} else {
-					$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
-					$_SESSION['docs'][$signed_pdf_id]['time'] = time();
-					$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
-					$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
-					$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
-			        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
-			            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $details) {
-			            	$page_id = $details['page_id'];
-			            	$page_index = $details['page_index'];
-			            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
-			                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
-			            }
-			        }
+				if(!$doc_signed) {
+					sign_copy_unsigned_pages($pdf_id, $signed_pdf_id, $doc_signed, $pages);
+					$signed_pdf_dir = getcwd() . '/../' . UPLOAD_DIR . '/pdf/signed';
+					$signed_doc_size = -1;
+					if($is_signed_in) {
+						model_doc_sign($pdf_id, $signed_pdf_id, $signed_doc_size);
+						$signed_doc_id = db_insert_id();
+						model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf_id);
+					} else {
+						$_SESSION['docs'][$signed_pdf_id]['name'] = $_SESSION['docs'][$pdf_id]['name'];
+						$_SESSION['docs'][$signed_pdf_id]['time'] = time();
+						$_SESSION['docs'][$signed_pdf_id]['size'] = $signed_doc_size;
+						$_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
+						$_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
+				        if(isset($_SESSION['docs'][$pdf_id]['page'])) {
+				            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $details) {
+				            	$page_id = $details['page_id'];
+				            	$page_index = $details['page_index'];
+				            	$signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
+				                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
+				            }
+				        }
+					}
 				}
 				//echo "$('#signButton').addClass('disabled');\n";
 				echo "$('#signPreview').remove();\n";
@@ -552,7 +560,9 @@ switch($action) {
 		        echo "$('#validateSignModal').modal('hide');\n";
 		        echo "docs.preload = [];\n";
 		        echo "docs.compNum = 0;\n";
-				echo "docs.preloadPages(docs.changeDocument, '/{$lang}/docs/{$signed_pdf_id}');\n";
+				if(!$doc_signed) {
+					echo "docs.preloadPages(docs.changeDocument, '/{$lang}/docs/{$signed_pdf_id}');\n";
+				}
 			}
 		} else {
 			write_log('service_sign_page', '*** ERROR *** ' . $arr['err_msg']);
