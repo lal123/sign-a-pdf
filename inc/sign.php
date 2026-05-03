@@ -157,8 +157,7 @@ function sign_get_img_from_data($sign_data) {
 
 function sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y) {
 
-
-    write_log(__METHOD__, "sign_apply_sign_to_page($page_id, $signed_page_id, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y)");
+    write_log(__METHOD__, "sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y)");
 
     $err_msg = '';
 
@@ -199,13 +198,28 @@ function sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_i
 
     $signed_img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img/signed';
 
+    if($doc_signed) {
+        preg_match('/^([0-9a-f]{16})([0-9\-]+)?([0-9\_]+)?$/', $page_id, $matches);
+        list(, $pdf_id, $suffix1, $suffix2) = $matches;
+        $inc = 1;
+        do {
+            $signed_page_id = $pdf_id . ($suffix1 != '' ? $suffix1 : '') .  '_' . $inc;
+            $signed_img_filename = $signed_img_dir . '/' . $signed_page_id . '.png';
+            $inc++;
+        } while (file_exists($signed_img_filename));
+        write_log(__METHOD__, "new signed_page_id: {$signed_page_id}");
+    }
+
+    $arr['signed_page_id'] = $signed_page_id;
+    //$arr['img_src'] = '/' . UPLOAD_DIR . '/img/signed/' . $signed_page_id . '.png';
+
     imagepng($page_img, $signed_img_dir . '/' . $signed_page_id . '.png');
 
     imagedestroy($page0_img);
     imagedestroy($page_img);
     imagedestroy($sign_img);
 
-    $ret = json_encode(['err_msg' => $err_msg], JSON_UNESCAPED_UNICODE);
+    $ret = json_encode($arr, JSON_UNESCAPED_UNICODE);
     return $ret;
 }
 

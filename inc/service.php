@@ -493,6 +493,21 @@ switch($action) {
 		    	$signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
 				$res = sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
 				$arr = json_decode($res, true);
+
+
+				if($doc_signed) {
+					if($is_signed_in) {
+						model_doc_update_size($signed_pdf_id, -1);
+						model_page_switch_version($page_id, $arr['signed_page_id']);
+					} else {
+
+					}
+				}
+				$signed_page_id = $arr['signed_page_id'];
+
+
+
+
 			} else {
 				$arr['err_msg'] = $tr['UNEXPECTED_ERROR'];	
 			}
