@@ -191,7 +191,14 @@ var docs = {
         return false;
     },
 
-    adaptNavBar:function() {
+    adaptPagesWidth: function(page_list) {
+        console.log('page_list', page_list);
+        $.each(page_list, function(index, item) {
+            $(".page-container[page_id='" + item['page_id'] + "']").find('.page-content').css({'width': (parseInt(item['page_width']) > parseInt(item['page_height']) ? 100 : 75) + '%'});
+        });
+    },
+
+    adaptNavBar: function() {
         var docPos = $('html, body').scrollTop();
         var page = 0;
         $.each($('.page-container'), function(index, item) {

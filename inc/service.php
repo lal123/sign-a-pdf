@@ -149,13 +149,14 @@ switch($action) {
                     }
                 }
                 $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1, 'page_width' => $page_height, 'page_height' => $page_width];
-                $page_enum = $_SESSION['docs'][$pdf_id]['page'];
-            }
-            foreach($page_enum as $page_key => $page_details) {
-                if($page_details['page_available'] == 1) {
-                    echo "$(\".page-container[page_id='" . $page_details['page_id'] . "']\").find('.page-content').css({'width': '" . ($page_details['page_width'] > $page_details['page_height'] ? 100 : 75) . "%'});\n";
+                $page_enum = [];
+                foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+                    if($page_details['page_available'] == 1) {
+                        $page_enum[] = $_SESSION['docs'][$pdf_id]['page'][$page_key];
+                    }
                 }
             }
+            echo "docs.preloadPages(docs.adaptPagesWidth, " . json_encode($page_enum, JSON_UNESCAPED_UNICODE) . ");\n";
             echo "$('html, body').animate({scrollTop: ($(\".page-container[page_id='{$rotated_page_id}']\").position().top - 220) + 'px'}, 'fast', function(){});\n";
         }
         break;
@@ -445,7 +446,6 @@ switch($action) {
         } else {
             $pages = $_SESSION['docs'][$pdf_id]['pages'];
         }
-
         $pages_arr = [];    
         switch($page_option) {
             case 2:
@@ -473,9 +473,7 @@ switch($action) {
             default:
                 $pages_arr[] = $pages;
         }
-
         $pages_numb = sizeof($pages_arr);
-
         if(($pages_arr[$page_index] >= 1)  && ($pages_arr[$page_index] <= $pages)) {
 
             if($is_signed_in) {
@@ -492,19 +490,14 @@ switch($action) {
 
             if($page != false) {
                 $page_id = $page['page_id'];
-                //$page_id =  $pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
-                
                 $signed_page_id =  $signed_pdf_id . (($pages > 1) || ($pages_arr[$page_index] > 1) ? '-' . ($pages_arr[$page_index] - 1)  : '');
                 $res = sign_apply_sign_to_page($page_id, $signed_page_id, $doc_signed, $sign_id, $page_w, $page_h, $sign_w, $sign_h, $sign_x, $sign_y);
                 $arr = json_decode($res, true);
-
-
                 if($doc_signed) {
                     if($is_signed_in) {
                         model_doc_update_size($signed_pdf_id, -1);
                         model_page_switch_version($page_id, $arr['signed_page_id'], false);
                     } else {
-                        //$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $pages_arr[$page_index], 'page_available' => 0];
                         $_SESSION['docs'][$signed_pdf_id]['size'] = -1;
                         foreach($_SESSION['docs'][$signed_pdf_id]['page'] as $page_key => $page_details) {
                             if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
@@ -518,10 +511,6 @@ switch($action) {
                     }
                 }
                 $signed_page_id = $arr['signed_page_id'];
-
-
-
-
             } else {
                 $arr['err_msg'] = $tr['UNEXPECTED_ERROR'];  
             }
