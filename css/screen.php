@@ -67,13 +67,14 @@ a:active, a:focus {
 
 .page-container {
 	position: relative;
+	text-align: center;
 }
 
 .page-content {
 	display: inline-block;
 	position: relative;
 	margin: 4px;
-	width: auto;
+	width: 75%;
 }
 
 .page-preview {

@@ -129,29 +129,29 @@ switch($action) {
         list(, $pdf_id) = $matches;
         if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
             $rotated_page_id = $arr['rotated_page_id'];
+            $img_src = $arr['img_src'];
+            echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
+            echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$rotated_page_id}');\n";
             if($is_signed_in) {
-                /*
-                $doc = model_doc_get_from_pdf_id($pdf_id);
-                model_page_create(['page_id' => $rotated_page_id, 'page_doc_id' => $doc['doc_id'], 'page_index' => $page_numb, 'page_available' => 0]);
-                */
                 model_doc_update_size($pdf_id, -1);
-                model_page_switch_version($page_id, $rotated_page_id);
+                model_page_switch_version($page_id, $rotated_page_id, true);
             } else {
-                /*
-                $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 0];
-                */
                 $_SESSION['docs'][$pdf_id]['size'] = -1;
                 foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
                     if(($page_details['page_index'] == $page_numb) && ($page_details['page_available'] == 1)) {
+                        $page_width = $page_details['page_width'];
+                        $page_height = $page_details['page_height'];
                         $_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
                         break;
                     }
                 }
-                $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
+                $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1, 'page_width' => $page_height, 'page_height' => $page_width];
+                foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+                    if($page_details['page_available'] == 1) {
+                        echo "$(\".page-container[page_id='" . $page_details['page_id'] . "']\").find('.page-content').css({'width': '" . ($page_details['page_width'] > $page_details['page_height'] ? 100 : 75) . "%'});\n";
+                    }
+                }
             }
-            $img_src = $arr['img_src'];
-            echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
-            echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$rotated_page_id}');\n";
             echo "$('html, body').animate({scrollTop: ($(\".page-container[page_id='{$rotated_page_id}']\").position().top - 220) + 'px'}, 'fast', function(){});\n";
         }
         break;
@@ -498,7 +498,7 @@ switch($action) {
                 if($doc_signed) {
                     if($is_signed_in) {
                         model_doc_update_size($signed_pdf_id, -1);
-                        model_page_switch_version($page_id, $arr['signed_page_id']);
+                        model_page_switch_version($page_id, $arr['signed_page_id'], false);
                     } else {
                         //$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $pages_arr[$page_index], 'page_available' => 0];
                         $_SESSION['docs'][$signed_pdf_id]['size'] = -1;

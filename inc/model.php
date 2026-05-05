@@ -403,7 +403,24 @@ function model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf
     return $ret;
 }
 
-function model_page_switch_version($page_id, $new_page_id) {
+function model_page_update_width_and_height($doc_id, $page_index, $page_width, $page_height) {
+
+    global $base, $cdb;
+
+    $ret = false;
+    $sql = "update `{$base}`.`pages`"
+            . " set"
+            . " `page_width` = '" . db_escape($page_width) . "',"
+            . " `page_height` = '" . db_escape($page_height) . "'"
+            . " where 1"
+            . " and `page_doc_id` = '" . db_escape($doc_id) . "'"
+            . " and `page_index` = '" . db_escape($page_index) . "'";
+    write_log(__METHOD__, $sql);
+    $res = db_query($sql);
+    return $ret;
+}
+
+function model_page_switch_version($page_id, $new_page_id, $rotated) {
 
     global $base, $cdb;
 
@@ -414,6 +431,8 @@ function model_page_switch_version($page_id, $new_page_id) {
             . " `page_doc_id`,"
             . " `page_index`,"
             . " 1,"
+            . ($rotated ? " `page_height`," : " `page_width`,")
+            . ($rotated ? " `page_width`," : " `page_height`,") 
             . " now(), "
             . " now()"
             . " from `{$base}`.`pages`"

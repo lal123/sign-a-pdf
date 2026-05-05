@@ -112,6 +112,8 @@ function pdf_check_pages_numb($pdf_file) {
 
 function pdf_count_pages($pdf_id, $pages, $signed) {
 
+	global $is_signed_in;
+
 	$img_dir = getcwd() . '/../' . UPLOAD_DIR . '/img' . ($signed ? '/signed' : '');
     
     $count = 0;
@@ -132,6 +134,21 @@ function pdf_count_pages($pdf_id, $pages, $signed) {
 			$img_file = $img_dir . '/' . $filename;
 			$tmp_img = imagecreatefrompng($img_file);
 			if($tmp_img != false) {
+				$page_width = imagesx($tmp_img);
+				$page_height = imagesy($tmp_img);
+				if($is_signed_in) {
+			        $arr = model_doc_get_from_pdf_id($pdf_id);
+			        $doc_id = $arr['doc_id'];
+					model_page_update_width_and_height($doc_id, $page_numb, $page_width, $page_height);
+				} else {
+	                foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+	                    if(($page_details['page_index'] == $page_numb) && ($page_details['page_available'] == 1)) {
+	                        $_SESSION['docs'][$pdf_id]['page'][$page_key]['page_width'] = $page_width;
+	                        $_SESSION['docs'][$pdf_id]['page'][$page_key]['page_height'] = $page_height;
+	                        break;
+	                    }
+	                }
+				}
 				imagedestroy($tmp_img);
 				$count++;
 			}
