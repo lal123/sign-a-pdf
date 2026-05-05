@@ -146,7 +146,7 @@ foreach($page_enum as $page_index => $page_details) {
         echo '<div class="row">';
     }
     echo '<div class="col col-lg-' . $bs_dir . ' col-md-' . $bs_dir . ' col-sm-' . $bs_dir . ' col-xs-' . $bs_dir . ' page-container" page_id="' . $page_details['page_id'] . '">';
-    echo '<div class="page-content">';
+    echo '<div class="page-content" style="width: ' . ($page_details['page_width'] > $page_details['page_height'] ? 100 : 75) . '%;">';
     echo '<img class="page-preview" src="/' . UPLOAD_DIR . '/img/' . ($doc_signed == 1 ? 'signed/' : '') . $page_details['page_id'] . '.png' . '" alt="" border= "0" />';
     echo '</div>';
     echo '</div>';
