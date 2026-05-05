@@ -80,41 +80,23 @@ if($pdf_id != '') {
         $doc_size = $doc['doc_size'];
         $doc_time = strtotime($doc['doc_creato']);
         $doc_pages = $doc['doc_pages'];
-        /*
-        $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
-        if($pages != $doc_pages) {
-            model_doc_update_pages($pdf_id, $pages);
-            $doc_pages = $pages;
-        }
-        */
         $page_enum = model_page_get_list_from_doc_id($doc_id);
     } else {
-        //print_r($_SESSION);
         $doc_name = $_SESSION['docs'][$pdf_id]['name'];
         $doc_signed = (isset($_SESSION['docs'][$pdf_id]['signed']) && ($_SESSION['docs'][$pdf_id]['signed'] == 1) ? 1 : 0);
         $doc_size = $_SESSION['docs'][$pdf_id]['size'];
         $doc_time = $_SESSION['docs'][$pdf_id]['time'];
         $doc_pages = $_SESSION['docs'][$pdf_id]['pages'];
-        /*
-        $pages = pdf_check_pages_numb(getcwd() . '/' . UPLOAD_DIR . '/img' . ($doc_signed ? '/signed' : ''), $pdf_id);
-        if($pages != $doc_pages) {
-            $_SESSION['docs'][$pdf_id]['pages'] = $pages;
-            $doc_pages = $pages;
-        }
-        */
         $page_enum = [];
         if(isset($_SESSION['docs'][$pdf_id]['page'])) {
             foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
                 if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id'], 'page_numb' => $details['page_index'], 'page_width' => $details['page_width'], 'page_height' => $details['page_height']];
             }
         }
-
         uasort($page_enum, function($a, $b) {
             return (intval($a['page_numb']) > intval($b['page_numb']) ? 1 : -1);
         });
-
     }
-
     echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
 } else {
     echo $tr['DOCS.LIST_DOCUMENTS'];
