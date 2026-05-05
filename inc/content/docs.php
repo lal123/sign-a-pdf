@@ -105,7 +105,7 @@ if($pdf_id != '') {
         $page_enum = [];
         if(isset($_SESSION['docs'][$pdf_id]['page'])) {
             foreach($_SESSION['docs'][$pdf_id]['page'] as $page_index => $details) {
-                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id'], 'page_numb' => $details['page_index']];
+                if($details['page_available'] == 1) $page_enum[] = ['page_id' => $details['page_id'], 'page_numb' => $details['page_index'], 'page_width' => $details['page_width'], 'page_height' => $details['page_height']];
             }
         }
 
