@@ -156,6 +156,8 @@ switch($action) {
                     }
                 }
             }
+            echo "docs.preload = [];\n";
+            echo "docs.compNum = 0;\n";
             echo "docs.preloadPages(docs.adaptPagesWidth, " . json_encode($page_enum, JSON_UNESCAPED_UNICODE) . ");\n";
             echo "$('html, body').animate({scrollTop: ($(\".page-container[page_id='{$rotated_page_id}']\").position().top - 220) + 'px'}, 'fast', function(){});\n";
         }
@@ -564,13 +566,15 @@ switch($action) {
                         $_SESSION['docs'][$signed_pdf_id]['signed'] = 1;
                         $_SESSION['docs'][$signed_pdf_id]['pages'] = $pages;
                         if(isset($_SESSION['docs'][$pdf_id]['page'])) {
-                            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $details) {
-                                $page_id = $details['page_id'];
-                                $page_index = $details['page_index'];
+                            foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
+                                $page_id = $page_details['page_id'];
+                                $page_index = $page_details['page_index'];
                                 $page_width = $page_details['page_width'];
                                 $page_height = $page_details['page_height'];
                                 $signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
-                                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1, 'page_width' => $page_width, 'page_height' => $page_height];
+                                if($page_details['page_available'] == 1) {
+                                    $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1, 'page_width' => $page_width, 'page_height' => $page_height];
+                                }
                             }
                         }
                     }

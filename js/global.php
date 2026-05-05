@@ -192,7 +192,6 @@ var docs = {
     },
 
     adaptPagesWidth: function(page_list) {
-        console.log('page_list', page_list);
         $.each(page_list, function(index, item) {
             $(".page-container[page_id='" + item['page_id'] + "']").find('.page-content').css({'width': (parseInt(item['page_width']) > parseInt(item['page_height']) ? 100 : 75) + '%'});
         });
