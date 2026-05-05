@@ -529,7 +529,7 @@ switch($action) {
 			}
 			$img_src = '/' . UPLOAD_DIR . '/img/signed/' . $signed_page_id . '.png';
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
-		    echo "$(\".page-container\").attr('page_id', '{$signed_page_id}');\n";
+		    echo "$(\".page-container[page_id='{$page_id}']\").attr('page_id', '{$signed_page_id}');\n";
         	$page_index++;
         	if($page_index < $pages_numb) {
 	    		if($is_signed_in) {
