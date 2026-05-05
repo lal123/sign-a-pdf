@@ -508,11 +508,13 @@ switch($action) {
                         $_SESSION['docs'][$signed_pdf_id]['size'] = -1;
                         foreach($_SESSION['docs'][$signed_pdf_id]['page'] as $page_key => $page_details) {
                             if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
+                                $page_width = $page_details['page_width'];
+                                $page_height = $page_details['page_height'];
                                 $_SESSION['docs'][$signed_pdf_id]['page'][$page_key]['page_available'] = 0;
                                 break;
                             }
                         }
-                        $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $arr['signed_page_id'], 'page_index' => $pages_arr[$page_index], 'page_available' => 1];
+                        $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $arr['signed_page_id'], 'page_index' => $pages_arr[$page_index], 'page_available' => 1, 'page_width' => $page_height, 'page_height' => $page_width];
                     }
                 }
                 $signed_page_id = $arr['signed_page_id'];
