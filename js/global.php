@@ -196,6 +196,7 @@ var docs = {
         $.each(page_list, function(index, item) {
             $(".page-container[page_id='" + item['page_id'] + "']").find('.page-content').css({'width': (parseInt(item['page_width']) > parseInt(item['page_height']) ? 100 : 75) + '%'});
         });
+        return false;
     },
 
     adaptNavBar: function() {

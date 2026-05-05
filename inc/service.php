@@ -148,7 +148,7 @@ switch($action) {
                         break;
                     }
                 }
-                $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1, 'page_width' => $page_height, 'page_height' => $page_width];
+                $_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => intval($page_numb), 'page_available' => 1, 'page_width' => $page_height, 'page_height' => $page_width];
                 $page_enum = [];
                 foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
                     if($page_details['page_available'] == 1) {
