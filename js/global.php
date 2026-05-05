@@ -333,8 +333,7 @@ var docs = {
         $.each($('.page-container'), function(index, item) {
             page_list.push($(item).attr('page_id'));
         });
-        doc_changed = (docs.changed ? 1 : 0);
-        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'page_list': page_list, 'doc_changed': doc_changed, 'lang': lang};
+        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'page_list': page_list, 'doc_changed': (docs.changed ? 1 : 0), 'lang': lang};
         docs.changed = false;
         docs.req = $.ajax({
             url: '/inc/service.php',
@@ -633,20 +632,6 @@ var account = {
         }).done(function(data) {
             eval(data);
         });
-        return false;
-    }
-}
-
-var pages = {
-
-    safeRedirect: function(event, destination) {
-
-        if((page == 'docs') && (pdf_id != '') && docs.changed) {
-            event.stopPropagation();
-            docs.confirm(destination);
-            return false;
-        }
-        document.localtion.href = destination;
         return false;
     }
 }

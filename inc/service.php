@@ -130,15 +130,16 @@ switch($action) {
 		if(!isset($arr['err_msg']) || ($arr['err_msg'] == '' )) {
 			$rotated_page_id = $arr['rotated_page_id'];
 			if($is_signed_in) {
+				/*
 				$doc = model_doc_get_from_pdf_id($pdf_id);
 				model_page_create(['page_id' => $rotated_page_id, 'page_doc_id' => $doc['doc_id'], 'page_index' => $page_numb, 'page_available' => 0]);
-				/*
+				*/
 				model_doc_update_size($pdf_id, -1);
 				model_page_switch_version($page_id, $rotated_page_id);
-				*/
 			} else {
-				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 0];
 				/*
+				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 0];
+				*/
 				$_SESSION['docs'][$pdf_id]['size'] = -1;
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
 					if($page_details['page_id'] == $page_id) {
@@ -147,7 +148,6 @@ switch($action) {
 					}
 				}
 				$_SESSION['docs'][$pdf_id]['page'][] = ['page_id' => $rotated_page_id, 'page_index' => $page_numb, 'page_available' => 1];
-				*/
 			}
 			$img_src = $arr['img_src'];
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
