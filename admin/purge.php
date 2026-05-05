@@ -56,7 +56,7 @@ function purge_dir($type, $root_dir, $dir){
 									echo "*** SQL ERROR *** [{$sql}]\n";
 								}
 							} else if($type == 'pages') {
-								$sql = "select * from `sign-a-pdf`.`pages` where page_id = '{$prefix}{$index}' /*and page_available = 1*/";
+								$sql = "select * from `sign-a-pdf`.`pages` where page_id = '{$prefix}{$index}' and page_available = 1";
 								$res = db_query($sql);
 								if($res != false){
 									if(db_num_rows($res) == 0){

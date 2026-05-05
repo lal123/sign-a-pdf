@@ -17,10 +17,6 @@ var upload = {
     req: null,
     byte_units: <?php echo $tr['UPLOAD.BYTE_UNITS']; ?>,
    
-    incValidate: function(page_index) {
-        console.log('incValidate', page_index);
-    },
-
     dialog: function() {
         $('#upload_file').click();
         return false;
