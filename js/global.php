@@ -123,7 +123,6 @@ var docs = {
     compNum: 0,
     animh: null,
     animc: 0,
-    changed: false,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -211,7 +210,6 @@ var docs = {
     },
 
     rotatePage: function(page_numb, doc_signed, direction) {
-        docs.changed = true;
         if(page_numb < 1) page_numb = 1;
         if(page_numb > $('.page-container').length) page_numb = $('.page-container').length;
         var page_id = $('.page-container').eq(page_numb - 1).attr('page_id');
@@ -333,8 +331,7 @@ var docs = {
         $.each($('.page-container'), function(index, item) {
             page_list.push($(item).attr('page_id'));
         });
-        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'page_list': page_list, 'doc_changed': (docs.changed ? 1 : 0), 'lang': lang};
-        docs.changed = false;
+        data = {'action': 'doc_download', 'pdf_id': pdf_id, 'page_list': page_list, 'lang': lang};
         docs.req = $.ajax({
             url: '/inc/service.php',
             type: 'POST',
