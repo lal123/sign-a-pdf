@@ -142,7 +142,7 @@ switch($action) {
 				*/
 				$_SESSION['docs'][$pdf_id]['size'] = -1;
 				foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
-					if($page_details['page_id'] == $page_id) {
+					if(($page_details['page_index'] == $page_numb) && ($page_details['page_available'] == 1)) {
 						$_SESSION['docs'][$pdf_id]['page'][$page_key]['page_available'] = 0;
 						break;
 					}
@@ -503,9 +503,9 @@ switch($action) {
 						//$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $page_id, 'page_index' => $pages_arr[$page_index], 'page_available' => 0];
 						$_SESSION['docs'][$signed_pdf_id]['size'] = -1;
 						foreach($_SESSION['docs'][$signed_pdf_id]['page'] as $page_key => $page_details) {
-							if($page_details['page_id'] == $page_id) {
+							if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
 								$_SESSION['docs'][$signed_pdf_id]['page'][$page_key]['page_available'] = 0;
-								//break;
+								break;
 							}
 						}
 						$_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $arr['signed_page_id'], 'page_index' => $pages_arr[$page_index], 'page_available' => 1];
@@ -529,6 +529,7 @@ switch($action) {
 			}
 			$img_src = '/' . UPLOAD_DIR . '/img/signed/' . $signed_page_id . '.png';
 		    echo "$(\".page-container[page_id='{$page_id}']\").find('img.page-preview').attr('src', '" . $img_src . "');\n";
+		    echo "$(\".page-container\").attr('page_id', '{$signed_page_id}');\n";
         	$page_index++;
         	if($page_index < $pages_numb) {
 	    		if($is_signed_in) {

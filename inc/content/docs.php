@@ -200,6 +200,11 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 }
 ?>
 </div>
+<pre>
+    <?php
+    print_r($_SESSION);
+    ?>
+</pre>
 <?php
 if($pdf_id != '') {
 ?>
