@@ -484,7 +484,7 @@ switch($action) {
                 $page = false;
                 foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
                     if(($page_details['page_index'] == $pages_arr[$page_index]) && ($page_details['page_available'] == 1)) {
-                        $page = ['page_id' => $page_details['page_id'], 'page_index' => $page_details['page_index']];
+                        $page = ['page_id' => $page_details['page_id'], 'page_index' => $page_details['page_index'], 'page_width' => $page_details['page_width'], 'page_height' => $page_details['page_height']];
                         break;
                     }
                 }
@@ -578,8 +578,10 @@ switch($action) {
                             foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $details) {
                                 $page_id = $details['page_id'];
                                 $page_index = $details['page_index'];
+                                $page_width = $page_details['page_width'];
+                                $page_height = $page_details['page_height'];
                                 $signed_page_id = $signed_pdf_id . ($pages > 1 ? '-' . ($page_index - 1) : '');
-                                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1];
+                                if($details['page_available'] == 1) $_SESSION['docs'][$signed_pdf_id]['page'][] = ['page_id' => $signed_page_id, 'page_index' => $page_index, 'page_available' => 1, 'page_width' => $page_width, 'page_height' => $page_height];
                             }
                         }
                     }
