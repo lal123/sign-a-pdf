@@ -392,6 +392,8 @@ function model_page_duplicate_from_unsigned($doc_id, $signed_doc_id, $signed_pdf
             . " {$signed_doc_id}, "
             . " `page_index`, "
             . " 1, "
+            . " `page_width`, "
+            . " `page_height`, "
             . " now(), "
             . " now()"
             . " from `{$base}`.`pages`"
