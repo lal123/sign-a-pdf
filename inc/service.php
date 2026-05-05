@@ -135,6 +135,12 @@ switch($action) {
             if($is_signed_in) {
                 model_doc_update_size($pdf_id, -1);
                 model_page_switch_version($page_id, $rotated_page_id, true);
+                $arr = model_doc_get_from_pdf_id($pdf_id);
+                $doc_id = $arr['doc_id'];
+                $pages = model_page_get_list_from_doc_id($doc_id);
+                foreach($pages as $page_index => $page_details) {
+                    echo "$(\".page-container[page_id='" . $page_details['page_id'] . "']\").find('.page-content').css({'width': '" . ($page_details['page_width'] > $page_details['page_height'] ? 100 : 75) . "%'});\n";
+                }
             } else {
                 $_SESSION['docs'][$pdf_id]['size'] = -1;
                 foreach($_SESSION['docs'][$pdf_id]['page'] as $page_key => $page_details) {
