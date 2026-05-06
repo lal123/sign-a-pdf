@@ -92,14 +92,14 @@ a:active, a:focus {
 	cursor: move;
 	top: 172px;
 	left: 20px;
-	width: 600px;
-	height: 60px;
+	width: 420px;
+	height: 48px;
 	background-color: #204444;
 	border-radius: 20px;
 	color: #ffffff;
 	padding: 6px 16px 6px 16px;
-	font-size: 20px;
-	line-height: 28px;
+	font-size: 16px;
+	line-height: 20px;
 	opacity: 0.75;
 	z-index: 99999;
 }
@@ -108,10 +108,14 @@ a:active, a:focus {
 	opacity: 0.9;
 }
 
-#doc-container #nav-bar {
+#cmd-bar .btn {
+    white-space: nowrap;
+}
+
+#nav-bar {
 	position: fixed;
 	cursor: move;
-	bottom: 75px;
+	bottom: 65px;
 	left: 20px;
 	width: 300px;
 	height: 40px;
@@ -125,35 +129,40 @@ a:active, a:focus {
 	z-index: 99999;
 }
 
-#doc-container #nav-bar .col-auto{
+#nav-bar .col-auto {
     white-space: nowrap;
 }
 
-#doc-container #nav-bar:hover {
+#nav-bar .col-auto.prop {
+	font-size: 16px;
+	line-height: 28px;
+}
+
+#nav-bar:hover {
 	opacity: 0.9;
 }
 
-#doc-container #nav-bar select.act {
+#nav-bar select.act {
 	color: #ffffff;
 	background-color: #204444;
 	outline: none;
 }
 
-#doc-container #nav-bar select.act.disabled {
+#nav-bar select.act.disabled {
 	color: #999999;
 }
 
-#doc-container #nav-bar a.act {
+#nav-bar a.act {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-#doc-container #nav-bar a.act.disabled {
+#nav-bar a.act.disabled {
 	cursor: default;
 	color: #999999;
 }
 
-#doc-container #nav-bar a.act.small {
+#nav-bar a.act.small {
 	font-size: 17px;
 }
 
@@ -425,7 +434,7 @@ a.common:hover {
 }
 
 #cmd-bar .btn {
-	min-width: 141px;
+	//min-width: 141px;
 }
 
 .navbar-text.welcome {
@@ -628,14 +637,14 @@ a.common:hover {
 
 	#cmd-bar {
 		width: 400px;
-		height: 55px;
+		height: 45px;
 	}
 
 	#cmd-bar .btn {
 		font-size: 16px;
-		line-height: 24px;
-		min-width: 120px !important;
-		max-width: 120px !important;
+		line-height: 20px;
+		//min-width: 120px !important;
+		//max-width: 120px !important;
 	}
 }
 
@@ -647,22 +656,27 @@ a.common:hover {
 
 	#cmd-bar {
 		width: 300px;
-		height: 45px;
+		height: 40px;
 	}
 	
 	#cmd-bar .btn-group {
 		font-size: 12px;
 		line-height: 18px;
-		min-width: 70px !important;
-		max-width: 70px !important;
+		//min-width: 70px !important;
+		//max-width: 70px !important;
 	}
 
 	#cmd-bar .btn {
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 18px;
-		min-width: 70px !important;
-		max-width: 70px !important;
-		padding: 8px 8px 8px 8px !important;
+		//min-width: 70px !important;
+		//max-width: 70px !important;
+		padding: 4px !important;
+	}
+
+	#nav-bar {
+		//font-size: 18px;
+		//line-height: 20px;
 	}
 
 	.modal-footer .btn {

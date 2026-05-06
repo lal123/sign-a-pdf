@@ -186,7 +186,7 @@ var docs = {
     },
 
     scrollToPage: function(page) {
-        var target_page = $('.page-container').eq(page - 1);
+        var target_page = $('.page-container').eq(Math.max(page - 1, 0));
         $('html, body').animate({scrollTop: (target_page.position().top - 220) + 'px'}, 'fast', function(){});
         return false;
     },

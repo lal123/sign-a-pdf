@@ -108,13 +108,13 @@ if($pdf_id != '') {
 ?>
     <div id="cmd-bar" class="btn-toolbar" role="toolbar" aria-label="">
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign({'pdf_id': '<?php echo $pdf_id; ?>', 'doc_signed': <?php echo $doc_signed; ?>}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
+            <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign({'pdf_id': '<?php echo $pdf_id; ?>', 'doc_signed': <?php echo $doc_signed; ?>}); return false;" class="btn btn-primary dark-cyan"><i class="bi bi-pen"></i>&nbsp; <?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="downloadButton" onclick="return docs.prepareDownload('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOWNLOAD']; ?></a>
+            <a href="javascript:void(0)" id="downloadButton" onclick="return docs.prepareDownload('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary dark-cyan"><i class="bi bi-download"></i>&nbsp; <?php echo $tr['DOWNLOAD']; ?></a>
         </div>
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
-            <a href="javascript:void(0)" id="deleteButton" onclick="return docs.confirmDelete('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DELETE']; ?></a>
+            <a href="javascript:void(0)" id="deleteButton" onclick="return docs.confirmDelete('<?php echo $pdf_id; ?>'); return false;" class="btn btn-primary dark-cyan"><i class="bi bi-x-circle"></i>&nbsp; <?php echo $tr['DELETE']; ?></a>
         </div>
     </div>
 
@@ -144,7 +144,7 @@ if($col < $nb_cols) {
 ?>
         <div id="nav-bar">
             <div class="form-group row g-3">
-                <div class="col-sm-5 col-auto">
+                <div class="col-sm-5 col-auto prop">
                     <label for="navPage">Page&nbsp;</label>
                     <select name="nav_page" class="act" id="navPage" onchange="return docs.initChangePage(this.value); return false;"<?php if($doc_pages <= 1) echo ' disabled="disabled"'; ?>>
 <?php
