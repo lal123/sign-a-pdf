@@ -255,7 +255,6 @@ include "inc/content/{$page}.php";
 <?php
 if(($page == 'docs') && ($pdf_id != '')) {
     echo '        $(document).on("scroll", function(event) {
-            docs.adaptCmdBar();
             docs.adaptNavBar();
             return false;
         });' . "\n";
