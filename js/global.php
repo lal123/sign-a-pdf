@@ -119,6 +119,7 @@ var docs = {
     compNum: 0,
     animh: null,
     animc: 0,
+    cmdBarDragged: false,
 
     convert: function(pdf_id, signed, pages) {
         $.ajax({
@@ -199,7 +200,8 @@ var docs = {
     },
 
     adaptCmdBar: function() {
-        $('#cmd-bar').css({'top': parseInt($('.page-container').eq(0).position().top + 10) + 'px'});
+        var posTop = Math.max(parseInt($('.page-container').eq(0).offset().top - $(window).scrollTop() + 10), 65);
+        if(!docs.cmdBarDragged) $('#cmd-bar').css({'top': posTop + 'px'});
         return false;
     },
 

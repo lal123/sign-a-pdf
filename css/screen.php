@@ -638,6 +638,7 @@ a.common:hover {
 	#cmd-bar {
 		width: 400px;
 		height: 45px;
+		padding: 6px 12px 6px 12px;
 	}
 
 	#cmd-bar .btn {
@@ -657,6 +658,7 @@ a.common:hover {
 	#cmd-bar {
 		width: 300px;
 		height: 40px;
+		padding: 6px 8px 6px 8px;
 	}
 	
 	#cmd-bar .btn-group {
@@ -668,10 +670,10 @@ a.common:hover {
 
 	#cmd-bar .btn {
 		font-size: 14px;
-		line-height: 18px;
+		line-height: 20px;
 		//min-width: 70px !important;
 		//max-width: 70px !important;
-		padding: 4px !important;
+		padding: 4px 0px 4px 0px !important;
 	}
 
 	#nav-bar {

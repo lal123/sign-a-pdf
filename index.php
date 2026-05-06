@@ -255,12 +255,14 @@ include "inc/content/{$page}.php";
 <?php
 if(($page == 'docs') && ($pdf_id != '')) {
     echo '        $(document).on("scroll", function(event) {
+            docs.adaptCmdBar();
             docs.adaptNavBar();
             return false;
         });' . "\n";
+    echo '        docs.cmdBarDragged = false;' . "\n";
     echo '        docs.adaptCmdBar();'."\n";
     echo '        docs.adaptNavBar();'."\n";
-    if(!utils_is_mobile()) echo '        $("#cmd-bar").draggable({cancel: \'.btn\'});'."\n";
+    if(!utils_is_mobile()) echo '        $("#cmd-bar").draggable({cancel: \'.btn\', drag: function( event, ui ) {docs.cmdBarDragged = true; }});'."\n";
     if(!utils_is_mobile()) echo '        $("#nav-bar").draggable({cancel: \'.act\'});'."\n";
 }
 ?>
