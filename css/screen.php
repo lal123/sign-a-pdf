@@ -91,7 +91,7 @@ a:active, a:focus {
 	position: fixed;
 	cursor: move;
 	top: 172px;
-	left: 20px;
+	left: 10px;
 	width: 420px;
 	height: 48px;
 	background-color: #204444;
@@ -116,7 +116,7 @@ a:active, a:focus {
 	position: fixed;
 	cursor: move;
 	bottom: 65px;
-	left: 20px;
+	left: 10px;
 	width: 300px;
 	height: 40px;
 	background-color: #204444;
