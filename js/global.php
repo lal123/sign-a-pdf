@@ -199,7 +199,6 @@ var docs = {
     },
 
     adaptCmdBar: function() {
-        console.log('top', parseInt($('.page-container').eq(0).position().top + 10));
         $('#cmd-bar').css({'top': parseInt($('.page-container').eq(0).position().top + 10) + 'px'});
         return false;
     },
