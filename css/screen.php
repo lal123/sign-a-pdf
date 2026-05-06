@@ -167,7 +167,7 @@ a:active, a:focus {
 }
 
 #nav-bar a.act.small {
-	font-size: 17px;
+//	font-size: 17px;
 }
 
 .modal-content {
