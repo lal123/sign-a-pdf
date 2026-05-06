@@ -95,7 +95,7 @@ a:active, a:focus {
 	width: 420px;
 	height: 48px;
 	background-color: #204444;
-	border-radius: 20px;
+	border-radius: 24px;
 	color: #ffffff;
 	padding: 6px 16px 6px 16px;
 	font-size: 16px;
