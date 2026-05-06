@@ -49,8 +49,8 @@ function docs_show_list($docs, $signed) {
             echo '<div class="row">';
         }
         echo '<div class="doc-small-preview col col-lg-3 col-md-4 col-sm-6 col-xs-12" pdf_id="' . $pdf_id_key . '">';
-        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle-fill" title="' . $tr['DELETE'] . '"></a></div>';
-        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.prepareDownload(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-arrow-down-circle-fill" title="' . $tr['DOWNLOAD'] . '"></a></div>';
+        echo '<div class="doc-suppr"><a href="javascript:void(0)" onclick="return docs.confirmDelete(\'' . $pdf_id_key . '\'); return false;" class="act bi bi-x-circle" title="' . $tr['DELETE'] . '"></a></div>';
+        echo '<div class="doc-down"><a href="javascript:void(0)" onclick="return docs.prepareDownload(\'' .$pdf_id_key. '\'); return false;" class="act bi bi-download" title="' . $tr['DOWNLOAD'] . '"></a></div>';
         echo '<div class="doc-date">' . date($tr['DATE_FORMAT'], $details['time']) . '</div>';
         echo '<div class="doc-name"><a href="/' . $lang . '/docs/' . $pdf_id_key . '" class="common">' . $details['name'] . '</a></div>';
         echo '<span class="doc-preview">';
