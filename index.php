@@ -257,7 +257,9 @@ if(($page == 'docs') && ($pdf_id != '')) {
     echo '        $(document).on("scroll", function(event) {
             return docs.adaptNavBar();
         });' . "\n";
+    echo '        docs.adaptCmdBar();'."\n";
     echo '        docs.adaptNavBar();'."\n";
+    if(!utils_is_mobile()) echo '        $("#cmd-bar").draggable({cancel: \'.btn\'});'."\n";
     if(!utils_is_mobile()) echo '        $("#nav-bar").draggable({cancel: \'.act\'});'."\n";
 }
 ?>

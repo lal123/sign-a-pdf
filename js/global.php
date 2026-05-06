@@ -198,6 +198,12 @@ var docs = {
         return false;
     },
 
+    adaptCmdBar: function() {
+        console.log('top', parseInt($('.page-container').eq(0).position().top + 10));
+        $('#cmd-bar').css({'top': parseInt($('.page-container').eq(0).position().top + 10) + 'px'});
+        return false;
+    },
+
     adaptNavBar: function() {
         var docPos = $('html, body').scrollTop();
         var page = 0;

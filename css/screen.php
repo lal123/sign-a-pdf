@@ -87,6 +87,27 @@ a:active, a:focus {
 	//padding-bottom: 120px;
 }
 
+#cmd-bar {
+	position: fixed;
+	cursor: move;
+	top: 172px;
+	left: 20px;
+	width: 600px;
+	height: 60px;
+	background-color: #204444;
+	border-radius: 20px;
+	color: #ffffff;
+	padding: 6px 16px 6px 16px;
+	font-size: 20px;
+	line-height: 28px;
+	opacity: 0.75;
+	z-index: 99999;
+}
+
+#cmd-bar:hover {
+	opacity: 0.9;
+}
+
 #doc-container #nav-bar {
 	position: fixed;
 	cursor: move;
@@ -306,6 +327,14 @@ a.common:hover {
 	border-radius: 12px;
 }
 
+.your-doc-info {
+	display: inline-block;
+	max-width: 450px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 #signPreview {
 	display: none;
 	background-color: transparent;
@@ -395,7 +424,7 @@ a.common:hover {
 	height: 24px;
 }
 
-#sign_toolbar .btn {
+#cmd-bar .btn {
 	min-width: 141px;
 }
 
@@ -597,7 +626,12 @@ a.common:hover {
 
 @media screen and (max-width: 600px) {
 
-	#sign_toolbar .btn {
+	#cmd-bar {
+		width: 400px;
+		height: 55px;
+	}
+
+	#cmd-bar .btn {
 		font-size: 16px;
 		line-height: 24px;
 		min-width: 120px !important;
@@ -607,18 +641,27 @@ a.common:hover {
 
 @media screen and (max-width: 450px) {
 
-	#sign_toolbar .btn-group {
-		font-size: 12px;
-		line-height: 18px;
-		min-width: 90px !important;
-		max-width: 90px !important;
+	.your-doc-info {
+		max-width: 300px;
 	}
 
-	#sign_toolbar .btn {
+	#cmd-bar {
+		width: 300px;
+		height: 45px;
+	}
+	
+	#cmd-bar .btn-group {
 		font-size: 12px;
 		line-height: 18px;
-		min-width: 90px !important;
-		max-width: 90px !important;
+		min-width: 70px !important;
+		max-width: 70px !important;
+	}
+
+	#cmd-bar .btn {
+		font-size: 12px;
+		line-height: 18px;
+		min-width: 70px !important;
+		max-width: 70px !important;
 		padding: 8px 8px 8px 8px !important;
 	}
 

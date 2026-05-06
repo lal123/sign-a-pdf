@@ -69,7 +69,7 @@ function docs_show_list($docs, $signed) {
     <div class="col-lg-6 ms-0 mt-3 mb-0">
         <h2><?php echo $tr['MENU.YOUR_DOCUMENTS']; ?></h2>
     </div>
-   <div class="col-lg-6 ms-0 mt-3 mb-3">
+   <div class="col-lg-6 ms-0 mt-3 mb-2">
 <?php
 if($pdf_id != '') {
     if($is_signed_in) {
@@ -97,7 +97,7 @@ if($pdf_id != '') {
             return (intval($a['page_numb']) > intval($b['page_numb']) ? 1 : -1);
         });
     }
-    echo $tr['DOCS.YOUR_DOCUMENT'] . ' : ' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")";
+    echo '<span class="your-doc-info">' . $doc_name . " ({$doc_pages} page" . ($doc_pages > 1 ? 's' : '') . ")</span>";
 } else {
     echo $tr['DOCS.LIST_DOCUMENTS'];
 }
@@ -106,7 +106,7 @@ if($pdf_id != '') {
 <?php
 if($pdf_id != '') {
 ?>
-    <div id="sign_toolbar" class="btn-toolbar" style="width: 100%;" role="toolbar" aria-label="">
+    <div id="cmd-bar" class="btn-toolbar" role="toolbar" aria-label="">
         <div class="btn-group mx-auto mb-2" role="group" aria-label="">
             <a href="javascript:void(0)" id="signButton" onclick="return docs.initSign({'pdf_id': '<?php echo $pdf_id; ?>', 'doc_signed': <?php echo $doc_signed; ?>}); return false;" class="btn btn-primary btn-lg dark-cyan"><?php echo $tr['DOCS.SIGN_THIS_DOC']; ?></a>
         </div>
