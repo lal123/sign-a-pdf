@@ -185,7 +185,7 @@ for($img_numb = 1 ; $img_numb <= $doc_pages ; $img_numb++) {
 <?php
 if($pdf_id != '') {
 ?>
-<div class="modal" data-bs-backdrop="static" id="signDocModal" tabindex="-1">
+<div class="modal front" data-bs-backdrop="static" id="signDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -205,7 +205,7 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
-<div class="modal" data-bs-backdrop="static" id="confirmDocModal" tabindex="-1">
+<div class="modal front" data-bs-backdrop="static" id="confirmDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,7 +227,7 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
-<div class="modal" data-bs-backdrop="static" id="validateSignModal" tabindex="-1">
+<div class="modal front" data-bs-backdrop="static" id="validateSignModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -251,7 +251,7 @@ if($pdf_id != '') {
 <?php
 }
 ?>
-<div class="modal" data-bs-backdrop="static" id="deleteDocModal" tabindex="-1">
+<div class="modal front" data-bs-backdrop="static" id="deleteDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -268,7 +268,7 @@ if($pdf_id != '') {
         </div>
     </div>
 </div>
-<div class="modal" data-bs-backdrop="static" id="downloadDocModal" tabindex="-1">
+<div class="modal front" data-bs-backdrop="static" id="downloadDocModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

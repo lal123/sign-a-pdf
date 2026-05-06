@@ -87,6 +87,10 @@ a:active, a:focus {
 	//padding-bottom: 120px;
 }
 
+.modal.front {
+	z-index: 99999;
+}
+
 #cmd-bar {
 	position: fixed;
 	cursor: move;
@@ -101,7 +105,7 @@ a:active, a:focus {
 	font-size: 16px;
 	line-height: 20px;
 	opacity: 0.75;
-	z-index: 99999;
+	z-index: 99998;
 }
 
 #cmd-bar:hover {
@@ -126,7 +130,7 @@ a:active, a:focus {
 	font-size: 20px;
 	line-height: 28px;
 	opacity: 0.75;
-	z-index: 99999;
+	z-index: 99998;
 }
 
 #nav-bar .col-auto {
